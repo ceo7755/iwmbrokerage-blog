@@ -11,6 +11,7 @@ exports.handler = async (event, context) => {
       };
     }
 
+    // Handle the specific X post
     if (url === 'https://x.com/Sina_21st/status/1917280907310030957') {
       const imageUrl = 'https://iwmbrokerage.com/images/bitcoin-chart.jpg';
       return {
@@ -19,6 +20,15 @@ exports.handler = async (event, context) => {
       };
     }
 
+    // Block scraping for other X/Twitter posts
+    if (url.includes('x.com') || url.includes('twitter.com')) {
+      return {
+        statusCode: 403,
+        body: JSON.stringify({ error: 'Cannot scrape X.com posts due to login requirement' }),
+      };
+    }
+
+    // Fetch the webpage for non-X URLs
     const response = await fetch(url);
     if (!response.ok) {
       return {
@@ -44,14 +54,7 @@ exports.handler = async (event, context) => {
     if (!imageUrl) {
       return {
         statusCode: 404,
-        body: JSON.stringify({ error: 'No image found on the page' }),
-      };
-    }
-
-    if (url.includes('x.com') || url.includes('twitter.com')) {
-      return {
-        statusCode: 403,
-        body: JSON.stringify({ error: 'Cannot scrape X.com posts due to login requirement' }),
+        body: JSON.stringify({ image: 'https://placehold.co/150x150?text=No+Image' }),
       };
     }
 
