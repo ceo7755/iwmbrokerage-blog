@@ -1,0 +1,3444 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Y6MJZF2L38"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-Y6MJZF2L38');
+</script>
+
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loan Calculator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background: linear-gradient(135deg, #1e2a44 0%, #2a3b66 100%);
+      color: #f5f5f5;
+      font-family: 'Poppins', sans-serif;
+      padding: 40px;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 1600px;
+      margin: 0 auto;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    .header h1 {
+      font-size: 2.8em;
+      font-weight: 600;
+      color: #f5f5f5;
+      letter-spacing: 1px;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    }
+    .header .instructions {
+      font-size: 1em;
+      color: #66b2ff;
+      font-weight: 400;
+      margin: 10px 0;
+    }
+    .header .clear-button {
+      display: block;
+      width: 200px;
+      margin: 20px auto 0;
+      padding: 12px;
+      background: linear-gradient(145deg, #f5f6f5, #e0e1e2);
+      color: #333;
+      font-size: 1.1em;
+      font-weight: 600;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(245, 246, 245, 0.4), inset 0 0 6px rgba(255, 255, 255, 0.3);
+    }
+    .header .clear-button:hover {
+      background: linear-gradient(145deg, #e0e1e2, #f5f6f5);
+      transform: scale(1.05);
+      box-shadow: 0 6px 16px rgba(245, 246, 245, 0.6), inset 0 0 8px rgba(255, 255, 255, 0.4);
+    }
+#section2 table.tight-table {
+  width: auto; /* Fit table to content */
+  margin-right: 0; /* Prevent extra margin */
+  display: table; /* Ensure table layout */
+ border-right: 0; /* Remove right border */
+  box-shadow: none; /* Remove shadow for testing */
+}
+    .sections {
+      display: flex;
+      gap: 0px;
+      flex-wrap: wrap;
+      align-items: flex-start;
+    }
+   .section {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+  backdrop-filter: blur(12px);
+  border-radius: 16px;
+  padding: 20px 0px 20px 20px; /* Further reduced right padding */
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 0 10px rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  flex: 0 0 auto;
+  min-width: 175px;
+  width: fit-content; /* Fit section to content */
+}
+    .tribe-loan-info {
+      max-width: 400px;
+    }
+    .section:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5), inset 0 0 12px rgba(255, 255, 255, 0.15);
+    }
+    .section h2 {
+      font-size: 1.6em;
+      font-weight: 600;
+      color: #f5f6f5;
+      margin-bottom: 15px;
+      text-align: center;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+    }
+    .arrow {
+      display: flex;
+      gap: 2px;
+      color: #f5f6f5;
+      font-size: 1.2em;
+      align-items: center;
+      justify-content: center;
+      text-shadow: 0 0 4px rgba(245, 246, 245, 0.6);
+      flex: 0 0 auto;
+      width: 30px;
+      transition: transform 0.3s ease;
+    }
+    .arrow:hover {
+      transform: scale(1.2);
+    }
+    .notes-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 300px;
+      margin: 0 0 20px 0;
+    }
+.accordion {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+  -webkit-backdrop-filter: blur(12px); /* For Safari */
+  backdrop-filter: blur(12px);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  overflow: hidden;
+}
+.accordion {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  overflow: hidden;
+}
+.accordion-header {
+  padding: 12px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.1em;
+  font-weight: 600;
+  color: #f5f6f5;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  transition: background 0.3s ease;
+}
+.accordion-header:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+.accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  padding: 0 12px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1em;
+  color: #d0e6ff;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  line-height: 1.6;
+  transition: max-height 0.5s ease, height 0.5s ease, padding 0.5s ease;
+}
+.accordion-content.open {
+  height: auto;
+  min-height: 600px;
+  max-height: none;
+  overflow-y: auto;
+  padding: 12px 20px; /* Increased horizontal padding */
+  box-sizing: border-box;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  width: 100%; /* Ensure full width within container */
+  max-width: calc(100% - 40px); /* Prevent overflow with padding */
+  margin: 0 auto; /* Center content */
+}
+.notes-container .accordion:nth-child(1) .accordion-content,
+.notes-container .accordion:nth-child(1) .accordion-content.open {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05)) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  backdrop-filter: blur(12px) !important;
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 1em !important;
+  color: #d0e6ff !important;
+  line-height: 1.6 !important;
+}
+.notes-container .accordion:nth-child(1) .accordion-content p,
+.notes-container .accordion:nth-child(1) .accordion-content input {
+  color: #d0e6ff !important;
+  font-family: 'Poppins', sans-serif !important;
+  background: transparent !important;
+}
+.notes-container .accordion:nth-child(1) .accordion-content input::placeholder {
+  color: #d0e6ff !important;
+}
+.notes-container .accordion:nth-child(1) .accordion-content.open {
+  height: auto;
+  max-height: none;
+  min-height: 0;
+  padding: 12px;
+}
+.notes-container .accordion:nth-child(2) .accordion-content.open,
+.notes-container .accordion:nth-child(5) .accordion-content.open {
+  height: auto;
+  max-height: none;
+  min-height: 0;
+}
+.accordion-content p, .accordion-content ul {
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+.accordion-content ul {
+  list-style: disc;
+  margin-left: 20px;
+}
+.accordion-content h3 {
+  font-size: 1em;
+  color: #f5f5f5;
+  margin: 10px 0;
+}
+
+/* Ensure accordion consistency on mobile */
+@media (max-width: 1200px) {
+  .accordion {
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  .accordion-header {
+    padding: 12px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.1em;
+    font-weight: 600;
+    color: #f5f6f5;
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  }
+  .accordion-header:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+  .notes-container .accordion:nth-child(1) .accordion-header {
+    color: #b0c4de !important; /* Darker bluish-gray */
+    font-weight: 700 !important; /* Bolder */
+    font-size: 1.2em !important; /* Slightly larger */
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important; /* Stronger shadow for contrast */
+  }
+  .accordion-content {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1em;
+    color: #d0e6ff;
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    line-height: 1.6;
+  }
+  .notes-container .accordion:nth-child(1) .accordion-content,
+  .notes-container .accordion:nth-child(1) .accordion-content.open {
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05)) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    backdrop-filter: blur(12px) !important;
+    font-family: 'Poppins', sans-serif !important;
+    font-size: 1em !important;
+    color: #d0e6ff !important;
+    line-height: 1.6 !important;
+  }
+  .notes-container .accordion:nth-child(1) .accordion-content p,
+  .notes-container .accordion:nth-child(1) .accordion-content input {
+    color: #d0e6ff !important;
+    font-family: 'Poppins', sans-serif !important;
+    background: transparent !important;
+  }
+  .notes-container .accordion:nth-child(1) .accordion-content input::placeholder {
+    color: #d0e6ff !important;
+  }
+  .accordion-content h3 {
+    color: #f5f5f5;
+  }
+}
+@media (max-width: 600px) {
+  .accordion {
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  .accordion-header {
+    padding: 12px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.1em;
+    font-weight: 600;
+    color: #f5f6f5;
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  }
+  .accordion-header:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+  .notes-container .accordion:nth-child(1) .accordion-header {
+    color: #b0c4de !important; /* Darker bluish-gray */
+    font-weight: 700 !important; /* Bolder */
+    font-size: 1.2em !important; /* Slightly larger */
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important; /* Stronger shadow for contrast */
+  }
+  .accordion-content {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1em;
+    color: #d0e6ff;
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    line-height: 1.6;
+  }
+  .notes-container .accordion:nth-child(1) .accordion-content,
+  .notes-container .accordion:nth-child(1) .accordion-content.open {
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05)) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    backdrop-filter: blur(12px) !important;
+    font-family: 'Poppins', sans-serif !important;
+    font-size: 1em !important;
+    color: #d0e6ff !important;
+    line-height: 1.6 !important;
+  }
+  .notes-container .accordion:nth-child(1) .accordion-content p,
+  .notes-container .accordion:nth-child(1) .accordion-content input {
+    color: #d0e6ff !important;
+    font-family: 'Poppins', sans-serif !important;
+    background: transparent !important;
+  }
+  .notes-container .accordion:nth-child(1) .accordion-content input::placeholder {
+    color: #d0e6ff !important;
+  }
+  .accordion-content h3 {
+    color: #f5f5f5;
+  }
+}    .flowchart-200.img {
+      max-width: 100%;
+      height: auto;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: transform 0.3s ease;
+    }
+    .flowchart-img:hover {
+      transform: scale(1.05);
+    }
+    .image-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+    .image-modal.active {
+      display: flex;
+    }
+    .modal-content {
+      position: relative;
+      max-width: 80%;
+      max-height: 80%;
+    }
+    .modal-content img {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    }
+    .close-button {
+      position: absolute;
+      top: -15px;
+      right: -15px;
+      background: #f5f6f5;
+      color: #333;
+      border: none;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      font-size: 1.2em;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      transition: background 0.3s ease;
+    }
+    .close-button:hover {
+      background: #e0e1e2;
+    }
+.loan-calc-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+}
+.loan-calc-modal.active {
+  display: flex;
+}
+.loan-calc-modal .modal-content {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+  backdrop-filter: blur(12px);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 20px;
+  max-width: 400px;
+  width: 90%;
+  position: relative;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+.loan-calc-content p {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1em;
+  color: #d0e6ff;
+  margin-bottom: 10px;
+  line-height: 1.6;
+}
+.loan-calc-content input {
+  width: 100%;
+  padding: 8px;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9em;
+  background: linear-gradient(145deg, #66b2ff, #4a90e2);
+  color: #fff;
+  margin-bottom: 10px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1), 0 0 6px rgba(102, 178, 255, 0.2);
+}
+.loan-calc-content input[readonly] {
+  background: #d8d8d8;
+  color: #222;
+}
+.loan-calc-content input::placeholder {
+  color: #d0e6ff;
+}
+.loan-calc-content input:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(102, 178, 255, 0.4), inset 0 0 6px rgba(255, 255, 255, 0.2);
+}
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    td, th {
+      padding: 6px;
+      text-align: left;
+      font-size: 0.9em;
+    }
+.title-cell {
+  font-weight: 400;
+  color: #f5f5f5;
+  width: 180px; /* Consistent width */
+  max-width: 180px; /* Slightly wider */
+  overflow-wrap: break-word; /* Modern wrapping */  white-space: normal; /* Ensure wrapping */
+  line-height: 1.3;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  text-align: right;
+}
+    input, select {
+      width: 120px;
+      padding: 8px;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.9em;
+      transition: all 0.3s ease;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1), 0 0 6px rgba(102, 178, 255, 0.2);
+    }
+ input:not([readonly]), select:not([disabled]) {
+  background: linear-gradient(145deg, #66b2ff, #4a90e2);
+  color: #fff;
+}
+input:not([readonly])::placeholder {
+  color: #d0e6ff;
+}
+select[id^="whereLoan"] option,
+select[id^="returnsDestination"] option {
+  color: #222;
+}
+select[id^="whereLoan"] {
+  height: 40px;
+  font-size: 0.8em;
+  white-space: normal;
+}
+select[id^="whereLoan"] option {
+  white-space: normal;
+  padding: 5px;
+}
+#section2 table td:not(.title-cell) {
+  width: 120px;
+}
+input[readonly], select[disabled] {
+  background: #d8d8d8;
+  color: #222;
+  font-weight: 400;
+  cursor: default;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+  textarea[readonly] {
+  width: 120px;
+  height: 60px;
+  resize: none;
+  background: #d8d8d8;
+  color: #222;
+  font-weight: 400;
+  font-size: 0.9em;
+  padding: 8px;
+  border: none;
+  border-radius: 6px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: default;
+}
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(102, 178, 255, 0.4), inset 0 0 6px rgba(255, 255, 255, 0.2);
+}
+    .dollar-input {
+      padding-left: 18px;
+      position: relative;
+    }
+    .dollar-input::before {
+      content: '$';
+      position: absolute;
+      left: 6px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #fff;
+      font-size: 0.8em;
+    }
+    .percent-input {
+      padding-right: 18px;
+      position: relative;
+    }
+    .percent-input::after {
+      content: '%';
+      position: absolute;
+      right: 6px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #fff;
+      font-size: 0.8em;
+    }
+input[type="number"][readonly]::-webkit-inner-spin-button,
+input[type="number"][readonly]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"][readonly] {
+  -moz-appearance: textfield; /* Firefox */
+}
+    .merged-cell {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    .merged-cell label {
+      font-size: 1.1em;
+      color: #f5f6f5;
+      max-width: 150px;
+      word-wrap: break-word;
+      line-height: 1.3;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+      text-align: right;
+    }
+    .merged-cell input {
+      flex: 0 0 150px;
+      padding: 10px;
+    }
+    .toggle-button {
+      width: 30px;
+      height: 30px;
+      background: linear-gradient(145deg, #66b2ff, #4a90e2);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      font-size: 1.2em;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 8px rgba(102, 178, 255, 0.3);
+    }
+    .toggle-button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 12px rgba(102, 178, 255, 0.4);
+    }
+.toggle-button-cell {
+  padding: 0 2px; /* Reduced horizontal padding */
+  width: 30px; /* Match toggle button width */
+  text-align: center; /* Ensure button stays centered */
+}
+.extra-columns {
+  max-width: 15px; /* Show a small portion when collapsed */
+  overflow: hidden;
+  transition: max-width 0.3s ease;
+}
+.extra-columns.visible {
+  max-width: 120px;
+}
+  button.calculate {
+  display: block;
+  width: 400px; /* Doubled from 200px */
+  margin: 30px auto;
+  padding: 15px; /* Slightly increased padding for vertical space */
+  background: linear-gradient(145deg, #f5f6f5, #e0e1e2);
+  color: #333;
+  font-size: 1.1em;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: default; /* Changed to default since it’s non-interactive */
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(245, 246, 245, 0.4), inset 0 0 6px rgba(255, 255, 255, 0.3);
+  line-height: 1.5; /* Improved spacing between lines */
+  text-align: center;
+}
+    button.calculate:hover {
+      background: linear-gradient(145deg, #e0e1e2, #f5f6f5);
+      transform: scale(1.05);
+      box-shadow: 0 6px 16px rgba(245, 246, 245, 0.6), inset 0 0 8px rgba(255, 255, 255, 0.4);
+    }
+    @media (max-width: 1200px) {
+     input, select, textarea {
+    width: 100%;
+  }  .sections {
+        flex-direction: column;
+      }
+      .section {
+        min-width: 100%;
+      }
+      .arrow {
+        display: none;
+      }
+      .notes-container {
+        width: 100%;
+      }
+      .title-cell, .merged-cell label {
+        max-width: 100%;
+      }
+      input, select {
+        width: 100%;
+      }
+      .dollar-input::before, .percent-input::after {
+        font-size: 0.7em;
+      }
+    }
+    @media (max-width: 600px) {
+      body {
+        padding: 20px;
+      }
+      .header h1 {
+        font-size: 2em;
+      }
+      td, th {
+        padding: 4px;
+      }
+      .toggle-button {
+        width: 24px;
+        height: 24px;
+        font-size: 1em;
+      }
+    }
+  </style></head>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Loan Calculator</h1>
+      <div class="instructions">(only change the blue cells)</div>
+      <button class="clear-button" onclick="clearCalculator()">Clear Calculator</button>
+    </div>
+<div class="sections">
+  <!-- Section 1: Tribe Loan Info -->
+  <div class="section tribe-loan-info">
+    <h2>Tribe Loan Info</h2>
+    <table>
+      <tr>
+        <td class="title-cell">Tribe Loan ($):</td>
+        <td><input type="text" id="tribeLoan" placeholder="Enter loan amount" class="dollar-input"></td>
+      </tr>
+      <tr>
+        <td class="title-cell">Loan Monthly Interest (%):</td>
+        <td><input type="text" id="loanMonthlyInterest" placeholder="Enter interest %" class="percent-input"></td>
+      </tr>
+      <tr>
+  <td class="title-cell">Length of Loan (in days, 730+, 1095, 1460):</td>
+  <td><input type="number" id="lengthOfLoan" placeholder="Enter days" min="730"></td>
+</tr>
+      <tr>
+        <td class="title-cell">Date Funded:</td>
+        <td><input type="date" id="dateFunded"></td>
+      </tr>
+      <tr>
+        <td class="title-cell">Tribe Origination Fee % / $:</td>
+        <td><input type="text" id="tribeOriginationFee" readonly></td>
+      </tr>
+      <tr>
+        <td class="title-cell">Loan Left after Lump Fee ($):</td>
+        <td><input type="number" id="loanLeft" readonly></td>
+      </tr>
+      <tr>
+        <td class="title-cell">How much of loan will be going to Ext Crypto Wallet? ($):</td>
+        <td><input type="text" id="cryptoWalletAmount" placeholder="Enter amount" class="dollar-input"></td>
+      </tr>
+      <tr>
+        <td class="title-cell">How much of loan will be going to Bank/ACH ($):</td>
+        <td><input type="text" id="bankACHAmount" placeholder="Enter amount" class="dollar-input"></td>
+      </tr>
+      <tr>
+        <td class="title-cell">Total leaving ecosystem minus the 1% Crypto fee &/or 2.5% Bank/ACH fee ($):</td>
+        <td><input type="number" id="totalMinusFees" readonly></td>
+      </tr>
+      <tr>
+        <td class="title-cell">Monthly Loan Interest Owed (1% Fee Added) ($):</td>
+        <td><input type="number" id="monthlyInterestOwed" readonly></td>
+      </tr>
+      <tr>
+        <td class="title-cell">Loan Yearly Interest % / $:</td>
+        <td><input type="text" id="loanYearlyInterest" readonly></td>
+      </tr>
+      <tr>
+        <td class="title-cell">Date Principle (original loan amount) Due:</td>
+        <td><input type="date" id="datePrincipleDue" readonly></td>
+      </tr>
+    </table>
+    <!-- Notes Accordions -->
+    <div class="notes-container">
+
+  <div class="accordion">
+  <div class="accordion-header" onclick="toggleAccordion(this)">
+    Fee Flowchart <span>↓</span>
+  </div>
+  
+<div class="accordion-content">
+Coming Soon
+    <img src="flowchart-200.jpg" alt="flowchart-200.jpg" class="flowchart-img" onclick="openModal()">
+  </div>
+</div>
+   <div class="accordion">
+  <div class="accordion-header" onclick="toggleAccordion(this)">
+    Fee Notes <span>↓</span>
+  </div>
+  <div class="accordion-content">
+    <p>“The fees all have a purpose, and the eco-system works together. The fees are not going to hurt you long term, we have systems and methods in place for you to recoup fees. For instance, MB generates 2% per month to offset fees in our company. And in T you have the TC. You get one for every transaction. With the volume about to pass through T, the coin is going to be a big deal for us all.</p>
+    <h3>The 4.99% Origination Fee and Its Purpose</h3>
+    <p><strong>Standard in Private Lending:</strong> Although 4.99% may seem high, it is a typical origination fee in many private lending scenarios. The fee comes off the amount you are receiving from the lender when you get funded.</p>
+    <h3>“By the People, For the People” Structure:</h3>
+    <p>The fees are designed to benefit everyone. This is how:</p>
+    <ul>
+      <li>20% of all transaction fees goes to TC, which you receive on each transaction you do in Tribe360i.</li>
+      <li>50% of Tribe360i’s profit returns to our company.</li>
+      <li>15% of that Company share goes directly to the Island T360i which you are a part of with at minimum the gift of $200.</li>
+    </ul>
+    <p>This means the majority of what you pay doesn’t simply leave the ecosystem—it helps fund TC (benefiting users), our Companies operations, and Island participants which includes yourself. Over time, you recapture significant value through these channels”</p>
+  </div>
+</div>
+<div class="accordion">
+  <div class="accordion-header" onclick="toggleAccordion(this)">
+    Bonus, Gratitude, & Security <span>↓</span>
+  </div>
+  <div class="accordion-content">
+    <p>Please check the Explore section in dashboard for more information.</p>
+    <h3>PPP</h3>
+    <p><strong>Bonus:</strong> Delay Bonus: Additional 8% per month if it takes longer than 30 days to fill</p>
+    <p><strong>Gratitude:</strong> Yes, 5% gratitude fee on connect's profit. *The only condition we have is that you have to be participating in at least ONE of the PPP Islands.</p>
+    <p><strong>Treasury Security:</strong> Active for this island. Applies to your initial loan allocation.</p>
+    <h3>T360i Island</h3>
+    <p><strong>Bonus:</strong> Annual distribution based on T360i's profit, potentially ranging from 120% to 600% ROI. Example calculation for a $10,000 investment: Guaranteed yearly interest: $7,200 (paid as $1,800 quarterly), Potential yearly performance bonus: $12,000 to $60,000 (based on T360i's profit).</p>
+    <p><strong>Gratitude:</strong> No</p>
+    <p><strong>Treasury Security:</strong> No</p>
+    <h3>Stratagem</h3>
+    <p><strong>Bonus:</strong> In addition to the targeted returns, Stratagem will evaluate the potential for an additional performance bonus from Year 1 onwards. This bonus will be based on the company's ability to exceed expectations and generate additional value. The specific details and timing of the bonus distribution will be determined on a year-by-year basis, with the possibility of the bonus being paid out at the end of each year or held until the end of the five-year term.</p>
+    <p><strong>Gratitude:</strong> No</p>
+    <p><strong>Treasury Security:</strong> No</p>
+  </div>
+</div>
+
+<div class="accordion">
+  <div class="accordion-header" onclick="toggleAccordion(this)">
+    Loan Steps <span>↓</span>
+  </div>
+  <div class="accordion-content">
+    <ol>
+      <li>Once onboarded and successfully logged into your T account</li>
+      <li>Go to "Wallet" and ensure you have an active wallet</li>
+      <li>Once you do, go to F2F → Loan Dashboard → Request Loan</li>
+      <li>Pick a Loan Category (this is strictly for data purposes for the parent company)</li>
+      <li>Fill out: Amount Requested $, Requested Days To Repay (minimum of 2 years aka 730 days), Requested Interest Rate (not financial advice but go 1% or lower)</li>
+      <li>Flex Option is the option to only pay interest and then principle at the end of the loan term</li>
+    </ol>
+  </div>
+</div>        </div>
+      </div>
+      <div class="arrow"><span>→</span></div>
+<!-- Section 2: Original and/or 1st Leg of Loan -->
+<div class="section" id="section2">
+  <h2>Original and/or 1st Leg of Loan</h2>
+  <table>
+    <tr>
+      <td class="title-cell" colspan="2">Amount Left (after Origination fee + transfer of funds out of ecosystem + any other funds sent to Islands)</td>
+      <td><input type="number" id="amountLeftToUse" readonly></td>
+      <td></td> <!-- Blank cell -->
+    </tr>
+  </table>
+  <table class="tight-table">
+  <tr>
+    <td class="title-cell">Loan/Funds Originating From:</td>
+    <td><select id="fundsOriginF" disabled><option value="Tribe App" selected>Tribe App</option></select></td>
+    <td><select id="fundsOriginG" disabled><option value="Tribe App" selected>Tribe App</option></select></td>
+    <td><select id="fundsOriginH" disabled><option value="Tribe App" selected>Tribe App</option></select></td>
+    <td class="extra-columns"><select id="fundsOriginI" disabled><option value="Tribe App" selected>Tribe App</option></select></td>
+    <td class="extra-columns"><select id="fundsOriginJ" disabled><option value="Tribe App" selected>Tribe App</option></select></td>
+    <td class="extra-columns"><select id="fundsOriginK" disabled><option value="Tribe App" selected>Tribe App</option></select></td>
+    <td class="extra-columns"><select id="fundsOriginL" disabled><option value="Tribe App" selected>Tribe App</option></select></td>
+    <td class="toggle-button-cell"><button class="toggle-button" id="toggleColumns">+</button></td>
+  </tr>
+    <tr>
+<tr>
+  <td class="title-cell">Where Putting Loan?</td>
+  <td><select id="whereLoanF"><option value="Treasury" selected>Treasury (5% Return. Min dep: $500, top up: $50)</option><option value="PPP">PPP (20% return. Min Dep. $625, Top Up $625)</option><option value="T360iApp" disabled>T360i (18% Quarterly. Min Top Up $200)</option><option value="Stratagem" disabled>Stratagem (10% Quarterly, Min Dep. $1,000, Top Up $200)</option></select></td>
+  <td><select id="whereLoanG"><option value="Treasury" selected>Treasury (5% Return. Min dep: $500, top up: $50)</option><option value="PPP">PPP (20% return. Min Dep. $625, Top Up $625)</option><option value="T360iApp" disabled>T360i (18% Quarterly. Min Top Up $200)</option><option value="Stratagem" disabled>Stratagem (10% Quarterly, Min Dep. $1,000, Top Up $200)</option></select></td>
+  <td><select id="whereLoanH"><option value="Treasury" selected>Treasury (5% Return. Min dep: $500, top up: $50)</option><option value="PPP">PPP (20% return. Min Dep. $625, Top Up $625)</option><option value="T360iApp" disabled>T360i (18% Quarterly. Min Top Up $200)</option><option value="Stratagem" disabled>Stratagem (10% Quarterly, Min Dep. $1,000, Top Up $200)</option></select></td>
+  <td class="extra-columns"><select id="whereLoanI"><option value="Treasury" selected>Treasury (5% Return. Min dep: $500, top up: $50)</option><option value="PPP">PPP (20% return. Min Dep. $625, Top Up $625)</option><option value="T360iApp" disabled>T360i (18% Quarterly. Min Top Up $200)</option><option value="Stratagem" disabled>Stratagem (10% Quarterly, Min Dep. $1,000, Top Up $200)</option></select></td>
+  <td class="extra-columns"><select id="whereLoanJ"><option value="Treasury" selected>Treasury (5% Return. Min dep: $500, top up: $50)</option><option value="PPP">PPP (20% return. Min Dep. $625, Top Up $625)</option><option value="T360iApp" disabled>T360i (18% Quarterly. Min Top Up $200)</option><option value="Stratagem" disabled>Stratagem (10% Quarterly, Min Dep. $1,000, Top Up $200)</option></select></td>
+  <td class="extra-columns"><select id="whereLoanK"><option value="Treasury" selected>Treasury (5% Return. Min dep: $500, top up: $50)</option><option value="PPP">PPP (20% return. Min Dep. $625, Top Up $625)</option><option value="T360iApp" disabled>T360i (18% Quarterly. Min Top Up $200)</option><option value="Stratagem" disabled>Stratagem (10% Quarterly, Min Dep. $1,000, Top Up $200)</option></select></td>
+  <td class="extra-columns"><select id="whereLoanL"><option value="Treasury" selected>Treasury (5% Return. Min dep: $500, top up: $50)</option><option value="PPP">PPP (20% return. Min Dep. $625, Top Up $625)</option><option value="T360iApp" disabled>T360i (18% Quarterly. Min Top Up $200)</option><option value="Stratagem" disabled>Stratagem (10% Quarterly, Min Dep. $1,000, Top Up $200)</option></select></td>
+  <td></td>
+</tr>
+ <tr>
+      <td class="title-cell">Amount Transferred ($):</td>
+      <td><input type="number" id="amountTransferredF" step="0.01"></td>
+      <td><input type="number" id="amountTransferredG" step="0.01"></td>
+      <td><input type="number" id="amountTransferredH" step="0.01"></td>
+      <td class="extra-columns"><input type="number" id="amountTransferredI" step="0.01"></td>
+      <td class="extra-columns"><input type="number" id="amountTransferredJ" step="0.01"></td>
+      <td class="extra-columns"><input type="number" id="amountTransferredK" step="0.01"></td>
+      <td class="extra-columns"><input type="number" id="amountTransferredL" step="0.01"></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td class="title-cell">Date Funds will be/were sent:</td>
+      <td><input type="date" id="dateSentF"></td>
+      <td><input type="date" id="dateSentG"></td>
+      <td><input type="date" id="dateSentH"></td>
+      <td class="extra-columns"><input type="date" id="dateSentI"></td>
+      <td class="extra-columns"><input type="date" id="dateSentJ"></td>
+      <td class="extra-columns"><input type="date" id="dateSentK"></td>
+      <td class="extra-columns"><input type="date" id="dateSentL"></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td class="title-cell">Transfer Fee % / $:</td>
+      <td><input type="text" id="feeF" readonly></td>
+      <td><input type="text" id="feeG" readonly></td>
+      <td><input type="text" id="feeH" readonly></td>
+      <td class="extra-columns"><input type="text" id="feeI" readonly></td>
+      <td class="extra-columns"><input type="text" id="feeJ" readonly></td>
+      <td class="extra-columns"><input type="text" id="feeK" readonly></td>
+      <td class="extra-columns"><input type="text" id="feeL" readonly></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td class="title-cell">Activated Funds in Island, minus fees ($):</td>
+      <td><input type="number" id="activatedFundsF" step="0.01" readonly></td>
+      <td><input type="number" id="activatedFundsG" step="0.01" readonly></td>
+      <td><input type="number" id="activatedFundsH" step="0.01" readonly></td>
+      <td class="extra-columns"><input type="number" id="activatedFundsI" step="0.01" readonly></td>
+      <td class="extra-columns"><input type="number" id="activatedFundsJ" step="0.01" readonly></td>
+      <td class="extra-columns"><input type="number" id="activatedFundsK" step="0.01" readonly></td>
+      <td class="extra-columns"><input type="number" id="activatedFundsL" step="0.01" readonly></td>
+      <td></td>
+    </tr>
+  <tr>
+  <td class="title-cell">Date PPP Island Filled:</td>
+  <td><input type="date" id="dateIslandFilledF"></td>
+  <td><input type="date" id="dateIslandFilledG"></td>
+  <td><input type="date" id="dateIslandFilledH"></td>
+  <td class="extra-columns"><input type="date" id="dateIslandFilledI"></td>
+  <td class="extra-columns"><input type="date" id="dateIslandFilledJ"></td>
+  <td class="extra-columns"><input type="date" id="dateIslandFilledK"></td>
+  <td class="extra-columns"><input type="date" id="dateIslandFilledL"></td>
+  <td></td>
+</tr>
+<tr>
+  <td class="title-cell">Date Funds Activated:</td>
+  <td><textarea id="dateActivatedF" readonly></textarea></td>
+  <td><textarea id="dateActivatedG" readonly></textarea></td>
+  <td><textarea id="dateActivatedH" readonly></textarea></td>
+  <td class="extra-columns"><textarea id="dateActivatedI" readonly></textarea></td>
+  <td class="extra-columns"><textarea id="dateActivatedJ" readonly></textarea></td>
+  <td class="extra-columns"><textarea id="dateActivatedK" readonly></textarea></td>
+  <td class="extra-columns"><textarea id="dateActivatedL" readonly></textarea></td>
+  <td></td>
+</tr>
+<tr>
+  <td class="title-cell">Monthly Interest (%):</td>
+  <td><input type="number" id="monthlyInterestF" step="0.01" readonly></td>
+  <td><input type="number" id="monthlyInterestG" step="0.01" readonly></td>
+  <td><input type="number" id="monthlyInterestH" step="0.01" readonly></td>
+  <td class="extra-columns"><input type="number" id="monthlyInterestI" step="0.01" readonly></td>
+  <td class="extra-columns"><input type="number" id="monthlyInterestJ" step="0.01" readonly></td>
+  <td class="extra-columns"><input type="number" id="monthlyInterestK" step="0.01" readonly></td>
+  <td class="extra-columns"><input type="number" id="monthlyInterestL" step="0.01" readonly></td>
+  <td></td>
+</tr>
+  <tr>
+  <td class="title-cell">Monthly Returns ($):</td>
+  <td><input type="number" id="monthlyReturnsF" step="0.01" readonly></td>
+  <td><input type="number" id="monthlyReturnsG" step="0.01" readonly></td>
+  <td><input type="number" id="monthlyReturnsH" step="0.01" readonly></td>
+  <td class="extra-columns"><input type="number" id="monthlyReturnsI" step="0.01" readonly></td>
+  <td class="extra-columns"><input type="number" id="monthlyReturnsJ" step="0.01" readonly></td>
+  <td class="extra-columns"><input type="number" id="monthlyReturnsK" step="0.01" readonly></td>
+  <td class="extra-columns"><input type="number" id="monthlyReturnsL" step="0.01" readonly></td>
+  <td></td>
+</tr>
+<tr>
+  <td class="title-cell">Where will returns ultimately be ending up?</td>
+  <td><select id="returnsDestinationF"><option value="Ext Crypto Wallet">Ext Crypto Wallet</option><option value="Bank/ACH">Bank/ACH</option><option value="MB">MB</option><option value="Treasury" disabled>Treasury (coming soon)</option><option value="T360i App" disabled>T360i App (coming soon)</option></select></td>
+  <td><select id="returnsDestinationG"><option value="Ext Crypto Wallet">Ext Crypto Wallet</option><option value="Bank/ACH">Bank/ACH</option><option value="MB">MB</option><option value="Treasury" disabled>Treasury (coming soon)</option><option value="T360i App" disabled>T360i App (coming soon)</option></select></td>
+  <td><select id="returnsDestinationH"><option value="Ext Crypto Wallet">Ext Crypto Wallet</option><option value="Bank/ACH">Bank/ACH</option><option value="MB">MB</option><option value="Treasury" disabled>Treasury (coming soon)</option><option value="T360i App" disabled>T360i App (coming soon)</option></select></td>
+  <td class="extra-columns"><select id="returnsDestinationI"><option value="Ext Crypto Wallet">Ext Crypto Wallet</option><option value="Bank/ACH">Bank/ACH</option><option value="MB">MB</option><option value="Treasury" disabled>Treasury (coming soon)</option><option value="T360i App" disabled>T360i App (coming soon)</option></select></td>
+  <td class="extra-columns"><select id="returnsDestinationJ"><option value="Ext Crypto Wallet">Ext Crypto Wallet</option><option value="Bank/ACH">Bank/ACH</option><option value="MB">MB</option><option value="Treasury" disabled>Treasury (coming soon)</option><option value="T360i App" disabled>T360i App (coming soon)</option></select></td>
+  <td class="extra-columns"><select id="returnsDestinationK"><option value="Ext Crypto Wallet">Ext Crypto Wallet</option><option value="Bank/ACH">Bank/ACH</option><option value="MB">MB</option><option value="Treasury" disabled>Treasury (coming soon)</option><option value="T360i App" disabled>T360i App (coming soon)</option></select></td>
+  <td class="extra-columns"><select id="returnsDestinationL"><option value="Ext Crypto Wallet">Ext Crypto Wallet</option><option value="Bank/ACH">Bank/ACH</option><option value="MB">MB</option><option value="Treasury" disabled>Treasury (coming soon)</option><option value="T360i App" disabled>T360i App (coming soon)</option></select></td>
+  <td></td>
+</tr>
+<tr>
+  <td class="title-cell">Monthly Returns, minus transfer fees ($):</td>
+  <td><input type="text" id="monthlyReturnsMinusFeesF" readonly></td>
+  <td><input type="text" id="monthlyReturnsMinusFeesG" readonly></td>
+  <td><input type="text" id="monthlyReturnsMinusFeesH" readonly></td>
+  <td class="extra-columns"><input type="text" id="monthlyReturnsMinusFeesI" readonly></td>
+  <td class="extra-columns"><input type="text" id="monthlyReturnsMinusFeesJ" readonly></td>
+  <td class="extra-columns"><input type="text" id="monthlyReturnsMinusFeesK" readonly></td>
+  <td class="extra-columns"><input type="text" id="monthlyReturnsMinusFeesL" readonly></td>
+  <td></td>
+</tr>
+    <tr>
+      <td class="title-cell">Date to Claim Returns:</td>
+      <td><textarea id="claimDateF" readonly></textarea></td>
+      <td><textarea id="claimDateG" readonly></textarea></td>
+      <td><textarea id="claimDateH" readonly></textarea></td>
+      <td class="extra-columns"><textarea id="claimDateI" readonly></textarea></td>
+      <td class="extra-columns"><textarea id="claimDateJ" readonly></textarea></td>
+      <td class="extra-columns"><textarea id="claimDateK" readonly></textarea></td>
+      <td class="extra-columns"><textarea id="claimDateL" readonly></textarea></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td class="title-cell">Timeframe to Ext Wallet:</td>
+      <td><textarea id="timeframeExtWalletF" readonly></textarea></td>
+      <td><textarea id="timeframeExtWalletG" readonly></textarea></td>
+      <td><textarea id="timeframeExtWalletH" readonly></textarea></td>
+      <td class="extra-columns"><textarea id="timeframeExtWalletI" readonly></textarea></td>
+      <td class="extra-columns"><textarea id="timeframeExtWalletJ" readonly></textarea></td>
+      <td class="extra-columns"><textarea id="timeframeExtWalletK" readonly></textarea></td>
+      <td class="extra-columns"><textarea id="timeframeExtWalletL" readonly></textarea></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td class="title-cell">Time frame to Bank (ACH):</td>
+      <td><textarea id="timeframeBankACHF" readonly></textarea></td>
+      <td><textarea id="timeframeBankACHG" readonly></textarea></td>
+      <td><textarea id="timeframeBankACHH" readonly></textarea></td>
+      <td class="extra-columns"><textarea id="timeframeBankACHI" readonly></textarea></td>
+      <td class="extra-columns"><textarea id="timeframeBankACHJ" readonly></textarea></td>
+      <td class="extra-columns"><textarea id="timeframeBankACHK" readonly></textarea></td>
+      <td class="extra-columns"><textarea id="timeframeBankACHL" readonly></textarea></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td class="title-cell">Date Activated Funds Unlocked:</td>
+      <td><textarea id="unlockedDateF" readonly></textarea></td>
+      <td><textarea id="unlockedDateG" readonly></textarea></td>
+      <td><textarea id="unlockedDateH" readonly></textarea></td>
+      <td class="extra-columns"><textarea id="unlockedDateI" readonly></textarea></td>
+      <td class="extra-columns"><textarea id="unlockedDateJ" readonly></textarea></td>
+      <td class="extra-columns"><textarea id="unlockedDateK" readonly></textarea></td>
+      <td class="extra-columns"><textarea id="unlockedDateL" readonly></textarea></td>
+      <td></td>
+    </tr>
+    <tr>
+  <td class="title-cell">Bonuses:</td>
+  <td><input type="text" id="bonusesF" readonly></td>
+  <td><input type="text" id="bonusesG" readonly></td>
+  <td><input type="text" id="bonusesH" readonly></td>
+  <td class="extra-columns"><input type="text" id="bonusesI" readonly></td>
+  <td class="extra-columns"><input type="text" id="bonusesJ" readonly></td>
+  <td class="extra-columns"><input type="text" id="bonusesK" readonly></td>
+  <td class="extra-columns"><input type="text" id="bonusesL" readonly></td>
+  <td></td>
+</tr>
+  </table>
+  
+
+<table>
+  <tr>
+    <td class="title-cell">Monthly Profit (after Paying Monthly Loan Interest + fees)</td>
+    <td><input type="number" id="monthlyProfit" readonly></td>
+  
+
+<td></td>
+
+   <td></td>
+  </tr>
+  <tr>
+    <td class="title-cell">Total Activated Funds</td>
+    <td><input type="number" id="totalActivatedFunds" readonly></td>
+ 
+
+<td></td>
+<td></td>
+
+  </tr>
+</table>
+</div>
+      <div class="arrow"><span>→</span></div>
+      <!-- Section 3: Stack Treasury Loan -->
+      <div class="section">
+        <h2>Stack Treasury Loan</h2>
+        <table>
+          <tr>
+          <td class="title-cell">Max loan you can take against Treasury (90% of Treasury Activated Funds) ($):</td>
+            <td><input type="number" id="maxLoanAgainst" readonly></td>
+          </tr>
+          <tr>
+          <td class="title-cell">How much of above amount do you want to loan against?</td>
+            <td><input type="number" id="loanAgainstAmount" step="0.01" placeholder="Enter amount"></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+<!-- Image Modal -->
+
+   <div class="image-modal" id="imageModal">
+  <div class="modal-content">
+    <button class="close-button" onclick="closeModal()">X</button>
+    <img src="flowchart-200.jpg" alt="flowchart-200.jpg">
+  </div>
+</div>
+<div class="loan-calc-modal" id="loanCalcModal">
+  <div class="modal-content">
+    <button class="close-button" onclick="closeLoanCalcModal()">X</button>
+    <div class="loan-calc-content">
+      <p>Type what time frame you want the loan for (please format this way: 2 years and 1 month, 2 years and 2 months, 2 years and 6 months, 3 years, 3 years and 3 months, etc):</p>
+      <input type="text" id="loanTimeFramePopup" placeholder="e.g., 2 years and 1 month">
+      <p>Days that equates to:</p>
+      <input type="number" id="loanDaysOutputPopup" readonly>
+    </div>
+  </div>
+</div>
+ <button class="calculate">
+  <span>1st Leg of Loan Above</span><br>
+  <span>2nd Leg of Loan Below</span>
+</button>
+
+<!-- Duplicated Sections -->
+<div class="sections">
+  <!-- Duplicated Section 1: Tribe Loan Info -->
+  <div class="section tribe-loan-info">
+    <h2>Tribe Loan Info</h2>
+    <table>
+      <tr>
+        <td class="title-cell">Tribe Loan ($):</td>
+        <td><input type="text" id="tribeLoan2" placeholder="Enter loan amount" class="dollar-input"></td>
+      </tr>
+      <tr>
+        <td class="title-cell">Loan Monthly Interest (%):</td>
+        <td><input type="text" id="loanMonthlyInterest2" placeholder="Enter interest %" class="percent-input"></td>
+      </tr>
+     <tr>
+  <td class="title-cell">Length of Loan (in days, 730+, 1095, 1460):</td>
+  <td><input type="number" id="lengthOfLoan2" placeholder="Enter days" min="730"></td>
+</tr>
+      <tr>
+        <td class="title-cell">Date Funded:</td>
+        <td><input type="date" id="dateFunded2"></td>
+      </tr>
+      <tr>
+        <td class="title-cell">Tribe Origination Fee % / $:</td>
+        <td><input type="text" id="tribeOriginationFee2" readonly></td>
+      </tr>
+      <tr>
+        <td class="title-cell">Loan Left after Lump Fee ($):</td>
+        <td><input type="number" id="loanLeft2" readonly></td>
+      </tr>
+      <tr>
+        <td class="title-cell">How much of loan will be going to Ext Crypto Wallet? ($):</td>
+        <td><input type="text" id="cryptoWalletAmount2" placeholder="Enter amount" class="dollar-input"></td>
+      </tr>
+      <tr>
+        <td class="title-cell">How much of loan will be going to Bank/ACH ($):</td>
+        <td><input type="text" id="bankACHAmount2" placeholder="Enter amount" class="dollar-input"></td>
+      </tr>
+      <tr>
+        <td class="title-cell">Total leaving ecosystem minus the 1% Crypto fee &/or 2.5% Bank/ACH fee ($):</td>
+        <td><input type="number" id="totalMinusFees2" readonly></td>
+      </tr>
+      <tr>
+        <td class="title-cell">Monthly Loan Interest Owed (1% Fee Added) ($):</td>
+        <td><input type="number" id="monthlyInterestOwed2" readonly></td>
+      </tr>
+      <tr>
+        <td class="title-cell">Loan Yearly Interest % / $:</td>
+        <td><input type="text" id="loanYearlyInterest2" readonly></td>
+      </tr>
+      <tr>
+        <td class="title-cell">Date Principle (original loan amount) Due:</td>
+        <td><input type="date" id="datePrincipleDue2" readonly></td>
+      </tr>
+    </table>
+    <!-- Notes Accordions (unchanged) -->
+    <div class="notes-container">
+      <div class="accordion">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          Fee Flowchart <span>↓</span>
+        </div>
+        <div class="accordion-content">
+          <img src="flowchart-200.jpg" alt="flowchart-200.jpg" class="flowchart-img" onclick="openModal()">
+        </div>
+      </div>
+      <div class="accordion">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          Fee Notes <span>↓</span>
+        </div>
+        <div class="accordion-content">
+          <p>“The fees all have a purpose, and the eco-system works together. The fees are not going to hurt you long term, we have systems and methods in place for you to recoup fees. For instance, MB generates 2% per month to offset fees in our company. And in T you have the TC. You get one for every transaction. With the volume about to pass through T, the coin is going to be a big deal for us all.</p>
+          <h3>The 4.99% Origination Fee and Its Purpose</h3>
+          <p><strong>Standard in Private Lending:</strong> Although 4.99% may seem high, it is a typical origination fee in many private lending scenarios. The fee comes off the amount you are receiving from the lender when you get funded.</p>
+          <h3>“By the People, For the People” Structure:</h3>
+          <p>The fees are designed to benefit everyone. This is how:</p>
+          <ul>
+            <li>20% of all transaction fees goes to TC, which you receive on each transaction you do in Tribe360i.</li>
+            <li>50% of Tribe360i’s profit returns to our company.</li>
+            <li>15% of that Company share goes directly to the Island T360i which you are a part of with at minimum the gift of $200.</li>
+          </ul>
+          <p>This means the majority of what you pay doesn’t simply leave the ecosystem—it helps fund TC (benefiting users), our Companies operations, and Island participants which includes yourself. Over time, you recapture significant value through these channels”</p>
+        </div>
+      </div>
+      <div class="accordion">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          Bonus, Gratitude, & Security <span>↓</span>
+        </div>
+        <div class="accordion-content">
+          <p>Please check the Explore section in dashboard for more information.</p>
+          <h3>PPP</h3>
+          <p><strong>Bonus:</strong> Delay Bonus: Additional 8% per month if it takes longer than 30 days to fill</p>
+          <p><strong>Gratitude:</strong> Yes, 5% gratitude fee on connect's profit. *The only condition we have is that you have to be participating in at least ONE of the PPP Islands.</p>
+          <p><strong>Treasury Security:</strong> Active for this island. Applies to your initial loan allocation.</p>
+          <h3>T360i Island</h3>
+          <p><strong>Bonus:</strong> Annual distribution based on T360i's profit, potentially ranging from 120% to 600% ROI. Example calculation for a $10,000 investment: Guaranteed yearly interest: $7,200 (paid as $1,800 quarterly), Potential yearly performance bonus: $12,000 to $60,000 (based on T360i's profit).</p>
+          <p><strong>Gratitude:</strong> No</p>
+          <p><strong>Treasury Security:</strong> No</p>
+          <h3>Stratagem</h3>
+          <p><strong>Bonus:</strong> In addition to the targeted returns, Stratagem will evaluate the potential for an additional performance bonus from Year 1 onwards. This bonus will be based on the company's ability to exceed expectations and generate additional value. The specific details and timing of the bonus distribution will be determined on a year-by-year basis, with the possibility of the bonus being paid out at the end of each year or held until the end of the five-year term.</p>
+          <p><strong>Gratitude:</strong> No</p>
+          <p><strong>Treasury Security:</strong> No</p>
+        </div>
+      </div>
+      <div class="accordion">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          Loan Steps <span>↓</span>
+        </div>
+        <div class="accordion-content">
+          <ol>
+            <li>Once onboarded and successfully logged into your T account</li>
+            <li>Go to "Wallet" and ensure you have an active wallet</li>
+            <li>Once you do, go to F2F → Loan Dashboard → Request Loan</li>
+            <li>Pick a Loan Category (this is strictly for data purposes for the parent company)</li>
+            <li>Fill out: Amount Requested $, Requested Days To Repay (minimum of 2 years aka 730 days), Requested Interest Rate (not financial advice but go 1% or lower)</li>
+            <li>Flex Option is the option to only pay interest and then principle at the end of the loan term</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="arrow"><span>→</span></div>
+  <!-- Duplicated Section 2: Original and/or 1st Leg of Loan -->
+  <div class="section" id="section2-duplicate">
+    <h2>2nd Leg of Loan</h2>
+    <table>
+      <tr>
+        <td class="title-cell" colspan="2">Amount Left (after Origination fee + transfer of funds out of ecosystem + any other funds sent to Islands)</td>
+        <td><input type="number" id="amountLeftToUse2" readonly></td>
+        <td></td> <!-- Blank cell -->
+      </tr>
+    </table>
+    <table class="tight-table">
+      <tr>
+        <td class="title-cell">Loan/Funds Originating From:</td>
+        <td><select id="fundsOriginF2" disabled><option value="Tribe App" selected>Tribe App</option></select></td>
+        <td><select id="fundsOriginG2" disabled><option value="Tribe App" selected>Tribe App</option></select></td>
+        <td><select id="fundsOriginH2" disabled><option value="Tribe App" selected>Tribe App</option></select></td>
+        <td class="extra-columns"><select id="fundsOriginI2" disabled><option value="Tribe App" selected>Tribe App</option></select></td>
+        <td class="extra-columns"><select id="fundsOriginJ2" disabled><option value="Tribe App" selected>Tribe App</option></select></td>
+        <td class="extra-columns"><select id="fundsOriginK2" disabled><option value="Tribe App" selected>Tribe App</option></select></td>
+        <td class="extra-columns"><select id="fundsOriginL2" disabled><option value="Tribe App" selected>Tribe App</option></select></td>
+        <td class="toggle-button-cell"><button class="toggle-button" id="toggleColumns2">+</button></td>
+      </tr>
+      <tr>
+        <td class="title-cell">Where Putting Loan?</td>
+        <td><select id="whereLoanF2"><option value="Treasury" selected>Treasury (5% Return. Min dep: $500, top up: $50)</option><option value="PPP">PPP (20% return. Min Dep. $625, Top Up $625)</option><option value="T360iApp" disabled>T360i (18% Quarterly. Min Top Up $200)</option><option value="Stratagem" disabled>Stratagem (10% Quarterly, Min Dep. $1,000, Top Up $200)</option></select></td>
+        <td><select id="whereLoanG2"><option value="Treasury" selected>Treasury (5% Return. Min dep: $500, top up: $50)</option><option value="PPP">PPP (20% return. Min Dep. $625, Top Up $625)</option><option value="T360iApp" disabled>T360i (18% Quarterly. Min Top Up $200)</option><option value="Stratagem" disabled>Stratagem (10% Quarterly, Min Dep. $1,000, Top Up $200)</option></select></td>
+        <td><select id="whereLoanH2"><option value="Treasury" selected>Treasury (5% Return. Min dep: $500, top up: $50)</option><option value="PPP">PPP (20% return. Min Dep. $625, Top Up $625)</option><option value="T360iApp" disabled>T360i (18% Quarterly. Min Top Up $200)</option><option value="Stratagem" disabled>Stratagem (10% Quarterly, Min Dep. $1,000, Top Up $200)</option></select></td>
+        <td class="extra-columns"><select id="whereLoanI2"><option value="Treasury" selected>Treasury (5% Return. Min dep: $500, top up: $50)</option><option value="PPP">PPP (20% return. Min Dep. $625, Top Up $625)</option><option value="T360iApp" disabled>T360i (18% Quarterly. Min Top Up $200)</option><option value="Stratagem" disabled>Stratagem (10% Quarterly, Min Dep. $1,000, Top Up $200)</option></select></td>
+        <td class="extra-columns"><select id="whereLoanJ2"><option value="Treasury" selected>Treasury (5% Return. Min dep: $500, top up: $50)</option><option value="PPP">PPP (20% return. Min Dep. $625, Top Up $625)</option><option value="T360iApp" disabled>T360i (18% Quarterly. Min Top Up $200)</option><option value="Stratagem" disabled>Stratagem (10% Quarterly, Min Dep. $1,000, Top Up $200)</option></select></td>
+        <td class="extra-columns"><select id="whereLoanK2"><option value="Treasury" selected>Treasury (5% Return. Min dep: $500, top up: $50)</option><option value="PPP">PPP (20% return. Min Dep. $625, Top Up $625)</option><option value="T360iApp" disabled>T360i (18% Quarterly. Min Top Up $200)</option><option value="Stratagem" disabled>Stratagem (10% Quarterly, Min Dep. $1,000, Top Up $200)</option></select></td>
+        <td class="extra-columns"><select id="whereLoanL2"><option value="Treasury" selected>Treasury (5% Return. Min dep: $500, top up: $50)</option><option value="PPP">PPP (20% return. Min Dep. $625, Top Up $625)</option><option value="T360iApp" disabled>T360i (18% Quarterly. Min Top Up $200)</option><option value="Stratagem" disabled>Stratagem (10% Quarterly, Min Dep. $1,000, Top Up $200)</option></select></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="title-cell">Amount Transferred ($):</td>
+        <td><input type="number" id="amountTransferredF2" step="0.01"></td>
+        <td><input type="number" id="amountTransferredG2" step="0.01"></td>
+        <td><input type="number" id="amountTransferredH2" step="0.01"></td>
+        <td class="extra-columns"><input type="number" id="amountTransferredI2" step="0.01"></td>
+        <td class="extra-columns"><input type="number" id="amountTransferredJ2" step="0.01"></td>
+        <td class="extra-columns"><input type="number" id="amountTransferredK2" step="0.01"></td>
+        <td class="extra-columns"><input type="number" id="amountTransferredL2" step="0.01"></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="title-cell">Date Funds will be/were sent:</td>
+        <td><input type="date" id="dateSentF2"></td>
+        <td><input type="date" id="dateSentG2"></td>
+        <td><input type="date" id="dateSentH2"></td>
+        <td class="extra-columns"><input type="date" id="dateSentI2"></td>
+        <td class="extra-columns"><input type="date" id="dateSentJ2"></td>
+        <td class="extra-columns"><input type="date" id="dateSentK2"></td>
+        <td class="extra-columns"><input type="date" id="dateSentL2"></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="title-cell">Transfer Fee % / $:</td>
+        <td><input type="text" id="feeF2" readonly></td>
+        <td><input type="text" id="feeG2" readonly></td>
+        <td><input type="text" id="feeH2" readonly></td>
+        <td class="extra-columns"><input type="text" id="feeI2" readonly></td>
+        <td class="extra-columns"><input type="text" id="feeJ2" readonly></td>
+        <td class="extra-columns"><input type="text" id="feeK2" readonly></td>
+        <td class="extra-columns"><input type="text" id="feeL2" readonly></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="title-cell">Activated Funds in Island, minus fees ($):</td>
+        <td><input type="number" id="activatedFundsF2" step="0.01" readonly></td>
+        <td><input type="number" id="activatedFundsG2" step="0.01" readonly></td>
+        <td><input type="number" id="activatedFundsH2" step="0.01" readonly></td>
+        <td class="extra-columns"><input type="number" id="activatedFundsI2" step="0.01" readonly></td>
+        <td class="extra-columns"><input type="number" id="activatedFundsJ2" step="0.01" readonly></td>
+        <td class="extra-columns"><input type="number" id="activatedFundsK2" step="0.01" readonly></td>
+        <td class="extra-columns"><input type="number" id="activatedFundsL2" step="0.01" readonly></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="title-cell">Date PPP Island Filled:</td>
+        <td><input type="date" id="dateIslandFilledF2"></td>
+        <td><input type="date" id="dateIslandFilledG2"></td>
+        <td><input type="date" id="dateIslandFilledH2"></td>
+        <td class="extra-columns"><input type="date" id="dateIslandFilledI2"></td>
+        <td class="extra-columns"><input type="date" id="dateIslandFilledJ2"></td>
+        <td class="extra-columns"><input type="date" id="dateIslandFilledK2"></td>
+        <td class="extra-columns"><input type="date" id="dateIslandFilledL2"></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="title-cell">Date Funds Activated:</td>
+        <td><textarea id="dateActivatedF2" readonly></textarea></td>
+        <td><textarea id="dateActivatedG2" readonly></textarea></td>
+        <td><textarea id="dateActivatedH2" readonly></textarea></td>
+        <td class="extra-columns"><textarea id="dateActivatedI2" readonly></textarea></td>
+        <td class="extra-columns"><textarea id="dateActivatedJ2" readonly></textarea></td>
+        <td class="extra-columns"><textarea id="dateActivatedK2" readonly></textarea></td>
+        <td class="extra-columns"><textarea id="dateActivatedL2" readonly></textarea></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="title-cell">Monthly Interest (%):</td>
+        <td><input type="number" id="monthlyInterestF2" step="0.01" readonly></td>
+        <td><input type="number" id="monthlyInterestG2" step="0.01" readonly></td>
+        <td><input type="number" id="monthlyInterestH2" step="0.01" readonly></td>
+        <td class="extra-columns"><input type="number" id="monthlyInterestI2" step="0.01" readonly></td>
+        <td class="extra-columns"><input type="number" id="monthlyInterestJ2" step="0.01" readonly></td>
+        <td class="extra-columns"><input type="number" id="monthlyInterestK2" step="0.01" readonly></td>
+        <td class="extra-columns"><input type="number" id="monthlyInterestL2" step="0.01" readonly></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="title-cell">Monthly Returns ($):</td>
+        <td><input type="number" id="monthlyReturnsF2" step="0.01" readonly></td>
+        <td><input type="number" id="monthlyReturnsG2" step="0.01" readonly></td>
+        <td><input type="number" id="monthlyReturnsH2" step="0.01" readonly></td>
+        <td class="extra-columns"><input type="number" id="monthlyReturnsI2" step="0.01" readonly></td>
+        <td class="extra-columns"><input type="number" id="monthlyReturnsJ2" step="0.01" readonly></td>
+        <td class="extra-columns"><input type="number" id="monthlyReturnsK2" step="0.01" readonly></td>
+        <td class="extra-columns"><input type="number" id="monthlyReturnsL2" step="0.01" readonly></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="title-cell">Where will returns ultimately be ending up?</td>
+        <td><select id="returnsDestinationF2"><option value="Ext Crypto Wallet">Ext Crypto Wallet</option><option value="Bank/ACH">Bank/ACH</option><option value="MB">MB</option><option value="Treasury" disabled>Treasury (coming soon)</option><option value="T360i App" disabled>T360i App (coming soon)</option></select></td>
+        <td><select id="returnsDestinationG2"><option value="Ext Crypto Wallet">Ext Crypto Wallet</option><option value="Bank/ACH">Bank/ACH</option><option value="MB">MB</option><option value="Treasury" disabled>Treasury (coming soon)</option><option value="T360i App" disabled>T360i App (coming soon)</option></select></td>
+        <td><select id="returnsDestinationH2"><option value="Ext Crypto Wallet">Ext Crypto Wallet</option><option value="Bank/ACH">Bank/ACH</option><option value="MB">MB</option><option value="Treasury" disabled>Treasury (coming soon)</option><option value="T360i App" disabled>T360i App (coming soon)</option></select></td>
+        <td class="extra-columns"><select id="returnsDestinationI2"><option value="Ext Crypto Wallet">Ext Crypto Wallet</option><option value="Bank/ACH">Bank/ACH</option><option value="MB">MB</option><option value="Treasury" disabled>Treasury (coming soon)</option><option value="T360i App" disabled>T360i App (coming soon)</option></select></td>
+        <td class="extra-columns"><select id="returnsDestinationJ2"><option value="Ext Crypto Wallet">Ext Crypto Wallet</option><option value="Bank/ACH">Bank/ACH</option><option value="MB">MB</option><option value="Treasury" disabled>Treasury (coming soon)</option><option value="T360i App" disabled>T360i App (coming soon)</option></select></td>
+        <td class="extra-columns"><select id="returnsDestinationK2"><option value="Ext Crypto Wallet">Ext Crypto Wallet</option><option value="Bank/ACH">Bank/ACH</option><option value="MB">MB</option><option value="Treasury" disabled>Treasury (coming soon)</option><option value="T360i App" disabled>T360i App (coming soon)</option></select></td>
+        <td class="extra-columns"><select id="returnsDestinationL2"><option value="Ext Crypto Wallet">Ext Crypto Wallet</option><option value="Bank/ACH">Bank/ACH</option><option value="MB">MB</option><option value="Treasury" disabled>Treasury (coming soon)</option><option value="T360i App" disabled>T360i App (coming soon)</option></select></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="title-cell">Monthly Returns, minus transfer fees ($):</td>
+        <td><input type="text" id="monthlyReturnsMinusFeesF2" readonly></td>
+        <td><input type="text" id="monthlyReturnsMinusFeesG2" readonly></td>
+        <td><input type="text" id="monthlyReturnsMinusFeesH2" readonly></td>
+        <td class="extra-columns"><input type="text" id="monthlyReturnsMinusFeesI2" readonly></td>
+        <td class="extra-columns"><input type="text" id="monthlyReturnsMinusFeesJ2" readonly></td>
+        <td class="extra-columns"><input type="text" id="monthlyReturnsMinusFeesK2" readonly></td>
+        <td class="extra-columns"><input type="text" id="monthlyReturnsMinusFeesL2" readonly></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="title-cell">Date to Claim Returns:</td>
+        <td><textarea id="claimDateF2" readonly></textarea></td>
+        <td><textarea id="claimDateG2" readonly></textarea></td>
+        <td><textarea id="claimDateH2" readonly></textarea></td>
+        <td class="extra-columns"><textarea id="claimDateI2" readonly></textarea></td>
+        <td class="extra-columns"><textarea id="claimDateJ2" readonly></textarea></td>
+        <td class="extra-columns"><textarea id="claimDateK2" readonly></textarea></td>
+        <td class="extra-columns"><textarea id="claimDateL2" readonly></textarea></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="title-cell">Timeframe to Ext Wallet:</td>
+        <td><textarea id="timeframeExtWalletF2" readonly></textarea></td>
+        <td><textarea id="timeframeExtWalletG2" readonly></textarea></td>
+        <td><textarea id="timeframeExtWalletH2" readonly></textarea></td>
+        <td class="extra-columns"><textarea id="timeframeExtWalletI2" readonly></textarea></td>
+        <td class="extra-columns"><textarea id="timeframeExtWalletJ2" readonly></textarea></td>
+        <td class="extra-columns"><textarea id="timeframeExtWalletK2" readonly></textarea></td>
+        <td class="extra-columns"><textarea id="timeframeExtWalletL2" readonly></textarea></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="title-cell">Time frame to Bank (ACH):</td>
+        <td><textarea id="timeframeBankACHF2" readonly></textarea></td>
+        <td><textarea id="timeframeBankACHG2" readonly></textarea></td>
+        <td><textarea id="timeframeBankACHH2" readonly></textarea></td>
+        <td class="extra-columns"><textarea id="timeframeBankACHI2" readonly></textarea></td>
+        <td class="extra-columns"><textarea id="timeframeBankACHJ2" readonly></textarea></td>
+        <td class="extra-columns"><textarea id="timeframeBankACHK2" readonly></textarea></td>
+        <td class="extra-columns"><textarea id="timeframeBankACHL2" readonly></textarea></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="title-cell">Date Activated Funds Unlocked:</td>
+        <td><textarea id="unlockedDateF2" readonly></textarea></td>
+        <td><textarea id="unlockedDateG2" readonly></textarea></td>
+        <td><textarea id="unlockedDateH2" readonly></textarea></td>
+        <td class="extra-columns"><textarea id="unlockedDateI2" readonly></textarea></td>
+        <td class="extra-columns"><textarea id="unlockedDateJ2" readonly></textarea></td>
+        <td class="extra-columns"><textarea id="unlockedDateK2" readonly></textarea></td>
+        <td class="extra-columns"><textarea id="unlockedDateL2" readonly></textarea></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="title-cell">Bonuses:</td>
+        <td><input type="text" id="bonusesF2" readonly></td>
+        <td><input type="text" id="bonusesG2" readonly></td>
+        <td><input type="text" id="bonusesH2" readonly></td>
+        <td class="extra-columns"><input type="text" id="bonusesI2" readonly></td>
+        <td class="extra-columns"><input type="text" id="bonusesJ2" readonly></td>
+        <td class="extra-columns"><input type="text" id="bonusesK2" readonly></td>
+        <td class="extra-columns"><input type="text" id="bonusesL2" readonly></td>
+        <td></td>
+      </tr>
+    </table>
+    <table>
+      <tr>
+        <td class="title-cell">Monthly Profit (after Paying Monthly Loan Interest + fees)</td>
+        <td><input type="number" id="monthlyProfit2" readonly></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="title-cell">Total Activated Funds</td>
+        <td><input type="number" id="totalActivatedFunds2" readonly></td>
+        <td></td>
+        <td></td>
+      </tr>
+    </table>
+  </div>
+  <div class="arrow"><span>→</span></div>
+  <!-- Duplicated Section 3: Stack Treasury Loan -->
+  <div class="section">
+    <h2>Stack Treasury Loan</h2>
+    <table>
+      <tr>
+        <td class="title-cell">Max loan you can take against Treasury (90% of Treasury Activated Funds) ($):</td>
+        <td><input type="number" id="maxLoanAgainst2" readonly></td>
+      </tr>
+      <tr>
+        <td class="title-cell">How much of above amount do you want to loan against?</td>
+        <td><input type="number" id="loanAgainstAmount2" step="0.01" placeholder="Enter amount"></td>
+      </tr>
+    </table>
+  </div>
+</div>
+<!-- Duplicated Button -->
+<button class="calculate">
+  <span>2nd Leg of Loan Above</span><br>
+  <span>3rd Leg of Loan Below</span>
+</button>
+ 
+<!-- Third Set of Sections -->
+<div class="sections">
+  <!-- Third Section 1: Tribe Loan Info -->
+  <div class="section tribe-loan-info">
+    <h2>Tribe Loan Info</h2>
+    <table>
+      <tr>
+        <td class="title-cell">Tribe Loan ($):</td>
+        <td><input type="text" id="tribeLoan3" placeholder="Enter loan amount" class="dollar-input"></td>
+      </tr>
+      <tr>
+        <td class="title-cell">Loan Monthly Interest (%):</td>
+        <td><input type="text" id="loanMonthlyInterest3" placeholder="Enter interest %" class="percent-input"></td>
+      </tr>
+      <tr>
+  <td class="title-cell">Length of Loan (in days, 730+, 1095, 1460):</td>
+  <td><input type="number" id="lengthOfLoan2" placeholder="Enter days" min="730"></td>
+</tr>
+      <tr>
+        <td class="title-cell">Date Funded:</td>
+        <td><input type="date" id="dateFunded3"></td>
+      </tr>
+      <tr>
+        <td class="title-cell">Tribe Origination Fee % / $:</td>
+        <td><input type="text" id="tribeOriginationFee3" readonly></td>
+      </tr>
+      <tr>
+        <td class="title-cell">Loan Left after Lump Fee ($):</td>
+        <td><input type="number" id="loanLeft3" readonly></td>
+      </tr>
+      <tr>
+        <td class="title-cell">How much of loan will be going to Ext Crypto Wallet? ($):</td>
+        <td><input type="text" id="cryptoWalletAmount3" placeholder="Enter amount" class="dollar-input"></td>
+      </tr>
+      <tr>
+        <td class="title-cell">How much of loan will be going to Bank/ACH ($):</td>
+        <td><input type="text" id="bankACHAmount3" placeholder="Enter amount" class="dollar-input"></td>
+      </tr>
+      <tr>
+        <td class="title-cell">Total leaving ecosystem minus the 1% Crypto fee &/or 2.5% Bank/ACH fee ($):</td>
+        <td><input type="number" id="totalMinusFees3" readonly></td>
+      </tr>
+      <tr>
+        <td class="title-cell">Monthly Loan Interest Owed (1% Fee Added) ($):</td>
+        <td><input type="number" id="monthlyInterestOwed3" readonly></td>
+      </tr>
+      <tr>
+        <td class="title-cell">Loan Yearly Interest % / $:</td>
+        <td><input type="text" id="loanYearlyInterest3" readonly></td>
+      </tr>
+      <tr>
+        <td class="title-cell">Date Principle (original loan amount) Due:</td>
+        <td><input type="date" id="datePrincipleDue3" readonly></td>
+      </tr>
+    </table>
+    <!-- Notes Accordions (unchanged) -->
+    <div class="notes-container">
+      <div class="accordion">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          Fee Flowchart <span>↓</span>
+        </div>
+        <div class="accordion-content">
+          <img src="flowchart-200.jpg" alt="flowchart-200.jpg" class="flowchart-img" onclick="openModal()">
+        </div>
+      </div>
+      <div class="accordion">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          Fee Notes <span>↓</span>
+        </div>
+        <div class="accordion-content">
+          <p>“The fees all have a purpose, and the eco-system works together. The fees are not going to hurt you long term, we have systems and methods in place for you to recoup fees. For instance, MB generates 2% per month to offset fees in our company. And in T you have the TC. You get one for every transaction. With the volume about to pass through T, the coin is going to be a big deal for us all.</p>
+          <h3>The 4.99% Origination Fee and Its Purpose</h3>
+          <p><strong>Standard in Private Lending:</strong> Although 4.99% may seem high, it is a typical origination fee in many private lending scenarios. The fee comes off the amount you are receiving from the lender when you get funded.</p>
+          <h3>“By the People, For the People” Structure:</h3>
+          <p>The fees are designed to benefit everyone. This is how:</p>
+          <ul>
+            <li>20% of all transaction fees goes to TC, which you receive on each transaction you do in Tribe360i.</li>
+            <li>50% of Tribe360i’s profit returns to our company.</li>
+            <li>15% of that Company share goes directly to the Island T360i which you are a part of with at minimum the gift of $200.</li>
+          </ul>
+          <p>This means the majority of what you pay doesn’t simply leave the ecosystem—it helps fund TC (benefiting users), our Companies operations, and Island participants which includes yourself. Over time, you recapture significant value through these channels”</p>
+        </div>
+      </div>
+      <div class="accordion">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          Bonus, Gratitude, & Security <span>↓</span>
+        </div>
+        <div class="accordion-content">
+          <p>Please check the Explore section in dashboard for more information.</p>
+          <h3>PPP</h3>
+          <p><strong>Bonus:</strong> Delay Bonus: Additional 8% per month if it takes longer than 30 days to fill</p>
+          <p><strong>Gratitude:</strong> Yes, 5% gratitude fee on connect's profit. *The only condition we have is that you have to be participating in at least ONE of the PPP Islands.</p>
+          <p><strong>Treasury Security:</strong> Active for this island. Applies to your initial loan allocation.</p>
+          <h3>T360i Island</h3>
+          <p><strong>Bonus:</strong> Annual distribution based on T360i's profit, potentially ranging from 120% to 600% ROI. Example calculation for a $10,000 investment: Guaranteed yearly interest: $7,200 (paid as $1,800 quarterly), Potential yearly performance bonus: $12,000 to $60,000 (based on T360i's profit).</p>
+          <p><strong>Gratitude:</strong> No</p>
+          <p><strong>Treasury Security:</strong> No</p>
+          <h3>Stratagem</h3>
+          <p><strong>Bonus:</strong> In addition to the targeted returns, Stratagem will evaluate the potential for an additional performance bonus from Year 1 onwards. This bonus will be based on the company's ability to exceed expectations and generate additional value. The specific details and timing of the bonus distribution will be determined on a year-by-year basis, with the possibility of the bonus being paid out at the end of each year or held until the end of the five-year term.</p>
+          <p><strong>Gratitude:</strong> No</p>
+          <p><strong>Treasury Security:</strong> No</p>
+        </div>
+      </div>
+      <div class="accordion">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          Loan Steps <span>↓</span>
+        </div>
+        <div class="accordion-content">
+          <ol>
+            <li>Once onboarded and successfully logged into your T account</li>
+            <li>Go to "Wallet" and ensure you have an active wallet</li>
+            <li>Once you do, go to F2F → Loan Dashboard → Request Loan</li>
+            <li>Pick a Loan Category (this is strictly for data purposes for the parent company)</li>
+            <li>Fill out: Amount Requested $, Requested Days To Repay (minimum of 2 years aka 730 days), Requested Interest Rate (not financial advice but go 1% or lower)</li>
+            <li>Flex Option is the option to only pay interest and then principle at the end of the loan term</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="arrow"><span>→</span></div>
+  <!-- Third Section 2: Original and/or 1st Leg of Loan -->
+  <div class="section" id="section2-third">
+    <h2>3rd Leg of Loan</h2>
+    <table>
+      <tr>
+        <td class="title-cell" colspan="2">Amount Left (after Origination fee + transfer of funds out of ecosystem + any other funds sent to Islands)</td>
+        <td><input type="number" id="amountLeftToUse3" readonly></td>
+        <td></td> <!-- Blank cell -->
+      </tr>
+    </table>
+    <table class="tight-table">
+      <tr>
+        <td class="title-cell">Loan/Funds Originating From:</td>
+        <td><select id="fundsOriginF3" disabled><option value="Tribe App" selected>Tribe App</option></select></td>
+        <td><select id="fundsOriginG3" disabled><option value="Tribe App" selected>Tribe App</option></select></td>
+        <td><select id="fundsOriginH3" disabled><option value="Tribe App" selected>Tribe App</option></select></td>
+        <td class="extra-columns"><select id="fundsOriginI3" disabled><option value="Tribe App" selected>Tribe App</option></select></td>
+        <td class="extra-columns"><select id="fundsOriginJ3" disabled><option value="Tribe App" selected>Tribe App</option></select></td>
+        <td class="extra-columns"><select id="fundsOriginK3" disabled><option value="Tribe App" selected>Tribe App</option></select></td>
+        <td class="extra-columns"><select id="fundsOriginL3" disabled><option value="Tribe App" selected>Tribe App</option></select></td>
+        <td class="toggle-button-cell"><button class="toggle-button" id="toggleColumns3">+</button></td>
+      </tr>
+      <tr>
+        <td class="title-cell">Where Putting Loan?</td>
+        <td><select id="whereLoanF3"><option value="Treasury" selected>Treasury (5% Return. Min dep: $500, top up: $50)</option><option value="PPP">PPP (20% return. Min Dep. $625, Top Up $625)</option><option value="T360iApp" disabled>T360i (18% Quarterly. Min Top Up $200)</option><option value="Stratagem" disabled>Stratagem (10% Quarterly, Min Dep. $1,000, Top Up $200)</option></select></td>
+        <td><select id="whereLoanG3"><option value="Treasury" selected>Treasury (5% Return. Min dep: $500, top up: $50)</option><option value="PPP">PPP (20% return. Min Dep. $625, Top Up $625)</option><option value="T360iApp" disabled>T360i (18% Quarterly. Min Top Up $200)</option><option value="Stratagem" disabled>Stratagem (10% Quarterly, Min Dep. $1,000, Top Up $200)</option></select></td>
+        <td><select id="whereLoanH3"><option value="Treasury" selected>Treasury (5% Return. Min dep: $500, top up: $50)</option><option value="PPP">PPP (20% return. Min Dep. $625, Top Up $625)</option><option value="T360iApp" disabled>T360i (18% Quarterly. Min Top Up $200)</option><option value="Stratagem" disabled>Stratagem (10% Quarterly, Min Dep. $1,000, Top Up $200)</option></select></td>
+        <td class="extra-columns"><select id="whereLoanI3"><option value="Treasury" selected>Treasury (5% Return. Min dep: $500, top up: $50)</option><option value="PPP">PPP (20% return. Min Dep. $625, Top Up $625)</option><option value="T360iApp" disabled>T360i (18% Quarterly. Min Top Up $200)</option><option value="Stratagem" disabled>Stratagem (10% Quarterly, Min Dep. $1,000, Top Up $200)</option></select></td>
+        <td class="extra-columns"><select id="whereLoanJ3"><option value="Treasury" selected>Treasury (5% Return. Min dep: $500, top up: $50)</option><option value="PPP">PPP (20% return. Min Dep. $625, Top Up $625)</option><option value="T360iApp" disabled>T360i (18% Quarterly. Min Top Up $200)</option><option value="Stratagem" disabled>Stratagem (10% Quarterly, Min Dep. $1,000, Top Up $200)</option></select></td>
+        <td class="extra-columns"><select id="whereLoanK3"><option value="Treasury" selected>Treasury (5% Return. Min dep: $500, top up: $50)</option><option value="PPP">PPP (20% return. Min Dep. $625, Top Up $625)</option><option value="T360iApp" disabled>T360i (18% Quarterly. Min Top Up $200)</option><option value="Stratagem" disabled>Stratagem (10% Quarterly, Min Dep. $1,000, Top Up $200)</option></select></td>
+        <td class="extra-columns"><select id="whereLoanL3"><option value="Treasury" selected>Treasury (5% Return. Min dep: $500, top up: $50)</option><option value="PPP">PPP (20% return. Min Dep. $625, Top Up $625)</option><option value="T360iApp" disabled>T360i (18% Quarterly. Min Top Up $200)</option><option value="Stratagem" disabled>Stratagem (10% Quarterly, Min Dep. $1,000, Top Up $200)</option></select></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="title-cell">Amount Transferred ($):</td>
+        <td><input type="number" id="amountTransferredF3" step="0.01"></td>
+        <td><input type="number" id="amountTransferredG3" step="0.01"></td>
+        <td><input type="number" id="amountTransferredH3" step="0.01"></td>
+        <td class="extra-columns"><input type="number" id="amountTransferredI3" step="0.01"></td>
+        <td class="extra-columns"><input type="number" id="amountTransferredJ3" step="0.01"></td>
+        <td class="extra-columns"><input type="number" id="amountTransferredK3" step="0.01"></td>
+        <td class="extra-columns"><input type="number" id="amountTransferredL3" step="0.01"></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="title-cell">Date Funds will be/were sent:</td>
+        <td><input type="date" id="dateSentF3"></td>
+        <td><input type="date" id="dateSentG3"></td>
+        <td><input type="date" id="dateSentH3"></td>
+        <td class="extra-columns"><input type="date" id="dateSentI3"></td>
+        <td class="extra-columns"><input type="date" id="dateSentJ3"></td>
+        <td class="extra-columns"><input type="date" id="dateSentK3"></td>
+        <td class="extra-columns"><input type="date" id="dateSentL3"></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="title-cell">Transfer Fee % / $:</td>
+        <td><input type="text" id="feeF3" readonly></td>
+        <td><input type="text" id="feeG3" readonly></td>
+        <td><input type="text" id="feeH3" readonly></td>
+        <td class="extra-columns"><input type="text" id="feeI3" readonly></td>
+        <td class="extra-columns"><input type="text" id="feeJ3" readonly></td>
+        <td class="extra-columns"><input type="text" id="feeK3" readonly></td>
+        <td class="extra-columns"><input type="text" id="feeL3" readonly></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="title-cell">Activated Funds in Island, minus fees ($):</td>
+        <td><input type="number" id="activatedFundsF3" step="0.01" readonly></td>
+        <td><input type="number" id="activatedFundsG3" step="0.01" readonly></td>
+        <td><input type="number" id="activatedFundsH3" step="0.01" readonly></td>
+        <td class="extra-columns"><input type="number" id="activatedFundsI3" step="0.01" readonly></td>
+        <td class="extra-columns"><input type="number" id="activatedFundsJ3" step="0.01" readonly></td>
+        <td class="extra-columns"><input type="number" id="activatedFundsK3" step="0.01" readonly></td>
+        <td class="extra-columns"><input type="number" id="activatedFundsL3" step="0.01" readonly></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="title-cell">Date PPP Island Filled:</td>
+        <td><input type="date" id="dateIslandFilledF3"></td>
+        <td><input type="date" id="dateIslandFilledG3"></td>
+        <td><input type="date" id="dateIslandFilledH3"></td>
+        <td class="extra-columns"><input type="date" id="dateIslandFilledI3"></td>
+        <td class="extra-columns"><input type="date" id="dateIslandFilledJ3"></td>
+        <td class="extra-columns"><input type="date" id="dateIslandFilledK3"></td>
+        <td class="extra-columns"><input type="date" id="dateIslandFilledL3"></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="title-cell">Date Funds Activated:</td>
+        <td><textarea id="dateActivatedF3" readonly></textarea></td>
+        <td><textarea id="dateActivatedG3" readonly></textarea></td>
+        <td><textarea id="dateActivatedH3" readonly></textarea></td>
+        <td class="extra-columns"><textarea id="dateActivatedI3" readonly></textarea></td>
+        <td class="extra-columns"><textarea id="dateActivatedJ3" readonly></textarea></td>
+        <td class="extra-columns"><textarea id="dateActivatedK3" readonly></textarea></td>
+        <td class="extra-columns"><textarea id="dateActivatedL3" readonly></textarea></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="title-cell">Monthly Interest (%):</td>
+        <td><input type="number" id="monthlyInterestF3" step="0.01" readonly></td>
+        <td><input type="number" id="monthlyInterestG3" step="0.01" readonly></td>
+        <td><input type="number" id="monthlyInterestH3" step="0.01" readonly></td>
+        <td class="extra-columns"><input type="number" id="monthlyInterestI3" step="0.01" readonly></td>
+        <td class="extra-columns"><input type="number" id="monthlyInterestJ3" step="0.01" readonly></td>
+        <td class="extra-columns"><input type="number" id="monthlyInterestK3" step="0.01" readonly></td>
+        <td class="extra-columns"><input type="number" id="monthlyInterestL3" step="0.01" readonly></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="title-cell">Monthly Returns ($):</td>
+        <td><input type="number" id="monthlyReturnsF3" step="0.01" readonly></td>
+        <td><input type="number" id="monthlyReturnsG3" step="0.01" readonly></td>
+        <td><input type="number" id="monthlyReturnsH3" step="0.01" readonly></td>
+        <td class="extra-columns"><input type="number" id="monthlyReturnsI3" step="0.01" readonly></td>
+        <td class="extra-columns"><input type="number" id="monthlyReturnsJ3" step="0.01" readonly></td>
+        <td class="extra-columns"><input type="number" id="monthlyReturnsK3" step="0.01" readonly></td>
+        <td class="extra-columns"><input type="number" id="monthlyReturnsL3" step="0.01" readonly></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="title-cell">Where will returns ultimately be ending up?</td>
+        <td><select id="returnsDestinationF3"><option value="Ext Crypto Wallet">Ext Crypto Wallet</option><option value="Bank/ACH">Bank/ACH</option><option value="MB">MB</option><option value="Treasury" disabled>Treasury (coming soon)</option><option value="T360i App" disabled>T360i App (coming soon)</option></select></td>
+        <td><select id="returnsDestinationG3"><option value="Ext Crypto Wallet">Ext Crypto Wallet</option><option value="Bank/ACH">Bank/ACH</option><option value="MB">MB</option><option value="Treasury" disabled>Treasury (coming soon)</option><option value="T360i App" disabled>T360i App (coming soon)</option></select></td>
+        <td><select id="returnsDestinationH3"><option value="Ext Crypto Wallet">Ext Crypto Wallet</option><option value="Bank/ACH">Bank/ACH</option><option value="MB">MB</option><option value="Treasury" disabled>Treasury (coming soon)</option><option value="T360i App" disabled>T360i App (coming soon)</option></select></td>
+        <td class="extra-columns"><select id="returnsDestinationI3"><option value="Ext Crypto Wallet">Ext Crypto Wallet</option><option value="Bank/ACH">Bank/ACH</option><option value="MB">MB</option><option value="Treasury" disabled>Treasury (coming soon)</option><option value="T360i App" disabled>T360i App (coming soon)</option></select></td>
+        <td class="extra-columns"><select id="returnsDestinationJ3"><option value="Ext Crypto Wallet">Ext Crypto Wallet</option><option value="Bank/ACH">Bank/ACH</option><option value="MB">MB</option><option value="Treasury" disabled>Treasury (coming soon)</option><option value="T360i App" disabled>T360i App (coming soon)</option></select></td>
+        <td class="extra-columns"><select id="returnsDestinationK3"><option value="Ext Crypto Wallet">Ext Crypto Wallet</option><option value="Bank/ACH">Bank/ACH</option><option value="MB">MB</option><option value="Treasury" disabled>Treasury (coming soon)</option><option value="T360i App" disabled>T360i App (coming soon)</option></select></td>
+        <td class="extra-columns"><select id="returnsDestinationL3"><option value="Ext Crypto Wallet">Ext Crypto Wallet</option><option value="Bank/ACH">Bank/ACH</option><option value="MB">MB</option><option value="Treasury" disabled>Treasury (coming soon)</option><option value="T360i App" disabled>T360i App (coming soon)</option></select></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="title-cell">Monthly Returns, minus transfer fees ($):</td>
+        <td><input type="text" id="monthlyReturnsMinusFeesF3" readonly></td>
+        <td><input type="text" id="monthlyReturnsMinusFeesG3" readonly></td>
+        <td><input type="text" id="monthlyReturnsMinusFeesH3" readonly></td>
+        <td class="extra-columns"><input type="text" id="monthlyReturnsMinusFeesI3" readonly></td>
+        <td class="extra-columns"><input type="text" id="monthlyReturnsMinusFeesJ3" readonly></td>
+        <td class="extra-columns"><input type="text" id="monthlyReturnsMinusFeesK3" readonly></td>
+        <td class="extra-columns"><input type="text" id="monthlyReturnsMinusFeesL3" readonly></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="title-cell">Date to Claim Returns:</td>
+        <td><textarea id="claimDateF3" readonly></textarea></td>
+        <td><textarea id="claimDateG3" readonly></textarea></td>
+        <td><textarea id="claimDateH3" readonly></textarea></td>
+        <td class="extra-columns"><textarea id="claimDateI3" readonly></textarea></td>
+        <td class="extra-columns"><textarea id="claimDateJ3" readonly></textarea></td>
+        <td class="extra-columns"><textarea id="claimDateK3" readonly></textarea></td>
+        <td class="extra-columns"><textarea id="claimDateL3" readonly></textarea></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="title-cell">Timeframe to Ext Wallet:</td>
+        <td><textarea id="timeframeExtWalletF3" readonly></textarea></td>
+        <td><textarea id="timeframeExtWalletG3" readonly></textarea></td>
+        <td><textarea id="timeframeExtWalletH3" readonly></textarea></td>
+        <td class="extra-columns"><textarea id="timeframeExtWalletI3" readonly></textarea></td>
+        <td class="extra-columns"><textarea id="timeframeExtWalletJ3" readonly></textarea></td>
+        <td class="extra-columns"><textarea id="timeframeExtWalletK3" readonly></textarea></td>
+        <td class="extra-columns"><textarea id="timeframeExtWalletL3" readonly></textarea></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="title-cell">Time frame to Bank (ACH):</td>
+        <td><textarea id="timeframeBankACHF3" readonly></textarea></td>
+        <td><textarea id="timeframeBankACHG3" readonly></textarea></td>
+        <td><textarea id="timeframeBankACHH3" readonly></textarea></td>
+        <td class="extra-columns"><textarea id="timeframeBankACHI3" readonly></textarea></td>
+        <td class="extra-columns"><textarea id="timeframeBankACHJ3" readonly></textarea></td>
+        <td class="extra-columns"><textarea id="timeframeBankACHK3" readonly></textarea></td>
+        <td class="extra-columns"><textarea id="timeframeBankACHL3" readonly></textarea></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="title-cell">Date Activated Funds Unlocked:</td>
+        <td><textarea id="unlockedDateF3" readonly></textarea></td>
+        <td><textarea id="unlockedDateG3" readonly></textarea></td>
+        <td><textarea id="unlockedDateH3" readonly></textarea></td>
+        <td class="extra-columns"><textarea id="unlockedDateI3" readonly></textarea></td>
+        <td class="extra-columns"><textarea id="unlockedDateJ3" readonly></textarea></td>
+        <td class="extra-columns"><textarea id="unlockedDateK3" readonly></textarea></td>
+        <td class="extra-columns"><textarea id="unlockedDateL3" readonly></textarea></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="title-cell">Bonuses:</td>
+        <td><input type="text" id="bonusesF3" readonly></td>
+        <td><input type="text" id="bonusesG3" readonly></td>
+        <td><input type="text" id="bonusesH3" readonly></td>
+        <td class="extra-columns"><input type="text" id="bonusesI3" readonly></td>
+        <td class="extra-columns"><input type="text" id="bonusesJ3" readonly></td>
+        <td class="extra-columns"><input type="text" id="bonusesK3" readonly></td>
+        <td class="extra-columns"><input type="text" id="bonusesL3" readonly></td>
+        <td></td>
+      </tr>
+    </table>
+    <table>
+      <tr>
+        <td class="title-cell">Monthly Profit (after Paying Monthly Loan Interest + fees)</td>
+        <td><input type="number" id="monthlyProfit3" readonly></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="title-cell">Total Activated Funds</td>
+        <td><input type="number" id="totalActivatedFunds3" readonly></td>
+        <td></td>
+        <td></td>
+      </tr>
+    </table>
+  </div>
+  <div class="arrow"><span>→</span></div>
+  <!-- Third Section 3: Stack Treasury Loan -->
+  <div class="section">
+    <h2>Stack Treasury Loan</h2>
+    <table>
+      <tr>
+        <td class="title-cell">Max loan you can take against Treasury (90% of Treasury Activated Funds) ($):</td>
+        <td><input type="number" id="maxLoanAgainst3" readonly></td>
+      </tr>
+      <tr>
+        <td class="title-cell">How much of above amount do you want to loan against?</td>
+        <td><input type="number" id="loanAgainstAmount3" step="0.01" placeholder="Enter amount"></td>
+      </tr>
+    </table>
+  </div>
+</div>
+<!-- Duplicated Button -->
+<button class="calculate">
+  <span>3rd Leg of Loan Above</span><br>
+  <span>4th Leg of Loan Below</span>
+</button>
+
+
+ </div>
+<script>
+// Format number inputs to preserve decimals
+function formatNumberInput(input, isBlur = false) {
+  let value = input.value;
+  if (value === '') {
+    input.value = '';
+    return;
+  }
+  if (isBlur) {
+    let num = parseFloat(value) || 0;
+    input.value = num.toFixed(2);
+  }
+}
+    // Format inputs on typing and blur
+    function formatDollarInput(input, isBlur = false) {
+      let value = input.value.replace(/[^0-9.]/g, '');
+      if (value === '') {
+        input.value = '';
+        return;
+      }
+      if ((value.match(/\./g) || []).length > 1) {
+        value = value.slice(0, value.lastIndexOf('.'));
+      }
+      if (!isBlur) {
+        input.value = value;
+        return;
+      }
+      let num = parseFloat(value) || 0;
+      input.value = num.toFixed(2);
+    }
+
+    function formatPercentInput(input, isBlur = false) {
+      let value = input.value.replace(/[^0-9.]/g, '');
+      if (value === '') {
+        input.value = '';
+        return;
+      }
+      if ((value.match(/\./g) || []).length > 1) {
+        value = value.slice(0, value.lastIndexOf('.'));
+      }
+      if (!isBlur) {
+        input.value = value;
+        return;
+      }
+      let num = parseFloat(value) || 0;
+      input.value = num.toFixed(2);
+    }
+
+    // Parse input values for calculations
+    function parseInput(value) {
+      return parseFloat(value.replace(/[^0-9.-]/g, '')) || 0;
+    }
+
+    // US Federal Bank Holidays for 2025 (approximated dates)
+    const federalHolidays2025 = [
+      '2025-01-01', // New Year's Day
+      '2025-01-20', // Martin Luther King Jr. Day
+      '2025-02-17', // Presidents' Day
+      '2025-05-26', // Memorial Day
+      '2025-06-19', // Juneteenth
+      '2025-07-04', // Independence Day
+      '2025-09-01', // Labor Day
+      '2025-10-13', // Columbus Day
+      '2025-11-11', // Veterans Day
+      '2025-11-27', // Thanksgiving Day
+      '2025-12-25'  // Christmas Day
+    ];
+
+    // Helper to check if a date is a business day
+    function isBusinessDay(date) {
+      const day = date.getDay();
+      const dateStr = date.toISOString().split('T')[0];
+      return day !== 0 && day !== 6 && !federalHolidays2025.includes(dateStr);
+    }
+
+    // Add business days to a date
+    function addBusinessDays(startDate, businessDays) {
+      let currentDate = new Date(startDate);
+      let daysAdded = 0;
+      while (daysAdded < businessDays) {
+        currentDate.setDate(currentDate.getDate() + 1);
+        if (isBusinessDay(currentDate)) {
+          daysAdded++;
+        }
+      }
+      return currentDate;
+    }
+
+    // Format date with day of the week
+    function formatDateWithDay(date) {
+      const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+      const dateStr = date.toISOString().split('T')[0];
+      const day = days[date.getDay()];
+      return `${dateStr} (${day})`;
+    }
+
+    // Get first claim date for Treasury (1st-5th after 30 days)
+    function getFirstClaimDate(activationDate) {
+      let claimDate = new Date(activationDate);
+      claimDate.setDate(claimDate.getDate() + 30); // 30 days after activation
+      let month = claimDate.getMonth();
+      let year = claimDate.getFullYear();
+      // If past the 5th, move to 1st of next month
+      if (claimDate.getDate() > 5) {
+        claimDate = new Date(year, month + 1, 1);
+      } else {
+        claimDate = new Date(year, month, 1);
+      }
+      return claimDate;
+    }
+
+    // Initialize input formatting and calculations
+    document.getElementById('tribeLoan').addEventListener('input', function() {
+      formatDollarInput(this);
+      calculate();
+    });
+    document.getElementById('tribeLoan').addEventListener('blur', function() {
+      formatDollarInput(this, true);
+      calculate();
+    });
+
+    document.getElementById('cryptoWalletAmount').addEventListener('input', function() {
+      formatDollarInput(this);
+      calculate();
+    });
+    document.getElementById('cryptoWalletAmount').addEventListener('blur', function() {
+      formatDollarInput(this, true);
+      calculate();
+    });
+
+    document.getElementById('loanMonthlyInterest').addEventListener('input', function() {
+      formatPercentInput(this);
+      calculate();
+    });
+    document.getElementById('loanMonthlyInterest').addEventListener('blur', function() {
+      formatPercentInput(this, true);
+      calculate();
+    });
+
+    document.getElementById('lengthOfLoan').addEventListener('input', function() {
+      calculate();
+    });
+
+    document.getElementById('dateFunded').addEventListener('input', function() {
+      calculate();
+    });
+    document.getElementById('bankACHAmount').addEventListener('input', function() {
+      formatDollarInput(this);
+      calculate();
+    });
+    document.getElementById('bankACHAmount').addEventListener('blur', function() {
+      formatDollarInput(this, true);
+      calculate();
+    });
+
+    // Section 2 input listeners
+    const columns = ['F', 'G', 'H', 'I', 'J', 'K', 'L'];
+    
+
+columns.forEach(col => {
+  document.getElementById(`whereLoan${col}`).addEventListener('change', calculate);
+  document.getElementById(`amountTransferred${col}`).addEventListener('input', function() {
+    formatNumberInput(this);
+    calculate();
+  });
+  document.getElementById(`amountTransferred${col}`).addEventListener('blur', function() {
+    formatNumberInput(this, true);
+    calculate();
+  });
+  document.getElementById(`dateSent${col}`).addEventListener('input', calculate);
+  document.getElementById(`dateIslandFilled${col}`).addEventListener('input', calculate);
+  document.getElementById(`returnsDestination${col}`).addEventListener('change', calculate);
+});
+// Section 2 (Duplicated) input listeners
+const columns2 = ['F2', 'G2', 'H2', 'I2', 'J2', 'K2', 'L2'];
+
+columns2.forEach(col => {
+  document.getElementById(`whereLoan${col}`).addEventListener('change', calculate2);
+  document.getElementById(`amountTransferred${col}`).addEventListener('input', function() {
+    formatNumberInput(this);
+    calculate2();
+  });
+  document.getElementById(`amountTransferred${col}`).addEventListener('blur', function() {
+    formatNumberInput(this, true);
+    calculate2();
+  });
+  document.getElementById(`dateSent${col}`).addEventListener('input', calculate2);
+  document.getElementById(`dateIslandFilled${col}`).addEventListener('input', calculate2);
+  document.getElementById(`returnsDestination${col}`).addEventListener('change', calculate2);
+});
+
+// Duplicated Section 1 input listeners
+document.getElementById('tribeLoan2').addEventListener('input', function() {
+  formatDollarInput(this);
+  calculate2();
+});
+document.getElementById('tribeLoan2').addEventListener('blur', function() {
+  formatDollarInput(this, true);
+  calculate2();
+});
+
+document.getElementById('cryptoWalletAmount2').addEventListener('input', function() {
+  formatDollarInput(this);
+  calculate2();
+});
+document.getElementById('cryptoWalletAmount2').addEventListener('blur', function() {
+  formatDollarInput(this, true);
+  calculate2();
+});
+
+document.getElementById('loanMonthlyInterest2').addEventListener('input', function() {
+  formatPercentInput(this);
+  calculate2();
+});
+document.getElementById('loanMonthlyInterest2').addEventListener('blur', function() {
+  formatPercentInput(this, true);
+  calculate2();
+});
+
+document.getElementById('lengthOfLoan2').addEventListener('input', function() {
+  calculate2();
+});
+
+document.getElementById('dateFunded2').addEventListener('input', function() {
+  calculate2();
+});
+
+document.getElementById('bankACHAmount2').addEventListener('input', function() {
+  formatDollarInput(this);
+  calculate2();
+});
+document.getElementById('bankACHAmount2').addEventListener('blur', function() {
+  formatDollarInput(this, true);
+  calculate2();
+});
+
+// Section 3 input listeners (Original)
+document.getElementById('loanAgainstAmount').addEventListener('input', function() {
+  formatNumberInput(this);
+  // Copy the value to tribeLoan2 in the second Tribe Loan Info area
+  const tribeLoan2Input = document.getElementById('tribeLoan2');
+  tribeLoan2Input.value = this.value; // Copy the raw value as the user types
+  formatDollarInput(tribeLoan2Input); // Format it as a dollar input
+  calculate();
+  calculate2(); // Recalculate the second set of sections
+});
+document.getElementById('loanAgainstAmount').addEventListener('blur', function() {
+  formatNumberInput(this, true);
+  // Ensure tribeLoan2 is formatted on blur as well
+  const tribeLoan2Input = document.getElementById('tribeLoan2');
+  formatDollarInput(tribeLoan2Input, true);
+  calculate();
+  calculate2();
+});
+
+// Duplicated Section 3 input listeners (Second Set)
+document.getElementById('loanAgainstAmount2').addEventListener('input', function() {
+  formatNumberInput(this);
+  // Copy the value to tribeLoan3 in the third Tribe Loan Info area
+  const tribeLoan3Input = document.getElementById('tribeLoan3');
+  tribeLoan3Input.value = this.value; // Copy the raw value as the user types
+  formatDollarInput(tribeLoan3Input); // Format it as a dollar input
+  calculate2();
+  calculate3(); // Recalculate the third set of sections
+});
+document.getElementById('loanAgainstAmount2').addEventListener('blur', function() {
+  formatNumberInput(this, true);
+  // Ensure tribeLoan3 is formatted on blur as well
+  const tribeLoan3Input = document.getElementById('tribeLoan3');
+  formatDollarInput(tribeLoan3Input, true);
+  calculate2();
+  calculate3();
+});
+
+// Third Section 1 input listeners
+document.getElementById('tribeLoan3').addEventListener('input', function() {
+  formatDollarInput(this);
+  calculate3();
+});
+document.getElementById('tribeLoan3').addEventListener('blur', function() {
+  formatDollarInput(this, true);
+  calculate3();
+});
+
+document.getElementById('cryptoWalletAmount3').addEventListener('input', function() {
+  formatDollarInput(this);
+  calculate3();
+});
+document.getElementById('cryptoWalletAmount3').addEventListener('blur', function() {
+  formatDollarInput(this, true);
+  calculate3();
+});
+
+document.getElementById('loanMonthlyInterest3').addEventListener('input', function() {
+  formatPercentInput(this);
+  calculate3();
+});
+document.getElementById('loanMonthlyInterest3').addEventListener('blur', function() {
+  formatPercentInput(this, true);
+  calculate3();
+});
+
+document.getElementById('lengthOfLoan3').addEventListener('input', function() {
+  calculate3();
+});
+
+document.getElementById('dateFunded3').addEventListener('input', function() {
+  calculate3();
+});
+
+document.getElementById('bankACHAmount3').addEventListener('input', function() {
+  formatDollarInput(this);
+  calculate3();
+});
+document.getElementById('bankACHAmount3').addEventListener('blur', function() {
+  formatDollarInput(this, true);
+  calculate3();
+});
+
+// Third Section 2 input listeners
+const columns3 = ['F3', 'G3', 'H3', 'I3', 'J3', 'K3', 'L3'];
+
+columns3.forEach(col => {
+  document.getElementById(`whereLoan${col}`).addEventListener('change', calculate3);
+  document.getElementById(`amountTransferred${col}`).addEventListener('input', function() {
+    formatNumberInput(this);
+    calculate3();
+  });
+  document.getElementById(`amountTransferred${col}`).addEventListener('blur', function() {
+    formatNumberInput(this, true);
+    calculate3();
+  });
+  document.getElementById(`dateSent${col}`).addEventListener('input', calculate3);
+  document.getElementById(`dateIslandFilled${col}`).addEventListener('input', calculate3);
+  document.getElementById(`returnsDestination${col}`).addEventListener('change', calculate3);
+});
+
+// Third Section 3 input listeners
+document.getElementById('loanAgainstAmount3').addEventListener('input', function() {
+  formatNumberInput(this);
+  calculate3();
+});
+document.getElementById('loanAgainstAmount3').addEventListener('blur', function() {
+  formatNumberInput(this, true);
+  calculate3();
+});
+function calculate() {
+  try {
+    // Section 1 Calculations
+    const tribeLoan = parseInput(document.getElementById("tribeLoan").value);
+    const loanMonthlyInterest = parseInput(document.getElementById("loanMonthlyInterest").value);
+    const cryptoWalletAmount = parseInput(document.getElementById("cryptoWalletAmount").value);
+    const bankACHAmount = parseInput(document.getElementById("bankACHAmount").value);
+    const lengthOfLoan = parseInt(document.getElementById("lengthOfLoan").value) || 0;
+    const dateFunded = document.getElementById("dateFunded").value;
+
+    // Tribe Origination Fee % / $
+    const originationFeePercent = 4.99;
+    const originationFeeDollars = tribeLoan * (originationFeePercent / 100) || 0;
+    document.getElementById("tribeOriginationFee").value = `4.99% / $${originationFeeDollars.toFixed(2)}`;
+
+    // Loan Yearly Interest % / $
+    const yearlyInterestPercent = loanMonthlyInterest * 12 || 0;
+    const yearlyInterestDollars = ((loanMonthlyInterest / 100) * tribeLoan) * 12 || 0;
+    document.getElementById("loanYearlyInterest").value = `${yearlyInterestPercent.toFixed(2)}% / $${yearlyInterestDollars.toFixed(2)}`;
+
+    // Loan Left after Lump Fee
+    const loanLeft = tribeLoan - originationFeeDollars || 0;
+    document.getElementById("loanLeft").value = loanLeft.toFixed(2);
+
+// Amount Left to Use
+const transferredSum = ['F', 'G', 'H', 'I', 'J', 'K', 'L'].reduce((sum, col) => {
+  const value = parseFloat(document.getElementById(`amountTransferred${col}`).value) || 0;
+  return sum + value;
+}, 0);
+const amountLeftToUse = loanLeft - (cryptoWalletAmount + bankACHAmount + transferredSum);
+document.getElementById("amountLeftToUse").value = isNaN(amountLeftToUse) ? '0.00' : amountLeftToUse.toFixed(2);
+    // Total minus the 1% Crypto fee or 2.5% Bank/ACH fee
+    const cryptoWithFee = cryptoWalletAmount * 0.99 || 0;
+    const bankACHWithFee = bankACHAmount * 0.975 || 0;
+    const totalMinusFees = cryptoWithFee + bankACHWithFee;
+    document.getElementById("totalMinusFees").value = totalMinusFees.toFixed(2);
+
+    // Monthly Loan Interest Owed (1% Fee Added)
+    const monthlyInterest = tribeLoan * (loanMonthlyInterest / 100) || 0;
+    const monthlyInterestOwed = monthlyInterest + (monthlyInterest * 0.01) || 0;
+    document.getElementById("monthlyInterestOwed").value = monthlyInterestOwed.toFixed(2);
+
+    // Date Principle Due
+    if (dateFunded && lengthOfLoan > 0) {
+      try {
+        const fundedDate = new Date(dateFunded);
+        if (isNaN(fundedDate.getTime())) throw new Error("Invalid dateFunded");
+        const dueDate = new Date(fundedDate);
+        dueDate.setDate(fundedDate.getDate() + lengthOfLoan);
+        document.getElementById("datePrincipleDue").value = dueDate.toISOString().split('T')[0];
+      } catch (e) {
+        console.error("Date Principle Due error:", e.message);
+        document.getElementById("datePrincipleDue").value = '';
+      }
+    } else {
+      document.getElementById("datePrincipleDue").value = '';
+    }
+// Section 2 Calculations
+let totalTransferred = 0;
+let totalMonthlyReturns = 0;
+let totalActivatedFunds = 0;
+let totalMinusTransferFees = 0;
+
+columns.forEach(col => {
+  const whereLoan = document.getElementById(`whereLoan${col}`).value;
+  const amountTransferred = parseFloat(document.getElementById(`amountTransferred${col}`).value) || 0;
+  const dateSent = document.getElementById(`dateSent${col}`).value;
+  const dateIslandFilled = document.getElementById(`dateIslandFilled${col}`).value;
+  const returnsDestination = document.getElementById(`returnsDestination${col}`).value;
+
+  // Control editability of Date PPP Island Filled
+  const islandFilledInput = document.getElementById(`dateIslandFilled${col}`);
+  if (whereLoan === 'PPP') {
+    islandFilledInput.disabled = false;
+    islandFilledInput.style.background = 'linear-gradient(145deg, #66b2ff, #4a90e2)';
+    islandFilledInput.style.color = '#fff';
+  } else {
+    islandFilledInput.disabled = true;
+    islandFilledInput.style.background = '#d8d8d8';
+    islandFilledInput.style.color = '#222';
+    islandFilledInput.value = '';
+  }
+
+  totalTransferred += amountTransferred;
+
+  if (whereLoan === 'Treasury') {
+    // Monthly Interest
+    document.getElementById(`monthlyInterest${col}`).value = '5.00';
+
+    // Fee % / $
+    const feePercent = 1;
+    const feeDollars = amountTransferred * 0.01 || 0;
+    document.getElementById(`fee${col}`).value = `${feePercent}% / $${feeDollars.toFixed(2)}`;
+
+    // Date Funds Activated (8 business days from Date Sent)
+    if (dateSent) {
+      try {
+        const sentDate = new Date(dateSent);
+        if (isNaN(sentDate.getTime())) throw new Error(`Invalid dateSent${col}`);
+        const activatedDate = addBusinessDays(sentDate, 8);
+        document.getElementById(`dateActivated${col}`).value = formatDateWithDay(activatedDate);
+      } catch (e) {
+        console.error(`Date Funds Activated error for column ${col}:`, e.message);
+        document.getElementById(`dateActivated${col}`).value = '';
+      }
+    } else {
+      document.getElementById(`dateActivated${col}`).value = '';
+    }
+
+    // Activated Funds in Island, minus fees
+    const activatedFunds = amountTransferred - feeDollars || 0;
+    document.getElementById(`activatedFunds${col}`).value = activatedFunds.toFixed(2);
+    totalActivatedFunds += activatedFunds;
+
+    // Date to Claim Returns
+    if (dateSent) {
+      try {
+        const sentDate = new Date(dateSent);
+        if (isNaN(sentDate.getTime())) throw new Error(`Invalid dateSent${col}`);
+        const activatedDate = addBusinessDays(sentDate, 8);
+        const firstClaimDate = getFirstClaimDate(activatedDate);
+        document.getElementById(`claimDate${col}`).value = `1st Claim: ${formatDateWithDay(firstClaimDate)}\nMonthly Claim 1st-5th`;
+      } catch (e) {
+        console.error(`Date to Claim Returns error for column ${col}:`, e.message);
+        document.getElementById(`claimDate${col}`).value = '';
+      }
+    } else {
+      document.getElementById(`claimDate${col}`).value = '';
+    }
+
+    // Monthly Returns
+    const monthlyReturns = activatedFunds * (5.0 / 100) || 0;
+    document.getElementById(`monthlyReturns${col}`).value = monthlyReturns.toFixed(2);
+    totalMonthlyReturns += monthlyReturns;
+
+    // Monthly Returns, minus transfer fees
+    if (returnsDestination === 'Ext Crypto Wallet' || returnsDestination === 'Bank/ACH') {
+      const transferFees = monthlyReturns * 0.04 || 0;
+      const minusFees = monthlyReturns - transferFees;
+      document.getElementById(`monthlyReturnsMinusFees${col}`).value = minusFees.toFixed(2);
+      totalMinusTransferFees += minusFees;
+    } else if (returnsDestination === 'MB') {
+      const transferFees = monthlyReturns * 0.01 || 0;
+      const minusFees = monthlyReturns - transferFees;
+      document.getElementById(`monthlyReturnsMinusFees${col}`).value = minusFees.toFixed(2);
+      totalMinusTransferFees += minusFees;
+    } else {
+      document.getElementById(`monthlyReturnsMinusFees${col}`).value = 'Coming soon';
+    }
+
+    // Timeframe to Ext Wallet
+    if (dateSent) {
+      try {
+        const sentDate = new Date(dateSent);
+        if (isNaN(sentDate.getTime())) throw new Error(`Invalid dateSent${col}`);
+        const activatedDate = addBusinessDays(sentDate, 8);
+        const claimDate = getFirstClaimDate(activatedDate);
+        const walletDate = addBusinessDays(claimDate, 17);
+        document.getElementById(`timeframeExtWallet${col}`).value = `${formatDateWithDay(walletDate)}\n3 Business Days to MB\n14 Business Days to Ext Crypto Wallet`;
+      } catch (e) {
+        console.error(`Timeframe to Ext Wallet error for column ${col}:`, e.message);
+        document.getElementById(`timeframeExtWallet${col}`).value = '';
+      }
+    } else {
+      document.getElementById(`timeframeExtWallet${col}`).value = '';
+    }
+
+    // Timeframe to Bank (ACH)
+    if (dateSent) {
+      try {
+        const sentDate = new Date(dateSent);
+        if (isNaN(sentDate.getTime())) throw new Error(`Invalid dateSent${col}`);
+        const activatedDate = addBusinessDays(sentDate, 8);
+        const claimDate = getFirstClaimDate(activatedDate);
+        const achDate = addBusinessDays(claimDate, 17);
+        document.getElementById(`timeframeBankACH${col}`).value = `${formatDateWithDay(achDate)}\n3 Business Days to MB\n14 Business Days to Bank/ACH`;
+      } catch (e) {
+        console.error(`Timeframe to Bank ACH error for column ${col}:`, e.message);
+        document.getElementById(`timeframeBankACH${col}`).value = '';
+      }
+    } else {
+      document.getElementById(`timeframeBankACH${col}`).value = '';
+    }
+
+    // Date Activated Funds Unlocked
+    if (dateSent && lengthOfLoan > 0) {
+      try {
+        const sentDate = new Date(dateSent);
+        if (isNaN(sentDate.getTime())) throw new Error(`Invalid dateSent${col}`);
+        const activatedDate = addBusinessDays(sentDate, 8);
+        const unlockedDate = new Date(activatedDate);
+        unlockedDate.setDate(unlockedDate.getDate() + lengthOfLoan);
+        document.getElementById(`unlockedDate${col}`).value = formatDateWithDay(unlockedDate);
+      } catch (e) {
+        console.error(`Date Activated Funds Unlocked error for column ${col}:`, e.message);
+        document.getElementById(`unlockedDate${col}`).value = '';
+      }
+    } else {
+      document.getElementById(`unlockedDate${col}`).value = '';
+    }
+
+    // Bonuses
+    document.getElementById(`bonuses${col}`).value = 'No';
+  } else if (whereLoan === 'PPP') {
+    // Monthly Interest
+    document.getElementById(`monthlyInterest${col}`).value = '20.00';
+
+    // Fee % / $
+    const feePercent = 4;
+    const feeDollars = amountTransferred * 0.04 || 0;
+    document.getElementById(`fee${col}`).value = `${feePercent}% / $${feeDollars.toFixed(2)}`;
+
+    // Date Funds Activated
+    if (dateIslandFilled) {
+      try {
+        const islandFilledDate = new Date(dateIslandFilled);
+        if (isNaN(islandFilledDate.getTime())) throw new Error(`Invalid dateIslandFilled${col}`);
+        const activatedDate = new Date(islandFilledDate);
+        activatedDate.setDate(islandFilledDate.getDate() + 15);
+        document.getElementById(`dateActivated${col}`).value = `${formatDateWithDay(activatedDate)}\n7 days after funds sent + Island needs to be filled + 15 days after Island is filled`;
+      } catch (e) {
+        console.error(`Date Funds Activated error for column ${col}:`, e.message);
+        document.getElementById(`dateActivated${col}`).value = '7 days after funds sent + Island needs to be filled';
+      }
+    } else {
+      document.getElementById(`dateActivated${col}`).value = '7 days after funds sent + Island needs to be filled';
+    }
+
+    // Activated Funds in Island, minus fees
+    const activatedFunds = amountTransferred - feeDollars || 0;
+    document.getElementById(`activatedFunds${col}`).value = activatedFunds.toFixed(2);
+    totalActivatedFunds += activatedFunds;
+
+    // Date to Claim Returns
+    if (dateIslandFilled) {
+      try {
+        const islandFilledDate = new Date(dateIslandFilled);
+        if (isNaN(islandFilledDate.getTime())) throw new Error(`Invalid dateIslandFilled${col}`);
+        const activatedDate = new Date(islandFilledDate);
+        activatedDate.setDate(islandFilledDate.getDate() + 15);
+        const claimDate = new Date(activatedDate);
+        claimDate.setDate(activatedDate.getDate() + 30);
+        document.getElementById(`claimDate${col}`).value = `${formatDateWithDay(claimDate)}\n1st Claim: After Island Fills, then preparation for 15 days after that, then trading begins. First Distribution is 30 days the 15 days are up.\nMonthly Claim: 30 days after 1st claim then every 30 days.`;
+      } catch (e) {
+        console.error(`Date to Claim Returns error for column ${col}:`, e.message);
+        document.getElementById(`claimDate${col}`).value = `1st Claim: After Island Fills, then preparation for 15 days after that, then trading begins. First Distribution is 30 days the 15 days are up.\nMonthly Claim: 30 days after 1st claim then every 30 days.`;
+      }
+    } else {
+      document.getElementById(`claimDate${col}`).value = `1st Claim: After Island Fills, then preparation for 15 days after that, then trading begins. First Distribution is 30 days the 15 days are up.\nMonthly Claim: 30 days after 1st claim then every 30 days.`;
+    }
+
+    // Monthly Returns
+    const monthlyReturns = activatedFunds * (20.0 / 100) || 0;
+    document.getElementById(`monthlyReturns${col}`).value = monthlyReturns.toFixed(2);
+    totalMonthlyReturns += monthlyReturns;
+
+    // Monthly Returns, minus transfer fees
+    if (returnsDestination === 'Ext Crypto Wallet' || returnsDestination === 'Bank/ACH') {
+      const transferFees = monthlyReturns * 0.03 || 0;
+      const minusFees = monthlyReturns - transferFees;
+      document.getElementById(`monthlyReturnsMinusFees${col}`).value = `$${minusFees.toFixed(2)}`;
+      totalMinusTransferFees += minusFees;
+    } else if (returnsDestination === 'MB') {
+      document.getElementById(`monthlyReturnsMinusFees${col}`).value = `$${monthlyReturns.toFixed(2)}`;
+      totalMinusTransferFees += monthlyReturns;
+    } else {
+      document.getElementById(`monthlyReturnsMinusFees${col}`).value = 'Coming soon';
+    }
+
+    // Timeframe to Ext Wallet
+    if (dateIslandFilled) {
+      try {
+        const islandFilledDate = new Date(dateIslandFilled);
+        if (isNaN(islandFilledDate.getTime())) throw new Error(`Invalid dateIslandFilled${col}`);
+        const activatedDate = new Date(islandFilledDate);
+        activatedDate.setDate(islandFilledDate.getDate() + 15);
+        const claimDate = new Date(activatedDate);
+        claimDate.setDate(activatedDate.getDate() + 30);
+        const walletDate = addBusinessDays(claimDate, 17);
+        document.getElementById(`timeframeExtWallet${col}`).value = `${formatDateWithDay(walletDate)}\n17 total Business Days\n3 Business Days to MB\n14 Business Days to Ext Crypto Wallet`;
+      } catch (e) {
+        console.error(`Timeframe to Ext Wallet error for column ${col}:`, e.message);
+        document.getElementById(`timeframeExtWallet${col}`).value = `17 total Business Days\n3 Business Days to MB\n14 Business Days to Ext Crypto Wallet`;
+      }
+    } else {
+      document.getElementById(`timeframeExtWallet${col}`).value = `17 total Business Days\n3 Business Days to MB\n14 Business Days to Ext Crypto Wallet`;
+    }
+
+    // Timeframe to Bank (ACH)
+    if (dateIslandFilled) {
+      try {
+        const islandFilledDate = new Date(dateIslandFilled);
+        if (isNaN(islandFilledDate.getTime())) throw new Error(`Invalid dateIslandFilled${col}`);
+        const activatedDate = new Date(islandFilledDate);
+        activatedDate.setDate(islandFilledDate.getDate() + 15);
+        const claimDate = new Date(activatedDate);
+        claimDate.setDate(activatedDate.getDate() + 30);
+        const achDate = addBusinessDays(claimDate, 17);
+        document.getElementById(`timeframeBankACH${col}`).value = `${formatDateWithDay(achDate)}\n17 Total Business Days\n3 Business Days to MB\n14 Business Days to Bank/ACH`;
+      } catch (e) {
+        console.error(`Timeframe to Bank ACH error for column ${col}:`, e.message);
+        document.getElementById(`timeframeBankACH${col}`).value = `17 Total Business Days\n3 Business Days to MB\n14 Business Days to Bank/ACH`;
+      }
+    } else {
+      document.getElementById(`timeframeBankACH${col}`).value = `17 Total Business Days\n3 Business Days to MB\n14 Business Days to Bank/ACH`;
+    }
+
+    // Date Activated Funds Unlocked
+    if (dateIslandFilled) {
+      try {
+        const islandFilledDate = new Date(dateIslandFilled);
+        if (isNaN(islandFilledDate.getTime())) throw new Error(`Invalid dateIslandFilled${col}`);
+        const activatedDate = new Date(islandFilledDate);
+        activatedDate.setDate(islandFilledDate.getDate() + 15);
+        const unlockedDate = new Date(activatedDate);
+        unlockedDate.setFullYear(activatedDate.getFullYear() + 1);
+        document.getElementById(`unlockedDate${col}`).value = `${formatDateWithDay(unlockedDate)}\n12 months + 15 days after the island is filled`;
+      } catch (e) {
+        console.error(`Date Activated Funds Unlocked error for column ${col}:`, e.message);
+        document.getElementById(`unlockedDate${col}`).value = '12 months from 15 days after the island is filled';
+      }
+    } else {
+      document.getElementById(`unlockedDate${col}`).value = '12 months from 15 days after the island is filled';
+    }
+
+    // Bonuses
+    document.getElementById(`bonuses${col}`).value = 'No';
+  } else {
+    // Clear fields for non-Treasury and non-PPP options
+    document.getElementById(`monthlyInterest${col}`).value = '';
+    document.getElementById(`fee${col}`).value = '';
+    document.getElementById(`dateActivated${col}`).value = '';
+    document.getElementById(`activatedFunds${col}`).value = '';
+    document.getElementById(`claimDate${col}`).value = '';
+    document.getElementById(`monthlyReturns${col}`).value = '';
+    document.getElementById(`monthlyReturnsMinusFees${col}`).value = '';
+    document.getElementById(`timeframeExtWallet${col}`).value = '';
+    document.getElementById(`timeframeBankACH${col}`).value = '';
+    document.getElementById(`unlockedDate${col}`).value = '';
+    document.getElementById(`bonuses${col}`).value = (whereLoan === 'T360iApp' || whereLoan === 'Stratagem') ? 'Yes' : '';
+  }
+});
+    // Monthly Profit (after Paying Monthly Loan Interest Owed + fees)
+    const monthlyProfit = totalMinusTransferFees - monthlyInterestOwed;
+    document.getElementById("monthlyProfit").value = monthlyProfit > 0 && !isNaN(monthlyProfit) ? monthlyProfit.toFixed(2) : '0.00';
+
+    // Total Activated Funds
+    document.getElementById("totalActivatedFunds").value = totalActivatedFunds > 0 && !isNaN(totalActivatedFunds) ? totalActivatedFunds.toFixed(2) : '0.00';
+
+    // Section 3 Calculations
+    let totalTreasuryActivatedFunds = 0;
+    columns.forEach(col => {
+      const whereLoan = document.getElementById(`whereLoan${col}`).value;
+      if (whereLoan === 'Treasury') {
+        const activatedFunds = parseFloat(document.getElementById(`activatedFunds${col}`).value) || 0;
+        totalTreasuryActivatedFunds += activatedFunds;
+      }
+    });
+    const maxLoanAgainst = totalTreasuryActivatedFunds * 0.9 || 0;
+    document.getElementById("maxLoanAgainst").value = maxLoanAgainst.toFixed(2);
+  } catch (e) {
+    console.error("Calculate error:", e.message);
+  }
+}
+function calculate2() {
+  try {
+    // Section 1 Calculations (Duplicated)
+    const tribeLoan = parseInput(document.getElementById("tribeLoan2").value);
+    const loanMonthlyInterest = parseInput(document.getElementById("loanMonthlyInterest2").value);
+    const cryptoWalletAmount = parseInput(document.getElementById("cryptoWalletAmount2").value);
+    const bankACHAmount = parseInput(document.getElementById("bankACHAmount2").value);
+    const lengthOfLoan = parseInt(document.getElementById("lengthOfLoan2").value) || 0;
+    const dateFunded = document.getElementById("dateFunded2").value;
+
+    // Tribe Origination Fee % / $
+    const originationFeePercent = 4.99;
+    const originationFeeDollars = tribeLoan * (originationFeePercent / 100) || 0;
+    document.getElementById("tribeOriginationFee2").value = `4.99% / $${originationFeeDollars.toFixed(2)}`;
+
+    // Loan Yearly Interest % / $
+    const yearlyInterestPercent = loanMonthlyInterest * 12 || 0;
+    const yearlyInterestDollars = ((loanMonthlyInterest / 100) * tribeLoan) * 12 || 0;
+    document.getElementById("loanYearlyInterest2").value = `${yearlyInterestPercent.toFixed(2)}% / $${yearlyInterestDollars.toFixed(2)}`;
+
+    // Loan Left after Lump Fee
+    const loanLeft = tribeLoan - originationFeeDollars || 0;
+    document.getElementById("loanLeft2").value = loanLeft.toFixed(2);
+
+    // Amount Left to Use
+    const transferredSum = ['F2', 'G2', 'H2', 'I2', 'J2', 'K2', 'L2'].reduce((sum, col) => {
+      const value = parseFloat(document.getElementById(`amountTransferred${col}`).value) || 0;
+      return sum + value;
+    }, 0);
+    const amountLeftToUse = loanLeft - (cryptoWalletAmount + bankACHAmount + transferredSum);
+    document.getElementById("amountLeftToUse2").value = isNaN(amountLeftToUse) ? '0.00' : amountLeftToUse.toFixed(2);
+
+    // Total minus the 1% Crypto fee or 2.5% Bank/ACH fee
+    const cryptoWithFee = cryptoWalletAmount * 0.99 || 0;
+    const bankACHWithFee = bankACHAmount * 0.975 || 0;
+    const totalMinusFees = cryptoWithFee + bankACHWithFee;
+    document.getElementById("totalMinusFees2").value = totalMinusFees.toFixed(2);
+
+    // Monthly Loan Interest Owed (1% Fee Added)
+    const monthlyInterest = tribeLoan * (loanMonthlyInterest / 100) || 0;
+    const monthlyInterestOwed = monthlyInterest + (monthlyInterest * 0.01) || 0;
+    document.getElementById("monthlyInterestOwed2").value = monthlyInterestOwed.toFixed(2);
+
+    // Date Principle Due
+    if (dateFunded && lengthOfLoan > 0) {
+      try {
+        const fundedDate = new Date(dateFunded);
+        if (isNaN(fundedDate.getTime())) throw new Error("Invalid dateFunded2");
+        const dueDate = new Date(fundedDate);
+        dueDate.setDate(fundedDate.getDate() + lengthOfLoan);
+        document.getElementById("datePrincipleDue2").value = dueDate.toISOString().split('T')[0];
+      } catch (e) {
+        console.error("Date Principle Due error (duplicated):", e.message);
+        document.getElementById("datePrincipleDue2").value = '';
+      }
+    } else {
+      document.getElementById("datePrincipleDue2").value = '';
+    }
+
+    // Section 2 Calculations (Duplicated)
+    let totalTransferred = 0;
+    let totalMonthlyReturns = 0;
+    let totalActivatedFunds = 0;
+    let totalMinusTransferFees = 0;
+
+    columns2.forEach(col => {
+      const whereLoan = document.getElementById(`whereLoan${col}`).value;
+      const amountTransferred = parseFloat(document.getElementById(`amountTransferred${col}`).value) || 0;
+      const dateSent = document.getElementById(`dateSent${col}`).value;
+      const dateIslandFilled = document.getElementById(`dateIslandFilled${col}`).value;
+      const returnsDestination = document.getElementById(`returnsDestination${col}`).value;
+
+      // Control editability of Date PPP Island Filled
+      const islandFilledInput = document.getElementById(`dateIslandFilled${col}`);
+      if (whereLoan === 'PPP') {
+        islandFilledInput.disabled = false;
+        islandFilledInput.style.background = 'linear-gradient(145deg, #66b2ff, #4a90e2)';
+        islandFilledInput.style.color = '#fff';
+      } else {
+        islandFilledInput.disabled = true;
+        islandFilledInput.style.background = '#d8d8d8';
+        islandFilledInput.style.color = '#222';
+        islandFilledInput.value = '';
+      }
+
+      totalTransferred += amountTransferred;
+
+      if (whereLoan === 'Treasury') {
+        // Monthly Interest
+        document.getElementById(`monthlyInterest${col}`).value = '5.00';
+
+        // Fee % / $
+        const feePercent = 1;
+        const feeDollars = amountTransferred * 0.01 || 0;
+        document.getElementById(`fee${col}`).value = `${feePercent}% / $${feeDollars.toFixed(2)}`;
+
+        // Date Funds Activated (8 business days from Date Sent)
+        if (dateSent) {
+          try {
+            const sentDate = new Date(dateSent);
+            if (isNaN(sentDate.getTime())) throw new Error(`Invalid dateSent${col}`);
+            const activatedDate = addBusinessDays(sentDate, 8);
+            document.getElementById(`dateActivated${col}`).value = formatDateWithDay(activatedDate);
+          } catch (e) {
+            console.error(`Date Funds Activated error for column ${col} (duplicated):`, e.message);
+            document.getElementById(`dateActivated${col}`).value = '';
+          }
+        } else {
+          document.getElementById(`dateActivated${col}`).value = '';
+        }
+
+        // Activated Funds in Island, minus fees
+        const activatedFunds = amountTransferred - feeDollars || 0;
+        document.getElementById(`activatedFunds${col}`).value = activatedFunds.toFixed(2);
+        totalActivatedFunds += activatedFunds;
+
+        // Date to Claim Returns
+        if (dateSent) {
+          try {
+            const sentDate = new Date(dateSent);
+            if (isNaN(sentDate.getTime())) throw new Error(`Invalid dateSent${col}`);
+            const activatedDate = addBusinessDays(sentDate, 8);
+            const firstClaimDate = getFirstClaimDate(activatedDate);
+            document.getElementById(`claimDate${col}`).value = `1st Claim: ${formatDateWithDay(firstClaimDate)}\nMonthly Claim 1st-5th`;
+          } catch (e) {
+            console.error(`Date to Claim Returns error for column ${col} (duplicated):`, e.message);
+            document.getElementById(`claimDate${col}`).value = '';
+          }
+        } else {
+          document.getElementById(`claimDate${col}`).value = '';
+        }
+
+        // Monthly Returns
+        const monthlyReturns = activatedFunds * (5.0 / 100) || 0;
+        document.getElementById(`monthlyReturns${col}`).value = monthlyReturns.toFixed(2);
+        totalMonthlyReturns += monthlyReturns;
+
+        // Monthly Returns, minus transfer fees
+        if (returnsDestination === 'Ext Crypto Wallet' || returnsDestination === 'Bank/ACH') {
+          const transferFees = monthlyReturns * 0.04 || 0;
+          const minusFees = monthlyReturns - transferFees;
+          document.getElementById(`monthlyReturnsMinusFees${col}`).value = minusFees.toFixed(2);
+          totalMinusTransferFees += minusFees;
+        } else if (returnsDestination === 'MB') {
+          const transferFees = monthlyReturns * 0.01 || 0;
+          const minusFees = monthlyReturns - transferFees;
+          document.getElementById(`monthlyReturnsMinusFees${col}`).value = minusFees.toFixed(2);
+          totalMinusTransferFees += minusFees;
+        } else {
+          document.getElementById(`monthlyReturnsMinusFees${col}`).value = 'Coming soon';
+        }
+
+        // Timeframe to Ext Wallet
+        if (dateSent) {
+          try {
+            const sentDate = new Date(dateSent);
+            if (isNaN(sentDate.getTime())) throw new Error(`Invalid dateSent${col}`);
+            const activatedDate = addBusinessDays(sentDate, 8);
+            const claimDate = getFirstClaimDate(activatedDate);
+            const walletDate = addBusinessDays(claimDate, 17);
+            document.getElementById(`timeframeExtWallet${col}`).value = `${formatDateWithDay(walletDate)}\n3 Business Days to MB\n14 Business Days to Ext Crypto Wallet`;
+          } catch (e) {
+            console.error(`Timeframe to Ext Wallet error for column ${col} (duplicated):`, e.message);
+            document.getElementById(`timeframeExtWallet${col}`).value = '';
+          }
+        } else {
+          document.getElementById(`timeframeExtWallet${col}`).value = '';
+        }
+
+        // Timeframe to Bank (ACH)
+        if (dateSent) {
+          try {
+            const sentDate = new Date(dateSent);
+            if (isNaN(sentDate.getTime())) throw new Error(`Invalid dateSent${col}`);
+            const activatedDate = addBusinessDays(sentDate, 8);
+            const claimDate = getFirstClaimDate(activatedDate);
+            const achDate = addBusinessDays(claimDate, 17);
+            document.getElementById(`timeframeBankACH${col}`).value = `${formatDateWithDay(achDate)}\n3 Business Days to MB\n14 Business Days to Bank/ACH`;
+          } catch (e) {
+            console.error(`Timeframe to Bank ACH error for column ${col} (duplicated):`, e.message);
+            document.getElementById(`timeframeBankACH${col}`).value = '';
+          }
+        } else {
+          document.getElementById(`timeframeBankACH${col}`).value = '';
+        }
+
+        // Date Activated Funds Unlocked
+        if (dateSent && lengthOfLoan > 0) {
+          try {
+            const sentDate = new Date(dateSent);
+            if (isNaN(sentDate.getTime())) throw new Error(`Invalid dateSent${col}`);
+            const activatedDate = addBusinessDays(sentDate, 8);
+            const unlockedDate = new Date(activatedDate);
+            unlockedDate.setDate(unlockedDate.getDate() + lengthOfLoan);
+            document.getElementById(`unlockedDate${col}`).value = formatDateWithDay(unlockedDate);
+          } catch (e) {
+            console.error(`Date Activated Funds Unlocked error for column ${col} (duplicated):`, e.message);
+            document.getElementById(`unlockedDate${col}`).value = '';
+          }
+        } else {
+          document.getElementById(`unlockedDate${col}`).value = '';
+        }
+
+        // Bonuses
+        document.getElementById(`bonuses${col}`).value = 'No';
+      } else if (whereLoan === 'PPP') {
+        // Monthly Interest
+        document.getElementById(`monthlyInterest${col}`).value = '20.00';
+
+        // Fee % / $
+        const feePercent = 4;
+        const feeDollars = amountTransferred * 0.04 || 0;
+        document.getElementById(`fee${col}`).value = `${feePercent}% / $${feeDollars.toFixed(2)}`;
+
+        // Date Funds Activated
+        if (dateIslandFilled) {
+          try {
+            const islandFilledDate = new Date(dateIslandFilled);
+            if (isNaN(islandFilledDate.getTime())) throw new Error(`Invalid dateIslandFilled${col}`);
+            const activatedDate = new Date(islandFilledDate);
+            activatedDate.setDate(islandFilledDate.getDate() + 15);
+            document.getElementById(`dateActivated${col}`).value = `${formatDateWithDay(activatedDate)}\n7 days after funds sent + Island needs to be filled + 15 days after Island is filled`;
+          } catch (e) {
+            console.error(`Date Funds Activated error for column ${col} (duplicated):`, e.message);
+            document.getElementById(`dateActivated${col}`).value = '7 days after funds sent + Island needs to be filled';
+          }
+        } else {
+          document.getElementById(`dateActivated${col}`).value = '7 days after funds sent + Island needs to be filled';
+        }
+
+        // Activated Funds in Island, minus fees
+        const activatedFunds = amountTransferred - feeDollars || 0;
+        document.getElementById(`activatedFunds${col}`).value = activatedFunds.toFixed(2);
+        totalActivatedFunds += activatedFunds;
+
+        // Date to Claim Returns
+        if (dateIslandFilled) {
+          try {
+            const islandFilledDate = new Date(dateIslandFilled);
+            if (isNaN(islandFilledDate.getTime())) throw new Error(`Invalid dateIslandFilled${col}`);
+            const activatedDate = new Date(islandFilledDate);
+            activatedDate.setDate(islandFilledDate.getDate() + 15);
+            const claimDate = new Date(activatedDate);
+            claimDate.setDate(activatedDate.getDate() + 30);
+            document.getElementById(`claimDate${col}`).value = `${formatDateWithDay(claimDate)}\n1st Claim: After Island Fills, then preparation for 15 days after that, then trading begins. First Distribution is 30 days the 15 days are up.\nMonthly Claim: 30 days after 1st claim then every 30 days.`;
+          } catch (e) {
+            console.error(`Date to Claim Returns error for column ${col} (duplicated):`, e.message);
+            document.getElementById(`claimDate${col}`).value = `1st Claim: After Island Fills, then preparation for 15 days after that, then trading begins. First Distribution is 30 days the 15 days are up.\nMonthly Claim: 30 days after 1st claim then every 30 days.`;
+          }
+        } else {
+          document.getElementById(`claimDate${col}`).value = `1st Claim: After Island Fills, then preparation for 15 days after that, then trading begins. First Distribution is 30 days the 15 days are up.\nMonthly Claim: 30 days after 1st claim then every 30 days.`;
+        }
+
+        // Monthly Returns
+        const monthlyReturns = activatedFunds * (20.0 / 100) || 0;
+        document.getElementById(`monthlyReturns${col}`).value = monthlyReturns.toFixed(2);
+        totalMonthlyReturns += monthlyReturns;
+
+        // Monthly Returns, minus transfer fees
+        if (returnsDestination === 'Ext Crypto Wallet' || returnsDestination === 'Bank/ACH') {
+          const transferFees = monthlyReturns * 0.03 || 0;
+          const minusFees = monthlyReturns - transferFees;
+          document.getElementById(`monthlyReturnsMinusFees${col}`).value = `$${minusFees.toFixed(2)}`;
+          totalMinusTransferFees += minusFees;
+        } else if (returnsDestination === 'MB') {
+          document.getElementById(`monthlyReturnsMinusFees${col}`).value = `$${monthlyReturns.toFixed(2)}`;
+          totalMinusTransferFees += monthlyReturns;
+        } else {
+          document.getElementById(`monthlyReturnsMinusFees${col}`).value = 'Coming soon';
+        }
+
+        // Timeframe to Ext Wallet
+        if (dateIslandFilled) {
+          try {
+            const islandFilledDate = new Date(dateIslandFilled);
+            if (isNaN(islandFilledDate.getTime())) throw new Error(`Invalid dateIslandFilled${col}`);
+            const activatedDate = new Date(islandFilledDate);
+            activatedDate.setDate(islandFilledDate.getDate() + 15);
+            const claimDate = new Date(activatedDate);
+            claimDate.setDate(activatedDate.getDate() + 30);
+            const walletDate = addBusinessDays(claimDate, 17);
+            document.getElementById(`timeframeExtWallet${col}`).value = `${formatDateWithDay(walletDate)}\n17 total Business Days\n3 Business Days to MB\n14 Business Days to Ext Crypto Wallet`;
+          } catch (e) {
+            console.error(`Timeframe to Ext Wallet error for column ${col} (duplicated):`, e.message);
+            document.getElementById(`timeframeExtWallet${col}`).value = `17 total Business Days\n3 Business Days to MB\n14 Business Days to Ext Crypto Wallet`;
+          }
+        } else {
+          document.getElementById(`timeframeExtWallet${col}`).value = `17 total Business Days\n3 Business Days to MB\n14 Business Days to Ext Crypto Wallet`;
+        }
+
+        // Timeframe to Bank (ACH)
+        if (dateIslandFilled) {
+          try {
+            const islandFilledDate = new Date(dateIslandFilled);
+            if (isNaN(islandFilledDate.getTime())) throw new Error(`Invalid dateIslandFilled${col}`);
+            const activatedDate = new Date(islandFilledDate);
+            activatedDate.setDate(islandFilledDate.getDate() + 15);
+            const claimDate = new Date(activatedDate);
+            claimDate.setDate(activatedDate.getDate() + 30);
+            const achDate = addBusinessDays(claimDate, 17);
+            document.getElementById(`timeframeBankACH${col}`).value = `${formatDateWithDay(achDate)}\n17 Total Business Days\n3 Business Days to MB\n14 Business Days to Bank/ACH`;
+          } catch (e) {
+            console.error(`Timeframe to Bank ACH error for column ${col} (duplicated):`, e.message);
+            document.getElementById(`timeframeBankACH${col}`).value = `17 Total Business Days\n3 Business Days to MB\n14 Business Days to Bank/ACH`;
+          }
+        } else {
+          document.getElementById(`timeframeBankACH${col}`).value = `17 Total Business Days\n3 Business Days to MB\n14 Business Days to Bank/ACH`;
+        }
+
+        // Date Activated Funds Unlocked
+        if (dateIslandFilled) {
+          try {
+            const islandFilledDate = new Date(dateIslandFilled);
+            if (isNaN(islandFilledDate.getTime())) throw new Error(`Invalid dateIslandFilled${col}`);
+            const activatedDate = new Date(islandFilledDate);
+            activatedDate.setDate(islandFilledDate.getDate() + 15);
+            const unlockedDate = new Date(activatedDate);
+            unlockedDate.setFullYear(activatedDate.getFullYear() + 1);
+            document.getElementById(`unlockedDate${col}`).value = `${formatDateWithDay(unlockedDate)}\n12 months + 15 days after the island is filled`;
+          } catch (e) {
+            console.error(`Date Activated Funds Unlocked error for column ${col} (duplicated):`, e.message);
+            document.getElementById(`unlockedDate${col}`).value = '12 months from 15 days after the island is filled';
+          }
+        } else {
+          document.getElementById(`unlockedDate${col}`).value = '12 months from 15 days after the island is filled';
+        }
+
+        // Bonuses
+        document.getElementById(`bonuses${col}`).value = 'No';
+      } else {
+        // Clear fields for non-Treasury and non-PPP options
+        document.getElementById(`monthlyInterest${col}`).value = '';
+        document.getElementById(`fee${col}`).value = '';
+        document.getElementById(`dateActivated${col}`).value = '';
+        document.getElementById(`activatedFunds${col}`).value = '';
+        document.getElementById(`claimDate${col}`).value = '';
+        document.getElementById(`monthlyReturns${col}`).value = '';
+        document.getElementById(`monthlyReturnsMinusFees${col}`).value = '';
+        document.getElementById(`timeframeExtWallet${col}`).value = '';
+        document.getElementById(`timeframeBankACH${col}`).value = '';
+        document.getElementById(`unlockedDate${col}`).value = '';
+        document.getElementById(`bonuses${col}`).value = (whereLoan === 'T360iApp' || whereLoan === 'Stratagem') ? 'Yes' : '';
+      }
+    });
+
+    // Monthly Profit (after Paying Monthly Loan Interest Owed + fees)
+    const monthlyProfit = totalMinusTransferFees - monthlyInterestOwed;
+    document.getElementById("monthlyProfit2").value = monthlyProfit > 0 && !isNaN(monthlyProfit) ? monthlyProfit.toFixed(2) : '0.00';
+
+    // Total Activated Funds
+    document.getElementById("totalActivatedFunds2").value = totalActivatedFunds > 0 && !isNaN(totalActivatedFunds) ? totalActivatedFunds.toFixed(2) : '0.00';
+
+    // Section 3 Calculations (Duplicated)
+    let totalTreasuryActivatedFunds = 0;
+    columns2.forEach(col => {
+      const whereLoan = document.getElementById(`whereLoan${col}`).value;
+      if (whereLoan === 'Treasury') {
+        const activatedFunds = parseFloat(document.getElementById(`activatedFunds${col}`).value) || 0;
+        totalTreasuryActivatedFunds += activatedFunds;
+      }
+    });
+    const maxLoanAgainst = totalTreasuryActivatedFunds * 0.9 || 0;
+    document.getElementById("maxLoanAgainst2").value = maxLoanAgainst.toFixed(2);
+  } catch (e) {
+    console.error("Calculate2 error:", e.message);
+  }
+}
+
+function calculate3() {
+  try {
+    // Section 1 Calculations (Third Set)
+    const tribeLoan = parseInput(document.getElementById("tribeLoan3").value);
+    const loanMonthlyInterest = parseInput(document.getElementById("loanMonthlyInterest3").value);
+    const cryptoWalletAmount = parseInput(document.getElementById("cryptoWalletAmount3").value);
+    const bankACHAmount = parseInput(document.getElementById("bankACHAmount3").value);
+    const lengthOfLoan = parseInt(document.getElementById("lengthOfLoan3").value) || 0;
+    const dateFunded = document.getElementById("dateFunded3").value;
+
+    // Tribe Origination Fee % / $
+    const originationFeePercent = 4.99;
+    const originationFeeDollars = tribeLoan * (originationFeePercent / 100) || 0;
+    document.getElementById("tribeOriginationFee3").value = `4.99% / $${originationFeeDollars.toFixed(2)}`;
+
+    // Loan Yearly Interest % / $
+    const yearlyInterestPercent = loanMonthlyInterest * 12 || 0;
+    const yearlyInterestDollars = ((loanMonthlyInterest / 100) * tribeLoan) * 12 || 0;
+    document.getElementById("loanYearlyInterest3").value = `${yearlyInterestPercent.toFixed(2)}% / $${yearlyInterestDollars.toFixed(2)}`;
+
+    // Loan Left after Lump Fee
+    const loanLeft = tribeLoan - originationFeeDollars || 0;
+    document.getElementById("loanLeft3").value = loanLeft.toFixed(2);
+
+    // Amount Left to Use
+    const transferredSum = ['F3', 'G3', 'H3', 'I3', 'J3', 'K3', 'L3'].reduce((sum, col) => {
+      const value = parseFloat(document.getElementById(`amountTransferred${col}`).value) || 0;
+      return sum + value;
+    }, 0);
+    const amountLeftToUse = loanLeft - (cryptoWalletAmount + bankACHAmount + transferredSum);
+    document.getElementById("amountLeftToUse3").value = isNaN(amountLeftToUse) ? '0.00' : amountLeftToUse.toFixed(2);
+
+    // Total minus the 1% Crypto fee or 2.5% Bank/ACH fee
+    const cryptoWithFee = cryptoWalletAmount * 0.99 || 0;
+    const bankACHWithFee = bankACHAmount * 0.975 || 0;
+    const totalMinusFees = cryptoWithFee + bankACHWithFee;
+    document.getElementById("totalMinusFees3").value = totalMinusFees.toFixed(2);
+
+    // Monthly Loan Interest Owed (1% Fee Added)
+    const monthlyInterest = tribeLoan * (loanMonthlyInterest / 100) || 0;
+    const monthlyInterestOwed = monthlyInterest + (monthlyInterest * 0.01) || 0;
+    document.getElementById("monthlyInterestOwed3").value = monthlyInterestOwed.toFixed(2);
+
+    // Date Principle Due
+    if (dateFunded && lengthOfLoan > 0) {
+      try {
+        const fundedDate = new Date(dateFunded);
+        if (isNaN(fundedDate.getTime())) throw new Error("Invalid dateFunded3");
+        const dueDate = new Date(fundedDate);
+        dueDate.setDate(fundedDate.getDate() + lengthOfLoan);
+        document.getElementById("datePrincipleDue3").value = dueDate.toISOString().split('T')[0];
+      } catch (e) {
+        console.error("Date Principle Due error (third):", e.message);
+        document.getElementById("datePrincipleDue3").value = '';
+      }
+    } else {
+      document.getElementById("datePrincipleDue3").value = '';
+    }
+
+    // Section 2 Calculations (Third Set)
+    let totalTransferred = 0;
+    let totalMonthlyReturns = 0;
+    let totalActivatedFunds = 0;
+    let totalMinusTransferFees = 0;
+
+    columns3.forEach(col => {
+      const whereLoan = document.getElementById(`whereLoan${col}`).value;
+      const amountTransferred = parseFloat(document.getElementById(`amountTransferred${col}`).value) || 0;
+      const dateSent = document.getElementById(`dateSent${col}`).value;
+      const dateIslandFilled = document.getElementById(`dateIslandFilled${col}`).value;
+      const returnsDestination = document.getElementById(`returnsDestination${col}`).value;
+
+      // Control editability of Date PPP Island Filled
+      const islandFilledInput = document.getElementById(`dateIslandFilled${col}`);
+      if (whereLoan === 'PPP') {
+        islandFilledInput.disabled = false;
+        islandFilledInput.style.background = 'linear-gradient(145deg, #66b2ff, #4a90e2)';
+        islandFilledInput.style.color = '#fff';
+      } else {
+        islandFilledInput.disabled = true;
+        islandFilledInput.style.background = '#d8d8d8';
+        islandFilledInput.style.color = '#222';
+        islandFilledInput.value = '';
+      }
+
+      totalTransferred += amountTransferred;
+
+      if (whereLoan === 'Treasury') {
+        // Monthly Interest
+        document.getElementById(`monthlyInterest${col}`).value = '5.00';
+
+        // Fee % / $
+        const feePercent = 1;
+        const feeDollars = amountTransferred * 0.01 || 0;
+        document.getElementById(`fee${col}`).value = `${feePercent}% / $${feeDollars.toFixed(2)}`;
+
+        // Date Funds Activated (8 business days from Date Sent)
+        if (dateSent) {
+          try {
+            const sentDate = new Date(dateSent);
+            if (isNaN(sentDate.getTime())) throw new Error(`Invalid dateSent${col}`);
+            const activatedDate = addBusinessDays(sentDate, 8);
+            document.getElementById(`dateActivated${col}`).value = formatDateWithDay(activatedDate);
+          } catch (e) {
+            console.error(`Date Funds Activated error for column ${col} (third):`, e.message);
+            document.getElementById(`dateActivated${col}`).value = '';
+          }
+        } else {
+          document.getElementById(`dateActivated${col}`).value = '';
+        }
+
+        // Activated Funds in Island, minus fees
+        const activatedFunds = amountTransferred - feeDollars || 0;
+        document.getElementById(`activatedFunds${col}`).value = activatedFunds.toFixed(2);
+        totalActivatedFunds += activatedFunds;
+
+        // Date to Claim Returns
+        if (dateSent) {
+          try {
+            const sentDate = new Date(dateSent);
+            if (isNaN(sentDate.getTime())) throw new Error(`Invalid dateSent${col}`);
+            const activatedDate = addBusinessDays(sentDate, 8);
+            const firstClaimDate = getFirstClaimDate(activatedDate);
+            document.getElementById(`claimDate${col}`).value = `1st Claim: ${formatDateWithDay(firstClaimDate)}\nMonthly Claim 1st-5th`;
+          } catch (e) {
+            console.error(`Date to Claim Returns error for column ${col} (third):`, e.message);
+            document.getElementById(`claimDate${col}`).value = '';
+          }
+        } else {
+          document.getElementById(`claimDate${col}`).value = '';
+        }
+
+        // Monthly Returns
+        const monthlyReturns = activatedFunds * (5.0 / 100) || 0;
+        document.getElementById(`monthlyReturns${col}`).value = monthlyReturns.toFixed(2);
+        totalMonthlyReturns += monthlyReturns;
+
+        // Monthly Returns, minus transfer fees
+        if (returnsDestination === 'Ext Crypto Wallet' || returnsDestination === 'Bank/ACH') {
+          const transferFees = monthlyReturns * 0.04 || 0;
+          const minusFees = monthlyReturns - transferFees;
+          document.getElementById(`monthlyReturnsMinusFees${col}`).value = minusFees.toFixed(2);
+          totalMinusTransferFees += minusFees;
+        } else if (returnsDestination === 'MB') {
+          const transferFees = monthlyReturns * 0.01 || 0;
+          const minusFees = monthlyReturns - transferFees;
+          document.getElementById(`monthlyReturnsMinusFees${col}`).value = minusFees.toFixed(2);
+          totalMinusTransferFees += minusFees;
+        } else {
+          document.getElementById(`monthlyReturnsMinusFees${col}`).value = 'Coming soon';
+        }
+
+        // Timeframe to Ext Wallet
+        if (dateSent) {
+          try {
+            const sentDate = new Date(dateSent);
+            if (isNaN(sentDate.getTime())) throw new Error(`Invalid dateSent${col}`);
+            const activatedDate = addBusinessDays(sentDate, 8);
+            const claimDate = getFirstClaimDate(activatedDate);
+            const walletDate = addBusinessDays(claimDate, 17);
+            document.getElementById(`timeframeExtWallet${col}`).value = `${formatDateWithDay(walletDate)}\n3 Business Days to MB\n14 Business Days to Ext Crypto Wallet`;
+          } catch (e) {
+            console.error(`Timeframe to Ext Wallet error for column ${col} (third):`, e.message);
+            document.getElementById(`timeframeExtWallet${col}`).value = '';
+          }
+        } else {
+          document.getElementById(`timeframeExtWallet${col}`).value = '';
+        }
+
+        // Timeframe to Bank (ACH)
+        if (dateSent) {
+          try {
+            const sentDate = new Date(dateSent);
+            if (isNaN(sentDate.getTime())) throw new Error(`Invalid dateSent${col}`);
+            const activatedDate = addBusinessDays(sentDate, 8);
+            const claimDate = getFirstClaimDate(activatedDate);
+            const achDate = addBusinessDays(claimDate, 17);
+            document.getElementById(`timeframeBankACH${col}`).value = `${formatDateWithDay(achDate)}\n3 Business Days to MB\n14 Business Days to Bank/ACH`;
+          } catch (e) {
+            console.error(`Timeframe to Bank ACH error for column ${col} (third):`, e.message);
+            document.getElementById(`timeframeBankACH${col}`).value = '';
+          }
+        } else {
+          document.getElementById(`timeframeBankACH${col}`).value = '';
+        }
+
+        // Date Activated Funds Unlocked
+        if (dateSent && lengthOfLoan > 0) {
+          try {
+            const sentDate = new Date(dateSent);
+            if (isNaN(sentDate.getTime())) throw new Error(`Invalid dateSent${col}`);
+            const activatedDate = addBusinessDays(sentDate, 8);
+            const unlockedDate = new Date(activatedDate);
+            unlockedDate.setDate(unlockedDate.getDate() + lengthOfLoan);
+            document.getElementById(`unlockedDate${col}`).value = formatDateWithDay(unlockedDate);
+          } catch (e) {
+            console.error(`Date Activated Funds Unlocked error for column ${col} (third):`, e.message);
+            document.getElementById(`unlockedDate${col}`).value = '';
+          }
+        } else {
+          document.getElementById(`unlockedDate${col}`).value = '';
+        }
+
+        // Bonuses
+        document.getElementById(`bonuses${col}`).value = 'No';
+      } else if (whereLoan === 'PPP') {
+        // Monthly Interest
+        document.getElementById(`monthlyInterest${col}`).value = '20.00';
+
+        // Fee % / $
+        const feePercent = 4;
+        const feeDollars = amountTransferred * 0.04 || 0;
+        document.getElementById(`fee${col}`).value = `${feePercent}% / $${feeDollars.toFixed(2)}`;
+
+        // Date Funds Activated
+        if (dateIslandFilled) {
+          try {
+            const islandFilledDate = new Date(dateIslandFilled);
+            if (isNaN(islandFilledDate.getTime())) throw new Error(`Invalid dateIslandFilled${col}`);
+            const activatedDate = new Date(islandFilledDate);
+            activatedDate.setDate(islandFilledDate.getDate() + 15);
+            document.getElementById(`dateActivated${col}`).value = `${formatDateWithDay(activatedDate)}\n7 days after funds sent + Island needs to be filled + 15 days after Island is filled`;
+          } catch (e) {
+            console.error(`Date Funds Activated error for column ${col} (third):`, e.message);
+            document.getElementById(`dateActivated${col}`).value = '7 days after funds sent + Island needs to be filled';
+          }
+        } else {
+          document.getElementById(`dateActivated${col}`).value = '7 days after funds sent + Island needs to be filled';
+        }
+
+        // Activated Funds in Island, minus fees
+        const activatedFunds = amountTransferred - feeDollars || 0;
+        document.getElementById(`activatedFunds${col}`).value = activatedFunds.toFixed(2);
+        totalActivatedFunds += activatedFunds;
+
+        // Date to Claim Returns
+        if (dateIslandFilled) {
+          try {
+            const islandFilledDate = new Date(dateIslandFilled);
+            if (isNaN(islandFilledDate.getTime())) throw new Error(`Invalid dateIslandFilled${col}`);
+            const activatedDate = new Date(islandFilledDate);
+            activatedDate.setDate(islandFilledDate.getDate() + 15);
+            const claimDate = new Date(activatedDate);
+            claimDate.setDate(activatedDate.getDate() + 30);
+            document.getElementById(`claimDate${col}`).value = `${formatDateWithDay(claimDate)}\n1st Claim: After Island Fills, then preparation for 15 days after that, then trading begins. First Distribution is 30 days the 15 days are up.\nMonthly Claim: 30 days after 1st claim then every 30 days.`;
+          } catch (e) {
+            console.error(`Date to Claim Returns error for column ${col} (third):`, e.message);
+            document.getElementById(`claimDate${col}`).value = `1st Claim: After Island Fills, then preparation for 15 days after that, then trading begins. First Distribution is 30 days the 15 days are up.\nMonthly Claim: 30 days after 1st claim then every 30 days.`;
+          }
+        } else {
+          document.getElementById(`claimDate${col}`).value = `1st Claim: After Island Fills, then preparation for 15 days after that, then trading begins. First Distribution is 30 days the 15 days are up.\nMonthly Claim: 30 days after 1st claim then every 30 days.`;
+        }
+
+        // Monthly Returns
+        const monthlyReturns = activatedFunds * (20.0 / 100) || 0;
+        document.getElementById(`monthlyReturns${col}`).value = monthlyReturns.toFixed(2);
+        totalMonthlyReturns += monthlyReturns;
+
+        // Monthly Returns, minus transfer fees
+        if (returnsDestination === 'Ext Crypto Wallet' || returnsDestination === 'Bank/ACH') {
+          const transferFees = monthlyReturns * 0.03 || 0;
+          const minusFees = monthlyReturns - transferFees;
+          document.getElementById(`monthlyReturnsMinusFees${col}`).value = `$${minusFees.toFixed(2)}`;
+          totalMinusTransferFees += minusFees;
+        } else if (returnsDestination === 'MB') {
+          document.getElementById(`monthlyReturnsMinusFees${col}`).value = `$${monthlyReturns.toFixed(2)}`;
+          totalMinusTransferFees += monthlyReturns;
+        } else {
+          document.getElementById(`monthlyReturnsMinusFees${col}`).value = 'Coming soon';
+        }
+
+        // Timeframe to Ext Wallet
+        if (dateIslandFilled) {
+          try {
+            const islandFilledDate = new Date(dateIslandFilled);
+            if (isNaN(islandFilledDate.getTime())) throw new Error(`Invalid dateIslandFilled${col}`);
+            const activatedDate = new Date(islandFilledDate);
+            activatedDate.setDate(islandFilledDate.getDate() + 15);
+            const claimDate = new Date(activatedDate);
+            claimDate.setDate(activatedDate.getDate() + 30);
+            const walletDate = addBusinessDays(claimDate, 17);
+            document.getElementById(`timeframeExtWallet${col}`).value = `${formatDateWithDay(walletDate)}\n17 total Business Days\n3 Business Days to MB\n14 Business Days to Ext Crypto Wallet`;
+          } catch (e) {
+            console.error(`Timeframe to Ext Wallet error for column ${col} (third):`, e.message);
+            document.getElementById(`timeframeExtWallet${col}`).value = `17 total Business Days\n3 Business Days to MB\n14 Business Days to Ext Crypto Wallet`;
+          }
+        } else {
+          document.getElementById(`timeframeExtWallet${col}`).value = `17 total Business Days\n3 Business Days to MB\n14 Business Days to Ext Crypto Wallet`;
+        }
+
+        // Timeframe to Bank (ACH)
+        if (dateIslandFilled) {
+          try {
+            const islandFilledDate = new Date(dateIslandFilled);
+            if (isNaN(islandFilledDate.getTime())) throw new Error(`Invalid lineupFilled${col}`);
+            const activatedDate = new Date(islandFilledDate);
+            activatedDate.setDate(islandFilledDate.getDate() + 15);
+            const claimDate = new Date(activatedDate);
+            claimDate.setDate(activatedDate.getDate() + 30);
+            const achDate = addBusinessDays(claimDate, 17);
+            document.getElementById(`timeframeBankACH${col}`).value = `${formatDateWithDay(achDate)}\n17 Total Business Days\n3 Business Days to MB\n14 Business Days to Bank/ACH`;
+          } catch (e) {
+            console.error(`Timeframe to Bank ACH error for column ${col} (third):`, e.message);
+            document.getElementById(`timeframeBankACH${col}`).value = `17 Total Business Days\n3 Business Days to MB\n14 Business Days to Bank/ACH`;
+          }
+        } else {
+          document.getElementById(`timeframeBankACH${col}`).value = `17 Total Business Days\n3 Business Days to MB\n14 Business Days to Bank/ACH`;
+        }
+
+        // Date Activated Funds Unlocked
+        if (dateIslandFilled) {
+          try {
+            const islandFilledDate = new Date(dateIslandFilled);
+            if (isNaN(islandFilledDate.getTime())) throw new Error(`Invalid dateIslandFilled${col}`);
+            const activatedDate = new Date(islandFilledDate);
+            activatedDate.setDate(islandFilledDate.getDate() + 15);
+            const unlockedDate = new Date(activatedDate);
+            unlockedDate.setFullYear(activatedDate.getFullYear() + 1);
+            document.getElementById(`unlockedDate${col}`).value = `${formatDateWithDay(unlockedDate)}\n12 months + 15 days after the island is filled`;
+          } catch (e) {
+            console.error(`Date Activated Funds Unlocked error for column ${col} (third):`, e.message);
+            document.getElementById(`unlockedDate${col}`).value = '12 months from 15 days after the island is filled';
+          }
+        } else {
+          document.getElementById(`unlockedDate${col}`).value = '12 months from 15 days after the island is filled';
+        }
+
+        // Bonuses
+        document.getElementById(`bonuses${col}`).value = 'No';
+      } else {
+        // Clear fields for non-Treasury and non-PPP options
+        document.getElementById(`monthlyInterest${col}`).value = '';
+        document.getElementById(`fee${col}`).value = '';
+        document.getElementById(`dateActivated${col}`).value = '';
+        document.getElementById(`activatedFunds${col}`).value = '';
+        document.getElementById(`claimDate${col}`).value = '';
+        document.getElementById(`monthlyReturns${col}`).value = '';
+        document.getElementById(`monthlyReturnsMinusFees${col}`).value = '';
+        document.getElementById(`timeframeExtWallet${col}`).value = '';
+        document.getElementById(`timeframeBankACH${col}`).value = '';
+        document.getElementById(`unlockedDate${col}`).value = '';
+        document.getElementById(`bonuses${col}`).value = (whereLoan === 'T360iApp' || whereLoan === 'Stratagem') ? 'Yes' : '';
+      }
+    });
+
+    // Monthly Profit (after Paying Monthly Loan Interest Owed + fees)
+    const monthlyProfit = totalMinusTransferFees - monthlyInterestOwed;
+    document.getElementById("monthlyProfit3").value = monthlyProfit > 0 && !isNaN(monthlyProfit) ? monthlyProfit.toFixed(2) : '0.00';
+
+    // Total Activated Funds
+    document.getElementById("totalActivatedFunds3").value = totalActivatedFunds > 0 && !isNaN(totalActivatedFunds) ? totalActivatedFunds.toFixed(2) : '0.00';
+
+    // Section 3 Calculations (Third Set)
+    let totalTreasuryActivatedFunds = 0;
+    columns3.forEach(col => {
+      const whereLoan = document.getElementById(`whereLoan${col}`).value;
+      if (whereLoan === 'Treasury') {
+        const activatedFunds = parseFloat(document.getElementById(`activatedFunds${col}`).value) || 0;
+        totalTreasuryActivatedFunds += activatedFunds;
+      }
+    });
+    const maxLoanAgainst = totalTreasuryActivatedFunds * 0.9 || 0;
+    document.getElementById("maxLoanAgainst3").value = maxLoanAgainst.toFixed(2);
+  } catch (e) {
+    console.error("Calculate3 error:", e.message);
+  }
+}
+
+
+
+
+// Clear Calculator function
+function clearCalculator() {
+  // Clear editable inputs
+  const editableInputs = [
+    'tribeLoan', 'loanMonthlyInterest', 'lengthOfLoan', 'dateFunded',
+    'cryptoWalletAmount', 'bankACHAmount',
+    'amountTransferredF', 'amountTransferredG', 'amountTransferredH',
+    'amountTransferredI', 'amountTransferredJ', 'amountTransferredK', 'amountTransferredL',
+    'dateSentF', 'dateSentG', 'dateSentH', 'dateSentI', 'dateSentJ', 'dateSentK', 'dateSentL',
+    'loanAgainstAmount',
+    'tribeLoan2', 'loanMonthlyInterest2', 'lengthOfLoan2', 'dateFunded2',
+    'cryptoWalletAmount2', 'bankACHAmount2',
+    'amountTransferredF2', 'amountTransferredG2', 'amountTransferredH2',
+    'amountTransferredI2', 'amountTransferredJ2', 'amountTransferredK2', 'amountTransferredL2',
+    'dateSentF2', 'dateSentG2', 'dateSentH2', 'dateSentI2', 'dateSentJ2', 'dateSentK2', 'dateSentL2',
+    'loanAgainstAmount2',
+    'tribeLoan3', 'loanMonthlyInterest3', 'lengthOfLoan3', 'dateFunded3',
+    'cryptoWalletAmount3', 'bankACHAmount3',
+    'amountTransferredF3', 'amountTransferredG3', 'amountTransferredH3',
+    'amountTransferredI3', 'amountTransferredJ3', 'amountTransferredK3', 'amountTransferredL3',
+    'dateSentF3', 'dateSentG3', 'dateSentH3', 'dateSentI3', 'dateSentJ3', 'dateSentK3', 'dateSentL3',
+    'loanAgainstAmount3'
+  ];
+  editableInputs.forEach(id => {
+    const input = document.getElementById(id);
+    if (input) input.value = '';
+  });
+
+  // Reset editable selects to default
+  const editableSelects = [
+    'whereLoanF', 'whereLoanG', 'whereLoanH', 'whereLoanI', 'whereLoanJ', 'whereLoanK', 'whereLoanL',
+    'returnsDestinationF', 'returnsDestinationG', 'returnsDestinationH',
+    'returnsDestinationI', 'returnsDestinationJ', 'returnsDestinationK', 'returnsDestinationL',
+    'whereLoanF2', 'whereLoanG2', 'whereLoanH2', 'whereLoanI2', 'whereLoanJ2', 'whereLoanK2', 'whereLoanL2',
+    'returnsDestinationF2', 'returnsDestinationG2', 'returnsDestinationH2',
+    'returnsDestinationI2', 'returnsDestinationJ2', 'returnsDestinationK2', 'returnsDestinationL2',
+    'whereLoanF3', 'whereLoanG3', 'whereLoanH3', 'whereLoanI3', 'whereLoanJ3', 'whereLoanK3', 'whereLoanL3',
+    'returnsDestinationF3', 'returnsDestinationG3', 'returnsDestinationH3',
+    'returnsDestinationI3', 'returnsDestinationJ3', 'returnsDestinationK3', 'returnsDestinationL3'
+  ];
+  editableSelects.forEach(id => {
+    const select = document.getElementById(id);
+    if (select) {
+      if (id.startsWith('whereLoan')) {
+        select.value = 'Treasury';
+      } else if (id.startsWith('returnsDestination')) {
+        select.value = 'Ext Crypto Wallet';
+      }
+    }
+  });
+
+  // Clear popup input
+  document.getElementById('loanTimeFramePopup').value = '';
+  document.getElementById('loanDaysOutputPopup').value = '';
+
+  // Trigger calculate functions to clear readonly fields
+  calculate();
+  calculate2();
+  calculate3();
+}    // Toggle extra columns (Original)
+document.getElementById("toggleColumns").addEventListener("click", function() {
+  const extraColumns = document.querySelectorAll("#section2 .extra-columns");
+  const isVisible = extraColumns[0].classList.contains("visible");
+  extraColumns.forEach(col => {
+    col.classList.toggle("visible", !isVisible);
+  });
+  this.textContent = isVisible ? "+" : "−";
+});
+
+// Toggle extra columns (Third Set)
+document.getElementById("toggleColumns3").addEventListener("click", function() {
+  const extraColumns = document.querySelectorAll("#section2-third .extra-columns");
+  const isVisible = extraColumns[0].classList.contains("visible");
+  extraColumns.forEach(col => {
+    col.classList.toggle("visible", !isVisible);
+  });
+  this.textContent = isVisible ? "+" : "−";
+});
+    // Toggle accordion
+    function toggleAccordion(header) {
+      const content = header.nextElementSibling;
+      const arrow = header.querySelector('span');
+      content.classList.toggle('open');
+      arrow.textContent = content.classList.contains('open') ? '↑' : '↓';
+    }
+
+    // Image modal functions
+    function openModal() {
+      const modal = document.getElementById('imageModal');
+      modal.classList.add('active');
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('imageModal');
+      modal.classList.remove('active');
+    }
+
+    // Close modal when clicking outside image
+    document.getElementById('imageModal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeModal();
+      }
+    });
+
+    // Loan Length Calculator
+document.getElementById('loanTimeFrame').addEventListener('input', function() {
+  const input = this.value.trim().toLowerCase();
+  let totalDays = 0;
+  const regex = /^(\d+)\s*years?(?:\s*and\s*(\d+)\s*months?)?$/;
+  const match = input.match(regex);
+  if (match) {
+    const years = parseInt(match[1]) || 0;
+    const months = parseInt(match[2]) || 0;
+    totalDays = (years * 365) + (months * 30);
+    document.getElementById('loanDaysOutput').value = totalDays;
+    // Update the main Length of Loan input
+    document.getElementById('lengthOfLoan').value = totalDays;
+    calculate();
+  } else {
+    document.getElementById('loanDaysOutput').value = '';
+  }
+});
+// Loan Length Calculator for Popup
+document.getElementById('loanTimeFramePopup').addEventListener('input', function() {
+  const input = this.value.trim().toLowerCase();
+  let totalDays = 0;
+  const regex = /^(\d+)\s*years?(?:\s*and\s*(\d+)\s*months?)?$/;
+  const match = input.match(regex);
+  if (match) {
+    const years = parseInt(match[1]) || 0;
+    const months = parseInt(match[2]) || 0;
+    totalDays = (years * 365) + (months * 30);
+    document.getElementById('loanDaysOutputPopup').value = totalDays;
+    // Update the appropriate Length of Loan input based on which link was clicked
+    const targetInputId = this.dataset.targetInput || 'lengthOfLoan';
+    document.getElementById(targetInputId).value = totalDays;
+    // Call the appropriate calculate function
+    if (targetInputId === 'lengthOfLoan') {
+      calculate();
+    } else if (targetInputId === 'lengthOfLoan2') {
+      calculate2();
+    }
+  } else {
+    document.getElementById('loanDaysOutputPopup').value = '';
+  }
+});
+
+// Open Loan Calculator Modal (Original)
+document.getElementById('openLoanCalcPopup').addEventListener('click', function(e) {
+  e.preventDefault();
+  const modal = document.getElementById('loanCalcModal');
+  modal.classList.add('active');
+  // Copy current values to popup
+  document.getElementById('loanTimeFramePopup').value = '';
+  document.getElementById('loanDaysOutputPopup').value = '';
+  document.getElementById('loanTimeFramePopup').dataset.targetInput = 'lengthOfLoan';
+});
+// Open Loan Calculator Modal (Third Set)
+document.getElementById('openLoanCalcPopup3').addEventListener('click', function(e) {
+  e.preventDefault();
+  const modal = document.getElementById('loanCalcModal');
+  modal.classList.add('active');
+  // Copy current values to popup
+  document.getElementById('loanTimeFramePopup').value = '';
+  document.getElementById('loanDaysOutputPopup').value = '';
+  document.getElementById('loanTimeFramePopup').dataset.targetInput = 'lengthOfLoan3';
+});
+
+// Close Loan Calculator Modal
+function closeLoanCalcModal() {
+  const modal = document.getElementById('loanCalcModal');
+  modal.classList.remove('active');
+}
+
+// Close modal when clicking outside content
+document.getElementById('loanCalcModal').addEventListener('click', function(e) {
+  if (e.target === this || e.target.classList.contains('modal-content') === false) {
+    closeLoanCalcModal();
+  }
+});
+// Initialize calculators
+calculate();
+calculate2();
+calculate3();
+  </script>
+</body>
+</html>

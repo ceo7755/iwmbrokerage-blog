@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Y6MJZF2L38"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-Y6MJZF2L38');
+</script>
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - IWM Brokerage</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Base styles */
+        body {
+            margin: 0;
+            font-family: 'Montserrat', sans-serif;
+            background-color: #091954 !important; /* Blue background */
+            color: #ffffff; /* White for readability on dark blue */
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(to bottom, #091954 0%, rgba(9, 25, 84, 0) 50%);
+            padding: 20px 30px;
+            height: 60px;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+        .logo-img {
+            width: auto;
+            max-width: 200px;
+            height: auto;
+            margin: 0;
+        }
+        .nav-menu {
+            list-style: none;
+            display: flex;
+            justify-content: flex-end;
+            margin: 0;
+            padding: 0;
+        }
+        .nav-menu li {
+            margin-left: 20px;
+        }
+        .nav-menu a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .dropdown {
+            position: relative;
+        }
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            background: #091954;
+            min-width: 200px;
+            padding: 10px;
+        }
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+.mobile-footer-nav-toggle {
+    display: none; /* Hide hamburger menu on desktop */
+}
+        /* Mobile-specific styles */
+        @media (max-width: 768px) {
+            .navbar {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 15px 20px;
+                background: #091954;
+                height: 50px;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+                position: fixed;
+                top: 0;
+                width: 100%;
+                z-index: 1000;
+            }
+            .logo-img {
+                position: static;
+                width: auto;
+                max-width: 150px;
+                height: auto;
+                margin: 0 auto;
+                margin-right: 20px;
+                transform: none;
+                opacity: 1;
+                pointer-events: none;
+            }
+            .nav-menu {
+                display: none;
+                flex-direction: column;
+                position: fixed;
+                bottom: 60px;
+                right: 15px;
+                width: 180px;
+                background: #091954;
+                padding: 10px 0;
+                z-index: 999;
+                max-height: calc(100vh - 80px);
+                overflow-y: auto;
+                border-radius: 8px;
+                box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.4);
+            }
+            .nav-menu.active {
+                display: flex;
+            }
+            body.menu-open {
+                overflow: hidden;
+            }
+            .nav-menu li {
+                margin: 8px 0;
+                text-align: center;
+            }
+            .nav-menu a {
+                display: block;
+                padding: 8px 0;
+                font-size: 1.1rem;
+                color: #ffffff;
+                transition: color 0.3s ease;
+            }
+            .nav-menu a:hover {
+                color: #AB9C59;
+            }
+            .dropdown-menu {
+                display: none !important;
+            }
+            .mobile-footer-nav-toggle {
+                display: block;
+                position: fixed;
+                bottom: 15px;
+                right: 15px;
+                font-size: 1.3rem;
+                color: #ffffff;
+                background: #AB9C59;
+                border: none;
+                border-radius: 5px;
+                padding: 6px 12px;
+                cursor: pointer;
+                z-index: 1000;
+                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="navbar">
+        <div class="logo">
+            <a href="index.html#home"><img src="iwm-logo.png" alt="IWM Brokerage Logo" class="logo-img"></a>
+        </div>
+        <nav>
+            <ul class="nav-menu">
+                <li><a href="index.html#home">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="offerings.html">Offerings</a></li>
+                <li class="dropdown">
+                    <a href="blog.html">IWM Blog</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="blog.html#insurance">Insurance</a></li>
+                        <li><a href="blog.html#retirement">Retirement</a></li>
+                        <li><a href="blog.html#end-of-life">End of Life</a></li>
+                        <li><a href="blog.html#macro-trends">Macro Trends</a></li>
+                        <li><a href="blog.html#bitcoin-crypto">Bitcoin & Crypto</a></li>
+                    </ul>
+                </li>
+                <li><a href="contact.html">Contact Us</a></li>
+                <li><a href="join.html">Join our Team</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Mobile Footer Hamburger Menu -->
+    <button class="mobile-footer-nav-toggle" aria-label="Toggle navigation">☰</button>
+<script 
+  src="https://widgets.leadconnectorhq.com/loader.js"  
+  data-resources-url="https://widgets.leadconnectorhq.com/chat-widget/loader.js" 
+ data-widget-id="67f0de7b8e8aa71ec4f3128b"   > 
+ </script>
+    <!-- About Section -->
+    <section id="about" class="about">
+<br><br></br></br>
+        <h1>About Insurance Wealth Management (IWM) Brokerage</h1>
+        <p>At IWM, we believe that financial security and wealth creation go hand in hand with education. Founded in 2019, our mission is to empower individuals and businesses to not just grow, but protect their wealth through educated decisions in insurance, retirement planning, and beyond. We have written over $1,000,000 in annual premium volume & helped over 500 clients with their insurance & retirement needs.</p>
+        <div class="about-content">
+            <h2>Our Vision</h2>
+            <p>We are here to solve the pandemic of financial illiteracy. We envision a world where everyone has the knowledge and tools to secure their financial future. By focusing on education, we help our clients navigate complex topics like life insurance, retirement strategies, end-of-life planning, macroeconomic trends, and the role of Bitcoin and digital currencies in modern portfolios.</p>
+            <h2>Why Partner With Us?</h2>
+            <ul>
+                <li><strong>Expertise:</strong> Over a decade of experience in insurance and wealth management.</li>
+                <li><strong>Education-First Approach:</strong> We provide insights and resources to help you make confident decisions.</li>
+                <li><strong>Personalized Solutions:</strong> Tailored plans that fit your unique needs and goals. We are advisors, not salespeople.</li>
+		<li><strong>Brokers, not Agents:</strong> Which means we do not have a tie to a singular carrier, which is a benefit to you. We partner with over 40+ carriers in your state, so we have them compete against each other, which in turn results in us being able to offer the most comprehensive coverage at your state's lowest premiums.</li>
+                <li><strong>Innovative Thinking:</strong> We stay ahead of trends, including the integration of digital currencies into financial planning.</li>
+            </ul>
+            <h2>Meet Our Team</h2>
+            <p>Meet our Team area coming soon</p>
+            <div class="about-buttons">
+                <a href="javascript:history.back()" class="cta-button neon">Back</a>
+                <a href="offerings.html" class="cta-button neon">Services & Offerings</a>
+               <a href="contact.html" class="cta-button neon">Get in Touch</a>
+        </div>
+    </div>
+</section>
+<script 
+  src="https://widgets.leadconnectorhq.com/loader.js"  
+  data-resources-url="https://widgets.leadconnectorhq.com/chat-widget/loader.js" 
+ data-widget-id="67f0de7b8e8aa71ec4f3128b"   > 
+ </script>
+<!-- Footer -->
+<footer>
+    <p>
+        © 2025 IWM Brokerage. Insurance Wealth Management, L.L.C.. All rights reserved. | 
+        <a href="privacy-policy.html">Privacy Policy & Terms of Use</a> | 
+        <a href="linktree.html">Link Tree</a> | 
+        <a href="contact.html">Contact Us</a> | 
+        <a href="broker-portal.html">Current Broker Login</a>
+    </p>
+</footer>
+
+<script src="script.js"></script>

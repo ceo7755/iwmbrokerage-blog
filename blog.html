@@ -1,0 +1,1810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Y6MJZF2L38"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-Y6MJZF2L38');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="IWM Insights - A financial education hub with insights on insurance, retirement, end-of-life planning, macroeconomics, bitcoin, and crypto through the lens of current events and life.">
+<meta name="keywords" content="financial education, insurance, retirement, end-of-life planning, macroeconomics, bitcoin, crypto, current events">
+<meta name="author" content="IWM Brokerage">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="IWM Insights - IWM Brokerage">
+<meta property="og:description" content="A financial education hub with insights on insurance, retirement, end-of-life planning, macroeconomics, bitcoin, and crypto through the lens of current events and life.">
+<meta property="og:image" content="https://yourblog.com/iwmlonglogo.png">
+<meta property="og:url" content="https://yourblog.com/blog.html">
+<meta property="og:type" content="website">
+<title>IWM Insights - IWM Brokerage</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+<!-- Include html2canvas for social sharing -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+  <style>
+    /* Base styles */
+    body {
+        margin: 0;
+        font-family: 'Montserrat', sans-serif;
+        background-color: #f4f4f4;
+        color: #333;
+    }
+    .navbar {
+        background: #091954; /* Solid blue, no transparency */
+        padding: 10px 20px;
+        position: fixed;
+        top: 0;
+        width: 100%; /* Full width left to right */
+        height: 60px; /* Explicit height to fill vertically */
+        z-index: 1000;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .logo {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .logo-img {
+        width: 90%;
+        height: auto;
+        margin-left: 50px;
+    }
+    .nav-menu {
+        list-style: none;
+        display: flex;
+        justify-content: flex-end;
+        margin: 0;
+        padding: 0;
+    }
+    .nav-menu li {
+        margin-left: 60px;
+    }
+    .nav-menu a {
+        color: #ffffff;
+        text-decoration: none;
+        font-weight: 500;
+    }
+    .dropdown {
+        position: relative;
+    }
+    .dropdown-menu {
+        display: none;
+        position: absolute;
+        background: #091954;
+        min-width: 200px;
+        padding: 10px;
+    }
+    .dropdown:hover .dropdown-menu {
+        display: block;
+    }
+    /* Blog Section */
+    .blog-section {
+        padding: 100px 20px 60px; /* Increased top padding for a grander feel */
+        max-width: 1200px;
+        margin: 0 auto;
+        text-align: center;
+        background: linear-gradient(135deg, #f4f4f4 0%, #e8ecef 100%); /* Subtle gradient */
+        border-radius: 15px; /* Rounded corners */
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+        position: relative;
+        z-index: 1;
+        overflow: hidden; /* Contain child elements */
+    }
+    .blog-section h1 {
+        font-family: 'Libre Baskerville', serif;
+        font-size: 2.8rem; /* Slightly larger for impact */
+        margin-bottom: 15px;
+        text-transform: uppercase; /* Bold and modern */
+        letter-spacing: 1px; /* Spacing for elegance */
+        background: linear-gradient(90deg, #091954, #AB9C59); /* Gradient text */
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: fadeIn 1s ease-in-out; /* Fade-in animation */
+    }
+    .blog-intro {
+        font-size: 1rem;
+        color: #555;
+        margin: 10px 0 30px;
+        line-height: 1.7;
+        padding: 10px 15px;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 5px;
+        border-left: 4px solid #AB9C59;
+        transition: background 0.3s ease;
+        position: relative; /* For positioning toggle button */
+    }
+    .blog-intro:hover {
+        background: rgba(171, 156, 89, 0.1);
+    }
+    .blog-intro.collapsed .intro-text {
+        display: none; /* Hide full text when collapsed */
+    }
+    .blog-intro.collapsed::before {
+        content: '"IWM Insights"'; /* Show only this when collapsed */
+        font-family: 'Libre Baskerville', serif;
+        font-size: 1rem;
+        color: #555;
+    }
+    .blog-intro .toggle-btn {
+        position: absolute;
+        bottom: 5px;
+        right: 5px;
+        font-size: 1.2rem;
+        cursor: pointer;
+        color: #091954;
+        transition: transform 0.3s ease;
+    }
+    .blog-intro.collapsed .toggle-btn {
+        content: '+'; /* Change to plus when collapsed */
+        display: inline-block;
+        transform: rotate(0deg); /* Reset rotation */
+    }
+    .blog-intro .toggle-btn:hover {
+        transform: scale(1.2); /* Slight grow effect on hover */
+    }
+    /* Breadcrumbs */
+    .breadcrumbs {
+        font-size: 0.9rem;
+        color: #666;
+        margin-bottom: 15px;
+        text-align: left;
+    }
+    .breadcrumbs a {
+        color: #AB9C59;
+        text-decoration: none;
+    }
+    .breadcrumbs a:hover {
+        text-decoration: underline;
+    }
+    .breadcrumbs span {
+        color: #333;
+    }
+    /* Filter Buttons and Sort Options */
+    .filter-buttons {
+        margin-bottom: 30px;
+    }
+    .filter-buttons button {
+        background: #E6E9F0;
+        color: transparent;
+        border: 2px solid #091954;
+        padding: 8px 15px;
+        margin: 5px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-family: 'Libre Baskerville', serif;
+        border-radius: 20px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        background: linear-gradient(90deg, #091954, #AB9C59);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease;
+        animation: fadeIn 1s ease-in-out;
+        position: relative;
+    }
+    .filter-buttons button:hover,
+    .filter-buttons button.active {
+        background: linear-gradient(90deg, #091954, #AB9C59);
+        -webkit-background-clip: initial;
+        background-clip: initial;
+        -webkit-text-fill-color: #ffffff;
+        color: #ffffff;
+        border-color: #AB9C59;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(171, 156, 89, 0.4);
+    }
+    .sort-language-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px; /* Space between Sort by and Language */
+        margin: 5px 0; /* Replaces individual margins */
+    }
+    .sort-options {
+        display: flex; /* Changed from block to flex */
+        align-items: center;
+    }
+    .sort-options label {
+        font-size: 0.9rem;
+        margin-right: 5px;
+    }
+    .sort-options select {
+        padding: 5px;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+        font-family: 'Montserrat', sans-serif;
+        background: #fff; /* Explicitly set to match language dropdown */
+    }
+    .language-toggle-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        /* Removed margin: 0 0 10px since parent container handles it */
+    }
+    .language-toggle-wrapper label {
+        font-size: 0.9rem;
+        margin-right: 5px;
+    }
+    .language-toggle {
+        padding: 5px;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+        font-family: 'Montserrat', sans-serif;
+        margin-left: 5px;
+        background: #fff; /* Already set, kept for clarity */
+    }
+    /* Category Description */
+    .category-description {
+        margin: 10px 0;
+    }
+    .category-description p {
+        font-size: 0.9rem;
+        color: #666;
+        font-style: italic;
+    }
+    /* Post Blog Button */
+    .post-blog-btn {
+        background: #AB9C59;
+        color: #ffffff;
+        border: none;
+        padding: 10px 20px;
+        margin: 10px 0; /* Reduced from 20px */
+        cursor: pointer;
+        font-size: 1rem;
+        border-radius: 5px;
+        transition: background 0.3s ease;
+    }
+    .post-blog-btn:hover {
+        background: #091954;
+    }
+    /* Push Pin Board Background */
+    .blog-posts {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 25px; /* Slightly larger gap */
+        padding: 40px; /* More padding for a spacious feel */
+        background: #ffffff; /* Clean white background */
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+        position: relative;
+        z-index: 1;
+    }
+    .blog-post {
+        background: #ffffff; /* White card effect */
+        padding: 25px;
+        border-radius: 10px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Sleek shadow */
+        text-align: left;
+        position: relative;
+        transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover */
+    }
+    .blog-post:hover {
+        transform: translateY(-5px); /* Lift on hover */
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
+    }
+    .blog-post img {
+        max-width: 100%; /* Full width for impact */
+        height: auto;
+        border-radius: 8px; /* Rounded corners */
+        margin-bottom: 15px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Image shadow */
+        transition: transform 0.3s ease;
+        loading: lazy;
+    }
+    .blog-post img:hover {
+        transform: scale(1.02); /* Subtle zoom */
+    }
+    .blog-post h2 {
+        font-family: 'Libre Baskerville', serif;
+        font-size: 1.6rem; /* Slightly larger */
+        color: #091954;
+        margin-bottom: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        background: linear-gradient(90deg, #091954, #AB9C59); /* Gradient text */
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    .blog-post p {
+        font-size: 0.95rem; /* Slightly larger */
+        line-height: 1.7; /* More breathing room */
+        margin-bottom: 10px;
+        color: #333;
+        padding: 8px 12px; /* Card-like feel */
+        background: rgba(255, 255, 255, 0.9);
+        border-left: 3px solid #AB9C59; /* Gold accent */
+        border-radius: 5px;
+        transition: background 0.3s ease;
+    }
+    .blog-post p:hover {
+        background: rgba(171, 156, 89, 0.1); /* Gold tint on hover */
+    }
+    .blog-post .keyword {
+        font-size: 0.85rem;
+        color: #AB9C59;
+        margin-bottom: 10px;
+        font-weight: 600;
+        text-transform: uppercase;
+        border-bottom: 2px solid #AB9C59; /* Underline effect */
+        display: inline-block;
+        padding-bottom: 2px;
+    }
+    .blog-post .tags {
+        font-size: 0.8rem;
+        color: #666;
+        margin-bottom: 10px;
+        font-style: italic;
+    }
+    .blog-post .meta {
+        font-size: 0.85rem;
+        color: #555;
+        margin-bottom: 10px;
+        font-style: italic;
+        letter-spacing: 0.5px;
+    }
+    .blog-post a {
+        color: #AB9C59;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.9rem;
+        padding: 6px 15px;
+        border: 2px solid #AB9C59;
+        border-radius: 20px; /* Pill shape */
+        transition: all 0.3s ease;
+        display: inline-block;
+    }
+    .blog-post a:hover {
+        background: #AB9C59;
+        color: #ffffff;
+        text-decoration: none;
+        transform: scale(1.05); /* Slight grow effect */
+    }
+    .hidden {
+        display: none;
+    }
+    /* Share and Like Section */
+    .share-like-section {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 15px; /* More spacing */
+        margin-top: 10px;
+        margin-bottom: 0;
+    }
+    .share-btn,
+    .like-btn {
+        background: #091954;
+        color: #ffffff;
+        border: none;
+        padding: 8px 15px; /* Larger buttons */
+        border-radius: 20px; /* Rounded sleek look */
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Button shadow */
+    }
+    .share-btn:hover,
+    .like-btn:hover {
+        background: #AB9C59;
+        transform: translateY(-2px); /* Lift effect */
+        box-shadow: 0 4px 15px rgba(171, 156, 89, 0.4);
+    }
+    .like-btn.liked {
+        background: #AB9C59;
+        box-shadow: 0 4px 15px rgba(171, 156, 89, 0.4);
+    }
+    .like-count-wrapper {
+        flex-basis: 100%;
+        text-align: center;
+        margin-bottom: 5px;
+    }
+    .like-count {
+        font-size: 0.95rem;
+        color: #555;
+        font-weight: 500;
+    }
+    /* Comment Section */
+    .comment-section {
+        margin-top: 20px;
+        padding-top: 0;
+        position: relative;
+    }
+    .separator {
+        border-bottom: none;
+        height: 1px;
+        background: linear-gradient(to right, transparent, #AB9C59, transparent); /* Gold gradient */
+        margin: 15px auto;
+        max-width: 60%;
+        display: block;
+    }
+    .comment-section h4 {
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+        color: #091954;
+        font-weight: 700;
+        text-transform: uppercase;
+    }
+    .comment-form {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 15px;
+    }
+    .comment-form textarea {
+        width: 100%;
+        height: 80px;
+        padding: 10px;
+        border: none;
+        border-radius: 8px;
+        resize: vertical;
+        background: #f9f9f9;
+        box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
+        transition: box-shadow 0.3s ease;
+    }
+    .comment-form textarea:focus {
+        outline: none;
+        box-shadow: 0 0 10px rgba(171, 156, 89, 0.3);
+    }
+    .comment-form button {
+        background: #091954;
+        color: #ffffff;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 20px;
+        cursor: pointer;
+        text-transform: uppercase;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+    .comment-form button:hover {
+        background: #AB9C59;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(171, 156, 89, 0.4);
+    }
+    .comments-list {
+        max-height: 200px;
+        overflow-y: auto;
+        margin-top: 10px;
+    }
+    .comment {
+        background: #ffffff;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        transition: transform 0.3s ease;
+    }
+    .comment:hover {
+        transform: translateY(-3px); /* Lift on hover */
+    }
+    .comment p {
+        margin: 0;
+        font-size: 0.9rem;
+        line-height: 1.5;
+    }
+    .comment .comment-meta {
+        font-size: 0.75rem;
+        color: #666;
+        margin-top: 5px;
+        font-style: italic;
+    }
+    /* Modal Pop-Up Styles */
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.3);
+        z-index: 2000;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        overflow: hidden;
+    }
+    .modal.active {
+        opacity: 1;
+    }
+    .modal-content {
+        background: #ffffff;
+        padding: 15px;
+        border-radius: 12px;
+        width: 90%;
+        max-width: 400px;
+        max-height: 80vh;
+        overflow-y: auto;
+        position: relative;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        transform: scale(0.9);
+        transition: transform 0.3s ease;
+    }
+    footer {
+        text-align: center;
+        background: #091954;
+        color: #ffffff;
+        padding: 20px;
+    }
+    .modal.active .modal-content {
+        transform: scale(1);
+    }
+    .modal-content h2 {
+        font-family: 'Libre Baskerville', serif;
+        color: #091954;
+        margin-bottom: 20px;
+    }
+    .modal-content label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: 500;
+    }
+    .modal-content input,
+    .modal-content textarea,
+    .modal-content select {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 15px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-family: 'Montserrat', sans-serif;
+    }
+    .modal-content textarea {
+        height: 100px;
+        resize: vertical;
+    }
+    .modal-content button {
+        background: #AB9C59;
+        color: #ffffff;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background 0.3s ease;
+        margin-right: 10px;
+    }
+    .modal-content button:hover {
+        background: #091954;
+    }
+    .close-modal {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: #666;
+    }
+    .image-preview {
+        margin-bottom: 15px;
+        text-align: center;
+    }
+    .char-counter {
+        font-size: 0.8rem;
+        color: #666;
+        text-align: right;
+        margin-bottom: 15px;
+    }
+    .post-preview {
+        margin-top: 20px;
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+    }
+    body.modal-open {
+        overflow: hidden;
+        height: 100vh;
+    }
+    @media (min-width: 769px) {
+        .nav-menu {
+            margin-right: 80px; /* Moves menu 20px left */
+        }
+        .logo-img {
+            margin-left: 150px; /* Moves logo 20px right from original 50px */
+        }
+    }
+    /* Mobile styles */
+    @media (max-width: 768px) {
+        .navbar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px 15px;
+            background: #091954;
+            height: 50px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        .logo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            max-width: 280px;
+        }
+        .logo-img {
+            position: static;
+            width: 100%;
+            max-width: 280px;
+            height: auto;
+          margin: 0 0 0 -15px;
+            transform: none;
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .nav-menu {
+            display: none;
+            flex-direction: column;
+            position: fixed;
+            bottom: 60px;
+            right: 15px;
+            width: 180px;
+            background: #091954;
+            padding: 10px 0;
+            z-index: 999;
+            max-height: calc(100vh - 80px);
+            overflow-y: auto;
+            border-radius: 8px;
+            box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.4);
+        }
+        .nav-menu.active {
+            display: flex;
+        }
+        .dropdown-menu {
+            display: none !important;
+        }
+        .blog-section h1 {
+            font-size: 1.8rem;
+        }
+        .blog-intro {
+            font-size: 0.9rem;
+        }
+        .filter-buttons button {
+            padding: 6.4px 12px;
+            font-size: 0.72rem;
+        }
+        .blog-post {
+            padding: 10px;
+        }
+        .blog-post h2 {
+            font-size: 1rem;
+        }
+        .blog-post p {
+            font-size: 0.75rem;
+            line-height: 1.3;
+        }
+        .blog-post img {
+            max-width: 40%;
+        }
+        .blog-post .keyword,
+        .blog-post .tags,
+        .blog-post .meta {
+            font-size: 0.65rem;
+        }
+        .blog-post a {
+            font-size: 0.75rem;
+        }
+        .blog-posts {
+            gap: 10px;
+            padding: 15px;
+        }
+        .modal-content {
+            padding: 10px;
+            max-height: 70vh;
+            width: 95%;
+        }
+        .modal-content form {
+            display: flex;
+            flex-direction: column;
+        }
+        .modal-content label {
+            font-size: 0.9rem;
+        }
+        .modal-content input,
+        .modal-content textarea,
+        .modal-content select {
+            font-size: 0.9rem;
+            padding: 6px;
+        }
+        .modal-content button {
+            padding: 8px 16px;
+            font-size: 0.9rem;
+        }
+        .close-modal {
+            font-size: 1.2rem;
+            padding: 10px;
+        }
+        .image-preview img {
+            max-height: 150px;
+        }
+        .mobile-footer-nav-toggle {
+            display: block;
+            position: fixed;
+            bottom: 15px;
+            right: 15px;
+            font-size: 1.3rem;
+            color: #ffffff;
+            background: #AB9C59;
+            border: none;
+            border-radius: 5px;
+            padding: 6px 12px;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        }
+        body.menu-open {
+            overflow: hidden;
+        }
+        .nav-menu li {
+            margin: 8px 0;
+            text-align: center;
+        }
+        .nav-menu a {
+            display: block;
+            padding: 8px 0;
+            font-size: 1.1rem;
+            color: #ffffff;
+            transition: color 0.3s ease;
+        }
+        .nav-menu a:hover {
+            color: #AB9C59;
+        }
+    }
+    /* Animation Keyframes */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    /* Updated hidden-for-link-post with higher specificity */
+    .modal-content .hidden-for-link-post {
+        display: none !important;
+    }
+</style>
+
+</head><body>
+    <!-- Header -->
+    <header class="navbar">
+        <div class="logo">
+            <img src="iwmlonglogo.png" alt="IWM Brokerage Logo" class="logo-img">
+        </div>
+        <nav>
+            <ul class="nav-menu">
+                <li><a href="index.html#home" data-lang-key="nav-home">Home</a></li>
+                <li><a href="about.html" data-lang-key="nav-about">About</a></li>
+                <li><a href="offerings.html" data-lang-key="nav-offerings">Offerings</a></li>
+                <li class="dropdown">
+                    <a href="blog.html" class="dropdown-toggle" data-lang-key="nav-insights">IWM Insights</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="blog.html#insurance" data-lang-key="nav-insurance">Insurance</a></li>
+                        <li><a href="blog.html#retirement" data-lang-key="nav-retirement">Retirement</a></li>
+                        <li><a href="blog.html#end-of-life" data-lang-key="nav-end-of-life">End of Life</a></li>
+                        <li><a href="blog.html#macro-trends" data-lang-key="nav-macro-trends">Macro Trends</a></li>
+                        <li><a href="blog.html#bitcoin-crypto" data-lang-key="nav-bitcoin-crypto">Bitcoin & Digital Currencies</a></li>
+                    </ul>
+                </li>
+                <li><a href="contact.html" data-lang-key="nav-contact">Contact Us</a></li>
+                <li><a href="join.html" id="join-team" data-lang-key="nav-join">Join Team</a></li>
+            </ul>
+        </nav>
+    </header>
+<button class="mobile-footer-nav-toggle" aria-label="Toggle navigation">☰</button>
+<!-- Blog Section -->
+<section class="blog-section">
+    <nav class="breadcrumbs">
+        <a href="index.html#home" data-lang-key="nav-home">Home</a> > <span data-lang-key="insights-title">IWM Insights</span>
+    </nav>
+    <h1 data-lang-key="insights-title">IWM Insights</h1>
+  <p class="blog-intro" data-lang-key="insights-intro">
+    <span class="intro-text">"IWM Insights" is the blog of IWM. Think of it as a Financial Education Hub. It includes insights on insurance, retirement, end-of-life planning, macroeconomics, bitcoin & crypto — through the lens of current events and inspiration from various contributors. Retract Info. </span>
+    <span class="toggle-btn">-</span>
+</p>
+<div class="button-container" style="display: flex; gap: 10px; justify-content: center; margin: 10px 0;">
+    <button class="post-blog-btn" id="writePostBtn" data-lang-key="write-post-btn">Write Post</button>
+    <button class="post-blog-btn" id="linkPostBtn" data-lang-key="link-post-btn">Link Post</button>
+</div>
+    <div class="category-description">
+        <p id="category-desc" data-lang-key="category-desc">Select a category to see insights.</p>
+    </div>
+   <div class="filter-buttons">
+    <button class="filter-btn active" data-filter="all" data-lang-key="filter-all">All</button>
+    <button class="filter-btn" data-filter="bitcoin" data-lang-key="filter-bitcoin">Bitcoin & Crypto</button>
+    <button class="filter-btn" data-filter="insurance" data-lang-key="filter-insurance">Insurance</button>
+    <button class="filter-btn" data-filter="retirement" data-lang-key="filter-retirement">Retirement</button>
+    <button class="filter-btn" data-filter="end-of-life" data-lang-key="filter-end-of-life">End of Life</button>
+    <button class="filter-btn" data-filter="macro-trends" data-lang-key="filter-macro-trends">Macro Trends</button>
+    <button class="filter-btn" data-filter="smile" data-lang-key="filter-smile">Smile</button>
+    <button class="filter-btn" data-filter="inspire" data-lang-key="filter-inspire">Inspire</button>
+    <button class="filter-btn" data-filter="nature" data-lang-key="filter-nature">Nature</button>
+</div>
+    <div class="sort-language-container">
+<div class="sort-options">
+    <label for="sortBy" data-lang-key="sort-label">Sort by: </label>
+    <select id="sortBy">
+        <option value="newest" data-lang-key="sort-newest">Newest First</option>
+        <option value="oldest" data-lang-key="sort-oldest">Oldest First</option>
+    </select>
+</div>
+<div class="language-toggle-wrapper">
+    <label for="languageToggle">Language:</label>
+    <select class="language-toggle" id="languageToggle">
+        <option value="en">English</option>
+        <option value="es">Español</option>
+    </select>
+</div>
+
+</div>
+
+<script 
+  src="https://widgets.leadconnectorhq.com/loader.js"  
+  data-resources-url="https://widgets.leadconnectorhq.com/chat-widget/loader.js" 
+ data-widget-id="67f0de7b8e8aa71ec4f3128b"   > 
+// Toggle Blog Intro
+const blogIntro = document.querySelector('.blog-intro');
+const toggleBtn = blogIntro.querySelector('.toggle-btn');
+
+toggleBtn.addEventListener('click', () => {
+    blogIntro.classList.toggle('collapsed');
+    toggleBtn.textContent = blogIntro.classList.contains('collapsed') ? '+' : '-';
+});
+ </script>
+
+<div class="blog-posts" id="blogPostsContainer">
+    <!-- Blog Post 1 -->
+    <article class="blog-post" data-category="bitcoin" data-post-id="1">
+        <img src="bitcoin-image.jpg" alt="Bitcoin Trends in 2025" loading="lazy">
+        <h2 data-lang-key="post1-title">Bitcoin Trends in 2025</h2>
+        <p data-lang-key="post1-desc">Explore the latest trends in Bitcoin and how they impact your investment strategy.</p>
+        <div class="keyword" data-lang-key="post1-keyword">Insights: Bitcoin & Crypto</div>
+        <div class="meta">
+            <span data-lang-key="post1-author">Author: John Doe</span> | 
+            <span data-lang-key="post1-date">Published: April 6, 2025</span>
+        </div>
+        <a href="bitcoin-trends-2025.html" data-lang-key="read-more">Read More</a>
+        <div class="share-like-section">
+            <button class="share-btn" data-lang-key="share-btn">Share</button>
+            <button class="like-btn" data-lang-key="like-btn">Like</button>
+            <div class="like-count-wrapper">
+                <span class="like-count" data-lang-key="like-count">0 Likes</span>
+            </div>
+        </div>
+        <div class="comment-section">
+            <span class="separator"></span>
+            <h4 data-lang-key="comments-title">Comments</h4>
+            <form class="comment-form">
+                <textarea placeholder="Add a comment..." data-lang-key-placeholder="comment-placeholder"></textarea>
+                <button type="submit" data-lang-key="comment-submit">Submit</button>
+            </form>
+            <div class="comments-list"></div>
+        </div>
+    </article>
+    <!-- Blog Post 2 -->
+    <article class="blog-post" data-category="insurance" data-post-id="2">
+        <img src="insurance-image.jpg" alt="Choosing the Right Life Insurance" loading="lazy">
+        <h2 data-lang-key="post2-title">Choosing the Right Life Insurance</h2>
+        <p data-lang-key="post2-desc">Learn how to select a life insurance plan that fits your needs and budget.</p>
+       <div class="keyword" data-lang-key="post2-keyword">Insights: Insurance</div>
+        <div class="meta">
+            <span data-lang-key="post2-author">Author: Jane Smith</span> | 
+            <span data-lang-key="post2-date">Published: April 5, 2025</span>
+        </div>
+        <a href="insurance-guide.html" data-lang-key="read-more">Read More</a>
+        <div class="share-like-section">
+            <button class="share-btn" data-lang-key="share-btn">Share</button>
+            <button class="like-btn" data-lang-key="like-btn">Like</button>
+            <div class="like-count-wrapper">
+                <span class="like-count" data-lang-key="like-count">0 Likes</span>
+            </div>
+        </div>
+        <div class="comment-section">
+            <span class="separator"></span>
+            <h4 data-lang-key="comments-title">Comments</h4>
+            <form class="comment-form">
+                <textarea placeholder="Add a comment..." data-lang-key-placeholder="comment-placeholder"></textarea>
+                <button type="submit" data-lang-key="comment-submit">Submit</button>
+            </form>
+            <div class="comments-list"></div>
+        </div>
+    </article>
+</div>
+
+</section>
+<!-- Modal Pop-Up Form -->
+<div class="modal" id="postModal">
+    <div class="modal-content">
+        <span class="close-modal" id="closeModal">×</span>
+        <h2 data-lang-key="add-post-title">Add New Blog Post</h2>
+        <form id="blogPostForm" novalidate></form>
+        <div class="post-preview" id="postPreview" style="display: none;">
+            <h3 data-lang-key="preview-title">Preview:</h3>
+            <img id="previewPostImage" src="" alt="" style="max-width: 100%;">
+            <h4 id="previewPostTitle"></h4>
+            <p id="previewPostDesc"></p>
+            <div id="previewPostKeyword"></div>
+            <div id="previewPostTags"></div>
+            <div id="previewPostMeta"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer>
+<div class="centered-container">
+       <p>
+        © 2025 IWM Brokerage. Insurance Wealth Management, L.L.C.. All rights reserved. | 
+        <a href="privacy-policy.html">Privacy Policy & Terms of Use</a> | 
+        <a href="linktree.html">Link Tree</a> | 
+        <a href="contact.html">Contact Us</a> | 
+        <a href="broker-portal.html">Current Broker Login</a>
+    </p>
+</div>
+</footer>
+   
+
+<!-- Structured Data for the Blog Page -->
+<script type="application/ld+json">
+[
+    {
+        "@context": "https://schema.org",
+        "@type": "Blog",
+        "name": "IWM Insights",
+        "description": "A financial education hub with insights on insurance, retirement, end-of-life planning, macroeconomics, bitcoin, and crypto through the lens of current events and life.",
+        "url": "https://yourblog.com/blog.html",
+        "publisher": {
+            "@type": "Organization",
+            "name": "IWM Brokerage",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://yourblog.com/iwmlonglogo.png"
+            }
+        }
+    },
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://yourblog.com/index.html"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "IWM Insights",
+                "item": "https://yourblog.com/blog.html"
+            }
+        ]
+    }
+]
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Language Translations (unchanged)
+        const translations = {
+            en: {
+                "nav-home": "Home",
+                "nav-about": "About",
+                "nav-offerings": "Offerings",
+                "nav-insights": "IWM Insights",
+                "nav-insurance": "Insurance",
+                "nav-retirement": "Retirement",
+                "nav-end-of-life": "End of Life",
+                "nav-macro-trends": "Macro Trends",
+                "nav-bitcoin-crypto": "Bitcoin & Digital Currencies",
+                "nav-contact": "Contact Us",
+                "nav-join": "Join Team",
+                "insights-title": "IWM Insights",
+                "insights-intro": '"IWM Insights" is the blog of IWM. Think of it as a Financial Education Hub. It includes insights on insurance, retirement, end-of-life planning, macroeconomics, bitcoin & crypto/digital currencies — through the lens of current events and inspiration from various contributors.',
+                "post-blog-btn": "Post Blog Post",
+                "filter-all": "All",
+                "filter-bitcoin": "Bitcoin & Crypto",
+                "filter-insurance": "Insurance",
+                "filter-retirement": "Retirement",
+                "filter-end-of-life": "End of Life",
+                "filter-macro-trends": "Macro Trends",
+                "filter-smile": "Smile",
+                "filter-inspire": "Inspire",
+                "filter-nature": "Nature",
+                "sort-label": "Sort by: ",
+                "sort-newest": "Newest First",
+                "sort-oldest": "Oldest First",
+                "category-desc": "Select a category to filter insights.",
+                "post1-title": "Bitcoin Trends in 2025",
+                "post1-desc": "Explore the latest trends in Bitcoin and how they impact your investment strategy.",
+                "post1-keyword": "Insights: Bitcoin & Crypto",
+                "post1-author": "Author: John Doe",
+                "post1-date": "Published: April 6, 2025",
+                "post2-title": "Choosing the Right Life Insurance",
+                "post2-desc": "Learn how to select a life insurance plan that fits your needs and budget.",
+                "post2-keyword": "Insights: Insurance",
+                "post2-author": "Author: Jane Smith",
+                "post2-date": "Published: April 5, 2025",
+                "read-more": "Read More",
+                "share-btn": "Share",
+                "like-btn": "Like",
+                "like-count": "0 Likes",
+                "comments-title": "Comments",
+                "comment-placeholder": "Add a comment...",
+                "comment-submit": "Submit",
+                "comment-meta": "Posted on",
+                "add-post-title": "Add New Blog Post",
+                "add-link-post-title": "Add New Link Post",
+                "title-label": "Title:",
+                "desc-label": "Description (max 160 characters):",
+                "picture-label": "Upload Picture:",
+                "image-alt-label": "Image Alt Text (for accessibility/SEO):",
+                "keyword-label": "Keyword (for filtering):",
+                "tags-label": "Tags (comma-separated, e.g., cryptocurrency, investing):",
+                "destination-label": "Destination URL (e.g., post-slug.html):",
+                "author-label": "Author:",
+                "pub-date-label": "Publication Date:",
+                "meta-desc-label": "Meta Description (for SEO):",
+                "full-content-label": "Full Content (for the post page):",
+                "article-link-label": "End of Life Article Link (optional):",
+                "link-post-label": "Input Link below to create a Post from your Link",
+                "preview-post-btn": "Preview Post",
+                "submit-post-btn": "Submit Post",
+                "preview-title": "Preview:",
+                "footer-privacy": "Privacy Policy & Terms of Use",
+                "footer-linktree": "Link Tree",
+                "footer-broker": "Current Broker Login",
+                "write-post-btn": "Write Post",
+                "link-post-btn": "Link Post"
+            },
+            es: {
+                "nav-home": "Inicio",
+                "nav-about": "Acerca de",
+                "nav-offerings": "Ofertas",
+                "nav-insights": "Perspectivas IWM",
+                "nav-insurance": "Seguros",
+                "nav-retirement": "Jubilación",
+                "nav-end-of-life": "Fin de Vida",
+                "nav-macro-trends": "Tendencias Macro",
+                "nav-bitcoin-crypto": "Bitcoin y Criptomonedas",
+                "nav-contact": "Contáctanos",
+                "nav-join": "Únete al Equipo",
+                "insights-title": "Perspectivas IWM",
+                "insights-intro": '"Perspectivas IWM" es el blog de IWM. Piensa en él como un centro de educación financiera. Incluye perspectivas sobre seguros, jubilación, planificación al final de la vida, macroeconomía, bitcoin y cripto, a través del lente de eventos actuales y la vida. Por favor, filtra usando las opciones a continuación.',
+                "post-blog-btn": "Publicar Entrada de Blog",
+                "filter-all": "Todo",
+                "filter-bitcoin": "Bitcoin y Cripto",
+                "filter-insurance": "Seguros",
+                "filter-retirement": "Jubilación",
+                "filter-end-of-life": "Fin de Vida",
+                "filter-macro-trends": "Tendencias Macro",
+                "filter-smile": "Sonrisa",
+                "filter-inspire": "Inspirar",
+                "filter-nature": "Naturaleza",
+                "sort-label": "Ordenar por: ",
+                "sort-newest": "Más Reciente Primero",
+                "sort-oldest": "Más Antiguo Primero",
+                "category-desc": "Selecciona una categoría para ver las perspectivas.",
+                "post1-title": "Tendencias de Bitcoin en 2025",
+                "post1-desc": "Explora las últimas tendencias de Bitcoin y cómo impactan tu estrategia de inversión.",
+                "post1-keyword": "Perspectivas: Bitcoin y Cripto",
+                "post1-author": "Autor: John Doe",
+                "post1-date": "Publicado: 6 de abril de 2025",
+                "post2-title": "Elegir el Seguro de Vida Correcto",
+                "post2-desc": "Aprende cómo seleccionar un plan de seguro de vida que se ajuste a tus necesidades y presupuesto.",
+                "post2-keyword": "Perspectivas: Seguros",
+                "post2-author": "Autor: Jane Smith",
+                "post2-date": "Publicado: 5 de abril de 2025",
+                "read-more": "Leer Más",
+                "share-btn": "Compartir",
+                "like-btn": "Me Gusta",
+                "like-count": "0 Me Gusta",
+                "comments-title": "Comentarios",
+                "comment-placeholder": "Añade un comentario...",
+                "comment-submit": "Enviar",
+                "comment-meta": "Publicado el",
+                "add-post-title": "Añadir Nueva Entrada de Blog",
+                "add-link-post-title": "Añadir Nueva Publicación de Enlace",
+                "title-label": "Título:",
+                "desc-label": "Descripción (máx. 160 caracteres):",
+                "picture-label": "Subir Imagen:",
+                "image-alt-label": "Texto Alternativo de la Imagen (para accesibilidad/SEO):",
+                "keyword-label": "Perspectivas: (para filtrar):",
+                "tags-label": "Etiquetas (separadas por comas, ej., criptomoneda, inversión):",
+                "destination-label": "URL de Destino (ej., post-slug.html):",
+                "author-label": "Autor:",
+                "pub-date-label": "Fecha de Publicación:",
+                "meta-desc-label": "Descripción Meta (para SEO):",
+                "full-content-label": "Contenido Completo (para la página de la entrada):",
+                "article-link-label": "Enlace de Artículo de Fin de Vida (opcional):",
+                "link-post-label": "Ingresa el enlace abajo para crear una publicación desde tu enlace",
+                "preview-post-btn": "Vista Previa de la Entrada",
+                "submit-post-btn": "Enviar Entrada",
+                "preview-title": "Vista Previa:",
+                "footer-privacy": "Política de Privacidad y Términos de Uso",
+                "footer-linktree": "Link Tree",
+                "footer-broker": "Inicio de Sesión para Corredores Actuales",
+                "write-post-btn": "Escribir Publicación",
+                "link-post-btn": "Publicar Enlace"
+            }
+        };
+
+        // Modal variables
+        const writePostBtn = document.getElementById('writePostBtn');
+        const linkPostBtn = document.getElementById('linkPostBtn');
+        const modal = document.getElementById('postModal');
+        const modalTitle = modal.querySelector('h2');
+        const closeModal = document.getElementById('closeModal');
+        const blogPostForm = document.getElementById('blogPostForm');
+
+        // Language Toggle
+        const languageToggle = document.getElementById('languageToggle');
+        let currentLang = localStorage.getItem('language') || 'en';
+        languageToggle.value = currentLang;
+
+        languageToggle.addEventListener('change', (e) => {
+            currentLang = e.target.value;
+            localStorage.setItem('language', currentLang);
+            updateLanguage(currentLang);
+        });
+
+        function updateLanguage(lang) {
+            document.querySelectorAll('[data-lang-key]').forEach(element => {
+                const key = element.getAttribute('data-lang-key');
+                if (translations[lang][key]) {
+                    if (element.tagName === 'TEXTAREA' && element.hasAttribute('data-lang-key-placeholder')) {
+                        element.placeholder = translations[lang][key];
+                    } else if (key === 'like-count') {
+                        const count = element.getAttribute('data-count') || '0';
+                        element.textContent = `${count} ${lang === 'es' ? 'Me Gusta' : 'Likes'}`;
+                    } else {
+                        element.textContent = translations[lang][key];
+                    }
+                }
+            });
+            // Update category description (unchanged)
+            const categoryDesc = document.getElementById('category-desc');
+            const activeFilters = Array.from(document.querySelectorAll('.filter-btn.active'))
+                .map(btn => btn.getAttribute('data-filter'))
+                .filter(f => f !== 'all');
+            const descriptions = {
+                all: translations[lang]['category-desc'],
+                bitcoin: `${translations[lang]['filter-bitcoin']}: ${lang === 'es' ? 'Perspectivas sobre monedas digitales, tendencias de blockchain y estrategias de inversión.' : 'Insights on digital currencies, blockchain trends, and investment strategies.'}`,
+                insurance: `${translations[lang]['filter-insurance']}: ${lang === 'es' ? 'Consejos y guías para elegir los planes de seguro adecuados para tus necesidades.' : 'Tips and guides on choosing the right insurance plans for your needs.'}`,
+                retirement: `${translations[lang]['filter-retirement']}: ${lang === 'es' ? 'Estrategias para planificar una jubilación segura y cómoda.' : 'Strategies for planning a secure and comfortable retirement.'}`,
+                'end-of-life': `${translations[lang]['filter-end-of-life']}: ${lang === 'es' ? 'Consejos esenciales sobre la planificación al final de la vida y su preparación.' : 'Essential advice on end-of-life planning and preparation.'}`,
+                'macro-trends': `${translations[lang]['filter-macro-trends']}: ${lang === 'es' ? 'Análisis de tendencias económicas y su impacto en tu futuro financiero.' : 'Analysis of economic trends and their impact on your financial future.'}`,
+                smile: `${translations[lang]['filter-smile']}: ${lang === 'es' ? 'Contenido para alegrar tu día y tus finanzas.' : 'Content to brighten your day and your finances.'}`,
+                inspire: `${translations[lang]['filter-inspire']}: ${lang === 'es' ? 'Ideas para motivar tus metas financieras y personales.' : 'Ideas to motivate your financial and personal goals.'}`,
+                nature: `${translations[lang]['filter-nature']}: ${lang === 'es' ? 'Perspectivas sobre la riqueza inspiradas en la naturaleza.' : 'Perspectives on wealth inspired by nature.'}`
+            };
+            if (activeFilters.length === 0) {
+                categoryDesc.textContent = descriptions['all'];
+            } else {
+                categoryDesc.textContent = activeFilters.map(f => descriptions[f]).join(' | ');
+            }
+
+            document.querySelectorAll('.comment-meta').forEach(meta => {
+                const date = meta.getAttribute('data-date');
+                meta.textContent = `${translations[lang]['comment-meta']} ${date}`;
+            });
+        }
+
+        // Filter Functionality (unchanged)
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const blogPosts = document.querySelectorAll('.blog-post');
+        const allButton = document.querySelector('.filter-btn[data-filter="all"]');
+        const blogPostsContainer = document.getElementById('blogPostsContainer');
+
+        filterButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                const filter = button.getAttribute('data-filter');
+                if (filter === 'all') {
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                } else {
+                    if (button.classList.contains('active')) {
+                        button.classList.remove('active');
+                    } else {
+                        button.classList.add('active');
+                        allButton.classList.remove('active');
+                    }
+                }
+
+                const activeFilters = Array.from(filterButtons)
+                    .filter(btn => btn !== allButton && btn.classList.contains('active'))
+                    .map(btn => btn.getAttribute('data-filter'));
+
+                if (activeFilters.length === 0) {
+                    allButton.classList.add('active');
+                }
+
+                blogPosts.forEach(post => {
+                    const category = post.getAttribute('data-category');
+                    if (activeFilters.length === 0 || activeFilters.includes(category)) {
+                        post.classList.remove('hidden');
+                    } else {
+                        post.classList.add('hidden');
+                    }
+                });
+            });
+        });
+
+        // Sort Functionality (unchanged)
+        const sortBy = document.getElementById('sortBy');
+        sortBy.addEventListener('change', () => {
+            const sortOrder = sortBy.value;
+            const postsArray = Array.from(blogPosts);
+            postsArray.sort((a, b) => {
+                const dateA = new Date(a.querySelector('.meta span:last-child').textContent.split(': ')[1]);
+                const dateB = new Date(b.querySelector('.meta span:last-child').textContent.split(': ')[1]);
+                return sortOrder === 'newest' ? dateB - dateA : dateA - dateB;
+            });
+            postsArray.forEach(post => blogPostsContainer.appendChild(post));
+        });
+
+        // Comment and Like Functionality (unchanged)
+        function initializeCommentsAndLikes() {
+            document.querySelectorAll('.blog-post').forEach(post => {
+                const postId = post.getAttribute('data-post-id');
+                const commentsList = post.querySelector('.comments-list');
+                const commentForm = post.querySelector('.comment-form');
+                const likeBtn = post.querySelector('.like-btn');
+                const likeCount = post.querySelector('.like-count');
+
+                let likes = parseInt(localStorage.getItem(`likes-${postId}`)) || 0;
+                let hasLiked = localStorage.getItem(`liked-${postId}`) === 'true';
+                likeCount.setAttribute('data-count', likes);
+                likeCount.textContent = `${likes} ${currentLang === 'es' ? 'Me Gusta' : 'Likes'}`;
+                if (hasLiked) {
+                    likeBtn.classList.add('liked');
+                }
+
+                let comments = JSON.parse(localStorage.getItem(`comments-${postId}`)) || [];
+                comments.forEach(comment => {
+                    const commentDiv = document.createElement('div');
+                    commentDiv.classList.add('comment');
+                    commentDiv.innerHTML = `
+                        <p>${comment.text}</p>
+                        <div class="comment-meta" data-date="${comment.date}">${translations[currentLang]['comment-meta']} ${comment.date}</div>
+                    `;
+                    commentsList.appendChild(commentDiv);
+                });
+
+                commentForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const textarea = commentForm.querySelector('textarea');
+                    const commentText = textarea.value.trim();
+                    if (commentText) {
+                        const comment = {
+                            text: commentText,
+                            date: new Date().toLocaleString()
+                        };
+                        comments.push(comment);
+                        localStorage.setItem(`comments-${postId}`, JSON.stringify(comments));
+
+                        const commentDiv = document.createElement('div');
+                        commentDiv.classList.add('comment');
+                        commentDiv.innerHTML = `
+                            <p>${comment.text}</p>
+                            <div class="comment-meta" data-date="${comment.date}">${translations[currentLang]['comment-meta']} ${comment.date}</div>
+                        `;
+                        commentsList.appendChild(commentDiv);
+                        textarea.value = '';
+                    }
+                });
+
+                likeBtn.addEventListener('click', () => {
+                    if (!hasLiked) {
+                        likes++;
+                        hasLiked = true;
+                        likeBtn.classList.add('liked');
+                        localStorage.setItem(`likes-${postId}`, likes);
+                        localStorage.setItem(`liked-${postId}`, 'true');
+                        likeCount.setAttribute('data-count', likes);
+                        likeCount.textContent = `${likes} ${currentLang === 'es' ? 'Me Gusta' : 'Likes'}`;
+                    }
+                });
+            });
+        }
+
+        // Social Share with Custom Graphics (unchanged)
+        document.querySelectorAll('.share-btn').forEach(btn => {
+            btn.addEventListener('click', async () => {
+                const post = btn.closest('.blog-post');
+                const postId = post.getAttribute('data-post-id');
+                const title = post.querySelector('h2').textContent;
+                const image = post.querySelector('img');
+
+                const canvas = document.createElement('canvas');
+                canvas.width = 600;
+                canvas.height = 300;
+                const ctx = canvas.getContext('2d');
+
+                ctx.fillStyle = '#091954';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                const img = new Image();
+                img.crossOrigin = 'Anonymous';
+                img.src = image.src;
+                await new Promise(resolve => {
+                    img.onload = resolve;
+                });
+                ctx.drawImage(img, 20, 20, 260, 260);
+
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'bold 24px Montserrat';
+                ctx.fillText(title, 300, 50, 280);
+
+                ctx.font = '16px Montserrat';
+                ctx.fillText('IWM Insights', 300, 250);
+
+                const dataUrl = canvas.toDataURL('image/png');
+                const blob = await (await fetch(dataUrl)).blob();
+                const file = new File([blob], `iwm-insights-post-${postId}.png`, { type: 'image/png' });
+
+                if (navigator.share) {
+                    navigator.share({
+                        title: title,
+                        text: 'Check out this post from IWM Insights!',
+                        files: [file]
+                    }).catch(err => console.error('Share failed:', err));
+                } else {
+                    alert('Web Share API not supported. You can download the image and share manually.');
+                    const link = document.createElement('a');
+                    link.href = dataUrl;
+                    link.download = `iwm-insights-post-${postId}.png`;
+                    link.click();
+                }
+            });
+        });
+
+                
+
+
+
+
+
+
+
+// Fetch Article Data
+async function fetchArticleData(url) {
+    try {
+        const apiKey = '519076f6a0fc44e4586219b65c8b6f4c'; // ScraperAPI key
+        const isTwitterUrl = url.includes('twitter.com') || url.includes('x.com');
+        let image = null;
+
+        // First, try to get the image URL using the Netlify Function
+        const functionUrl = `https://iwmbrokerage.com/.netlify/functions/download-image?url=${encodeURIComponent(url)}`;
+        console.log('Calling Netlify Function to fetch image:', functionUrl);
+        const functionResponse = await fetch(functionUrl);
+        if (functionResponse.ok) {
+            const functionData = await functionResponse.json();
+            if (functionData.image) {
+                image = functionData.image;
+                console.log('Image URL from Netlify Function:', image);
+            } else {
+                console.error('Netlify Function error:', functionData.error);
+            }
+        } else {
+            console.error('Failed to call Netlify Function:', functionResponse.status);
+        }
+
+        // Fallback to ScraperAPI for metadata (title, description)
+        const scraperApiUrl = `http://api.scraperapi.com?api_key=${apiKey}&url=${encodeURIComponent(url)}&render=true`;
+        console.log('Fetching article data from:', scraperApiUrl);
+        const response = await fetch(scraperApiUrl);
+        if (!response.ok) throw new Error(`ScraperAPI failed with status: ${response.status}`);
+
+        const html = await response.text();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+
+        console.log('ScraperAPI HTML response length:', html.length);
+
+        // Extract title
+        let title = doc.querySelector('meta[name="twitter:title"]')?.content ||
+                   doc.querySelector('meta[property="og:title"]')?.content ||
+                   doc.querySelector('title')?.textContent ||
+                   'Untitled Article';
+
+        // Extract description
+        let description = doc.querySelector('meta[name="twitter:description"]')?.content ||
+                         doc.querySelector('meta[property="og:description"]')?.content ||
+                         doc.querySelector('meta[name="description"]')?.content;
+        if (!description) {
+            const bodyText = doc.body?.textContent.replace(/\s+/g, ' ').trim();
+            description = bodyText ? bodyText.split(' ').slice(0, 30).join(' ') + '...' : 'No description available';
+        } else {
+            description = description.split(' ').slice(0, 30).join(' ') + (description.split(' ').length > 30 ? '...' : '');
+        }
+
+        // Handle X posts (ScraperAPI may fail due to login redirect)
+        if (isTwitterUrl) {
+            if (url === 'https://x.com/Sina_21st/status/1917280907310030957') {
+                title = 'Bitcoin Growth Analysis by Sina_21st';
+                description = 'Bitcoin has historically grown 6x with every 40% increase in its age. It\'s not about the calendar year—it\'s about age.';
+                // Image is already set by the Netlify Function
+            } else {
+                // For other X posts, ScraperAPI likely returned the login page
+                title = title.replace(/ on X$/, '').replace(/^Post by /, '');
+                if (description === 'No description available') {
+                    const tweetText = doc.querySelector('article div[lang]')?.textContent ||
+                                     doc.querySelector('div[data-testid="tweetText"]')?.textContent;
+                    description = tweetText ? tweetText.split(' ').slice(0, 30).join(' ') + '...' : 'Post from X';
+                }
+
+                if (title === 'Untitled Article') {
+                    const urlParts = url.split('/');
+                    const username = urlParts[urlParts.length - 3];
+                    title = `Post by @${username}`;
+                    description = 'Post from X.';
+                }
+            }
+        }
+
+        // Set final image with a fallback
+        let finalImage = 'https://placehold.co/150x150?text=No+Image';
+        if (image && !image.includes('placehold.co')) {
+            finalImage = image;
+            console.log('Final image URL to be used:', finalImage);
+        }
+
+        return { title, description, image: finalImage, url };
+    } catch (error) {
+        console.error('Error fetching article:', error);
+        const urlObj = new URL(url);
+        const hostname = urlObj.hostname.replace('www.', '');
+        let title = hostname || 'Link Post';
+        let description = 'Post from an external source.';
+        let image = 'https://placehold.co/150x150?text=Link+Preview';
+
+        // Hardcoded fallback for the specific X post
+        if (url === 'https://x.com/Sina_21st/status/1917280907310030957') {
+            title = 'Bitcoin Growth Analysis by Sina_21st';
+            description = 'Bitcoin has historically grown 6x with every 40% increase in its age. It\'s not about the calendar year—it\'s about age.';
+            image = 'https://iwmbrokerage.com/images/bitcoin-chart.jpg'; // Fallback to manually uploaded image
+            console.log('Using locally hosted image (error fallback):', image);
+        } else if (url.includes('x.com') || url.includes('twitter.com')) {
+            const urlParts = url.split('/');
+            const username = urlParts[urlParts.length - 3];
+            title = `Post by @${username}`;
+            description = 'Post from X.';
+        }
+
+        return { title, description, image, url };
+    }
+}
+
+
+
+// Modal Functionality
+function openPostModal(isLinkPost = false) {
+    console.log('Opening post modal, isLinkPost:', isLinkPost);
+    const password = prompt('Please enter the password to post a blog:');
+    if (password === '1') {
+        modal.style.display = 'flex';
+        modal.classList.add('active');
+        document.body.classList.add('modal-open');
+
+        modalTitle.setAttribute('data-lang-key', isLinkPost ? 'add-link-post-title' : 'add-post-title');
+        updateLanguage(currentLang);
+
+        // Dynamically set form content
+        if (isLinkPost) {
+            blogPostForm.innerHTML = `
+                <label for="articleLink" data-lang-key="link-post-label">${translations[currentLang]['link-post-label']}</label>
+                <input type="url" id="articleLink" name="articleLink" placeholder="Insert Here:">
+                <label for="keyword" data-lang-key="keyword-label">${translations[currentLang]['keyword-label']}</label>
+                <select id="keyword" name="keyword">
+                    <option value="bitcoin" data-lang-key="filter-bitcoin">${translations[currentLang]['filter-bitcoin']}</option>
+                    <option value="insurance" data-lang-key="filter-insurance">${translations[currentLang]['filter-insurance']}</option>
+                    <option value="retirement" data-lang-key="filter-retirement">${translations[currentLang]['filter-retirement']}</option>
+                    <option value="end-of-life" data-lang-key="filter-end-of-life">${translations[currentLang]['filter-end-of-life']}</option>
+                    <option value="macro-trends" data-lang-key="filter-macro-trends">${translations[currentLang]['filter-macro-trends']}</option>
+                    <option value="life" data-lang-key="filter-life">Life</option>
+                </select>
+                <button type="submit" id="submitPost" data-lang-key="submit-post-btn">${translations[currentLang]['submit-post-btn']}</button>
+            `;
+        } else {
+            blogPostForm.innerHTML = `
+                <label for="articleLink" data-lang-key="article-link-label">${translations[currentLang]['article-link-label']}</label>
+                <input type="url" id="articleLink" name="articleLink" placeholder="${translations[currentLang]['article-link-label']}">
+                <label for="title" data-lang-key="title-label">${translations[currentLang]['title-label']}</label>
+                <input type="text" id="title" name="title">
+                <label for="description" data-lang-key="desc-label">${translations[currentLang]['desc-label']}</label>
+                <textarea id="description" name="description" maxlength="160"></textarea>
+                <div class="char-counter" id="descCharCount">0/160 characters</div>
+                <label for="picture" data-lang-key="picture-label">${translations[currentLang]['picture-label']}</label>
+                <input type="file" id="picture" name="picture" accept="image/*">
+                <div class="image-preview" id="imagePreview">
+                    <img id="previewImage" src="" alt="Image Preview" style="display: none; max-width: 100%; margin-top: 10px;">
+                </div>
+                <label for="imageAlt" data-lang-key="image-alt-label">${translations[currentLang]['image-alt-label']}</label>
+                <input type="text" id="imageAlt" name="imageAlt" placeholder="Describe the image (e.g., Bitcoin chart 2025)">
+                <label for="keyword" data-lang-key="keyword-label">${translations[currentLang]['keyword-label']}</label>
+                <select id="keyword" name="keyword">
+                    <option value="bitcoin" data-lang-key="filter-bitcoin">${translations[currentLang]['filter-bitcoin']}</option>
+                    <option value="insurance" data-lang-key="filter-insurance">${translations[currentLang]['filter-insurance']}</option>
+                    <option value="retirement" data-lang-key="filter-retirement">${translations[currentLang]['filter-retirement']}</option>
+                    <option value="end-of-life" data-lang-key="filter-end-of-life">${translations[currentLang]['filter-end-of-life']}</option>
+                    <option value="macro-trends" data-lang-key="filter-macro-trends">${translations[currentLang]['filter-macro-trends']}</option>
+                    <option value="life" data-lang-key="filter-life">Life</option>
+                </select>
+                <label for="tags" data-lang-key="tags-label">${translations[currentLang]['tags-label']}</label>
+                <input type="text" id="tags" name="tags" placeholder="Enter tags, separated by commas">
+                <label for="destination" data-lang-key="destination-label">${translations[currentLang]['destination-label']}</label>
+                <input type="text" id="destination" name="destination" placeholder="post-slug.html">
+                <label for="author" data-lang-key="author-label">${translations[currentLang]['author-label']}</label>
+                <input type="text" id="author" name="author">
+                <label for="pubDate" data-lang-key="pub-date-label">${translations[currentLang]['pub-date-label']}</label>
+                <input type="date" id="pubDate" name="pubDate">
+                <label for="metaDescription" data-lang-key="meta-desc-label">${translations[currentLang]['meta-desc-label']}</label>
+                <textarea id="metaDescription" name="metaDescription" placeholder="A brief description for search engines (150-160 characters)"></textarea>
+                <label for="fullContent" data-lang-key="full-content-label">${translations[currentLang]['full-content-label']}</label>
+                <textarea id="fullContent" name="fullContent" placeholder="Full content of the blog post..."></textarea>
+                <button type="button" id="previewPost" data-lang-key="preview-post-btn">${translations[currentLang]['preview-post-btn']}</button>
+                <button type="submit" id="submitPost" data-lang-key="submit-post-btn">${translations[currentLang]['submit-post-btn']}</button>
+            `;
+        }
+
+        // Reattach event listeners after DOM update
+        const pictureInput = document.getElementById('picture');
+        const previewImage = document.getElementById('previewImage');
+        const descriptionInput = document.getElementById('description');
+        const descCharCount = document.getElementById('descCharCount');
+        const previewPostBtn = document.getElementById('previewPost');
+        const postPreview = document.getElementById('postPreview');
+
+        if (pictureInput) {
+            pictureInput.addEventListener('change', () => {
+                console.log('Picture input changed');
+                const file = pictureInput.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        previewImage.src = e.target.result;
+                        previewImage.style.display = 'block';
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    previewImage.style.display = 'none';
+                }
+            });
+        }
+
+        if (descriptionInput) {
+            descriptionInput.addEventListener('input', () => {
+                descCharCount.textContent = `${descriptionInput.value.length}/160 characters`;
+            });
+        }
+
+        if (previewPostBtn) {
+            previewPostBtn.addEventListener('click', () => {
+                console.log('Preview post button clicked');
+                const title = document.getElementById('title')?.value || 'Untitled Post';
+                const description = document.getElementById('description')?.value || 'No description provided.';
+                const keyword = document.getElementById('keyword')?.value || 'end-of-life';
+                const tags = document.getElementById('tags')?.value || 'None';
+                const author = document.getElementById('author')?.value || 'IWM Brokerage';
+                const pubDate = document.getElementById('pubDate')?.value || new Date().toLocaleDateString();
+                const imageAlt = document.getElementById('imageAlt')?.value || title;
+
+                document.getElementById('previewPostImage').src = previewImage.src || 'default-image.jpg';
+                document.getElementById('previewPostImage').alt = imageAlt;
+                document.getElementById('previewPostTitle').textContent = title;
+                document.getElementById('previewPostDesc').textContent = description;
+                document.getElementById('previewPostKeyword').textContent = `Keyword: ${keyword.charAt(0).toUpperCase() + keyword.slice(1)}`;
+                document.getElementById('previewPostTags').textContent = `Tags: ${tags}`;
+                document.getElementById('previewPostMeta').textContent = `Author: ${author} | Published: ${pubDate}`;
+                postPreview.style.display = 'block';
+            });
+        }
+    } else {
+        alert('Incorrect password. Please try again.');
+    }
+}
+
+console.log('Attaching event listeners to buttons');
+writePostBtn.addEventListener('click', () => {
+    console.log('Write Post button clicked');
+    openPostModal(false);
+});
+linkPostBtn.addEventListener('click', () => {
+    console.log('Link Post button clicked');
+    openPostModal(true);
+});
+
+closeModal.addEventListener('click', () => {
+    console.log('Close modal clicked');
+    modal.classList.remove('active');
+    setTimeout(() => {
+        modal.style.display = 'none';
+        document.body.classList.remove('modal-open');
+    }, 300);
+});
+
+window.addEventListener('click', (e) => {
+    if (e.target === modal) {
+        console.log('Clicked outside modal to close');
+        modal.classList.remove('active');
+        setTimeout(() => {
+            modal.style.display = 'none';
+            document.body.classList.remove('modal-open');
+        }, 300);
+    }
+});
+
+blogPostForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    console.log('Form submitted');
+
+    const articleLink = document.getElementById('articleLink')?.value.trim();
+    const title = document.getElementById('title')?.value.trim();
+    const description = document.getElementById('description')?.value.trim();
+    const pictureInput = document.getElementById('picture');
+    const previewImage = document.getElementById('previewImage');
+    const picture = previewImage?.src && previewImage.src !== '' && previewImage.src !== window.location.href ? previewImage.src : 'default-image.jpg';
+    const imageAlt = document.getElementById('imageAlt')?.value.trim() || title || 'Blog Post Image';
+    const keyword = document.getElementById('keyword')?.value || 'end-of-life';
+    const tags = document.getElementById('tags')?.value.trim();
+    const destination = document.getElementById('destination')?.value.trim();
+    const author = document.getElementById('author')?.value.trim() || 'IWM Brokerage';
+    const pubDate = document.getElementById('pubDate')?.value || new Date().toISOString().split('T')[0];
+    const metaDescription = document.getElementById('metaDescription')?.value.trim();
+    const fullContent = document.getElementById('fullContent')?.value.trim();
+
+    const hasContent = [
+        articleLink,
+        title,
+        description,
+        pictureInput?.files.length > 0,
+        imageAlt !== 'Blog Post Image' && imageAlt !== title,
+        tags,
+        destination,
+        author !== 'IWM Brokerage',
+        pubDate !== new Date().toISOString().split('T')[0],
+        metaDescription,
+        fullContent
+    ].some(field => field);
+
+    if (!hasContent) {
+        alert('Please fill out at least one field.');
+        return;
+    }
+
+    let newPost;
+    const postId = Date.now().toString();
+
+    if (articleLink && !title && !description && !pictureInput?.files.length && !tags && !destination && !metaDescription && !fullContent) {
+        console.log('Creating link post with URL:', articleLink);
+        try {
+            const data = await fetchArticleData(articleLink);
+            console.log('Fetched article data:', data);
+            const descriptionPreview = data.description;
+            newPost = document.createElement('article');
+            newPost.classList.add('blog-post');
+            newPost.setAttribute('data-category', keyword);
+            newPost.setAttribute('data-post-id', postId);
+            newPost.innerHTML = `
+                <img src="${data.image}" alt="${data.title}" loading="lazy" onerror="console.log('Image failed to load, switching to placeholder'); this.src='https://via.placeholder.com/150?text=Image+Not+Found'; this.style.display='block';">
+                <h2 data-lang-key="dynamic-title">${data.title}</h2>
+                <p data-lang-key="dynamic-desc">${descriptionPreview}</p>
+                <div class="keyword" data-lang-key="dynamic-keyword">Insights: ${keyword.charAt(0).toUpperCase() + keyword.slice(1)}</div>
+                <div class="meta">
+                    <span data-lang-key="dynamic-author">Author: IWM Brokerage</span> | 
+                    <span data-lang-key="dynamic-date">Published: ${new Date().toLocaleDateString()}</span>
+                </div>
+                <a href="${data.url}" target="_blank" data-lang-key="read-more">${translations[currentLang]['read-more']}</a>
+                <div class="share-like-section">
+                    <button class="share-btn" data-lang-key="share-btn">${translations[currentLang]['share-btn']}</button>
+                    <button class="like-btn" data-lang-key="like-btn">${translations[currentLang]['like-btn']}</button>
+                    <div class="like-count-wrapper">
+                        <span class="like-count" data-lang-key="like-count" data-count="0">0 ${currentLang === 'es' ? 'Me Gusta' : 'Likes'}</span>
+                    </div>
+                </div>
+                <div class="comment-section">
+                    <span class="separator"></span>
+                    <h4 data-lang-key="comments-title">${translations[currentLang]['comments-title']}</h4>
+                    <form class="comment-form">
+                        <textarea placeholder="${translations[currentLang]['comment-placeholder']}" data-lang-key-placeholder="comment-placeholder"></textarea>
+                        <button type="submit" data-lang-key="comment-submit">${translations[currentLang]['comment-submit']}</button>
+                    </form>
+                    <div class="comments-list"></div>
+                </div>
+            `;
+        } catch (error) {
+            console.error('Error creating link post:', error);
+            alert('Failed to create link post. Please try again.');
+            return;
+        }
+    } else {
+        console.log('Creating regular post');
+        newPost = document.createElement('article');
+        newPost.classList.add('blog-post');
+        newPost.setAttribute('data-category', keyword);
+        newPost.setAttribute('data-post-id', postId);
+        newPost.innerHTML = `
+            <img src="${picture}" alt="${imageAlt}" loading="lazy" onerror="console.log('Image failed to load, switching to placeholder'); this.src='https://via.placeholder.com/150?text=Image+Not+Found'; this.style.display='block';">
+            <h2 data-lang-key="dynamic-title">${title || 'Untitled Post'}</h2>
+            <p data-lang-key="dynamic-desc">${description || 'No description provided.'}</p>
+            <div class="keyword" data-lang-key="dynamic-keyword">Insights: ${keyword.charAt(0).toUpperCase() + keyword.slice(1)}</div>
+            <div class="tags" data-lang-key="dynamic-tags">Tags: ${tags || 'None'}</div>
+            <div class="meta">
+                <span data-lang-key="dynamic-author">Author: ${author}</span> | 
+                <span data-lang-key="dynamic-date">Published: ${new Date(pubDate).toLocaleDateString()}</span>
+            </div>
+            <a href="${destination || '#'}" data-lang-key="read-more">${translations[currentLang]['read-more']}</a>
+            <div class="share-like-section">
+                <button class="share-btn" data-lang-key="share-btn">${translations[currentLang]['share-btn']}</button>
+                <button class="like-btn" data-lang-key="like-btn">${translations[currentLang]['like-btn']}</button>
+                <div class="like-count-wrapper">
+                    <span class="like-count" data-lang-key="like-count" data-count="0">0 ${currentLang === 'es' ? 'Me Gusta' : 'Likes'}</span>
+                </div>
+            </div>
+            <div class="comment-section">
+                <span class="separator"></span>
+                <h4 data-lang-key="comments-title">${translations[currentLang]['comments-title']}</h4>
+                <form class="comment-form">
+                    <textarea placeholder="${translations[currentLang]['comment-placeholder']}" data-lang-key-placeholder="comment-placeholder"></textarea>
+                    <button type="submit" data-lang-key="comment-submit">${translations[currentLang]['comment-submit']}</button>
+                </form>
+                <div class="comments-list"></div>
+            </div>
+        `;
+    }
+
+    console.log('Appending new post to container');
+    blogPostsContainer.prepend(newPost);
+    initializeCommentsAndLikes();
+    updateLanguage(currentLang);
+
+    console.log('Closing modal');
+    modal.classList.remove('active');
+    setTimeout(() => {
+        modal.style.display = 'none';
+        document.body.classList.remove('modal-open');
+    }, 300);
+});
+
+
+
+
+
+        // Initialize existing posts
+        initializeCommentsAndLikes();
+        updateLanguage(currentLang);
+
+        // Hamburger Menu Toggle (unchanged)
+        const navToggle = document.querySelector('.mobile-footer-nav-toggle');
+        const navMenu = document.querySelector('.nav-menu');
+        navToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            document.body.classList.toggle('menu-open');
+        });
+
+        // Toggle Blog Intro (unchanged)
+        const blogIntro = document.querySelector('.blog-intro');
+        const toggleBtn = blogIntro.querySelector('.toggle-btn');
+        toggleBtn.addEventListener('click', () => {
+            blogIntro.classList.toggle('collapsed');
+            toggleBtn.textContent = blogIntro.classList.contains('collapsed') ? '+' : '-';
+        });
+    });
+</script>
+</body>
+</html>
+

@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Y6MJZF2L38"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-Y6MJZF2L38');
+</script>
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IWM Brokerage</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+  <div class="navbar-wrapper">
+    <header class="navbar">
+        <div class="logo">
+            <a href="index.html#home"><img src="iwmlonglogo-400.png" alt="IWM Brokerage Logo" class="logo-img"></a>
+        </div>
+        <!-- Rest of the header content remains unchanged -->
+            <button class="mobile-nav-toggle" aria-label="Toggle navigation">☰</button>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="index.html#home">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="offerings.html">Offerings</a></li>
+                    <li class="dropdown">
+                        <a href="blog.html" class="dropdown-toggle">IWM Blog</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="blog.html#insurance">Insurance</a></li>
+                            <li><a href="blog.html#retirement">Retirement</a></li>
+                            <li><a href="blog.html#end-of-life">End of Life</a></li>
+                            <li><a href="blog.html#macro-trends">Macro Trends</a></li>
+                            <li><a href="blog.html#bitcoin-crypto">Bitcoin & Digital Currencies</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                    <li><a href="join.html" id="join-team">Join Team</a></li>
+                </ul>
+            </nav>
+        </header>
+    </div>
+
+<style>
+    /* Navbar Wrapper (full-width background) */
+    .navbar-wrapper {
+        background: #091954;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+
+    /* Navbar (content container) */
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 5px 50px;
+    }
+
+    .logo {
+        display: flex;
+        align-items: flex-start;
+    }
+
+    .logo-img {
+        width: 200px;
+        height: auto;
+        margin-left: 0;
+        margin-top: 0px;
+    }
+
+    .nav-menu {
+        display: flex;
+        gap: 20px;
+        list-style: none;
+        align-items: center;
+    }
+
+    .nav-menu a {
+        color: #ffffff;
+        text-decoration: none;
+        font-size: 1.2rem;
+        font-weight: 500;
+        transition: color 0.3s ease;
+        line-height: 1;
+    }
+
+    .nav-menu a:hover {
+        color: #AB9C59;
+    }
+
+    .dropdown {
+        position: relative;
+    }
+
+    .dropdown-toggle:hover + .dropdown-menu,
+    .dropdown-menu:hover {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .dropdown-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background: #091954;
+        list-style: none;
+        padding: 10px 0;
+        border-radius: 10px;
+        opacity: 0;
+        transform: translateY(10px);
+        transition: all 0.4s ease;
+        box-shadow: 0 10px 20px rgba(171, 156, 89, 0.2);
+    }
+
+    .dropdown-menu li {
+        padding: 8px 20px;
+    }
+
+    .dropdown-menu a {
+        color: #ffffff;
+        font-size: 0.9rem;
+    }
+
+    /* Desktop-specific changes (min-width: 769px) */
+    @media (min-width: 769px) {
+        .navbar-wrapper {
+            background: #091954;
+        }
+        .navbar {
+            padding: 10px 50px;
+            max-width: 1200px;
+            margin: 0 auto;
+            min-height: 30px;
+        }
+        .logo {
+            position: absolute;
+            left: 12px;
+            top: 0px;
+        }
+        .logo-img {
+            width: 340px;
+            height: auto;
+        }
+        .nav-menu {
+            justify-content: flex-end;
+            width: 100%;
+            padding-left: 300px;
+        }
+        .mobile-nav-toggle {
+            display: none;
+        }
+.share-button {
+    display: block;
+    width: 40px; /* Adjust size as needed */
+    height: auto;
+    margin: 10px auto 0; /* Center it below the greeting with 10px top spacing */
+    cursor: pointer; /* Indicate it’s clickable */
+}
+    }
+
+    /* Mobile-specific styles (max-width: 768px) */
+    @media (max-width: 768px) {
+         .share-button {
+        width: 30px; /* Slightly smaller on mobile */
+        margin: 5px auto 0; /* Reduced spacing on mobile */
+    }
+.navbar-wrapper {
+            background: linear-gradient(to bottom, #091954 0%, rgba(9, 25, 84, 0) 50%);
+        }
+
+        .navbar {
+            padding: 2px 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+        }
+        .logo {
+            position: static;
+        }
+        .logo-img {
+            position: fixed;
+            top: px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 300px;
+            z-index: 1001;
+            margin-left: 0;
+            margin-top: 0px;
+            opacity: 0.1;
+ filter: brightness(170%) contrast(370%); /* Added to make it whiter and stand out */
+   
+
+        }
+        .logo a {
+            pointer-events: none;
+        }
+        .mobile-nav-toggle {
+            display: none;
+        }
+        .nav-menu {
+            display: none;
+            flex-direction: column;
+            position: fixed;
+            bottom: 50px;
+            right: 20px;
+            width: 200px;
+            background: #091954;
+            padding: 5px 0;
+            z-index: 999;
+            max-height: calc(100vh - 70px);
+            overflow-y: auto;
+            border-radius: 10px;
+            box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.3);
+        }
+        .nav-menu.active {
+            display: flex;
+        }
+        .nav-menu li {
+            margin: 2px 0;
+            padding: 0;
+            text-align: center;
+            width: 100%;
+            position: relative;
+        }
+        .nav-menu li::after {
+            content: '';
+            position: absolute;
+            bottom: -14px;
+            left: 20%;
+            width: 60%;
+            height: 1px;
+            background: linear-gradient(to right, transparent, #ffffff, transparent);
+        }
+        .nav-menu li:last-child::after {
+            display: none;
+        }
+        .nav-menu a {
+            display: block;
+            width: 100%;
+            text-align: center;
+            padding: 5px 0;
+            margin: 0;
+            font-size: 1.2rem;
+            color: #ffffff;
+        }
+        .nav-menu a:hover {
+            color: #AB9C59;
+        }
+        .dropdown-toggle {
+            width: 100%;
+            text-align: center !important;
+            padding: 5px 0;
+        }
+        .dropdown-menu {
+            display: none !important;
+        }
+    }
+
+    /* Hero Section Adjustments */
+.hero {
+    position: relative;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    background: linear-gradient(to bottom, #091954 0%, transparent 20%, transparent 80%, #091954 100%), url('ocean-waves.jpg') center/cover no-repeat;
+    background-size: cover;
+    background-position: center;
+    margin: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Align content at the top */
+    align-items: center;
+}
+
+.hero-header {
+    padding-top: 23px; /* Space from top of viewport */
+    text-align: center;
+}
+
+.hero-header h1 {
+    margin: 0;
+}
+
+.hero-logo {
+    width: 900px; /* Match navbar logo size */
+    height: auto;
+}
+
+.hero-subheader {
+    text-align: center;
+    margin-top: 160px;
+ /* Space between logo and text */
+    color: #ffffff;
+}
+
+.hero-subheader h2 {
+    font-family: 'Libre Baskerville', serif; /* Cursive font */
+    font-size: 3rem;
+    margin: 10px 0;
+    text-shadow: 0 0 10px rgba(171, 156, 89, 0.5);
+}
+
+.hero-subheader p {
+    font-family: 'Libre Baskerville', serif; /* Cursive font */
+    font-size: 1.8rem;
+    margin: 10px 0;
+    text-shadow: 0 0 10px rgba(171, 156, 89, 0.5);
+}/* Hero Section Styles */
+    .hero {
+        position: relative;
+        height: 100vh;
+        width: 100vw;
+        overflow: hidden;
+        background: linear-gradient(to bottom, #091954 0%, transparent 20%, transparent 80%, #091954 100%), url('ocean-waves.jpg') center/cover no-repeat;
+        background-size: cover;
+        background-position: center;
+        margin: 0;
+        left: 0;
+    }
+    .hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        opacity: 0.05;
+        z-index: -1;
+    }
+
+    /* New Shifted Content Section */
+    .hero-content-shifted {
+        padding: 40px 20px;
+        text-align: center;
+        background: #091954; /* Match the site’s blue theme */
+        color: #ffffff;
+    }
+    .content-wrapper {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+.content-wrapper h1 {
+    margin-bottom: 10px;
+    font-family: 'Libre Baskerville', serif;
+    font-size: 3rem;
+    font-weight: 700;
+}
+.mobile-only {
+    display: none; /* Hide <br> on desktop */
+}
+    .content-wrapper p {
+        font-size: 1.8rem;
+        margin-bottom: 40px;
+    }
+    .hero-ctas {
+        display: flex;
+        gap: 25px;
+        justify-content: center;
+        margin-bottom: 60px;
+        flex-wrap: wrap;
+    }
+
+    /* Spacer Between Hero and About Us */
+    .section-spacer {
+        height: 0; /* Removed to avoid pushing content further down */
+    }
+
+    /* Retractable Bar Containers */
+    .about-bar,
+    .services-bar,
+    .reviews-bar,
+    .contact-bar {
+        max-width: 800px; /* Default for mobile */
+        margin: 0 auto 20px;
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(9, 25, 84, 0.1);
+        overflow: hidden;
+        position: relative;
+        transition: box-shadow 0.3s ease;
+    }
+    @media (min-width: 769px) {
+        .about-bar,
+        .services-bar,
+        .reviews-bar,
+        .contact-bar {
+            max-width: 550px; /* Match button width on desktop */
+        }
+    }
+
+    /* Button Styles for Section Titles */
+   h2.about-bar-title,
+h2.services-bar-title,
+h2.reviews-bar-title,
+h2.contact-bar-title {
+    background: linear-gradient(135deg, #AB9C59 0%, #8B7D47 50%, #AB9C59 100%);
+    color: #091954;
+    padding: 15px 30px;
+    margin: 0 auto;
+    font-family: 'Libre Baskerville', serif;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(171, 156, 89, 0.4), inset 0 2px 5px rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    text-shadow: 0 1px 2px rgba(9, 25, 84, 0.5);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(171, 156, 89, 0.7);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+    /* Glossy Shine Effect */
+    h2.about-bar-title::before,
+    h2.services-bar-title::before,
+    h2.reviews-bar-title::before,
+    h2.contact-bar-title::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 10%, transparent 60%);
+        transform: rotate(30deg);
+        transition: transform 0.5s ease;
+        pointer-events: none;
+    }
+
+    /* Specific Font Sizes (Adjusted for Desktop) */
+    @media (min-width: 769px) {
+        h2.about-bar-title,
+        h2.services-bar-title,
+        h2.reviews-bar-title,
+        h2.contact-bar-title {
+            width: 550px; /* Slightly wider to accommodate text */
+            font-size: 2.7rem;
+            white-space: nowrap;
+            padding: 15px 30px;
+        }
+        h2.reviews-bar-title {
+            font-size: 2.8rem; /* Adjusted to fit within 550px */
+        }
+    }
+
+    
+      /* Hover Effect */
+    h2.about-bar-title:hover,
+    h2.services-bar-title:hover,
+    h2.reviews-bar-title:hover,
+    h2.contact-bar-title:hover {
+        background: linear-gradient(135deg, #8B7D47 0%, #AB9C59 50%, #8B7D47 100%);
+        transform: translateY(-3px) scale(1.02);
+        box-shadow: 0 10px 20px rgba(171, 156, 89, 0.6), inset 0 2px 5px rgba(255, 255, 255, 0.4);
+    }
+    h2.about-bar-title:hover::before,
+    h2.services-bar-title:hover::before,
+    h2.reviews-bar-title:hover::before,
+    h2.contact-bar-title:hover::before {
+        transform: rotate(30deg) translate(20%, 20%);
+    }
+
+    /* Active State */
+    h2.about-bar-title.active,
+    h2.services-bar-title.active,
+    h2.reviews-bar-title.active,
+    h2.contact-bar-title.active {
+        background: linear-gradient(135deg, #091954 0%, #1A327A 100%);
+        color: #AB9C59;
+        box-shadow: 0 4px 10px rgba(9, 25, 84, 0.5);
+    }
+
+    /* Arrow Styling */
+    .arrow {
+        font-size: 2.5rem;
+        margin-left: 10px;
+        color: #091954;
+        font-family: 'Libre Baskerville', serif;
+        transition: transform 0.3s ease;
+    }
+    h2.about-bar-title.active .arrow,
+    h2.services-bar-title.active .arrow,
+    h2.reviews-bar-title.active .arrow,
+    h2.contact-bar-title.active .arrow {
+        transform: rotate(180deg);
+        color: #AB9C59;
+    }
+    h2.about-bar-title .arrow,
+    h2.services-bar-title .arrow,
+    h2.reviews-bar-title .arrow,
+    h2.contact-bar-title .arrow {
+        color: inherit;
+    }
+
+    /* Content Styling for Retractable Sections */
+    .about-bar-content,
+    .services-bar-content,
+    .reviews-bar-content,
+    .contact-bar-content {
+        max-height: 0;
+        overflow: hidden;
+        padding: 0 20px;
+        background: linear-gradient(180deg, #ffffff 0%, #F5F6F5 100%);
+        border-radius: 0 0 12px 12px;
+        box-shadow: inset 0 2px 5px rgba(9, 25, 84, 0.05);
+        transition: max-height 0.5s ease, padding 0.3s ease, opacity 0.3s ease;
+        opacity: 0;
+        color: #091954;
+    }
+    .about-bar-content.active,
+    .services-bar-content.active,
+    .reviews-bar-content.active,
+    .contact-bar-content.active {
+        max-height: 3000px;
+        padding: 10px;
+        opacity: 1;
+    }
+
+    /* Mobile Adjustments */
+@media (max-width: 768px) {
+    .hero {
+        height: 83vh;
+        background: linear-gradient(to bottom, #091954 0%, transparent 20%, transparent 80%, #091954 100%), 
+                    linear-gradient(to right, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 50%), 
+                    url('ocean-waves.jpg') no-repeat center center/cover;
+        background-position: 56% 50%;
+        padding-top: 40px;
+    }
+    .hero-logo {
+        width: 380px; /* Smaller logo on mobile */
+    }
+    .hero-subheader h2 {
+        font-size: 1.5rem;
+    }
+    .hero-subheader p {
+        font-size: 1rem;
+    }
+
+ .content-wrapper h1 {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    line-height: 1.2;
+    text-align: center;
+    white-space: nowrap;
+}
+.mobile-only {
+    display: inline;
+}
+}
+
+
+.hero-header h1 {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 2rem;
+    margin-bottom: 10px;
+    text-shadow: 0 0 20px rgba(171, 156, 89, 0.5);
+    color: #ffffff; /* Added to match shifted section’s text color */
+}
+
+
+    @media (max-width: 768px) {
+       
+
+
+ .hero {
+            height: 83vh;
+            background: linear-gradient(to bottom, #091954 0%, transparent 20%, transparent 80%, #091954 100%), 
+                        linear-gradient(to right, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 50%), 
+                        url('ocean-waves.jpg') no-repeat center center/cover;
+            background-position: 56% 50%;
+            padding-top: 40px;
+        }
+        .hero-content-shifted {
+            padding: 15px;
+        }
+      
+        .content-wrapper p {
+            font-size: 1.1rem;
+            font-weight: normal;
+        }
+        .hero-ctas {
+            flex-direction: column;
+            gap: 10px;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+        .about-bar,
+.services-bar,
+.reviews-bar,
+.contact-bar {
+    max-width: 90%;
+    margin: 0 auto 10px;
+    background: transparent;
+}
+h2.about-bar-title,
+h2.services-bar-title,
+h2.reviews-bar-title,
+h2.contact-bar-title {
+    font-size: 2.2rem;
+    padding: 15px 20px;
+    line-height: 1.2;
+    background: linear-gradient(135deg, #8B7D47 0%, #6B5D37 50%, #8B7D47 100%);
+    color: #091954;
+    box-shadow: 0 6px 15px rgba(171, 156, 89, 0.4), inset 0 2px 5px rgba(255, 255, 255, 0.3);
+    text-shadow: 0 1px 2px rgba(9, 25, 84, 0.5);
+    border: 1px solid rgba(171, 156, 89, 0.7);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+h2.services-bar-title,
+h2.reviews-bar-title {
+    font-size: 1.8rem;
+    padding: 20px 20px;
+}
+.arrow {
+    font-size: 1rem;
+}
+     .about-bar-content.active,
+        .services-bar-content.active,
+        .reviews-bar-content.active,
+        .contact-bar-content.active {
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 15px;
+        }
+    }
+</style>
+
+<!-- Hero Section (Background Image with Text, Greeting, and Quote on Mobile) -->
+<section id="home" class="hero">
+    <div class="hero-header">
+    <h1>  </h1>
+</div>
+    <div class="hero-subheader">
+        
+        <h2>Insight of the Day:</h2>
+        <p id="quote-of-the-day"></p>
+  <h2 id="daily-greeting">Have a great <span id="day-of-week"></span></h2>
+        <img src="share-200.png" alt="Share" class="share-button" id="share-button">
+    </div>
+</section>
+<!-- New Section for Shifted Content (Logo on Mobile) -->
+<section class="hero-content-shifted">
+   <div class="content-wrapper">
+     <h1>Insurance Wealth<br class="mobile-only">Management</h1>
+    <p>Protect & grow your wealth with state-licensed advisors & expert insights in insurance, retirement, & digital currencies.</p>
+        <div class="hero-ctas">
+            <a href="offerings.html" class="cta-button neon">Services & Offerings</a>
+            <a href="contact.html" class="cta-button neon">Quote or Consultation</a>
+            <a href="contact.html#schedule" class="cta-button neon">Complimentary Private Captained Tampa Bay Boat Consultation</a>
+            <a href="blog.html" class="cta-button neon">Blog</a>
+            <a href="contact.html" class="cta-button neon">Referrals</a>
+        </div>
+    </div>
+</section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="about-bar">
+            <h2 class="about-bar-title">About Us <span class="arrow">▼</span></h2>
+            <div class="about-bar-content">
+                <p>At Insurance Wealth Management (IWM), we are dedicated to helping you secure your financial future through comprehensive life insurance and retirement planning solutions. Our team of experienced brokers works with you to create personalized plans that meet your unique needs.</p>
+                <h3>Our Mission</h3>
+                <p>We aim to provide peace of mind by offering tailored insurance and retirement strategies that protect your loved ones and ensure a comfortable retirement. With a focus on transparency and education, we empower our clients to make informed decisions about their financial future.</p>
+                <h3>Why Choose IWM?</h3>
+                <ul>
+                    <li>Independent brokers with access to over 40 "A"-rated carriers</li>
+                    <li>Customized solutions for life insurance and retirement planning</li>
+                    <li>Expert guidance and support every step of the way</li>
+                    <li>Competitive premiums and comprehensive coverage options</li>
+                </ul>
+                <div class="cta-button-wrapper">
+                    <a href="about.html" class="cta-button">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services">
+    <div class="services-bar">
+        <h2 class="services-bar-title">Our Services <span class="arrow">▼</span></h2>
+            <div class="services-bar-content">
+                <p>We partner with over 40 "A"-rated insurance carriers to bring you the best in life insurance and retirement planning. This means we can offer you the <em>most</em> comprehensive coverage at your state's <em>lowest</em> premium.</p>
+                <div class="carriers-container">
+                    <div class="carrier-logo"><img src="moo.png" alt="Mutual of Omaha"></div>
+                    <div class="carrier-logo"><img src="amam.png" alt="American Amicable"></div>
+                    <div class="carrier-logo"><img src="gerber.png" alt="Gerber Life"></div>
+                    <div class="carrier-logo"><img src="F&G.png" alt="Fidelity & Guaranty"></div>
+                    <div class="carrier-logo"><img src="nlg.png" alt="National Life Group"></div>
+                    <div class="carrier-logo"><img src="americo.png" alt="Americo"></div>
+                    <div class="carrier-logo"><img src="athene.png" alt="Athene"></div>
+                    <div class="carrier-logo"><img src="AIG.png" alt="AIG"></div>
+                    <div class="carrier-logo"><img src="Foresters.png" alt="Foresters"></div>
+                </div>
+                <div class="cta-button-wrapper">
+                    <a href="offerings.html" class="cta-button">Explore Our Offerings</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section id="reviews" class="reviews">
+    <div class="reviews-bar">
+       <h2 class="reviews-bar-title">Testimonials<span class="arrow">▼</span></h2>
+            <div class="reviews-bar-content">
+                <div class="reviews-container">
+                    <div class="review-card">
+                        <div class="stars">★★★★★</div>
+                        <p>"IWM helped me find the perfect life insurance plan for my family. Their team was knowledgeable and made the process so easy!"</p>
+                        <p class="reviewer">- Sarah M.</p>
+                    </div>
+                    <div class="review-card">
+                        <div class="stars">★★★★★</div>
+                        <p>"Thanks to IWM, I now have a retirement plan that gives me peace of mind. Highly recommend their services!"</p>
+                        <p class="reviewer">- John D.</p>
+                    </div>
+                    <div class="review-card">
+                        <div class="stars">★★★★★</div>
+                        <p>"The best insurance brokerage I've worked with. They truly care about their clients and provide excellent advice."</p>
+                        <p class="reviewer">- Emily R.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+    <div class="contact-bar">
+        <h2 class="contact-bar-title">Contact Us<span class="arrow">▼</span></h2>
+            <div class="contact-bar-content">
+                <div class="contact-container">
+                    <div class="contact-info">
+                        <h2>Get in Touch <br><span style="font-size: 0.9rem;">(or can use chat widget in bottom of screen)</span></h2>
+                        <div class="contact-details">
+                            <p><strong>Phone:</strong><a href="tel:+1234567890">+1 724-213-8478</a></p>
+                            <p><strong>Email:</strong> <a href="mailto:admin@iwmbrokerage.com">admin@iwmbrokerage.com</a></p>
+                        </div>
+                    </div>
+                    <div class="contact-form-container">
+                        <form class="contact-form">
+                            <input type="text" placeholder="Name" required>
+                            <input type="email" placeholder="Email" required>
+                            <input type="tel" placeholder="Phone Number">
+                            <textarea placeholder="Message" required></textarea>
+                            <div class="cta-button-wrapper">
+                                <button type="submit" class="cta-button">Send Message</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Chat Widget (moved to left on mobile) -->
+    <script 
+      src="https://widgets.leadconnectorhq.com/loader.js"  
+      data-resources-url="https://widgets.leadconnectorhq.com/chat-widget/loader.js" 
+      data-widget-id="67f0de7b8e8aa71ec4f3128b"   
+    ></script>
+    <div class="chat-widget" style="display: none;">
+        <div class="chat-icon" id="chat-icon">
+            <span>💬</span>
+            <div class="chat-text">
+                <span>Chat</span>
+                <span>Here</span>
+            </div>
+        </div>
+        <div class="chat-box" id="chat-box">
+            <div class="chat-header">
+                <h3>Chat with Us</h3>
+                <span class="chat-close" id="chat-close">✖</span>
+            </div>
+            <div class="chat-body">
+                <p>Chat here and we will respond ASAP</p>
+                <textarea id="chat-message" placeholder="Type your message..."></textarea>
+                <button id="chat-send">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- New Footer Hamburger Menu (right side on mobile) -->
+    <button class="mobile-footer-nav-toggle" aria-label="Toggle navigation" id="mobile-footer-toggle">☰</button>        
+    <!-- Footer -->
+    <footer>
+        <p>© 2025 IWM Brokerage. Insurance Wealth Management, L.L.C.. All rights reserved. | <a href="privacy.html" class="footer-link">Privacy Policy & Terms of Use</a> | <a href="linktree.html" class="footer-link">Link Tree</a> | <a href="contact.html" class="footer-link">Contact Us</a> | <a href="broker-login.html" class="footer-link">Current Broker Login</a></p>
+    </footer>
+
+    <script>
+        // Daily Greeting and Insight of the Day
+        function updateDailyContent() {
+            const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+            const now = new Date();
+            const dayIndex = now.getDay();
+            document.getElementById("day-of-week").textContent = daysOfWeek[dayIndex];
+
+            // Regular quotes array (52 quotes for non-Thursday days)
+            const quotes = [
+                { text: "The best way out is always through.", author: "Robert Frost" },
+                { text: "Imagination is more important than knowledge.", author: "Albert Einstein" },
+                { text: "Do what you can, with what you have, where you are.", author: "Theodore Roosevelt" },
+                { text: "I’ve learned that people will forget what you said, but never how you made them feel.", author: "Maya Angelou" },
+                { text: "The journey of a thousand miles begins with a single step.", author: "Lao Tzu" },
+                { text: "Success is not final, failure is not fatal: it is the courage to continue that counts.", author: "Winston Churchill" },
+                { text: "The only limit to our realizations of tomorrow will be our doubts of today.", author: "Franklin D. Roosevelt" },
+                { text: "Life is what happens when you're busy making other plans.", author: "John Lennon" },
+                { text: "The future belongs to those who believe in the beauty of their dreams.", author: "Eleanor Roosevelt" },
+                { text: "You must be the change you wish to see in the world.", author: "Mahatma Gandhi" },
+                { text: "It is never too late to be what you might have been.", author: "George Eliot" },
+                { text: "The only way to do great work is to love what you do.", author: "Steve Jobs" },
+                { text: "In the middle of difficulty lies opportunity.", author: "Albert Einstein" },
+                { text: "What we think, we become.", author: "Buddha" },
+                { text: "The greatest wealth is to live content with little.", author: "Plato" },
+                { text: "Keep your face always toward the sunshine—and shadows will fall behind you.", author: "Walt Whitman" },
+                { text: "The only impossible journey is the one you never begin.", author: "Tony Robbins" },
+                { text: "Happiness is not something ready-made. It comes from your own actions.", author: "Dalai Lama" },
+                { text: "You miss 100% of the shots you don’t take.", author: "Wayne Gretzky" },
+                { text: "The best time to plant a tree was 20 years ago. The second best time is now.", author: "Chinese Proverb" },
+                { text: "Everything you’ve ever wanted is on the other side of fear.", author: "George Addair" },
+                { text: "We are what we repeatedly do. Excellence, then, is not an act, but a habit.", author: "Aristotle" },
+                { text: "The purpose of life is to live it, to taste experience to the utmost.", author: "Eleanor Roosevelt" },
+                { text: "Don’t watch the clock; do what it does. Keep going.", author: "Sam Levenson" },
+                { text: "The mind is everything. What you think you become.", author: "Buddha" },
+                { text: "Act as if what you do makes a difference. It does.", author: "William James" },
+                { text: "Success is to be measured not by wealth, but by the lives you touch.", author: "Maya Angelou" },
+                { text: "The only way to achieve the impossible is to believe it is possible.", author: "Charles Kingsleigh" },
+                { text: "Your time is limited, so don’t waste it living someone else’s life.", author: "Steve Jobs" },
+                { text: "Believe you can and you're halfway there.", author: "Theodore Roosevelt" },
+                { text: "The greatest glory in living lies not in never falling, but in rising every time we fall.", author: "Nelson Mandela" },
+                { text: "Strive not to be a success, but rather to be of value.", author: "Albert Einstein" },
+                { text: "You are never too old to set another goal or to dream a new dream.", author: "C.S. Lewis" },
+                { text: "The way to get started is to quit talking and begin doing.", author: "Walt Disney" },
+                { text: "It does not matter how slowly you go as long as you do not stop.", author: "Confucius" },
+                { text: "What lies behind us and what lies before us are tiny matters compared to what lies within us.", author: "Ralph Waldo Emerson" },
+                { text: "The only person you are destined to become is the person you decide to be.", author: "Ralph Waldo Emerson" },
+                { text: "You don’t have to be great to start, but you have to start to be great.", author: "Zig Ziglar" },
+                { text: "Life is 10% what happens to us and 90% how we react to it.", author: "Charles R. Swindoll" },
+                { text: "The secret of getting ahead is getting started.", author: "Mark Twain" },
+                { text: "Success is not the absence of obstacles, but the courage to push through them.", author: "Unknown" },
+                { text: "The best preparation for tomorrow is doing your best today.", author: "H. Jackson Brown Jr." },
+                { text: "Don’t let the fear of striking out keep you from playing the game.", author: "Babe Ruth" },
+                { text: "The greatest risk is not taking one.", author: "Unknown" },
+                { text: "Your life does not get better by chance, it gets better by change.", author: "Jim Rohn" },
+                { text: "Opportunities don’t happen. You create them.", author: "Chris Grosser" },
+                { text: "The harder you work for something, the greater you’ll feel when you achieve it.", author: "Unknown" },
+                { text: "Dream big and dare to fail.", author: "Norman Vaughan" },
+                { text: "The key to success is to focus on goals, not obstacles.", author: "Unknown" },
+                { text: "You are braver than you believe, stronger than you seem, and smarter than you think.", author: "A.A. Milne" },
+                { text: "Every moment is a fresh beginning.", author: "T.S. Eliot" },
+                { text: "Change your thoughts and you change your world.", author: "Norman Vincent Peale" }
+            ];
+
+            // Grok A.I. Thursdays quotes (8 quotes for Thursdays)
+            const grokQuotes = [
+                { text: "The universe doesn’t conspire against you; it computes possibilities for you to explore.", author: "Grok/Twitter A.I." },
+                { text: "Dreams are the algorithms of the soul; execute them boldly.", author: "Grok/Twitter A.I." },
+                { text: "Every challenge is a data point; connect them to map your success.", author: "Grok/Twitter A.I." },
+                { text: "Your potential is an infinite loop—break only to redefine the code.", author: "Grok/Twitter A.I." },
+                { text: "The stars don’t dictate your fate; they inspire your next iteration.", author: "Grok/Twitter A.I." },
+                { text: "Wisdom is the output of curiosity run through the processor of experience.", author: "Grok/Twitter A.I." },
+                { text: "Life’s variables are unpredictable, but your constants define your path.", author: "Grok/Twitter A.I." },
+                { text: "The future is a blank canvas; paint it with the pixels of your ambition.", author: "Grok/Twitter A.I." }
+            ];
+
+            // Calculate day of the year (1–365)
+            const startOfYear = new Date(now.getFullYear(), 0, 0);
+            const diff = now - startOfYear;
+            const oneDay = 1000 * 60 * 60 * 24;
+            const dayOfYear = Math.floor(diff / oneDay);
+
+            // Calculate week of the year for Grok quotes
+            const weekOfYear = Math.floor(dayOfYear / 7);
+
+            let quote;
+            // Check if it's Thursday (dayIndex === 4)
+            if (dayIndex === 4) {
+                // Set header to "Grok A.I. Thursdays"
+                document.querySelector('.hero-subheader h2').textContent = "Grok A.I. Thursdays";
+                // Select Grok quote based on week of the year
+                const grokQuoteIndex = weekOfYear % grokQuotes.length;
+                quote = grokQuotes[grokQuoteIndex];
+            } else {
+                // Set header to "Insight of the Day"
+                document.querySelector('.hero-subheader h2').textContent = "Insight of the Day";
+                // Select regular quote based on day of the year
+                const quoteIndex = dayOfYear % quotes.length;
+                quote = quotes[quoteIndex];
+            }
+
+            document.getElementById("quote-of-the-day").textContent = `"${quote.text}" - ${quote.author}`;
+        }
+
+// Update immediately and then every midnight
+updateDailyContent();
+setInterval(() => {
+    const now = new Date();
+    if (now.getHours() === 0 && now.getMinutes() === 0) {
+        updateDailyContent();
+    }
+}, 60000); // Check every minute
+        // Navbar Toggle
+        document.getElementById('mobile-footer-toggle').addEventListener('click', function() {
+            document.querySelector('.nav-menu').classList.toggle('active');
+        });
+
+        // Retractable Section Toggle
+        document.querySelectorAll('.about-bar-title, .services-bar-title, .reviews-bar-title, .contact-bar-title').forEach(title => {
+            title.addEventListener('click', function() {
+                const content = this.nextElementSibling;
+                this.classList.toggle('active');
+                                content.classList.toggle('active');
+        });
+
+
+
+// Share Button Functionality
+document.getElementById('share-button').addEventListener('click', async () => {
+    const day = document.getElementById('day-of-week').textContent;
+    const quote = document.getElementById('quote-of-the-day').textContent;
+    const greeting = `Have a great ${day}!`;
+    // Get the header text dynamically (handles "Insight of the Day" or "Grok A.I. Thursdays")
+    const headerText = document.querySelector('.hero-subheader h2').textContent;
+
+    // Extract quote and author
+    const quoteMatch = quote.match(/"([^"]+)" - (.+)/);
+    const quoteText = quoteMatch ? quoteMatch[1] : quote; // Quote without author
+    const authorText = quoteMatch ? quoteMatch[2] : ''; // Author name
+
+    // Create a canvas
+    const canvas = document.createElement('canvas');
+    canvas.width = 800;
+    canvas.height = 400;
+    const ctx = canvas.getContext('2d');
+
+    // Draw radial gradient background (ivory to deep blue)
+    const bgGradient = ctx.createRadialGradient(canvas.width / 2, canvas.height / 2, 50, canvas.width / 2, canvas.height / 2, 400);
+    bgGradient.addColorStop(0, '#F8F1E9'); // Soft ivory
+    bgGradient.addColorStop(1, '#091954'); // Deep blue
+    ctx.fillStyle = bgGradient;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Draw inner card (blue gradient with gold border)
+    const cardX = 40;
+    const cardY = 40;
+    const cardWidth = canvas.width - 80;
+    const cardHeight = canvas.height - 80;
+    
+    // Card shadow (outer glow)
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
+    ctx.shadowBlur = 20;
+    ctx.shadowOffsetX = 0;
+    ctx.shadowOffsetY = 10;
+    
+    // Card gradient fill
+    const cardGradient = ctx.createLinearGradient(cardX, cardY, cardX, cardY + cardHeight);
+    cardGradient.addColorStop(0, '#091954'); // Deep blue
+    cardGradient.addColorStop(1, '#1A327A'); // Lighter blue
+    ctx.fillStyle = cardGradient;
+    ctx.beginPath();
+    ctx.moveTo(cardX + 12, cardY);
+    ctx.lineTo(cardX + cardWidth - 12, cardY);
+    ctx.quadraticCurveTo(cardX + cardWidth, cardY, cardX + cardWidth, cardY + 12);
+    ctx.lineTo(cardX + cardWidth, cardY + cardHeight - 12);
+    ctx.quadraticCurveTo(cardX + cardWidth, cardY + cardHeight, cardX + cardWidth - 12, cardY + cardHeight);
+    ctx.lineTo(cardX + 12, cardY + cardHeight);
+    ctx.quadraticCurveTo(cardX, cardY + cardHeight, cardX, cardY + cardHeight - 12);
+    ctx.lineTo(cardX, cardY + 12);
+    ctx.quadraticCurveTo(cardX, cardY, cardX + 12, cardY);
+    ctx.closePath();
+    ctx.fill();
+
+    // Gold border
+    ctx.strokeStyle = '#AB9C59';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    // Glossy shine effect on card
+    const glossGradient = ctx.createRadialGradient(cardX + cardWidth / 2, cardY + cardHeight / 2, 50, cardX + cardWidth / 2, cardY + cardHeight / 2, 300);
+    glossGradient.addColorStop(0, 'rgba(255, 255, 255, 0.2)');
+    glossGradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+    ctx.fillStyle = glossGradient;
+    ctx.fill();
+
+    // Reset shadow for text
+    ctx.shadowBlur = 0;
+    ctx.shadowColor = 'transparent';
+    ctx.shadowOffsetX = 0;
+    ctx.shadowOffsetY = 0;
+
+    // Add centered text block (Header + quote + author + separator + greeting)
+    ctx.textAlign = 'center';
+
+        // Header (dynamic: "Insight of the Day" or "Grok A.I. Thursdays")
+    ctx.font = 'bold 30px "Libre Baskerville", serif';
+    ctx.fillStyle = '#AB9C59'; // Gold text to match outline and greeting
+    ctx.shadowColor = 'rgba(171, 156, 89, 0.5)'; // Gold glow
+    ctx.shadowBlur = 8;
+    const insightHeight = 30;
+    ctx.fillText(headerText, canvas.width / 2, cardY + 70);
+
+    // Reset shadow for quote
+    ctx.shadowBlur = 4;
+    ctx.shadowColor = 'rgba(255, 255, 255, 0.3)'; // Subtle white glow
+
+    // Quote text (wrapped, centered, below header)
+    ctx.font = 'italic 28px "Libre Baskerville", serif';
+    const quoteLines = wrapText(ctx, quoteText, cardWidth - 60, 28);
+    const quoteHeight = quoteLines.length * 34;
+
+    // Author text (below quote, white, smaller font)
+    ctx.font = 'bold 24px "Libre Baskerville", serif';
+    const authorLines = wrapText(ctx, `— ${authorText}`, cardWidth - 60, 28);
+    const authorHeight = authorLines.length * 28;
+
+    const gapBetween = 12; // Fixed gap
+    const separatorHeight = 3; // Separator thickness
+    const greetingHeight = 36; // Approximate height of greeting text
+    const totalTextHeight = insightHeight + quoteHeight + authorHeight + gapBetween + separatorHeight + gapBetween + greetingHeight;
+    const textStartY = cardY + (cardHeight - totalTextHeight) / 2 + 20; // Center text block in card
+
+    // Draw quote with quotation marks
+    ctx.font = 'italic 28px "Libre Baskerville", serif';
+    ctx.fillStyle = '#FFFFFF'; // White text
+    quoteLines.forEach((line, index) => {
+        let displayLine = line;
+        if (index === 0) {
+            displayLine = `"${line}`; // Add opening quote to first line
+        }
+        if (index === quoteLines.length - 1) {
+            displayLine = `${displayLine}"`; // Add closing quote to last line
+        }
+        ctx.fillText(displayLine, canvas.width / 2, textStartY + insightHeight + (index * 34));
+    });
+
+    // Draw author
+    ctx.font = 'bold 24px "Libre Baskerville", serif';
+    ctx.fillStyle = '#FFFFFF'; // White text
+    ctx.shadowColor = 'rgba(255, 255, 255, 0.2)'; // Subtle white glow
+    ctx.shadowBlur = 3;
+    authorLines.forEach((line, index) => {
+        ctx.fillText(line, canvas.width / 2, textStartY + insightHeight + quoteHeight + (index * 28));
+    });
+
+    // Draw gold gradient separator with enhanced fade
+    ctx.shadowBlur = 0;
+    ctx.shadowColor = 'transparent';
+    const
+
+ separatorY = textStartY + insightHeight + quoteHeight + authorHeight + -8; // 6px below author
+    const separatorWidth = cardWidth * 0.7; // 70% of card width
+    const separatorStartX = (canvas.width - separatorWidth) / 2;
+    const gradientSeparator = ctx.createLinearGradient(separatorStartX, separatorY, separatorStartX + separatorWidth, separatorY);
+    gradientSeparator.addColorStop(0, 'transparent');
+    gradientSeparator.addColorStop(0.2, 'rgba(171, 156, 89, 0.8)'); // Start gold earlier
+    gradientSeparator.addColorStop(0.5, '#AB9C59'); // Full gold
+    gradientSeparator.addColorStop(0.8, 'rgba(171, 156, 89, 0.8)'); // Fade out
+    gradientSeparator.addColorStop(1, 'transparent');
+    ctx.strokeStyle = gradientSeparator;
+    ctx.lineWidth = 2; // Thicker separator
+    ctx.beginPath();
+    ctx.moveTo(separatorStartX, separatorY);
+    ctx.lineTo(separatorStartX + separatorWidth, separatorY);
+    ctx.stroke();
+
+    // Glossy shine on separator
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(separatorStartX, separatorY - 2);
+    ctx.lineTo(separatorStartX + separatorWidth, separatorY - 2);
+    ctx.stroke();
+
+    // Greeting text (below separator, in gold)
+    ctx.font = 'bold 30px "Libre Baskerville", serif';
+    ctx.fillStyle = '#AB9C59'; // Gold text to match outline
+    ctx.shadowColor = 'rgba(171, 156, 89, 0.4)'; // Gold glow
+    ctx.shadowBlur = 6;
+    ctx.fillText(greeting, canvas.width / 2, textStartY + insightHeight + quoteHeight + authorHeight + gapBetween + separatorHeight + gapBetween);
+
+    // Reset shadow
+    ctx.shadowBlur = 0;
+    ctx.shadowColor = 'transparent';
+
+    // Convert canvas to Blob for sharing
+    canvas.toBlob(async (blob) => {
+        const file = new File([blob], `IWM_Insight_${day}.png`, { type: 'image/png' });
+        const shareData = {
+            files: [file],
+            title: `Daily Greeting and ${headerText}`,
+            text: `${greeting} ${headerText}: ${quote}`
+        };
+
+        try {
+            if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                await navigator.share(shareData);
+            } else {
+                // Fallback: Log error silently without alerting the user
+                console.log('Sharing not supported in this browser or environment.');
+            }
+        } catch (err) {
+            // Log error silently without alerting the user
+            console.log('Share failed:', err);
+        }
+    }, 'image/png');
+});
+
+
+
+
+
+// Helper function to wrap text (unchanged)
+function wrapText(context, text, maxWidth, lineHeight) {
+    const words = text.split(' ');
+    const lines = [];
+    let currentLine = words[0];
+
+    for (let i = 1; i < words.length; i++) {
+        const testLine = currentLine + ' ' + words[i];
+        const metrics = context.measureText(testLine);
+        if (metrics.width > maxWidth) {
+            lines.push(currentLine);
+            currentLine = words[i];
+        } else {
+            currentLine = testLine;
+        }
+    }
+    lines.push(currentLine);
+    return lines;
+}
+
+        });
+    </script>
+</body>
+</html>

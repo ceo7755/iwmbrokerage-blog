@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Y6MJZF2L38"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-Y6MJZF2L38');
+</script>
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - IWM Brokerage</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Inline CSS for dropdowns */
+        .dropdown-container {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 20px auto;
+            max-width: 600px;
+        }
+        .dropdown-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+        .dropdown-button {
+            padding: 10px 20px;
+            border: 2px solid #AB9C59;
+            border-radius: 5px;
+            background: #ffffff;
+            color: #091954;
+            font-size: 1rem;
+            font-family: 'Montserrat', sans-serif;
+            cursor: pointer;
+            width: 250px;
+            text-align: left;
+        }
+        .custom-dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 250px;
+            background: #ffffff;
+            border: 2px solid #AB9C59;
+            border-radius: 5px;
+            z-index: 10;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .custom-dropdown-menu.active {
+            display: block;
+        }
+        .dropdown-option {
+            padding: 10px;
+            color: #091954;
+            font-family: 'Montserrat', sans-serif;
+            cursor: pointer;
+        }
+        .dropdown-option:hover {
+            background: #AB9C59;
+            color: #ffffff;
+        }
+        /* Checkbox layout */
+        .contact-options {
+            text-align: center;
+        }
+        .checkbox-row {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+        .checkbox-single {
+            display: block;
+            margin: 0 auto;
+        }
+        /* Social links inline styling */
+        .social-links-inline {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .social-links-inline a {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #AB9C59;
+            text-decoration: none;
+        }
+        /* Separator line */
+        .separator {
+            border-bottom: 1px solid #ffffff;
+            margin: 10px auto;
+            max-width: 80%;
+        }
+        /* Mobile Adjustments */
+@media (max-width: 768px) {
+    .dropdown-container {
+        flex-direction: row;
+        gap: 5px;
+        max-width: 100%;
+        padding: 0 5px;
+    }
+    .dropdown-button {
+        width: 100%;
+        max-width: 150px;
+        height: 50px;
+        font-size: 0.9rem;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 5px;
+    }
+    .custom-dropdown-menu {
+        width: 100%;
+        max-width: 150px;
+        font-size: 0.9rem;
+    }
+    .checkbox-row {
+        flex-direction: column;
+        gap: 10px;
+        padding: 0 10px;
+    }
+    .bubble-label {
+        width: 100%;
+        max-width: 300px;
+        margin: 0 auto;
+        display: flex;
+        align-items: flex-start;
+    }
+    .bubble-label input[type="checkbox"] {
+        flex-shrink: 0;
+    }
+    .bubble-label span {
+        font-size: 0.9rem;
+        margin-left: 10px;
+        text-align: left;
+        flex: none;
+        width: auto;
+        max-width: calc(300px - 30px); /* 300px label - checkbox width (~20px) - margin (10px) */
+        word-wrap: break-word; /* Wrap long text */
+    }
+    .contact-form input,
+    .contact-form textarea {
+        width: 100%;
+        max-width: 300px;
+        margin: 5px auto;
+        display: block;
+    }
+    /* Add styling for the referral checkbox */
+    .referral-checkbox {
+        width: 100%;
+        max-width: 300px;
+        margin: 10px auto;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+    }
+    .referral-checkbox input[type="checkbox"] {
+        flex-shrink: 0;
+    }
+    .referral-checkbox span {
+        font-size: 0.9rem;
+        margin-left: 10px;
+        text-align: left;
+        max-width: calc(300px - 30px); /* Match other bubble labels */
+        word-wrap: break-word;
+    }
+    .submit-wrapper {
+        text-align: center;
+    }
+    .social-links-inline {
+        flex-direction: column;
+        gap: 15px;
+    }
+    .social-links-inline span {
+        display: none;
+    }
+    .logo-img {
+        position: fixed;
+        top: -80px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
+        max-width: 250px;
+        z-index: 1001;
+        opacity: 0.6;
+    }
+    .logo a {
+        pointer-events: none;
+    }
+.contact-details p span.separator {
+    text-decoration: none;
+}
+
+
+
+
+ @media (max-width: 768px) {
+    .contact-details p {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    padding: 0 10px;
+    text-align: center;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+.contact-details p a[href^="tel"] {
+    color: #AB9C59;
+    text-decoration: none;
+    margin-bottom: 8px;
+}
+    .contact-details p strong {
+        white-space: nowrap; /* Keep "Text: 724-213-8478" on one line */
+    }
+    .contact-details p a {
+        white-space: nowrap; /* Keep email on one line */
+    }
+ .contact-details p span.separator {
+    display: none;
+}
+}
+</style>
+
+</head>
+<body>
+    <!-- Header -->
+    <header class="navbar">
+        <div class="logo">
+            <a href="index.html#home"><img src="iwm-logo.png" alt="IWM Brokerage Logo" class="logo-img"></a>
+        </div>
+        <nav>
+            <ul class="nav-menu">
+                <li><a href="index.html#home">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="offerings.html">Offerings</a></li>
+                <li class="dropdown">
+                    <a href="blog.html">Learn with IWM</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="blog.html#insurance">Insurance</a></li>
+                        <li><a href="blog.html#retirement">Retirement</a></li>
+                        <li><a href="blog.html#end-of-life">End of Life</a></li>
+                        <li><a href="blog.html#macro-trends">Macro Trends</a></li>
+                        <li><a href="blog.html#bitcoin-crypto">Bitcoin & Crypto</a></li>
+                    </ul>
+                </li>
+                <li><a href="contact.html">Contact Us</a></li>
+                <li><a href="join.html" id="join-team">Join Team</a></li>
+            </ul>
+        </nav>
+    </header>
+<!-- Contact Section -->
+<section id="contact" class="contact">
+    <h1>Contact Us</h1>
+    <p>Reach out to us for a complimentary quote, consultation, or to learn more about our services.</p>
+    <div class="contact-details">
+        <p><strong>Text:</strong> <a href="tel:7242138478">724-213-8478</a> <strong>Email:</strong> <a href="mailto:admin@iwmbrokerage.com">admin@iwmbrokerage.com</a></p>
+        <div class="separator"></div>
+    </div>
+
+    <!-- Selectable Bubbles (Checkboxes) -->
+    <div class="contact-options">
+        <div class="checkbox-row">
+            <label class="bubble-label">
+                <input type="checkbox" name="contact-reason" value="life-insurance">
+                <span>Life Insurance</span>
+            </label>
+            <label class="bubble-label">
+                <input type="checkbox" name="contact-reason" value="retirement">
+                <span>Retirement</span>
+            </label>
+            <label class="bubble-label">
+                <input type="checkbox" name="contact-reason" value="not-sure">
+                <span>Not quite sure, would like a consultation</span>
+            </label>
+            <label class="bubble-label">
+                <input type="checkbox" name="contact-reason" value="boat-consultation">
+                <span>More info on a Complimentary Tampa Bay Private Captained Boat Consultation (must be in or visiting the Tampa, FL, Clearwater, St. Pete, etc. areas)</span>
+            </label>
+        </div>
+    </div>
+
+    <!-- Best Time to Contact -->
+    <p>Best day & time (all times Eastern) to reach out for a 5-minute intro call or text:</p>
+    <div class="dropdown-container">
+        <div class="dropdown-wrapper">
+            <button class="dropdown-button" id="best-day-button">Best Upcoming Day</button>
+            <div class="custom-dropdown-menu" id="best-day-menu">
+                <div class="dropdown-option" data-value="Monday">Monday</div>
+                <div class="dropdown-option" data-value="Tuesday">Tuesday</div>
+                <div class="dropdown-option" data-value="Wednesday">Wednesday</div>
+                <div class="dropdown-option" data-value="Thursday">Thursday</div>
+                <div class="dropdown-option" data-value="Friday">Friday</div>
+                <div class="dropdown-option" data-value="Saturday">Saturday</div>
+            </div>
+            <input type="hidden" name="best-day" id="best-day" required>
+        </div>
+        <div class="dropdown-wrapper">
+            <button class="dropdown-button" id="best-time-button">Best Time of Day</button>
+            <div class="custom-dropdown-menu" id="best-time-menu">
+                <div class="dropdown-option" data-value="Morning (9:30am-12pm)">Morning (9:30am-12pm)</div>
+                <div class="dropdown-option" data-value="Lunch (12pm-1:30pm)">Lunch (12pm-1:30pm)</div>
+                <div class="dropdown-option" data-value="Afternoon (1:30-4:00pm)">Afternoon (1:30-4:00pm)</div>
+                <div class="dropdown-option" data-value="Dinner (4:00pm-6:00pm)">Dinner (4:00pm-6:00pm)</div>
+                <div class="dropdown-option" data-value="Evening (6:00-8:30pm)">Evening (6:00-8:30pm)</div>
+            </div>
+            <input type="hidden" name="best-time" id="best-time" required>
+        </div>
+    </div>
+
+    <!-- Contact Form -->
+
+<form class="contact-form" name="contact" data-netlify="true" method="POST" action="/thanks.html">
+    <p style="display: none;">
+        <label>Don’t fill this out: <input name="bot-field"></label>
+    </p>
+    <!-- Rest of your form fields -->
+</form>
+<!-- Contact Form -->
+<form class="contact-form" name="contact-v2" data-netlify="true" method="POST" action="/thanks.html">
+    <input type="hidden" name="netlify-no-spam" value="true">
+    <input type="text" name="name" placeholder="Name" required>
+    <input type="email" name="email" placeholder="Email" required>
+    <input type="tel" name="phone" placeholder="Phone" required>
+    <textarea name="message" placeholder="Optional Message, i.e. specific time wanting contacted, specific info needed, etc." style="height: 100px;"></textarea>
+    <label class="bubble-label referral-checkbox">
+        <input type="checkbox" name="referral" value="yes">
+        <span>Are you a Referral of a current client?</span>
+    </label>
+    <input type="hidden" name="best-day" id="best-day">
+    <input type="hidden" name="best-time" id="best-time">
+    <div class="checkbox-row" style="display: none;">
+        <input type="checkbox" name="contact-reason[]" value="life-insurance" class="hidden-checkbox">
+        <input type="checkbox" name="contact-reason[]" value="retirement" class="hidden-checkbox">
+        <input type="checkbox" name="contact-reason[]" value="not-sure" class="hidden-checkbox">
+        <input type="checkbox" name="contact-reason[]" value="boat-consultation" class="hidden-checkbox">
+    </div>
+    <div class="submit-wrapper">
+        <button type="submit" class="cta-button neon">Submit</button>
+    </div>
+</form>
+
+<br><br>
+        <!-- Social Media Links -->
+        <div class="social-links">
+            <p>"Like Us" to stay informed:</p>
+            <div class="social-links-inline">
+                <a href="https://www.facebook.com/WealthManagementServices7/" target="_blank">
+                    <img src="FBlogo.png" alt="Facebook Logo" class="social-icon" style="width: 48px; height: 48px;">
+                    <span>@Insurance Wealth Management</span>
+                </a>
+                <span>|</span>
+                <a href="https://tiktok.com/@InsuranceWealthBrokerage" target="_blank">
+                    <img src="tiktok.png" alt="TikTok Logo" class="social-icon" style="width: 48px; height: 48px;">
+                    <span>@InsuranceWealthServices</span>
+                </a>
+                <span>|</span>
+                <a href="blog.html">
+                    <img src="blog10.png" alt="Blog Logo" class="social-icon" style="width: 48px; height: 48px;">
+                    <span>@IWMBlog</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+<!-- Footer -->
+<footer>
+    <p>© 2025 IWM Brokerage. Insurance Wealth Management, L.L.C. | <a href="linktree.html" class="footer-link">Link Tree</a> | <a href="#" class="footer-link" id="broker-login">Current Broker Login</a></p>
+</footer>
+
+<script src="script.js"></script>
+
+<script 
+  src="https://widgets.leadconnectorhq.com/loader.js"  
+  data-resources-url="https://widgets.leadconnectorhq.com/chat-widget/loader.js" 
+ data-widget-id="67f0de7b8e8aa71ec4f3128b"   > 
+ </script>
+ <!-- Mobile Footer Hamburger Menu -->
+
+<button class="mobile-footer-nav-toggle" aria-label="Toggle navigation">☰</button>
+
+<script src="script.js"></script>
+
+ <script>
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM fully loaded');
+
+    // Broker Login Popup
+    function showBrokerLoginPopup() {
+        const password = prompt('Please enter the password:');
+        if (password === 'Smile!1') {
+            window.location.href = 'broker-portal.html';
+        } else {
+            alert('Incorrect password. Please try again.');
+        }
+    }
+
+    document.getElementById('broker-login').addEventListener('click', function(e) {
+        e.preventDefault();
+        showBrokerLoginPopup();
+    });
+
+    // Join Team link behavior
+    const joinTeam = document.getElementById('join-team');
+    let pressTimer;
+
+    joinTeam.addEventListener('mousedown', function(e) {
+        pressTimer = setTimeout(function() {
+            e.preventDefault();
+            showBrokerLoginPopup();
+        }, 3000);
+    });
+
+    joinTeam.addEventListener('mouseup', function() {
+        clearTimeout(pressTimer);
+    });
+
+    joinTeam.addEventListener('mouseleave', function() {
+        clearTimeout(pressTimer);
+    });
+
+    joinTeam.addEventListener('touchstart', function(e) {
+        pressTimer = setTimeout(function() {
+            e.preventDefault();
+            showBrokerLoginPopup();
+        }, 3000);
+    });
+
+    joinTeam.addEventListener('touchend', function() {
+        clearTimeout(pressTimer);
+    });
+
+    joinTeam.addEventListener('touchcancel', function() {
+        clearTimeout(pressTimer);
+    });
+
+    // Dropdown Functionality
+    const bestDayButton = document.getElementById('best-day-button');
+    const bestDayMenu = document.getElementById('best-day-menu');
+    const bestDayInput = document.getElementById('best-day');
+    const bestTimeButton = document.getElementById('best-time-button');
+    const bestTimeMenu = document.getElementById('best-time-menu');
+    const bestTimeInput = document.getElementById('best-time');
+
+    if (!bestDayButton || !bestDayMenu || !bestTimeButton || !bestTimeMenu) {
+        console.error('One or more dropdown elements not found!');
+        return;
+    }
+
+    function toggleDropdown(button, menu) {
+        console.log('Toggling dropdown for:', button.textContent);
+        menu.classList.toggle('active');
+    }
+
+    function closeDropdowns() {
+        bestDayMenu.classList.remove('active');
+        bestTimeMenu.classList.remove('active');
+    }
+
+    bestDayButton.addEventListener('click', () => {
+        toggleDropdown(bestDayButton, bestDayMenu);
+        bestTimeMenu.classList.remove('active');
+    });
+
+    bestTimeButton.addEventListener('click', () => {
+        toggleDropdown(bestTimeButton, bestTimeMenu);
+        bestDayMenu.classList.remove('active');
+    });
+
+    bestDayMenu.querySelectorAll('.dropdown-option').forEach(option => {
+        option.addEventListener('click', () => {
+            bestDayButton.textContent = option.textContent;
+            bestDayInput.value = option.getAttribute('data-value');
+            closeDropdowns();
+        });
+    });
+
+    bestTimeMenu.querySelectorAll('.dropdown-option').forEach(option => {
+        option.addEventListener('click', () => {
+            bestTimeButton.textContent = option.textContent;
+            bestTimeInput.value = option.getAttribute('data-value');
+            closeDropdowns();
+        });
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!bestDayButton.contains(e.target) && !bestDayMenu.contains(e.target)) {
+            bestDayMenu.classList.remove('active');
+        }
+        if (!bestTimeButton.contains(e.target) && !bestTimeMenu.contains(e.target)) {
+            bestTimeMenu.classList.remove('active');
+        }
+    });
+
+    // Form Handling for Netlify
+    const form = document.querySelector('.contact-form');
+    const visibleCheckboxes = document.querySelectorAll('.contact-options .checkbox-row input[type="checkbox"]');
+    const hiddenCheckboxes = document.querySelectorAll('.hidden-checkbox');
+
+    // Sync visible checkboxes with hidden ones
+    visibleCheckboxes.forEach((checkbox, index) => {
+        checkbox.addEventListener('change', () => {
+            hiddenCheckboxes[index].checked = checkbox.checked;
+        });
+    });
+
+    // Handle form submission for Netlify
+    form.addEventListener('submit', (e) => {
+        console.log('Form submitted to Netlify');
+        // Netlify redirects to /thanks.html or default success page
+    });
+});
+</script>
+</body>
+</html>
+

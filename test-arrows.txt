@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Arrows</title>
+    <style>
+        body {
+            font-family: 'Libre Baskerville', serif;
+            background: #091954;
+            color: #091954;
+            padding: 20px;
+        }
+        .arrow-preview {
+            margin: 20px 0;
+            padding: 15px;
+            background: #AB9C59;
+            display: inline-block;
+            border-radius: 5px;
+        }
+        .arrow-preview span {
+            font-size: 2rem;
+            vertical-align: middle;
+            margin-left: 10px;
+        }
+        .arrow-preview svg {
+            vertical-align: middle;
+            margin-left: 10px;
+        }
+        .arrow-preview i {
+            font-size: 2rem;
+            vertical-align: middle;
+            margin-left: 10px;
+        }
+        .arrow-preview.css-arrow {
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 15px solid #091954;
+            position: relative;
+            display: inline-block;
+            margin-left: 10px;
+        }
+        .arrow-preview.css-arrow::after {
+            content: '';
+            position: absolute;
+            top: -25px;
+            left: -2px;
+            width: 4px;
+            height: 10px;
+            background: #091954;
+        }
+        .arrow-preview.css-double-chevron {
+            position: relative;
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+            margin-left: 10px;
+        }
+        .arrow-preview.css-double-chevron::before,
+        .arrow-preview.css-double-chevron::after {
+            content: '';
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border-right: 3px solid #091954;
+            border-bottom: 3px solid #091954;
+            transform: rotate(45deg);
+        }
+        .arrow-preview.css-double-chevron::before {
+            top: 0;
+            left: 4px;
+        }
+        .arrow-preview.css-double-chevron::after {
+            top: 6px;
+            left: 4px;
+        }

@@ -1,0 +1,3 @@
+/services  /offerings.html  301
+/team      /join.html      301
+/blog/*    /blog.html      301

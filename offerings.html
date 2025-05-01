@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Y6MJZF2L38"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-Y6MJZF2L38');
+</script>
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offerings - IWM Brokerage</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Base styles (Desktop) */
+        body {
+            margin: 0;
+            font-family: 'Montserrat', sans-serif;
+            background-color: #091954 !important;
+            color: #ffffff;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(to bottom, #091954 0%, rgba(9, 25, 84, 0) 50%);
+            padding: 20px 30px;
+            height: 60px;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+        .logo-img {
+            width: auto;
+            max-width: 200px;
+            height: auto;
+            margin: 0;
+        }
+        .nav-menu {
+            list-style: none;
+            display: flex;
+            justify-content: flex-end;
+            margin: 0;
+            padding: 0;
+        }
+        .nav-menu li {
+            margin-left: 20px;
+        }
+        .nav-menu a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .dropdown {
+            position: relative;
+        }
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            background: #091954;
+            min-width: 200px;
+            padding: 10px;
+        }
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+
+        /* Mobile Area Starts Here */
+        @media (max-width: 768px) {
+            /* Header adjustments from about.html */
+            .navbar {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 15px 20px;
+                background: #091954;
+                height: 50px;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+                position: fixed;
+                top: 0;
+                width: 100%;
+                z-index: 1000;
+            }
+            .logo-img {
+                position: static;
+                width: auto;
+                max-width: 150px;
+                height: auto;
+                margin: 0 20px 0 -15px; /* Adjusted to move left */
+                margin-right: 20px;
+                transform: none;
+                opacity: 1;
+                pointer-events: none;
+            }
+            .nav-menu {
+                display: none; /* Hide navigation menu on mobile */
+            }
+
+            /* Mobile-friendly font adjustments for Our Offerings and intro paragraph */
+            .offerings h1 {
+                font-size: 2rem; /* Larger for mobile readability (32px) */
+                line-height: 1.2; /* Improved spacing */
+                text-align: center; /* Center for better mobile layout */
+                margin: 60px 10px 10px; /* Add top margin to clear header, reduce side padding */
+            }
+            .offerings p {
+                font-size: 1.1rem; /* Slightly larger (17.6px) for readability */
+                line-height: 1.5; /* More spacing between lines */
+                padding: 0 15px; /* Add padding for better margins on small screens */
+                text-align: center; /* Center for mobile */
+            }
+
+            /* Add additional mobile styles for offerings section here if needed */
+            /* Example placeholder: */
+            /*
+            .offering-cards {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .offering-card {
+                width: 100%;
+                max-width: 300px;
+                margin: 0 auto;
+            }
+            */
+        }
+        /* Mobile Area Ends Here */
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="navbar">
+        <div class="logo">
+            <a href="index.html#home"><img src="iwm-logo.png" alt="IWM Brokerage Logo" class="logo-img"></a>
+        </div>
+        <nav>
+            <ul class="nav-menu">
+                <li><a href="index.html#home">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="offerings.html">Offerings</a></li>
+                <li class="dropdown">
+                    <a href="blog.html">Learn with IWM</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="blog.html#insurance">Insurance</a></li>
+                        <li><a href="blog.html#retirement">Retirement</a></li>
+                        <li><a href="blog.html#end-of-life">End of Life</a></li>
+                        <li><a href="blog.html#macro-trends">Macro Trends</a></li>
+                        <li><a href="blog.html#bitcoin-crypto">Bitcoin & Crypto</a></li>
+                    </ul>
+                </li>
+                <li><a href="contact.html">Contact Us</a></li>
+                <li><a href="join.html">Join our Team</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Offerings Section -->
+    <section id="offerings" class="offerings">
+        <h1>Our Offerings</h1>
+        <p>At IWM Brokerage, we provide comprehensive solutions to protect and grow your wealth. Explore our services below and learn how we can help you achieve financial security.</p>
+        <div class="offering-cards">
+            <div class="offering-card">
+                <h3>Insurance</h3>
+                <p>Protect what matters most with our range of insurance plans, including term life, whole life, universal life, and group plans. We work with over 40 "A"-rated insurance companies to find the best coverage for you.</p>
+                <a href="blog.html#insurance" class="learn-more">Learn More</a>
+            </div>
+            <div class="offering-card">
+                <h3>Retirement Planning</h3>
+                <p>Secure your future with tailored retirement strategies. We help you explore traditional options and innovative solutions, including the role of Bitcoin in retirement portfolios.</p>
+                <a href="blog.html#retirement" class="learn-more">Learn More</a>
+            </div>
+            <div class="offering-card">
+                <h3>End of Life Planning</h3>
+                <p>Ensure your legacy with comprehensive end-of-life planning, from life insurance to estate planning. We guide you through every step to provide peace of mind for you and your loved ones.</p>
+                <a href="blog.html#end-of-life" class="learn-more">Learn More</a>
+            </div>
+            <div class="offering-card">
+                <h3>Macro Events</h3>
+                <p>Stay ahead of economic trends with our insights into macro events. We help you understand how inflation, interest rates, and global markets impact your financial strategy.</p>
+                <a href="blog.html#macro-trends" class="learn-more">Learn More</a>
+            </div>
+            <div class="offering-card">
+                <h3>Bitcoin & Digital Currencies</h3>
+                <p>Explore the future of finance with our expertise in Bitcoin and digital currencies. We help you integrate crypto into your portfolio safely and strategically.</p>
+                <a href="blog.html#bitcoin-crypto" class="learn-more">Learn More</a>
+            </div>
+        </div>
+        <div class="offering-buttons">
+            <a href="javascript:history.back()" class="cta-button neon">Back</a>
+            <a href="index.html#home" class="cta-button neon">Home</a>
+            <a href="contact.html" class="cta-button neon">Contact us for more info</a>
+        </div>
+    </section>
+<script 
+  src="https://widgets.leadconnectorhq.com/loader.js"  
+  data-resources-url="https://widgets.leadconnectorhq.com/chat-widget/loader.js" 
+ data-widget-id="67f0de7b8e8aa71ec4f3128b"   > 
+ </script>    <!-- Footer -->
+    <footer>
+<!-- Mobile Footer Hamburger Menu -->
+<button class="mobile-footer-nav-toggle" aria-label="Toggle navigation">☰</button>
+        <p>
+
+
+            © 2025 IWM Brokerage. Insurance Wealth Management, L.L.C.. All rights reserved. | 
+            <a href="privacy-policy.html">Privacy Policy & Terms of Use</a> | 
+            <a href="linktree.html">Link Tree</a> | 
+            <a href="contact.html">Contact Us</a> | 
+            <a href="broker-portal.html">Current Broker Login</a>
+        </p>
+    </footer>
+
+    <!-- Offerings Pop-up -->
+    <div class="blog-popup" id="offeringsPopup">
+        Detailed descriptions coming soon!
+    </div>
+    <div class="blog-popup-overlay" id="offeringsPopupOverlay"></div>
+
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const offeringCards = document.querySelectorAll('.offering-card');
+            const popup = document.getElementById('offeringsPopup');
+            const popupOverlay = document.getElementById('offeringsPopupOverlay');
+            let timeoutId;
+
+            // Function to show the pop-up
+            function showPopup() {
+                popup.classList.add('active');
+                popupOverlay.classList.add('active');
+
+                // Auto-close after 2 seconds
+                timeoutId = setTimeout(() => {
+                    closePopup();
+                }, 2000);
+            }
+
+            // Function to close the pop-up
+            function closePopup() {
+                popup.classList.remove('active');
+                popupOverlay.classList.remove('active');
+                clearTimeout(timeoutId);
+            }
+
+            // Add click event to each offering card
+            offeringCards.forEach(card => {
+                card.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    showPopup();
+                });
+            });
+
+            // Close pop-up when clicking outside
+            popupOverlay.addEventListener('click', () => {
+                closePopup();
+            });
+        });
+
+    </script>
+
+</body>
+</html>

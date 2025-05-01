@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Y6MJZF2L38"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-Y6MJZF2L38');
+</script>
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insurance Wealth Management Link Tree</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="navbar">
+        <div class="logo">
+            <a href="index.html#home"><img src="iwm-logo1.png" alt="IWM Brokerage Logo" class="logo-img"></a>
+        </div>
+        <nav>
+            <ul class="nav-menu">
+                <li><a href="index.html#home">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="offerings.html">Offerings</a></li>
+                <li class="dropdown">
+                    <a href="blog.html" class="dropdown-toggle">Learn with IWM</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="blog.html#insurance">Insurance</a></li>
+                        <li><a href="blog.html#retirement">Retirement</a></li>
+                        <li><a href="blog.html#end-of-life">End of Life</a></li>
+                        <li><a href="blog.html#macro-trends">Macro Trends</a></li>
+                        <li><a href="blog.html#bitcoin-crypto">Bitcoin & Crypto</a></li>
+                    </ul>
+                </li>
+                <li><a href="contact.html">Contact Us</a></li>
+                <li><a href="join.html">Join Team</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Link Tree Section -->
+    <section class="join-section join-section-blue">
+        <div class="join-content">
+            <h1>Insurance Wealth Management Link Tree</h1>
+            <img src="iwm-logo1.png" alt="IWM Logo" class="linktree-logo">
+            <div class="linktree-buttons">
+                <a href="index.html" class="cta-button">
+                    <span>View IWM Website</span>
+                    <img src="home.png" alt="Home Icon" class="button-icon">
+                </a>
+                <a href="matt_deivert.vcf" download class="cta-button">
+                    <span>Add Contact Info</span>
+                    <img src="contact.png" alt="Contact Icon" class="button-icon">
+                </a>
+                <a href="offerings.html" class="cta-button">
+                    <span>View Offerings</span>
+                    <img src="offerings.png" alt="Offerings Icon" class="button-icon">
+                </a>
+                <a href="blog.html" class="cta-button">
+                    <span>Blog(s)</span>
+                    <img src="blog.png" alt="Blog Icon" class="button-icon">
+                </a>
+                <a href="contact.html" class="cta-button">
+                    <span>Quote or Consultation</span>
+                    <img src="quote.png" alt="Quote Icon" class="button-icon">
+                </a>
+                <div class="dropdown">
+                    <a href="#" class="cta-button dropdown-toggle">
+                        <span>Add or Visit Socials</span>
+                        <img src="social.png" alt="Social Icon" class="button-icon">
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="https://www.facebook.com/WealthManagementServices7/" target="_blank" class="social-link">
+                                Facebook
+                                <img src="fb.png" alt="Facebook Icon" class="social-icon">
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Placeholder -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+    <script>
+        // Load Footer
+        fetch('footer.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('footer-placeholder').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading footer:', error));
+    </script>
+</body>
+</html>

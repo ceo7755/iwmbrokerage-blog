@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Arrows</title>
+    <style>
+        body {
+            font-family: 'Libre Baskerville', serif;
+            background: #091954;
+            color: #091954;
+            padding: 20px;
+        }
+        .arrow-preview {
+            margin: 20px 0;
+            padding: 15px;
+            background: #AB9C59;
+            display: inline-block;
+            border-radius: 5px;
+        }
+        .arrow-preview span {
+            font-size: 2rem;
+            vertical-align: middle;
+            margin-left: 10px;
+        }
+        .arrow-preview svg {
+            vertical-align: middle;
+            margin-left: 10px;
+        }
+        .arrow-preview i {
+            font-size: 2rem;
+            vertical-align: middle;
+            margin-left: 10px;
+        }
+        .arrow-preview.css-arrow {
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 15px solid #091954;
+            position: relative;
+            display: inline-block;
+            margin-left: 10px;
+        }
+        .arrow-preview.css-arrow::after {
+            content: '';
+            position: absolute;
+            top: -25px;
+            left: -2px;
+            width: 4px;
+            height: 10px;
+            background: #091954;
+        }
+        .arrow-preview.css-double-chevron {
+            position: relative;
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+            margin-left: 10px;
+        }
+        .arrow-preview.css-double-chevron::before,
+        .arrow-preview.css-double-chevron::after {
+            content: '';
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border-right: 3px solid #091954;
+            border-bottom: 3px solid #091954;
+            transform: rotate(45deg);
+        }
+        .arrow-preview.css-double-chevron::before {
+            top: 0;
+            left: 4px;
+        }
+        .arrow-preview.css-double-chevron::after {
+            top: 6px;
+            left: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="color: #ffffff;">Arrow Options</h1>
+
+    <!-- Arrow 1: Chevron Down (Rotated) -->
+    <div class="arrow-preview">
+        Arrow 1: Chevron Down (Rotated) <span style="display: inline-block; transform: rotate(90deg);">❯</span>
+    </div>
+
+    <!-- Arrow 2: Black Downwards Arrow -->
+    <div class="arrow-preview">
+        Arrow 2: Black Downwards Arrow <span>⬇</span>
+    </div>
+
+    <!-- Arrow 3: Downwards Triangle Arrowhead -->
+    <div class="arrow-preview">
+        Arrow 3: Downwards Triangle Arrowhead <span>⏷</span>
+    </div>
+
+    <!-- Arrow 4: Downwards Harpoon -->
+    <div class="arrow-preview">
+        Arrow 4: Downwards Harpoon <span>⇓</span>
+    </div>
+
+    <!-- Arrow 5: CSS Triangle with Tail -->
+    <div class="arrow-preview">
+        Arrow 5: CSS Triangle with Tail <span class="css-arrow"></span>
+    </div>
+
+    <!-- Arrow 6: CSS Double Chevron -->
+    <div class="arrow-preview">
+        Arrow 6: CSS Double Chevron <span class="css-double-chevron"></span>
+    </div>
+
+    <!-- Arrow 7: Inline SVG Curved Arrow -->
+    <div class="arrow-preview">
+        Arrow 7: Inline SVG Curved Arrow
+        <span>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#091954" stroke-width="2">
+                <path d="M12 5v14m0 0l-5-5m5 5l5-5" />
+            </svg>
+        </span>
+    </div>
+
+    <!-- Arrow 8: Inline SVG Ornate Arrow -->
+    <div class="arrow-preview">
+        Arrow 8: Inline SVG Ornate Arrow
+        <span>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#091954" stroke-width="2">
+                <path d="M12 5v12m-4-4l4 4 4-4m-8-4c0-2 2-2 2-4h4c0 2 2 2 2 4" />
+            </svg>
+        </span>
+    </div>
+</body>
+</html>
