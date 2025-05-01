@@ -1380,7 +1380,6 @@ toggleBtn.addEventListener('click', () => {
 
 
 
-// Fetch Article Data
 async function fetchArticleData(url) {
     try {
         const apiKey = '519076f6a0fc44e4586219b65c8b6f4c'; // ScraperAPI key
@@ -1425,34 +1424,46 @@ async function fetchArticleData(url) {
         let description = doc.querySelector('meta[name="twitter:description"]')?.content ||
                          doc.querySelector('meta[property="og:description"]')?.content ||
                          doc.querySelector('meta[name="description"]')?.content;
-        if (!description) {
-            const bodyText = doc.body?.textContent.replace(/\s+/g, ' ').trim();
-            description = bodyText ? bodyText.split(' ').slice(0, 30).join(' ') + '...' : 'No description available';
-        } else {
-            description = description.split(' ').slice(0, 30).join(' ') + (description.split(' ').length > 30 ? '...' : '');
-        }
 
-        // Handle X posts (ScraperAPI may fail due to login redirect)
+        // Handle X posts
         if (isTwitterUrl) {
+            // Hardcoded case for the specific X post
             if (url === 'https://x.com/Sina_21st/status/1917280907310030957') {
-                title = 'Bitcoin Growth Analysis by Sina_21st';
+                title = 'Bitcoin Growth Analysis by Sina_21st on X/Twitter';
                 description = 'Bitcoin has historically grown 6x with every 40% increase in its age. It\'s not about the calendar year—it\'s about age.';
                 // Image is already set by the Netlify Function
             } else {
-                // For other X posts, ScraperAPI likely returned the login page
-                title = title.replace(/ on X$/, '').replace(/^Post by /, '');
-                if (description === 'No description available') {
-                    const tweetText = doc.querySelector('article div[lang]')?.textContent ||
-                                     doc.querySelector('div[data-testid="tweetText"]')?.textContent;
-                    description = tweetText ? tweetText.split(' ').slice(0, 30).join(' ') + '...' : 'Post from X';
+                // For other X posts, ScraperAPI often returns the login page
+                const tweetTextElement = doc.querySelector('article div[lang], div[data-testid="tweetText"]');
+                const tweetText = tweetTextElement ? tweetTextElement.textContent.trim() : null;
+                const usernameElement = doc.querySelector('a[href*="/"][role="link"] span') || doc.querySelector('span[data-testid="User-Name"]');
+                const username = usernameElement ? usernameElement.textContent.trim().replace('@', '') : null;
+
+                // Construct title using the username
+                if (username) {
+                    title = `Post by @${username} on X/Twitter`;
+                } else {
+                    // Fallback if username extraction fails
+                    const urlParts = url.split('/');
+                    const usernameFromUrl = urlParts[urlParts.length - 3];
+                    title = `Post by @${usernameFromUrl} on X/Twitter`;
                 }
 
-                if (title === 'Untitled Article') {
-                    const urlParts = url.split('/');
-                    const username = urlParts[urlParts.length - 3];
-                    title = `Post by @${username}`;
+                // Use tweet text for description
+                if (tweetText) {
+                    description = tweetText.split(' ').slice(0, 30).join(' ') + (tweetText.split(' ').length > 30 ? '...' : '');
+                } else {
+                    // Fallback if tweet text extraction fails
                     description = 'Post from X.';
                 }
+            }
+        } else {
+            // For non-X URLs, handle description as before
+            if (!description) {
+                const bodyText = doc.body?.textContent.replace(/\s+/g, ' ').trim();
+                description = bodyText ? bodyText.split(' ').slice(0, 30).join(' ') + '...' : 'No description available';
+            } else {
+                description = description.split(' ').slice(0, 30).join(' ') + (description.split(' ').length > 30 ? '...' : '');
             }
         }
 
@@ -1474,20 +1485,22 @@ async function fetchArticleData(url) {
 
         // Hardcoded fallback for the specific X post
         if (url === 'https://x.com/Sina_21st/status/1917280907310030957') {
-            title = 'Bitcoin Growth Analysis by Sina_21st';
+            title = 'Bitcoin Growth Analysis by Sina_21st on X/Twitter';
             description = 'Bitcoin has historically grown 6x with every 40% increase in its age. It\'s not about the calendar year—it\'s about age.';
-            image = 'https://iwmbrokerage.com/images/bitcoin-chart.jpg'; // Fallback to manually uploaded image
+            image = 'https://iwmbrokerage.com/images/bitcoin-chart.jpg';
             console.log('Using locally hosted image (error fallback):', image);
         } else if (url.includes('x.com') || url.includes('twitter.com')) {
             const urlParts = url.split('/');
             const username = urlParts[urlParts.length - 3];
-            title = `Post by @${username}`;
+            title = `Post by @${username} on X/Twitter`;
             description = 'Post from X.';
         }
 
         return { title, description, image, url };
     }
 }
+
+
 
 
 
