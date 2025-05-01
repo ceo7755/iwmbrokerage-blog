@@ -1379,7 +1379,6 @@ toggleBtn.addEventListener('click', () => {
 
 
 
-
 async function fetchArticleData(url) {
     try {
         const apiKey = '519076f6a0fc44e4586219b65c8b6f4c'; // ScraperAPI key
@@ -1393,11 +1392,11 @@ async function fetchArticleData(url) {
             // Extract tweet ID from URL (e.g., https://x.com/username/status/1917280907310030957)
             const urlParts = url.split('/');
             const tweetId = urlParts[urlParts.length - 1].split('?')[0]; // Remove query params if any
-            const username = urlParts[urlParts.length - 3];
+            const username = urlParts[urlParts.length - 3]; // Keep original case
 
             // Call the Netlify Function to fetch tweet data
             const fetchTweetUrl = `https://iwmbrokerage.com/.netlify/functions/fetch-tweet`;
-            console.log('Calling Netlify Function to fetch tweet:', fetchTweetUrl);
+            console.log('Calling Netlify Function to fetch tweet:', fetchTweetUrl, 'Tweet ID:', tweetId);
             const tweetResponse = await fetch(fetchTweetUrl, {
                 method: 'POST',
                 headers: {
@@ -1407,18 +1406,21 @@ async function fetchArticleData(url) {
             });
 
             if (!tweetResponse.ok) {
-                throw new Error(`Failed to fetch tweet data: ${tweetResponse.status}`);
+                const errorText = await tweetResponse.text();
+                console.error('Netlify Function fetch-tweet failed:', tweetResponse.status, errorText);
+                throw new Error(`Failed to fetch tweet data: ${tweetResponse.status} - ${errorText}`);
             }
 
             const tweetData = await tweetResponse.json();
             if (tweetData.error) {
+                console.error('Netlify Function returned error:', tweetData.error);
                 throw new Error(tweetData.error);
             }
 
             // Extract tweet details
             const tweetText = tweetData.data.text;
             const author = tweetData.includes.users.find(user => user.id === tweetData.data.author_id);
-            const usernameFromApi = author ? `@${author.username}` : `@${username}`;
+            const usernameFromApi = author ? `@${author.username}` : `@${username}`; // Keep original case
 
             // Set title and description
             title = `${usernameFromApi} on X/Twitter`;
@@ -1430,12 +1432,16 @@ async function fetchArticleData(url) {
                 if (media && media.url) {
                     image = media.url;
                     console.log('Image URL from X API:', image);
+                } else {
+                    console.log('No image URL found in media:', tweetData.includes.media);
                 }
+            } else {
+                console.log('No attachments or media_keys in tweet data:', tweetData.data);
             }
 
             // Hardcoded case for the specific X post
             if (url === 'https://x.com/Sina_21st/status/1917280907310030957') {
-                title = 'Bitcoin Growth Analysis by @Sina_21st on X/Twitter';
+                title = 'Bitcoin Growth Analysis by @Sina_21st on X/Twitter'; // Keep original case
                 description = 'Bitcoin has historically grown 6x with every 40% increase in its age. It\'s not about the calendar year—it\'s about age.';
                 image = 'https://iwmbrokerage.com/images/bitcoin-chart.jpg';
             }
@@ -1506,13 +1512,13 @@ async function fetchArticleData(url) {
 
         // Hardcoded fallback for the specific X post
         if (url === 'https://x.com/Sina_21st/status/1917280907310030957') {
-            title = 'Bitcoin Growth Analysis by @Sina_21st on X/Twitter';
+            title = 'Bitcoin Growth Analysis by @Sina_21st on X/Twitter'; // Keep original case
             description = 'Bitcoin has historically grown 6x with every 40% increase in its age. It\'s not about the calendar year—it\'s about age.';
             image = 'https://iwmbrokerage.com/images/bitcoin-chart.jpg';
             console.log('Using locally hosted image (error fallback):', image);
         } else if (url.includes('x.com') || url.includes('twitter.com')) {
             const urlParts = url.split('/');
-            const username = urlParts[urlParts.length - 3];
+            const username = urlParts[urlParts.length - 3]; // Keep original case
             title = `@${username} on X/Twitter`;
             description = 'Post from X.';
         }
