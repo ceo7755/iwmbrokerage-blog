@@ -62,20 +62,178 @@
         .dropdown {
             position: relative;
         }
-        .dropdown-menu {
+              .dropdown-menu {
+
             display: none;
+
             position: absolute;
+
             background: #091954;
+
             min-width: 200px;
+
             padding: 10px;
+
         }
+
         .dropdown:hover .dropdown-menu {
+
             display: block;
+
+        }
+
+
+                .offerings p {
+            font-size: 1.0rem;
+		  max-width: 1000px;
+            margin: 20px auto;
+            padding: 0 40px;
+            text-align: center;
+            line-height: 1.8;
+        }
+
+        /* Center images in offering cards */
+        .offering-card {
+            text-align: center;
+        }
+
+                .offering-card img.options-toggle-img,
+        .offering-card img.options-toggle-img-large {
+            margin: 10px auto;
+            display: block;
+        }
+
+        /* Health Insurance Sub-items */
+
+        .health-insurance-subitems {
+
+            display: none;
+
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+
+            gap: 15px;
+
+            margin-top: 20px;
+
+            padding: 20px;
+
+            background-color: rgba(171, 156, 89, 0.1);
+
+            border-radius: 8px;
+
+        }
+
+        .health-insurance-subitems.active {
+
+            display: grid;
+
+        }
+
+               .health-subitem {
+            background: linear-gradient(135deg, #AB9C59 0%, #8B7D47 50%, #AB9C59 100%);
+            color: #091954;
+            padding: 15px 30px;
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 700;
+            font-family: 'Libre Baskerville', serif;
+            box-shadow: 0 6px 15px rgba(171, 156, 89, 0.4), inset 0 2px 5px rgba(255, 255, 255, 0.3);
+            text-shadow: 0 1px 2px rgba(9, 25, 84, 0.5);
+            border: 1px solid rgba(171, 156, 89, 0.7);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .health-subitem::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 10%, transparent 60%);
+            transform: rotate(30deg);
+            transition: transform 0.5s ease;
+            pointer-events: none;
+        }
+
+        .health-subitem:hover {
+            background: linear-gradient(135deg, #8B7D47 0%, #AB9C59 50%, #8B7D47 100%);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 10px 20px rgba(171, 156, 89, 0.6), inset 0 2px 5px rgba(255, 255, 255, 0.4);
+        }
+
+        .health-subitem:hover::before {
+            transform: rotate(30deg) translate(20%, 20%);
+        }
+
+        .health-explanation {
+
+            display: none;
+
+            margin-top: 15px;
+
+            padding: 20px;
+
+            background-color: rgba(171, 156, 89, 0.2);
+
+            border-radius: 8px;
+
+            color: #ffffff;
+
+        }
+
+
+
+              .health-explanation.active {
+
+            display: block;
+
+        }
+
+
+
+
+               /* Options toggle image */
+        .options-toggle-img {
+            width: 150px;
+            height: auto;
+            margin: 10px auto;
+            display: block;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+               .options-toggle-img.rotated {
+
+            transform: rotate(180deg);
+
+        }
+
+                              /* Larger toggle images for specific blocks */
+        .options-toggle-img-large {
+            width: 250px;
+            height: auto;
+            margin: 10px auto;
+            display: block;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .options-toggle-img-large.rotated {
+            transform: rotate(180deg);
         }
 
         /* Mobile Area Starts Here */
         @media (max-width: 768px) {
+
             /* Header adjustments from about.html */
+
+
+
             .navbar {
                 display: flex;
                 justify-content: center;
@@ -111,15 +269,43 @@
                 text-align: center; /* Center for better mobile layout */
                 margin: 60px 10px 10px; /* Add top margin to clear header, reduce side padding */
             }
-            .offerings p {
+          
+
+
+             .offerings p {
+
                 font-size: 1.1rem; /* Slightly larger (17.6px) for readability */
+
                 line-height: 1.5; /* More spacing between lines */
+
                 padding: 0 15px; /* Add padding for better margins on small screens */
+
                 text-align: center; /* Center for mobile */
+
+            }
+
+            .health-insurance-subitems {
+
+                grid-template-columns: 1fr;
+
+                gap: 10px;
+
+                padding: 15px;
+
+            }
+
+            .health-subitem {
+
+                padding: 12px;
+
+                font-size: 0.9rem;
+
             }
 
             /* Add additional mobile styles for offerings section here if needed */
-            /* Example placeholder: */
+
+
+ /* Example placeholder: */
             /*
             .offering-cards {
                 flex-direction: column;
@@ -165,34 +351,200 @@
     <!-- Offerings Section -->
     <section id="offerings" class="offerings">
         <h1>Our Offerings</h1>
-        <p>At IWM Brokerage, we provide comprehensive solutions to protect and grow your wealth. Explore our services below and learn how we can help you achieve financial security.</p>
-        <div class="offering-cards">
-            <div class="offering-card">
-                <h3>Insurance</h3>
-                <p>Protect what matters most with our range of insurance plans, including term life, whole life, universal life, and group plans. We work with over 40 "A"-rated insurance companies to find the best coverage for you.</p>
+        <p>At IWM Brokerage, we make insurance easy to understand and affordable to own. From life to health, we shop 30+ top-rated carriers in your state to find you the most comprehensive coverage, at the lowest available rate. <br>Already insured? We'll run a free quote and more often than not, we beat your current rate. </p>
+        <div class="offering-cards"> 
+       
+
+                 <div class="offering-card" id="insurance-card">
+
+             
+
+
+                                <h3>Insurance</h3>
+
+                <p>Protect and grow what matters most with our range of insurance plans  </p>
+
+                              <img src="https://i.imgur.com/8JjnGpd.jpeg" alt="Click for Options" class="options-toggle-img" id="insurance-options-toggle">
+
                 <a href="blog.html#insurance" class="learn-more">Learn More</a>
+
+                                <div class="health-insurance-subitems" id="insurance-subitems">
+
+
+
+                    <div class="health-subitem" data-item="term-life">Term Life</div>
+
+                    <div class="health-subitem" data-item="whole-life">Whole Life</div>
+
+                    <div class="health-subitem" data-item="cash-building">Cash Building Policies</div>
+
+                    <div class="health-subitem" data-item="mortgage-protection">Mortgage Protection</div>
+
+                    <div class="health-subitem" data-item="child-family">Children, Grandchildren, Nieces, & Nephews </div>
+
+                    <div class="health-subitem" data-item="final-expense">Final Expense</div>
+
+                    <div class="health-subitem" data-item="disability">Short/Long Term Disability</div>
+
+                    <div class="health-subitem" data-item="accidental">Accidental</div>
+
+                                </div>
+
             </div>
-            <div class="offering-card">
-                <h3>Retirement Planning</h3>
-                <p>Secure your future with tailored retirement strategies. We help you explore traditional options and innovative solutions, including the role of Bitcoin in retirement portfolios.</p>
+
+            <div class="offering-card" id="health-insurance-card">
+
+
+
+
+                               <h3>Health Insurance & Medicare  </h3>
+
+                <p> Safeguard your health and finances with comprehensive, inexpesnive health insurance solutions  </p>
+
+                <img src="https://i.imgur.com/8JjnGpd.jpeg" alt="Click for Options" class="options-toggle-img" id="health-insurance-options-toggle">
+
+                <a href="blog.html#insurance" class="learn-more">Learn More</a>
+
+                <div class="health-insurance-subitems" id="health-subitems">
+
+
+
+
+                    <div class="health-subitem" data-item="health-insurance">Health Insurance</div>
+
+                    <div class="health-subitem" data-item="medicare">Medicare</div>
+
+                    <div class="health-subitem" data-item="dental">Dental</div>
+
+                    <div class="health-subitem" data-item="vision">Vision</div>
+
+                    <div class="health-subitem" data-item="hospital-stay">Hospital Cash Benefits</div>
+
+                    <div class="health-subitem" data-item="long-term-care">Long Term Care</div>
+
+                    <div class="health-subitem" data-item="accident">Accident</div>
+
+                    <div class="health-subitem" data-item="cancer">Cancer</div>
+
+                    <div class="health-subitem" data-item="heart-attack">Heart Attack</div>
+
+                    <div class="health-subitem" data-item="stroke">Stroke</div>
+
+                    <div class="health-subitem" data-item="disability">Short & Long Term Disability</div>
+
+                </div>
+
+            </div>
+
+            <div class="offering-card" id="retirement-card">
+                           <h3>Retirement Planning</h3>
+
+                <p>Secure your future with tailored retirement strategies </p>
+
+                <img src="https://i.imgur.com/8JjnGpd.jpeg" alt="Click for Options" class="options-toggle-img" id="retirement-options-toggle">
+
                 <a href="blog.html#retirement" class="learn-more">Learn More</a>
+
+                               <div class="health-insurance-subitems" id="retirement-subitems">
+
+                    <div class="health-subitem" data-item="401k-protection">401k Protection</div>
+
+                    <div class="health-subitem" data-item="guaranteed-income">Guaranteed Income</div>
+
+                    <div class="health-subitem" data-item="cash-building">Cash Building Policies</div>
+
+                </div>
+
             </div>
-            <div class="offering-card">
+
+
+           
+
+             <div class="offering-card" id="end-of-life-card">
+
+
+
                 <h3>End of Life Planning</h3>
-                <p>Ensure your legacy with comprehensive end-of-life planning, from life insurance to estate planning. We guide you through every step to provide peace of mind for you and your loved ones.</p>
+
+                <p>Ensure your legacy, help your loved ones, and have invaluable peace of mind with end-of-life planning and protection </p>
+
+                <img src="https://i.imgur.com/8JjnGpd.jpeg" alt="Click for Options" class="options-toggle-img" id="end-of-life-options-toggle">
+
                 <a href="blog.html#end-of-life" class="learn-more">Learn More</a>
+
+                <div class="health-insurance-subitems" id="end-of-life-subitems">
+
+
+
+
+                    <div class="health-subitem" data-item="final-expense">Final Expense</div>
+
+                    <div class="health-subitem" data-item="estate-will">Estate & Will Planning</div>
+
+                </div>
+
             </div>
-            <div class="offering-card">
-                <h3>Macro Events</h3>
-                <p>Stay ahead of economic trends with our insights into macro events. We help you understand how inflation, interest rates, and global markets impact your financial strategy.</p>
+
+
+
+                                             <div class="offering-card">
+
+                <h3>Macro Trends</h3>
+
+                <p>Stay current and ahead of economic trends with our insights into macro events: A.I., stock market, BTC, etc. Click for IWM Blog. .</p>
+
+                                <img src="https://i.imgur.com/OwwBWq1.jpeg" alt="Click for Options" class="options-toggle-img-large" id="macro-trends-options-toggle">
+
                 <a href="blog.html#macro-trends" class="learn-more">Learn More</a>
+
             </div>
-            <div class="offering-card">
+
+
+
+
+
+                        <div class="offering-card">
+
                 <h3>Bitcoin & Digital Currencies</h3>
-                <p>Explore the future of finance with our expertise in Bitcoin and digital currencies. We help you integrate crypto into your portfolio safely and strategically.</p>
+
+                <p>Explore the future of finance with our expertise in Bitcoin (BTC) and digital currencies. We help you integrate crypto into your portfolio safely and strategically. Click for IWM Blog. </p>
+
+                                <img src="https://i.imgur.com/OwwBWq1.jpeg" alt="Click for Options" class="options-toggle-img-large" id="bitcoin-options-toggle">
+
                 <a href="blog.html#bitcoin-crypto" class="learn-more">Learn More</a>
+
             </div>
+
+           
+
+
+          
+
+            <div class="offering-card" id="client-scenarios-card">
+
+                                <h3>Recent Client Scenarios & Their Protection Plans</h3>
+
+                <p>Click to see real life examples.</p>
+
+                              <img src="https://i.imgur.com/mUohNBD.jpeg" alt="Click for Options" class="options-toggle-img-large" id="client-scenarios-options-toggle">
+
+                               <div class="health-insurance-subitems" id="client-scenarios-subitems">
+
+                    <div class="health-subitem" data-item="example-1">Example 1</div>
+
+                    <div class="health-subitem" data-item="example-2">Example 2</div>
+
+                    <div class="health-subitem" data-item="example-3">Example 3</div>
+
+                </div>
+
+            </div>
+
         </div>
+
+
+
+
         <div class="offering-buttons">
             <a href="javascript:history.back()" class="cta-button neon">Back</a>
             <a href="index.html#home" class="cta-button neon">Home</a>
@@ -210,7 +562,7 @@
         <p>
 
 
-            © 2025 IWM Brokerage. Insurance Wealth Management, L.L.C.. All rights reserved. | 
+            © 2025 IWM Brokerage. Insurance Wealth Management, L.L.C. All rights reserved. | 
             <a href="privacy-policy.html">Privacy Policy & Terms of Use</a> | 
             <a href="linktree.html">Link Tree</a> | 
             <a href="contact.html">Contact Us</a> | 
@@ -225,46 +577,434 @@
     <div class="blog-popup-overlay" id="offeringsPopupOverlay"></div>
 
     <script src="script.js"></script>
+   
+
+
     <script>
+
         document.addEventListener('DOMContentLoaded', () => {
+
             const offeringCards = document.querySelectorAll('.offering-card');
+
             const popup = document.getElementById('offeringsPopup');
+
             const popupOverlay = document.getElementById('offeringsPopupOverlay');
+
+            const healthInsuranceCard = document.getElementById('health-insurance-card');
+
+            const healthSubitems = document.getElementById('health-subitems');
+
             let timeoutId;
 
             // Function to show the pop-up
+
             function showPopup() {
+
                 popup.classList.add('active');
+
                 popupOverlay.classList.add('active');
 
                 // Auto-close after 2 seconds
+
                 timeoutId = setTimeout(() => {
+
                     closePopup();
+
                 }, 2000);
+
             }
 
             // Function to close the pop-up
+
             function closePopup() {
+
                 popup.classList.remove('active');
+
                 popupOverlay.classList.remove('active');
+
                 clearTimeout(timeoutId);
+
             }
 
-            // Add click event to each offering card
+                      
+
+
+
+
+
+
+
+  // Add click event to each offering card (except special cards)
+
             offeringCards.forEach(card => {
+
+                const cardId = card.id;
+
+                // Skip cards that have subitems (they have their own click handlers)
+
+                if (cardId === 'health-insurance-card' || 
+
+                    cardId === 'insurance-card' || 
+
+                    cardId === 'retirement-card' || 
+
+                    cardId === 'end-of-life-card' || 
+
+                    cardId === 'client-scenarios-card') {
+
+                    return;
+
+                }
+
                 card.addEventListener('click', (e) => {
+
                     e.preventDefault();
+
+                    // Check if it's Bitcoin & Digital Currencies or Macro Trends
+
+                    const cardTitle = card.querySelector('h3')?.textContent.trim();
+
+                    if (cardTitle === 'Bitcoin & Digital Currencies' || cardTitle === 'Macro Trends') {
+
+                        popup.textContent = 'Blog Coming Soon';
+
+                    } else {
+
+                        popup.textContent = 'Detailed descriptions coming soon!';
+
+                    }
+
                     showPopup();
+
                 });
+
             });
 
-            // Close pop-up when clicking outside
-            popupOverlay.addEventListener('click', () => {
-                closePopup();
+
+
+
+
+                          // Handle Insurance card click
+
+            const insuranceCard = document.getElementById('insurance-card');
+
+            const insuranceSubitems = document.getElementById('insurance-subitems');
+
+            const insuranceToggle = document.getElementById('insurance-options-toggle');
+
+            if (insuranceCard && insuranceSubitems && insuranceToggle) {
+
+                // Click on the image toggle itself
+
+                          insuranceToggle.addEventListener('click', (e) => {
+
+                    e.preventDefault();
+
+                    e.stopPropagation();
+
+                    insuranceSubitems.classList.toggle('active');
+
+                });
+
+                // Click on the card (excluding subitems, links, or the toggle image)
+
+                insuranceCard.addEventListener('click', (e) => {
+
+                    if (e.target.classList.contains('health-subitem') || 
+
+                        e.target.classList.contains('health-explanation') ||
+
+                        e.target.tagName === 'A' ||
+
+                        e.target.id === 'insurance-options-toggle') {
+
+                        return;
+
+                    }
+
+                                                         e.preventDefault();
+
+                    insuranceSubitems.classList.toggle('active');
+
+                });
+
+            }
+
+
+
+
+
+
+
+
+                  // Handle Retirement Planning card click
+
+            const retirementCard = document.getElementById('retirement-card');
+
+            const retirementSubitems = document.getElementById('retirement-subitems');
+
+            const retirementToggle = document.getElementById('retirement-options-toggle');
+
+            if (retirementCard && retirementSubitems && retirementToggle) {
+
+                // Click on the image toggle itself
+
+                          retirementToggle.addEventListener('click', (e) => {
+
+                    e.preventDefault();
+
+                    e.stopPropagation();
+
+                    retirementSubitems.classList.toggle('active');
+
+                });
+
+                // Click on the card (excluding subitems, explanation, links, or the toggle image)
+
+                retirementCard.addEventListener('click', (e) => {
+
+                    if (e.target.classList.contains('health-subitem') || 
+
+                        e.target.classList.contains('health-explanation') ||
+
+                        e.target.tagName === 'A' ||
+
+                        e.target.id === 'retirement-options-toggle') {
+
+                        return;
+
+                    }
+
+                                     e.preventDefault();
+
+                    retirementSubitems.classList.toggle('active');
+
+                });
+
+            }
+
+                  // Handle End of Life Planning card click
+
+            const endOfLifeCard = document.getElementById('end-of-life-card');
+
+            const endOfLifeSubitems = document.getElementById('end-of-life-subitems');
+
+            const endOfLifeToggle = document.getElementById('end-of-life-options-toggle');
+
+            if (endOfLifeCard && endOfLifeSubitems && endOfLifeToggle) {
+
+                // Click on the image toggle itself
+
+                          endOfLifeToggle.addEventListener('click', (e) => {
+
+                    e.preventDefault();
+
+                    e.stopPropagation();
+
+                    endOfLifeSubitems.classList.toggle('active');
+
+                });
+
+                // Click on the card (excluding subitems, explanation, links, or the toggle image)
+
+                endOfLifeCard.addEventListener('click', (e) => {
+
+                    if (e.target.classList.contains('health-subitem') || 
+
+                        e.target.classList.contains('health-explanation') ||
+
+                        e.target.tagName === 'A' ||
+
+                        e.target.id === 'end-of-life-options-toggle') {
+
+                        return;
+
+                    }
+
+                                                      e.preventDefault();
+
+                    endOfLifeSubitems.classList.toggle('active');
+
+                });
+
+            }
+
+                // Handle Client Scenarios card click
+
+            const clientScenariosCard = document.getElementById('client-scenarios-card');
+
+            const clientScenariosSubitems = document.getElementById('client-scenarios-subitems');
+
+            const clientScenariosToggle = document.getElementById('client-scenarios-options-toggle');
+
+            if (clientScenariosCard && clientScenariosSubitems && clientScenariosToggle) {
+
+                // Click on the image toggle itself
+
+                               clientScenariosToggle.addEventListener('click', (e) => {
+
+                    e.preventDefault();
+
+                    e.stopPropagation();
+
+                    clientScenariosSubitems.classList.toggle('active');
+
+                });
+
+                // Click on the card (excluding subitems, explanation, links, or the toggle image)
+
+                clientScenariosCard.addEventListener('click', (e) => {
+
+                    if (e.target.classList.contains('health-subitem') || 
+
+                        e.target.classList.contains('health-explanation') ||
+
+                        e.target.tagName === 'A' ||
+
+                        e.target.id === 'client-scenarios-options-toggle') {
+
+                        return;
+
+                    }
+
+                                       e.preventDefault();
+
+                    clientScenariosSubitems.classList.toggle('active');
+
+                });
+
+            }
+
+
+
+                        // Handle Health Insurance card click
+
+            const healthInsuranceToggle = document.getElementById('health-insurance-options-toggle');
+
+            if (healthInsuranceCard && healthSubitems && healthInsuranceToggle) {
+
+                // Click on the image toggle itself
+
+                healthInsuranceToggle.addEventListener('click', (e) => {
+
+                    e.preventDefault();
+
+                    e.stopPropagation();
+
+                    healthSubitems.classList.toggle('active');
+
+                });
+
+                // Click on the card (excluding subitems, explanation, links, or the toggle image)
+
+                healthInsuranceCard.addEventListener('click', (e) => {
+
+                    if (e.target.classList.contains('health-subitem') || 
+
+                        e.target.classList.contains('health-explanation') ||
+
+                        e.target.tagName === 'A' ||
+
+                        e.target.id === 'health-insurance-options-toggle') {
+
+                        return;
+
+                    }
+
+                    e.preventDefault();
+
+                    healthSubitems.classList.toggle('active');
+
+                });
+
+            }
+
+
+
+
+                            // Handle subitem clicks for all cards with subitems
+
+            const allSubitems = document.querySelectorAll('.health-subitem');
+
+            allSubitems.forEach(subitem => {
+
+                subitem.addEventListener('click', (e) => {
+
+                    e.stopPropagation();
+
+                    const itemType = subitem.getAttribute('data-item');
+
+                    
+
+                    // Hide all explanations first
+
+                    document.querySelectorAll('.health-explanation').forEach(explanation => {
+
+                        explanation.classList.remove('active');
+
+                    });
+
+                    
+
+                    // Remove active state from all subitems in the same container
+
+                    const parentContainer = subitem.closest('.health-insurance-subitems');
+
+                    if (parentContainer) {
+
+                        parentContainer.querySelectorAll('.health-subitem').forEach(item => {
+
+                            item.classList.remove('active');
+
+                        });
+
+                    }
+
+                    
+
+                    // Show explanation for clicked item
+
+                    let explanation = subitem.querySelector('.health-explanation');
+
+                    if (!explanation) {
+
+                        explanation = document.createElement('div');
+
+                        explanation.className = 'health-explanation';
+
+                        explanation.textContent = `[Placeholder explanation for ${itemType.replace(/-/g, ' ')}]`;
+
+                        subitem.appendChild(explanation);
+
+                    }
+
+                    explanation.classList.add('active');
+
+                    subitem.classList.add('active');
+
+                });
+
             });
+
+
+
+
+
+            // Close pop-up when clicking outside
+
+            popupOverlay.addEventListener('click', () => {
+
+                closePopup();
+
+            });
+
         });
 
     </script>
+
+
+
+
 
 </body>
 </html>
