@@ -27,7 +27,7 @@
   <div class="navbar-wrapper">
     <header class="navbar">
         <div class="logo">
-            <a href="index.html#home"><img src="iwmlogo-white-new.png" alt="IWM Brokerage Logo" class="logo-img"></a>
+            <a href="index.html#home"><img src="iwmlogo-new-v2.png" alt="IWM Brokerage Logo" class="logo-img"></a>
         </div>
         <!-- Rest of the header content remains unchanged -->
             <button class="mobile-nav-toggle" aria-label="Toggle navigation">☰</button>
@@ -1846,7 +1846,7 @@ document.getElementById('share-button').addEventListener('click', async () => {
        // --- LOGO WITH NUCLEAR CACHE BUSTING - GUARANTEED TO WORK ---
     const logo = new Image();
 logo.crossOrigin = 'anonymous';
-logo.src = 'iwmlogo-white-new.png?v=' + Date.now();
+logo.src = 'iwmlogo-new-v2.png?v=' + Date.now();
 
     logo.onload = () => {
         const logoSize = 550;
@@ -2013,7 +2013,7 @@ function wrapText(context, text, maxWidth, lineHeight) {
                         // Load logo image - NUCLEAR CACHE BUSTING
                const logo = new Image();
 logo.crossOrigin = 'anonymous';
-logo.src = 'iwmlogo-white-new.png?v=' + Date.now();
+logo.src = 'iwmlogo-new-v2.png?v=' + Date.now();
             
             logo.onload = function() {
                 // First, calculate text dimensions to center everything vertically
@@ -2350,6 +2350,7 @@ logo.src = 'iwmlogo-white-new.png?v=' + Date.now();
         });    </script>
     </body>
 </html>
+
 
 
 
