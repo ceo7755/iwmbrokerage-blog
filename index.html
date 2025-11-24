@@ -2046,11 +2046,31 @@ window.shareScenario = function(index) {
         y += lineHeight;
     });
 
-    // Footer text (moved up with the logo)
+       // Footer text
     ctx.font = 'italic 42px "Libre Baskerville", serif';
     ctx.fillText('Insurance Wealth Management', canvas.width/2, y + 100);
     ctx.font = '400 36px "Libre Baskerville", serif';
     ctx.fillText('— Life, Health, & Retirement Brokerage —', canvas.width/2, y + 160);
+
+    // === FADED DIVIDER LINE — SAME AS MOBILE MENU, BUT LONGER ===
+    const lineY = y + 210;
+    const lineWidth = 900;  // Much longer than mobile menu (was 60% → now ~75% of canvas)
+    const lineX = (canvas.width - lineWidth) / 2;
+
+    const lineGradient = ctx.createLinearGradient(lineX, lineY, lineX + lineWidth, lineY);
+    lineGradient.addColorStop(0, 'transparent');
+    lineGradient.addColorStop(0.15, '#ffffff');
+    lineGradient.addColorStop(0.5, '#ffffff');
+    lineGradient.addColorStop(0.85, '#ffffff');
+    lineGradient.addColorStop(1, 'transparent');
+
+    ctx.strokeStyle = lineGradient;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(lineX, lineY);
+    ctx.lineTo(lineX + lineWidth, lineY);
+    ctx.stroke();
+    // === END OF FADED LINE ===
 
     // Load and draw the ONE AND ONLY white logo – positioned perfectly under text
     const logo = new Image();
@@ -2289,6 +2309,7 @@ window.shareScenario = function(index) {
         });    </script>
     </body>
 </html>
+
 
 
 
