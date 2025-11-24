@@ -2046,15 +2046,9 @@ window.shareScenario = function(index) {
         y += lineHeight;
     });
 
-       // Footer text
-    ctx.font = 'italic 42px "Libre Baskerville", serif';
-    ctx.fillText('Insurance Wealth Management', canvas.width/2, y + 100);
-    ctx.font = '400 36px "Libre Baskerville", serif';
-    ctx.fillText('— Life, Health, & Retirement Brokerage —', canvas.width/2, y + 160);
-
-    // === FADED DIVIDER LINE — SAME AS MOBILE MENU, BUT LONGER ===
-    const lineY = y + 210;
-    const lineWidth = 900;  // Much longer than mobile menu (was 60% → now ~75% of canvas)
+    // === LONG FADED DIVIDER LINE (same as mobile menu) ===
+    const lineY = y + 140;                     // Nice spacing after scenario text
+    const lineWidth = 940;                     // Super elegant length
     const lineX = (canvas.width - lineWidth) / 2;
 
     const lineGradient = ctx.createLinearGradient(lineX, lineY, lineX + lineWidth, lineY);
@@ -2065,24 +2059,30 @@ window.shareScenario = function(index) {
     lineGradient.addColorStop(1, 'transparent');
 
     ctx.strokeStyle = lineGradient;
-    ctx.lineWidth = 2;
+    ctx.lineWidth = 2.5;
     ctx.beginPath();
     ctx.moveTo(lineX, lineY);
     ctx.lineTo(lineX + lineWidth, lineY);
     ctx.stroke();
-    // === END OF FADED LINE ===
 
-    // Load and draw the ONE AND ONLY white logo – positioned perfectly under text
+    // === WHITE IWM LOGO ONLY – BIG & CENTERED AT BOTTOM ===
     const logo = new Image();
     logo.crossOrigin = 'anonymous';
     logo.src = 'iwmlogo-white-v3.png?v=' + Date.now();
 
     logo.onload = () => {
-        const logoSize = 820;
+        const logoSize = 880;
         const logoX = (canvas.width - logoSize) / 2;
-        const logoY = y + 220; // Pushed up significantly
+        const logoY = lineY + 110;                 // Perfect breathing room under the line
         const logoHeight = logoSize * (logo.height / logo.width);
         ctx.drawImage(logo, logoX, logoY, logoSize, logoHeight);
+        shareImage();
+    };
+
+    logo.onerror = () => {
+        ctx.font = 'bold 90px "Libre Baskerville", serif';
+        ctx.fillStyle = '#ffffff';
+        ctx.fillText('IWM', canvas.width/2, lineY + 180);
         shareImage();
     };
 
@@ -2309,6 +2309,7 @@ window.shareScenario = function(index) {
         });    </script>
     </body>
 </html>
+
 
 
 
