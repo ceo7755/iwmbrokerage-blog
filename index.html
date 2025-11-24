@@ -1985,123 +1985,114 @@ function wrapText(context, text, maxWidth, lineHeight) {
         };
         
                      // Share scenario as image
+
+          
+          
+          
+          
+          
+          
+           // ——————————————————— LUXURY REAL SCENARIOS SHARE 2025 ———————————————————
         window.shareScenario = function(index) {
             const scenarios = JSON.parse(localStorage.getItem('realScenarios') || '[]');
             const scenario = scenarios[parseInt(index)];
-            
             if (!scenario) return;
-            
-            // Create canvas - taller to fit logo below text
+
             const canvas = document.createElement('canvas');
             canvas.width = 1200;
-            canvas.height = 1000; // Increased height for logo below
+            canvas.height = 1200;                           // Square = looks premium everywhere
             const ctx = canvas.getContext('2d');
-            
-            // Gold block background gradient
-            const bgGradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-            bgGradient.addColorStop(0, '#AB9C59');
-            bgGradient.addColorStop(0.5, '#8B7D47');
-            bgGradient.addColorStop(1, '#AB9C59');
-            ctx.fillStyle = bgGradient;
+
+            // Exact gold gradient + glossy shine from your title bars
+            const bg = ctx.createLinearGradient(0, 0, 0, canvas.height);
+            bg.addColorStop(0, '#D4B56A');
+            bg.addColorStop(0.5, '#AB9C59');
+            bg.addColorStop(1, '#8B7D47');
+            ctx.fillStyle = bg;
             ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            // Add border/shadow effect
-            ctx.strokeStyle = '#8B7D47';
-            ctx.lineWidth = 8;
-            ctx.strokeRect(4, 4, canvas.width - 8, canvas.height - 8);
-            
-                        // Load logo image - NUCLEAR CACHE BUSTING
-               const logo = new Image();
-logo.crossOrigin = 'anonymous';
-logo.src = 'iwmlogo-white-v3.png?v=' + Date.now();
-            
-            logo.onload = function() {
-                // First, calculate text dimensions to center everything vertically
-                ctx.fillStyle = '#091954';
-                ctx.font = 'bold 42px "Libre Baskerville", serif';
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'top';
-                
-                // Wrap text with proper centering
-                const maxWidth = canvas.width - 200; // More padding for readability
-                const lineHeight = 60;
-                const words = scenario.text.split(' ');
-                let line = '';
-                const lines = [];
-                
-                // Calculate all lines first
-                words.forEach((word, i) => {
-                    const testLine = line + word + ' ';
-                    const metrics = ctx.measureText(testLine);
-                    if (metrics.width > maxWidth && i > 0) {
-                        lines.push(line.trim());
-                        line = word + ' ';
-                    } else {
-                        line = testLine;
+
+            const gloss = ctx.createRadialGradient(canvas.width/2, 180, 0, canvas.width/2, 180, 650);
+            gloss.addColorStop(0, 'rgba(255,255,255,0.38)');
+            gloss.addColorStop(0.5, 'rgba(255,255,255,0.12)');
+            gloss.addColorStop(1, 'rgba(255,255,255,0)');
+            ctx.fillStyle = gloss;
+            ctx.fillRect(0, 0, canvas.width, 500);
+
+            // White card with soft shadow
+            const cardX = 80, cardY = 100, cardW = 1040, cardH = 1000;
+            ctx.shadowColor = 'rgba(0,0,0,0.42)';
+            ctx.shadowBlur = 45;
+            ctx.shadowOffsetY = 22;
+            ctx.fillStyle = '#ffffff';
+            ctx.beginPath();
+            ctx.roundRect(cardX, cardY, cardW, cardH, 42);
+            ctx.fill();
+
+            // Text – your exact Libre Baskerville font, dark blue
+            ctx.shadowColor = 'transparent';
+            ctx.fillStyle = '#091954';
+            ctx.textAlign = 'center';
+            ctx.font = 'bold 58px "Libre Baskerville", serif';
+            const maxW = 920;
+            const lineH = 86;
+
+            const words = scenario.text.split(' ');
+            let line = '', lines = [];
+            for (let w of words) {
+                const test = line + w + ' ';
+                if (ctx.measureText(test).width > maxW && line) {
+                    lines.push(line.trim());
+                    line = w + ' ';
+                } else line = test;
+            }
+            if (line) lines.push(line.trim());
+
+            let y = canvas.height / 2 - (lines.length * lineH / 2) + 20;
+            lines.forEach(l => {
+                ctx.shadowColor = 'rgba(255,255,255,0.85)';
+                ctx.shadowBlur = 12;
+                ctx.fillText(l, canvas.width / 2, y);
+                y += lineH;
+            });
+
+            // Your logo – same file, perfectly centered at bottom, huge & crisp
+            const logo = new Image();
+            logo.crossOrigin = 'anonymous';
+            logo.src = 'iwmlogo-white-v3.png?v=' + Date.now();
+
+            logo.onload = () => {
+                const logoSize = 860;
+                const logoX = (canvas.width - logoSize) / 2;
+                const logoY = canvas.height - 320;
+                ctx.drawImage(logo, logoX, logoY, logoSize, logoSize * (logo.height / logo.width));
+
+                canvas.toBlob(blob => {
+                    const file = new File([blob], `IWM_Scenario_${Date.now()}.png`, {type: 'image/png'});
+                    if (navigator.canShare && navigator.canShare({files: [file]})) {
+                        navigator.share({
+                            files: [file],
+                            title: 'Real Client Scenario – IWM Brokerage',
+                            text: scenario.text
+                        });
                     }
-                });
-                lines.push(line.trim());
-                
-                // Calculate total text height
-                const totalTextHeight = lines.length * lineHeight;
-                
-                // Calculate logo dimensions (LARGER)
-                const logoSize = 850; // Increased from 400 to 550 (much larger)
-                const logoAspectRatio = logo.height / logo.width;
-                const logoHeight = logoSize * logoAspectRatio;
-                
-                // Calculate spacing
-                const spacingBetween = 50; // Space between text and logo
-                const totalContentHeight = totalTextHeight + spacingBetween + logoHeight;
-                
-                // Calculate starting Y position to center everything vertically
-                const startY = (canvas.height - totalContentHeight) / 2;
-                
-                // Draw all lines centered, starting at calculated position
-                const x = canvas.width / 2; // Center horizontally
-                let currentY = startY;
-                
-                lines.forEach((lineText, i) => {
-                    ctx.fillText(lineText, x, currentY);
-                    currentY += lineHeight;
-                });
-                
-                // Calculate where logo should go (below text with spacing)
-                const logoY = currentY + spacingBetween;
-                const logoX = (canvas.width - logoSize) / 2; // Center horizontally
-                
-                // Draw logo BELOW the text, centered, and LARGER
-                ctx.drawImage(logo, logoX, logoY, logoSize, logoHeight);
-                
-                // Convert to blob and share
-                canvas.toBlob(async (blob) => {
-                    if (!blob) return;
-                    
-                    const file = new File([blob], `IWM_Scenario_${index}_${Date.now()}.png`, { type: 'image/png' });
-                    const shareData = {
-                        files: [file],
-                        title: 'Real Client Scenario - IWM Brokerage',
-                        text: scenario.text
-                    };
-                    
-                    try {
-                        if (navigator.canShare && navigator.canShare({ files: [file] })) {
-                            await navigator.share(shareData);
-                        } else {
-                            // Fallback: download image
-                            const url = URL.createObjectURL(blob);
-                            const a = document.createElement('a');
-                            a.href = url;
-                            a.download = `IWM_Scenario_${index}.png`;
-                            a.click();
-                            URL.revokeObjectURL(url);
-                        }
-                    } catch (err) {
-                        console.log('Share failed:', err);
-                    }
-                }, 'image/png', 1.0);
+                }, 'image/png', 1);
             };
-            
+
+            logo.onerror = () => {
+                ctx.font = 'bold 56px "Libre Baskerville", serif';
+                ctx.fillStyle = '#091954';
+                ctx.fillText('IWM Brokerage', canvas.width / 2, canvas.height - 180);
+                canvas.toBlob(blob => {
+                    const file = new File([blob], `IWM_Scenario_${Date.now()}.png`, {type: 'image/png'});
+                    if (navigator.canShare?.({files: [file]})) navigator.share({files: [file]});
+                }, 'image/png');
+            };
+        };
+
+
+
+
+          
             logo.onerror = function() {
                 console.warn('Logo failed to load');
                 // Draw text anyway without logo, centered vertically
@@ -2350,6 +2341,7 @@ logo.src = 'iwmlogo-white-v3.png?v=' + Date.now();
         });    </script>
     </body>
 </html>
+
 
 
 
