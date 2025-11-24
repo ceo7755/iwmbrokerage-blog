@@ -1984,15 +1984,7 @@ function wrapText(context, text, maxWidth, lineHeight) {
             }
         };
         
-                     // Share scenario as image
-
-          
-          
-          
-          
-          
-          
-           // ——————————————————— LUXURY REAL SCENARIOS SHARE 2025 ———————————————————
+                        // ——————————————————— LUXURY REAL SCENARIOS SHARE 2025 ———————————————————
         window.shareScenario = function(index) {
             const scenarios = JSON.parse(localStorage.getItem('realScenarios') || '[]');
             const scenario = scenarios[parseInt(index)];
@@ -2000,10 +1992,10 @@ function wrapText(context, text, maxWidth, lineHeight) {
 
             const canvas = document.createElement('canvas');
             canvas.width = 1200;
-            canvas.height = 1200;                           // Square = looks premium everywhere
+            canvas.height = 1200;
             const ctx = canvas.getContext('2d');
 
-            // Exact gold gradient + glossy shine from your title bars
+            // Gold gradient + glossy shine
             const bg = ctx.createLinearGradient(0, 0, 0, canvas.height);
             bg.addColorStop(0, '#D4B56A');
             bg.addColorStop(0.5, '#AB9C59');
@@ -2018,7 +2010,7 @@ function wrapText(context, text, maxWidth, lineHeight) {
             ctx.fillStyle = gloss;
             ctx.fillRect(0, 0, canvas.width, 500);
 
-            // White card with soft shadow
+            // White card
             const cardX = 80, cardY = 100, cardW = 1040, cardH = 1000;
             ctx.shadowColor = 'rgba(0,0,0,0.42)';
             ctx.shadowBlur = 45;
@@ -2028,7 +2020,7 @@ function wrapText(context, text, maxWidth, lineHeight) {
             ctx.roundRect(cardX, cardY, cardW, cardH, 42);
             ctx.fill();
 
-            // Text – your exact Libre Baskerville font, dark blue
+            // Text
             ctx.shadowColor = 'transparent';
             ctx.fillStyle = '#091954';
             ctx.textAlign = 'center';
@@ -2055,7 +2047,7 @@ function wrapText(context, text, maxWidth, lineHeight) {
                 y += lineH;
             });
 
-            // Your logo – same file, perfectly centered at bottom, huge & crisp
+            // Logo
             const logo = new Image();
             logo.crossOrigin = 'anonymous';
             logo.src = 'iwmlogo-white-v3.png?v=' + Date.now();
@@ -2088,7 +2080,6 @@ function wrapText(context, text, maxWidth, lineHeight) {
                 }, 'image/png');
             };
         };
-
 
 
 
@@ -2149,7 +2140,12 @@ function wrapText(context, text, maxWidth, lineHeight) {
                 }, 'image/png', 1.0);
             };
         };
-        
+
+
+
+
+
+      
         // Initialize event listeners
         document.addEventListener('DOMContentLoaded', () => {
             loadScenarios();
