@@ -2051,7 +2051,7 @@ window.shareScenario = function(index) {
     });
 
     // — LINE & LOGO stay exactly where they are now —
-    const lineY = textY - -20;                // keeps the same gap you already like
+    const lineY = textY - 20;                // keeps the same gap you already like
                                               // (you can tweak -120 to -100 or -140 if you want)
 
   
@@ -2080,7 +2080,7 @@ window.shareScenario = function(index) {
     logo.onload = () => {
         const logoSize = 880;
         const logoX = (canvas.width - logoSize) / 2;
-        const logoY = lineY + 70;               // Super tight under the line (was +110)
+        const logoY = lineY + 20;               // Super tight under the line (was +110)
         const logoHeight = logoSize * (logo.height / logo.width);
         ctx.drawImage(logo, logoX, logoY, logoSize, logoHeight);
         shareImage();
@@ -2322,6 +2322,7 @@ window.shareScenario = function(index) {
         });    </script>
     </body>
 </html>
+
 
 
 
