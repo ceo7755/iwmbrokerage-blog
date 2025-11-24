@@ -2040,7 +2040,7 @@ window.shareScenario = function(index) {
     if (line.trim()) lines.push(line.trim());
 
     // Start drawing text higher so logo can sit right underneath
-    let y = 180;
+    let y = 300;
     lines.forEach(l => {
         ctx.fillText(l, canvas.width/2, y);
         y += lineHeight;
@@ -2315,6 +2315,7 @@ window.shareScenario = function(index) {
         });    </script>
     </body>
 </html>
+
 
 
 
