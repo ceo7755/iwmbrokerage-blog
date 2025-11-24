@@ -2039,15 +2039,22 @@ window.shareScenario = function(index) {
     }
     if (line.trim()) lines.push(line.trim());
 
-    // Start drawing text higher so logo can sit right underneath
-    let y = 300;
+       // — TEXT ONLY — move this down as much as you want
+    let textY = 300;                          // ← CHANGE THIS NUMBER ONLY
+                                              // 300 = noticeably lower
+                                              // 350 = very low
+                                              // 400 = extremely low
+
     lines.forEach(l => {
-        ctx.fillText(l, canvas.width/2, y);
-        y += lineHeight;
+        ctx.fillText(l, canvas.width/2, textY);
+        textY += lineHeight;
     });
 
-       // === LONG FADED DIVIDER LINE (tight but elegant) ===
-    const lineY = y + 80;                      // Much closer to text (was +140)
+    // — LINE & LOGO stay exactly where they are now —
+    const lineY = textY - 120;                // keeps the same gap you already like
+                                              // (you can tweak -120 to -100 or -140 if you want)
+
+  
     const lineWidth = 940;
     const lineX = (canvas.width - lineWidth) / 2;
 
@@ -2315,6 +2322,7 @@ window.shareScenario = function(index) {
         });    </script>
     </body>
 </html>
+
 
 
 
