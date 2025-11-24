@@ -1988,7 +1988,7 @@ function wrapText(context, text, maxWidth, lineHeight) {
 
 
           
-   // Share scenario as PREMIUM GOLD IMAGE (matches your site perfectly)
+ // Share scenario as PREMIUM GOLD IMAGE – FIXED: ONE LOGO ONLY, MOVED UP
 window.shareScenario = function(index) {
     const scenarios = JSON.parse(localStorage.getItem('realScenarios') || '[]');
     const scenario = scenarios[parseInt(index)];
@@ -1996,10 +1996,10 @@ window.shareScenario = function(index) {
 
     const canvas = document.createElement('canvas');
     canvas.width = 1200;
-    canvas.height = 1350; // Taller for breathing room + perfect logo placement
+    canvas.height = 1350;
     const ctx = canvas.getContext('2d');
 
-    // PREMIUM GOLD GRADIENT (exact match to your CTA blocks)
+    // Gold background gradient
     const bgGradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
     bgGradient.addColorStop(0, '#AB9C59');
     bgGradient.addColorStop(0.5, '#8B7D47');
@@ -2007,107 +2007,89 @@ window.shareScenario = function(index) {
     ctx.fillStyle = bgGradient;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Subtle inner glow border
+    // Subtle border
     ctx.strokeStyle = '#8B7D47';
     ctx.lineWidth = 12;
     ctx.strokeRect(6, 6, canvas.width - 12, canvas.height - 12);
 
-    // Glossy shine effect (exactly like your gold buttons)
-    const gloss = ctx.createRadialGradient(
-        canvas.width / 2, canvas.height * 0.3, 100,
-        canvas.width / 2, canvas.height * 0.4, 600
-    );
+    // Glossy shine
+    const gloss = ctx.createRadialGradient(canvas.width/2, canvas.height*0.3, 100, canvas.width/2, canvas.height*0.4, 600);
     gloss.addColorStop(0, 'rgba(255,255,255,0.25)');
     gloss.addColorStop(0.5, 'rgba(255,255,255,0.1)');
     gloss.addColorStop(1, 'transparent');
     ctx.fillStyle = gloss;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Text styling - elegant and bold
+    // Text
     ctx.fillStyle = '#091954';
     ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-
-    // Wrap and draw the scenario text
     ctx.font = 'bold 52px "Libre Baskerville", serif';
-    const maxTextWidth = canvas.width - 200;
+
+    const maxWidth = canvas.width - 200;
     const lineHeight = 78;
     const words = scenario.text.split(' ');
     const lines = [];
     let line = '';
-
-    for (let word of words) {
-        const testLine = line + word + ' ';
-        const metrics = ctx.measureText(testLine);
-        if (metrics.width > maxTextWidth && line !== '') {
+    for (const word of words) {
+        const test = line + word + ' ';
+        if (ctx.measureText(test).width > maxWidth && line) {
             lines.push(line.trim());
             line = word + ' ';
-        } else {
-            line = testLine;
-        }
+        } else line = test;
     }
     if (line.trim()) lines.push(line.trim());
 
-    // Draw text lines
-    let y = canvas.height * 0.35;
-    lines.forEach(lineText => {
-        ctx.fillText(lineText, canvas.width / 2, y);
+    // Start drawing text higher so logo can sit right underneath
+    let y = 180;
+    lines.forEach(l => {
+        ctx.fillText(l, canvas.width/2, y);
         y += lineHeight;
     });
 
-    // Footer text
-    ctx.font = 'italic 38px "Libre Baskerville", serif';
-    ctx.fillStyle = '#091954';
-    ctx.fillText('Insurance Wealth Management', canvas.width / 2, canvas.height - 220);
-    ctx.font = '400 32px "Libre Baskerville", serif';
-    ctx.fillStyle = '#091954';
-    ctx.fillText('— Life, Health, & Retirement Brokerage —', canvas.width / 2, canvas.height - 160);
+    // Footer text (moved up with the logo)
+    ctx.font = 'italic 42px "Libre Baskerville", serif';
+    ctx.fillText('Insurance Wealth Management', canvas.width/2, y + 100);
+    ctx.font = '400 36px "Libre Baskerville", serif';
+    ctx.fillText('— Life, Health, & Retirement Brokerage —', canvas.width/2, y + 160);
 
-    // LOAD LOGO - with cache busting
+    // Load and draw the ONE AND ONLY white logo – positioned perfectly under text
     const logo = new Image();
     logo.crossOrigin = 'anonymous';
     logo.src = 'iwmlogo-white-v3.png?v=' + Date.now();
 
-    logo.onload = function() {
-        const logoSize = 780;
+    logo.onload = () => {
+        const logoSize = 820;
         const logoX = (canvas.width - logoSize) / 2;
-        const logoY = canvas.height - 130;
+        const logoY = y + 220; // Pushed up significantly
         const logoHeight = logoSize * (logo.height / logo.width);
-        ctx.drawImage(logo, logoX, logoY - logoHeight, logoSize, logoHeight);
-        finalizeAndShare();
+        ctx.drawImage(logo, logoX, logoY, logoSize, logoHeight);
+        shareImage();
     };
 
-    logo.onerror = function() {
-        console.warn('Logo failed – using text fallback');
-        ctx.font = 'bold 60px "Libre Baskerville", serif';
+    logo.onerror = () => {
+        ctx.font = 'bold 70px "Libre Baskerville", serif';
         ctx.fillStyle = '#FFFFFF';
-        ctx.fillText('IWM Brokerage', canvas.width / 2, canvas.height - 100);
-        finalizeAndShare();
+        ctx.fillText('IWM Brokerage', canvas.width/2, y + 280);
+        shareImage();
     };
 
-    function finalizeAndShare() {
-        canvas.toBlob(async (blob) => {
+    function shareImage() {
+        canvas.toBlob(blob => {
             if (!blob) return;
-            const file = new File([blob], `IWM_Real_Scenario_${index}.png`, { type: 'image/png' });
+            const file = new File([blob], `IWM_Scenario_${index}.png`, {type: 'image/png'});
             const shareData = {
                 files: [file],
-                title: 'Real Client Success - IWM Brokerage',
+                title: 'Real Client Success – IWM Brokerage',
                 text: scenario.text
             };
 
-            try {
-                if (navigator.canShare && navigator.canShare({ files: [file] })) {
-                    await navigator.share(shareData);
-                } else {
-                    const url = URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = `IWM_Scenario_${index}.png`;
-                    a.click();
-                    URL.revokeObjectURL(url);
-                }
-            } catch (err) {
-                console.log('Share failed:', err);
+            if (navigator.canShare && navigator.canShare({files: [file]})) {
+                navigator.share(shareData).catch(() => {});
+            } else {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url; a.download = `IWM_Scenario_${index}.png`; a.click();
+                URL.revokeObjectURL(url);
             }
         }, 'image/png', 1.0);
     }
@@ -2307,6 +2289,7 @@ window.shareScenario = function(index) {
         });    </script>
     </body>
 </html>
+
 
 
 
