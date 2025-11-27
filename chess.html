@@ -3,145 +3,111 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Chess - IWM Brokerage</title>
+  <title>Chess Board - Play Now</title>
   <style>
-    :root {
-      --bg: #091954;
-      --gold: #AB9C59;
-      --light: #f0d9b5;
-      --dark: #b58863;
-      --text: #ffffff;
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
     body {
-      font-family: 'Libre Baskerville', serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      padding: 10px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-    }
-
-    h1 {
-      font-size: 2.4rem;
-      margin: 15px 0 8px;
-      color: var(--gold);
-      text-shadow: 0 2px 10px rgba(171,156,89,0.4);
-    }
-
-    p {
-      font-size: 1.1rem;
-      margin-bottom: 15px;
-      opacity: 0.9;
-    }
-
-    .captured {
-      font-size: 32px;
-      min-height: 50px;
-      padding: 8px;
+      font-family: Arial, sans-serif;
+      background: #222;
+      color: #fff;
       text-align: center;
+      margin: 0;
+      padding: 15px 10px;
+      min-height: 100vh;
+      touch-action: manipulation; /* Better touch response */
+    }
+    h1 { 
+      margin: 0 0 8px 0; 
+      font-size: 2.2rem;
+    }
+    p { 
+      margin: 0 0 15px 0; 
+      font-size: 1.1rem;
     }
 
-    #white-captured { order: 1; }
-    #board-container { order: 2; }
-    #black-captured { order: 3; }
+    /* Captured pieces - bigger on mobile */
+    #white-captured, #black-captured {
+      font-size: 36px;
+      min-height: 56px;
+      padding: 8px 0;
+      word-break: break-all;
+      line-height: 1.2;
+    }
 
+    /* Board container - responsive with max size */
     #board {
       display: grid;
       grid-template-columns: repeat(8, 1fr);
       width: 96vw;
       max-width: 460px;
+      height: 96vw;
+      max-height: 460px;
+      margin: 15px auto;
+      border: 10px solid #8B4513;
+      border-radius: 8px;
+      box-shadow: 0 6px 25px rgba(0,0,0,0.6);
       aspect-ratio: 1 / 1;
-      margin: 10px auto;
-      border: 10px solid var(--gold);
-      border-radius: 12px;
       overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.6),
-                  inset 0 0 20px rgba(171,156,89,0.3);
     }
 
     .square {
+      width: 100%;
+      height: 100%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 10vw;
+      font-size: 10.5vw;        /* Scales perfectly with board size */
+      cursor: pointer;
       user-select: none;
       -webkit-tap-highlight-color: transparent;
-      transition: background 0.2s;
     }
 
+    /* Desktop: cap font size so pieces don't overflow */
     @media (min-width: 500px) {
-      .square { font-size: 48px; }
+      .square { font-size: 46px; }
     }
 
-    .light { background: var(--light); }
-    .dark  { background: var(--dark); }
+    .light { background: #f0d9b5; }
+    .dark { background: #b58863; }
+    .selected { background: #ffeb3b !important; }
+    .possible { background: #4caf50 !important; opacity: 0.7; }
 
-    .selected {
-      background: #ffeb3b !important;
-      box-shadow: inset 0 0 15px #000;
-    }
-
-    .possible {
-      background: #4caf50 !important;
-      opacity: 0.8;
-    }
-
-    #status {
-      font-size: 1.4rem;
+    #status { 
+      font-size: 1.3rem; 
+      margin: 18px 0; 
       font-weight: bold;
-      margin: 20px 0;
-      padding: 12px 20px;
-      background: rgba(171,156,89,0.15);
-      border-radius: 12px;
-      min-width: 280px;
     }
 
     button {
-      margin-top: 10px;
-      padding: 14px 32px;
-      font-family: 'Libre Baskerville', serif;
-      font-size: 1.3rem;
-      font-weight: bold;
-      background: linear-gradient(135deg, #AB9C59, #8B7D47);
-      color: #091954;
+      padding: 14px 28px;
+      margin: 10px 5px;
+      background: #4caf50;
+      color: white;
       border: none;
-      border-radius: 12px;
+      border-radius: 6px;
       cursor: pointer;
-      box-shadow: 0 6px 15px rgba(171,156,89,0.4);
-      transition: all 0.3s;
+      font-size: 1.1rem;
+      font-weight: bold;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
     }
-
-    button:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 25px rgba(171,156,89,0.6);
-    }
-
-    button:active {
-      transform: translateY(0);
-    }
+    button:hover { background: #45a049; }
   </style>
 </head>
 <body>
+  <h1>Chess Board</h1>
+  <p>Tap a piece, then tap a square to move. Legal moves only.</p>
 
-  <h1>Chess</h1>
-  <p>Tap a piece → tap a square</p>
-
-  <div class="captured" id="white-captured"></div>
+  <div id="white-captured"></div>
   <div id="board"></div>
-  <div class="captured" id="black-captured"></div>
+  <div id="black-captured"></div>
   <div id="status">White to move</div>
+
   <button onclick="resetGame()">New Game</button>
 
   <script>
+    // === YOUR EXACT SAME LOGIC (unchanged) ===
     const pieces = {
-      'K': 'White King', 'Q': 'White Queen', 'R': 'White Rook', 'B': 'White Bishop', 'N': 'White Knight', 'P': 'White Pawn',
-      'k': 'Black King', 'q': 'Black Queen', 'r': 'Black Rook', 'b': 'Black Bishop', 'n': 'Black Knight', 'p': 'Black Pawn'
+      'K': 'K', 'Q': 'Q', 'R': 'R', 'B': 'B', 'N': 'N', 'P': 'P',
+      'k': 'k', 'q': 'q', 'r': 'r', 'b': 'b', 'n': 'n', 'p': 'p'
     };
 
     function createPiece(type) {
@@ -149,14 +115,14 @@
     }
 
     let boardState = [
-      ['r','n','b','q','k','b','n','r'].map(createPiece),
-      ['p','p','p','p','p','p','p','p'].map(createPiece),
+      ['r','n','b','q','k','b','n','r'].map(t => createPiece(t)),
+      ['p','p','p','p','p','p','p','p'].map(t => createPiece(t)),
       [null,null,null,null,null,null,null,null],
       [null,null,null,null,null,null,null,null],
       [null,null,null,null,null,null,null,null],
       [null,null,null,null,null,null,null,null],
-      ['P','P','P','P','P','P','P','P'].map(createPiece),
-      ['R','N','B','Q','K','B','N','R'].map(createPiece)
+      ['P','P','P','P','P','P','P','P'].map(t => createPiece(t)),
+      ['R','N','B','Q','K','B','N','R'].map(t => createPiece(t))
     ];
 
     let selected = null;
@@ -175,11 +141,11 @@
           square.dataset.row = row;
           square.dataset.col = col;
 
-          const p = boardState[row][col];
-          if (p) {
-            const symbol = pieces[p.type];
-            if (p.kills > 0) {
-              square.innerHTML = symbol + `<sup style="color:red;font-size:0.4em;vertical-align:super;">${p.kills}</sup>`;
+          const pieceObj = boardState[row][col];
+          if (pieceObj) {
+            const symbol = pieces[pieceObj.type];
+            if (pieceObj.kills > 0) {
+              square.innerHTML = symbol + `<sup style="color:red;font-size:18px;font-weight:bold;">${pieceObj.kills}</sup>`;
             } else {
               square.innerHTML = symbol;
             }
@@ -191,22 +157,24 @@
     }
 
     function onSquareClick(e) {
-      const row = +e.currentTarget.dataset.row;
-      const col = +e.currentTarget.dataset.col;
+      const row = parseInt(e.currentTarget.dataset.row);
+      const col = parseInt(e.currentTarget.dataset.col);
       const piece = boardState[row][col];
 
       if (selected) {
         if (isLegalMove(selected.row, selected.col, row, col)) {
           const captured = boardState[row][col];
-          const moving = boardState[selected.row][selected.col];
+          const movingPiece = boardState[selected.row][selected.col];
 
           if (captured) {
-            moving.kills += 1;
-            (turn === 'w' ? blackCaptured : whiteCaptured).push(captured.type);
+            movingPiece.kills += 1;
+            if (turn === 'w') blackCaptured.push(captured.type);
+            else whiteCaptured.push(captured.type);
           }
 
-          boardState[row][col] = moving;
+          boardState[row][col] = movingPiece;
           boardState[selected.row][selected.col] = null;
+
           turn = turn === 'w' ? 'b' : 'w';
           selected = null;
           clearHighlights();
@@ -217,67 +185,73 @@
           selected = null;
           clearHighlights();
         }
-      } else if (piece && ((turn === 'w' && piece.type === piece.type.toUpperCase()) ||
-                            (turn === 'b' && piece.type === piece.type.toLowerCase()))) {
+      } else if (piece && ((turn === 'w' && piece.type === piece.type.toUpperCase()) || (turn === 'b' && piece.type === piece.type.toLowerCase()))) {
         selected = { row, col };
         highlightSquare(row, col, 'selected');
       }
     }
 
-    function isLegalMove(fr, fc, tr, tc) {
-      const p = boardState[fr][fc];
-      if (!p) return false;
-      const target = boardState[tr][tc];
-      const isWhite = p.type === p.type.toUpperCase();
-      const type = p.type.toLowerCase();
+    function isLegalMove(fromRow, fromCol, toRow, toCol) {
+      const piece = boardState[fromRow][fromCol];
+      const target = boardState[toRow][toCol];
+      if (!piece) return false;
 
-      if (target && ((isWhite && target.type === target.type.toUpperCase()) ||
-                     (!isWhite && target.type === target.type.toLowerCase()))) return false;
+      const isWhite = piece.type === piece.type.toUpperCase();
+      const pieceType = piece.type.toLowerCase();
 
-      const rd = tr - fr;
-      const cd = tc - fc;
-      const ar = Math.abs(rd);
-      const ac = Math.abs(cd);
-
-      const clearPath = () => {
-        const rs = rd === 0 ? 0 : rd/ar;
-        const cs = cd === 0 ? 0 : cd/ac;
-        let r = fr + rs;
-        let c = fc + cs;
-        while (r !== tr || c !== tc) {
-          if (boardState[r][c]) return false;
-          r += rs; c += cs;
-        }
-        return true;
-      };
-
-      if (type === 'p') {
-        const dir = isWhite ? -1 : 1;
-        if (cd === 0 && !target && tr === fr + dir) return true;
-        if (cd === 0 && !target && tr === fr + 2*dir && ((isWhite && fr===6) || (!isWhite && fr===1)) && !boardState[fr+dir][fc]) return true;
-        if (ac === 1 && tr === fr + dir && target) return true;
+      if (target && ((isWhite && target.type === target.type.toUpperCase()) || (!isWhite && target.type === target.type.toLowerCase()))) {
         return false;
       }
-      if (type === 'r') return (rd===0 || cd===0) && clearPath();
-      if (type === 'b') return ar===ac && clearPath();
-      if (type === 'q') return (rd===0 || cd===0 || ar===ac) && clearPath();
-      if (type === 'n') return (ar===2 && ac===1) || (ar===1 && ac===2);
-      if (type === 'k') return ar <=1 && ac <=1;
+
+      const rowDiff = toRow - fromRow;
+      const colDiff = toCol - fromCol;
+      const absRow = Math.abs(rowDiff);
+      const absCol = Math.abs(colDiff);
+
+      function isPathClear() {
+        const rowStep = rowDiff === 0 ? 0 : rowDiff / absRow;
+        const colStep = colDiff === 0 ? 0 : colDiff / absCol;
+        let r = fromRow + rowStep;
+        let c = fromCol + colStep;
+        while (r !== toRow || c !== toCol) {
+          if (boardState[Math.round(r)][Math.round(c)] !== null) return false;
+          r += rowStep;
+          c += colStep;
+        }
+        return true;
+      }
+
+      if (pieceType === 'p') {
+        const direction = isWhite ? -1 : 1;
+        const forwardOne = fromRow + direction;
+        const forwardTwo = fromRow + 2 * direction;
+
+        if (toCol === fromCol && toRow === forwardOne && !target) return true;
+        if (toCol === fromCol && toRow === forwardTwo && !target && ((isWhite && fromRow === 6) || (!isWhite && fromRow === 1)) && !boardState[forwardOne][fromCol]) return true;
+        if (Math.abs(toCol - fromCol) === 1 && toRow === forwardOne && target) return true;
+        return false;
+      }
+
+      if (pieceType === 'r') return (rowDiff === 0 || colDiff === 0) && isPathClear();
+      if (pieceType === 'b') return absRow === absCol && isPathClear();
+      if (pieceType === 'q') return (rowDiff === 0 || colDiff === 0 || absRow === absCol) && isPathClear();
+      if (pieceType === 'n') return (absRow === 2 && absCol === 1) || (absRow === 1 && absCol === 2);
+      if (pieceType === 'k') return absRow <= 1 && absCol <= 1;
 
       return false;
     }
 
-    function highlightSquare(r, c, cls) {
-      board.children[r*8 + c].classList.add(cls);
+    function highlightSquare(row, col, className) {
+      board.children[row * 8 + col].classList.add(className);
     }
 
     function clearHighlights() {
-      [...board.children].forEach(sq => sq.classList.remove('selected', 'possible'));
+      document.querySelectorAll('.square').forEach(s => s.classList.remove('selected', 'possible'));
     }
 
     function updateCapturedDisplay() {
-      document.getElementById('white-captured').innerHTML = whiteCaptured.map(t => pieces[t.toUpperCase()]).join(' ');
-      document.getElementById('black-captured').innerHTML = blackCaptured.map(t => pieces[t]).join(' ');
+      document.getElementById('white-captured').innerHTML = whiteCaptured.map(p => pieces[p.toUpperCase()] || p).join(' ');
+      document.getElementById('black-captured').innerHTML = blackCaptured.map(p => pieces[p] || p).join(' ');
     }
 
     function updateStatus() {
@@ -286,28 +260,28 @@
 
     function resetGame() {
       boardState = [
-        ['r','n','b','q','k','b','n','r'].map(createPiece),
-        ['p','p','p','p','p','p','p','p'].map(createPiece),
+        ['r','n','b','q','k','b','n','r'].map(t => createPiece(t)),
+        ['p','p','p','p','p','p','p','p'].map(t => createPiece(t)),
         [null,null,null,null,null,null,null,null],
         [null,null,null,null,null,null,null,null],
         [null,null,null,null,null,null,null,null],
         [null,null,null,null,null,null,null,null],
-        ['P','P','P','P','P','P','P','P'].map(createPiece),
-        ['R','N','B','Q','K','B','N','R'].map(createPiece)
+        ['P','P','P','P','P','P','P','P'].map(t => createPiece(t)),
+        ['R','N','B','Q','K','B','N','R'].map(t => createPiece(t))
       ];
       selected = null;
       turn = 'w';
       whiteCaptured = [];
       blackCaptured = [];
       clearHighlights();
+      updateStatus();
       renderBoard();
       updateCapturedDisplay();
-      updateStatus();
     }
 
-    // Start
     renderBoard();
     updateStatus();
+    updateCapturedDisplay();
   </script>
 </body>
 </html>
