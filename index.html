@@ -461,7 +461,8 @@
     margin: 0 0 10px 0;
     color: #AB9C59;
 }
-.hero-insight-daily .share-button {
+.hero-insight-daily .share-button,
+.hero-faq-daily .share-button {
     margin-top: 10px;
 }
 @media (min-width: 769px) {
@@ -573,7 +574,7 @@ h2.client-scenarios-bar-title {
     font-weight: 700;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     gap: 12px;
     border-radius: 12px;
     box-shadow: 0 6px 15px rgba(171, 156, 89, 0.4), inset 0 2px 5px rgba(255, 255, 255, 0.3);
@@ -657,10 +658,11 @@ h2.client-scenarios-bar-title {
         box-shadow: 0 4px 10px rgba(9, 25, 84, 0.5);
     }
 
-    /* Arrow Styling */
+    /* Arrow Styling – consistent right alignment on all dropdown headers */
     .arrow {
         font-size: 2.5rem;
-        margin-left: 10px;
+        margin-left: auto;
+        flex-shrink: 0;
         color: #091954;
         font-family: 'Libre Baskerville', serif;
         transition: transform 0.3s ease;
@@ -971,7 +973,7 @@ h2.client-scenarios-bar-title {
         font-weight: 700;
         display: flex;
         align-items: center;
-        justify-content: center;
+        justify-content: space-between;
         gap: 12px;
         border-radius: 12px;
         box-shadow: 0 6px 15px rgba(171, 156, 89, 0.4), inset 0 2px 5px rgba(255, 255, 255, 0.3);
@@ -1562,6 +1564,7 @@ h2.client-scenarios-bar-title {
 
             <p class="faq-question" id="faq-question"></p>
             <p class="faq-answer" id="faq-answer"></p>
+            <img src="share-200.png" alt="Share" class="share-button" id="faq-share-button" title="Share FAQ">
         </div>
     </div>
 </section>
@@ -2213,8 +2216,29 @@ document.getElementById('share-button').addEventListener('click', async () => {
     }
 });
 
-
-
+// FAQ of the Day – share button
+document.getElementById('faq-share-button').addEventListener('click', async () => {
+    const category = document.getElementById('faq-category').textContent;
+    const question = document.getElementById('faq-question').textContent;
+    const answer = document.getElementById('faq-answer').textContent;
+    const title = `FAQ of the Day – ${category}`;
+    const text = `${question}\n\n${answer}`;
+    const shareData = { title, text };
+    try {
+        if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
+            await navigator.share(shareData);
+        } else {
+            await navigator.clipboard.writeText(`${title}\n\n${text}`);
+            alert('FAQ copied to clipboard.');
+        }
+    } catch (e) {
+        if (e.name !== 'AbortError') {
+            const fallback = `${title}\n\n${text}`;
+            await navigator.clipboard.writeText(fallback).catch(() => {});
+            alert('FAQ copied to clipboard.');
+        }
+    }
+});
 
 // Improved wrapText – precise width measurement
 function wrapText(ctx, text, maxW, lineH) {
