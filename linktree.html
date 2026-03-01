@@ -36,6 +36,11 @@
         #footer-placeholder footer {
             top: 0 !important;
         }
+        /* Fill viewport with blue so no white shows below buttons on mobile */
+        #footer-placeholder {
+            background: #091954;
+            min-height: 0;
+        }
         /* Mobile/small viewport: fix header cut-off, smaller title, tighter layout (980px so real phones always get this) */
         @media (max-width: 980px) {
             body { padding-top: calc(50px + env(safe-area-inset-top, 0px)); }
@@ -48,6 +53,7 @@
             .join-section.join-section-blue {
                 padding-top: 20px;
                 padding-bottom: 30px;
+                min-height: calc(100vh - 80px);
             }
             .join-section .join-content h1 {
                 font-size: 1.25rem;
