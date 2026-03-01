@@ -2146,22 +2146,22 @@ document.getElementById('share-button').addEventListener('click', async () => {
     ctx.font = 'bold 38px "Libre Baskerville", serif';
     ctx.fillText(`— ${authorText}`, canvas.width / 2, textY + 30);
 
-    // White separator line (same as Real Scenarios)
-    const lineY = textY + 80;
-    const lineWidth = 940;
-    const lineX = (canvas.width - lineWidth) / 2;
-    const lineGradient = ctx.createLinearGradient(lineX, lineY, lineX + lineWidth, lineY);
-    lineGradient.addColorStop(0, '#ffffff');
-    lineGradient.addColorStop(0.15, '#ffffff');
-    lineGradient.addColorStop(0.5, '#ffffff');
-    lineGradient.addColorStop(0.85, '#ffffff');
-    lineGradient.addColorStop(0, '#ffffff');
-    ctx.strokeStyle = lineGradient;
-    ctx.lineWidth = 2.5;
-    ctx.beginPath();
-    ctx.moveTo(lineX, lineY);
-    ctx.lineTo(lineX + lineWidth, lineY);
-    ctx.stroke();
+   // White separator line (same as Real Scenarios)
+const lineY = textY + 80;
+const lineWidth = 940;
+const lineX = (canvas.width - lineWidth) / 2;
+const lineGradient = ctx.createLinearGradient(lineX, lineY, lineX + lineWidth, lineY);
+lineGradient.addColorStop(0, 'rgba(255, 255, 255, 0.4)');
+lineGradient.addColorStop(0.15, '#ffffff');
+lineGradient.addColorStop(0.5, '#ffffff');
+lineGradient.addColorStop(0.85, '#ffffff');
+lineGradient.addColorStop(1, 'rgba(255, 255, 255, 0.4)');
+ctx.strokeStyle = lineGradient;
+ctx.lineWidth = 2.5;
+ctx.beginPath();
+ctx.moveTo(lineX, lineY);
+ctx.lineTo(lineX + lineWidth, lineY);
+ctx.stroke();
 
     // White IWM logo (same as Real Scenarios)
     const logo = new Image();
@@ -2398,7 +2398,7 @@ window.shareScenario = function(index) {
     lineGradient.addColorStop(0.15, '#ffffff');
     lineGradient.addColorStop(0.5, '#ffffff');
     lineGradient.addColorStop(0.85, '#ffffff');
-    lineGradient.addColorStop(1, '#ffffff');
+    lineGradient.addColorStop(1, 'transparent');
 
     ctx.strokeStyle = lineGradient;
     ctx.lineWidth = 2.5;
