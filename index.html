@@ -1572,7 +1572,7 @@ h2.client-scenarios-bar-title {
                     </ul>
 
 
-                    <h3 style="margin-top: 20px; margin-bottom: 10px; color: #091954;">Partner Companies - 40+ Life, Retirement, & Health Companies</h3>
+                    <h3 style="margin-top: 20px; margin-bottom: 10px; color: #091954;">Partner Companies: 40+ Life, Retirement, & Health Companies</h3>
                     <div class="partner-carousel-wrap">
                         <button type="button" class="partner-carousel-btn partner-carousel-prev" aria-label="Previous partners">‹</button>
                         <div class="partner-carousel">
@@ -2238,10 +2238,14 @@ function wrapText(context, text, maxWidth, lineHeight) {
         // Real Scenarios Functionality
         const SCENARIO_PASSWORD = "blessed";
         let currentDeleteIndex = null;
-        
-        // Load scenarios from localStorage
+        // Default scenario(s) – always shown when nothing is in localStorage
+        const DEFAULT_SCENARIOS = [{ "text": "Helped a good friend save about $40 a month and get an extra $600,000 in coverage. A total of $1,000,000 in coverage for only about $100 a month", "date": "2025-02-27T12:00:00.000Z" }];
+
+        // Load scenarios from localStorage (or show defaults if empty)
         function loadScenarios() {
-            const scenarios = JSON.parse(localStorage.getItem('realScenarios') || '[]');
+            const stored = localStorage.getItem('realScenarios');
+            const parsed = stored ? JSON.parse(stored) : [];
+            const scenarios = (parsed && parsed.length > 0) ? parsed : DEFAULT_SCENARIOS;
             const scenariosList = document.getElementById('scenarios-list');
             if (!scenariosList) return;
             
