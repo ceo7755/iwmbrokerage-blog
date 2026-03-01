@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -141,7 +142,7 @@
     }
 
 
-    /* Desktop-specific changes (min-width: 769px) */
+      /* Desktop-specific changes (min-width: 769px) */
     @media (min-width: 769px) {
         .navbar-wrapper {
             background: #091954;
@@ -161,10 +162,15 @@
             width: 340px;
             height: auto;
         }
-        .nav-menu {
+    
+
+           .nav-menu {
+            display: flex;
             justify-content: flex-end;
             width: 100%;
             padding-left: 360px;
+            gap: 20px;
+            flex-wrap: nowrap;
         }
             .mobile-nav-toggle {
             display: none;
@@ -173,6 +179,8 @@
             display: none;
         }
 .share-button {
+
+
     display: block;
     width: 40px; /* Adjust size as needed */
     height: auto;
@@ -222,11 +230,31 @@
         .logo a {
             pointer-events: none;
         }
-        .mobile-nav-toggle {
+              .mobile-nav-toggle {
             display: none;
+        }
+        .mobile-footer-nav-toggle {
+            display: block;
+            position: fixed;
+            bottom: 15px;
+            right: 15px;
+            font-size: 1.3rem;
+            color: #ffffff;
+            background: #AB9C59;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 14px;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(171, 156, 89, 0.5);
+        }
+        .mobile-footer-nav-toggle:hover {
+            background: #8B7D47;
         }
         .nav-menu {
             display: none;
+
+
             flex-direction: column;
             position: fixed;
             bottom: 50px;
@@ -1413,6 +1441,79 @@ h2.client-scenarios-bar-title {
   background: #e6eaf5;
   color: #22305a;
 }
+
+
+        /* Partner Companies carousel (About Us dropdown) */
+        .partner-carousel-wrap {
+            position: relative;
+            margin: 24px 0 32px 0;
+            padding: 0 44px;
+        }
+        .partner-carousel {
+            display: flex;
+            gap: 32px;
+            overflow-x: auto;
+            overflow-y: hidden;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            padding: 16px 0;
+            scrollbar-width: thin;
+        }
+        .partner-carousel::-webkit-scrollbar {
+            height: 6px;
+        }
+        .partner-carousel::-webkit-scrollbar-track {
+            background: rgba(9, 25, 84, 0.1);
+            border-radius: 3px;
+        }
+        .partner-carousel::-webkit-scrollbar-thumb {
+            background: #AB9C59;
+            border-radius: 3px;
+        }
+        .partner-logo {
+            flex: 0 0 auto;
+            scroll-snap-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 140px;
+            max-width: 160px;
+            height: 80px;
+        }
+        .partner-logo img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        .partner-carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            font-size: 1.8rem;
+            line-height: 1;
+            color: #fff;
+            background: rgba(171, 156, 89, 0.8);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            padding: 0;
+            z-index: 2;
+        }
+        .partner-carousel-btn:hover {
+            background: #AB9C59;
+        }
+        .partner-carousel-prev { left: 0; }
+        .partner-carousel-next { right: 0; }
+        @media (max-width: 768px) {
+            .partner-carousel-wrap { padding: 0 36px; }
+            .partner-carousel-btn { width: 36px; height: 36px; font-size: 1.5rem; }
+            .partner-logo { min-width: 120px; height: 70px; }
+        }
+
+
 </style>
 
 <!-- Hero Section (Background Image with Text, Greeting, and Quote on Mobile) -->
@@ -1456,18 +1557,57 @@ h2.client-scenarios-bar-title {
             <div class="about-bar">
                 <h2 class="about-bar-title">About Us <span class="arrow">▼</span></h2>
                 <div class="about-bar-content">
-                    <p>At IWM, we believe that financial security and wealth creation go hand in hand with education. Founded in 2019, our mission is to empower individuals and businesses to not just grow, but protect their wealth through educated decisions in insurance, retirement planning, and beyond. We have written over $1,000,000 in annual premium volume & helped over 500 clients with their insurance & retirement needs.</p>
+                    <p>At IWM, we believe that financial security and wealth creation go hand in hand with education. Founded in 2019, our mission is to empower individuals and businesses to not just grow, but protect their wealth through educated decisions in insurance, retirement planning, and beyond. We have protected families with over $10 million in benefit amount, written over $1,000,000 in annual premium volume, & helped over 500 clients with their insurance & retirement needs.</p>
                     <h3>Our Mission</h3>
                     <p>To solve the pandemic of financial illiteracy. We aim to provide peace of mind by offering tailored insurance and retirement strategies that protect you and your loved ones. With a focus on plain language education and the state's lowest premiums, we empower our clients to make informed decisions about their financial future.</p>
-                    <h3>Why Choose IWM?</h3>
-                    <ul>
-                        <li>Expertise: Over a decade of experience in insurance and wealth management.</li>
-                        <li>Education-First Approach: We provide insights and resources to help you make confident decisions.</li>
-                        <li>Personalized Solutions: Tailored plans that fit your unique needs and goals. We are advisors, not salespeople.</li>
-                        <li>Brokers, not Agents: Which means we do not have a tie to a singular carrier, which is a benefit to you. We partner with over 40+ carriers in your state, so we have them compete against each other, which in turn results in us being able to offer the most comprehensive coverage at your state's lowest premiums.</li>
-                        <li>Innovative Thinking: We stay ahead of trends, including the integration of digital currencies into financial planning.</li>
+                  
+
+                      <h3>Why Choose IWM?</h3>
+                                     <ul>
+                        <li><strong>Expertise:</strong> Over a decade of experience in insurance and wealth management.</li>
+                        <li><strong>Education-First Approach:</strong> We provide insights and resources to help you make confident decisions.</li>
+                        <li><strong>Personalized Solutions:</strong> Tailored plans that fit your unique needs and goals. We are advisors, not salespeople.</li>
+                        <li><strong>Brokers, not Agents:</strong> Which means we do not have a tie to a singular carrier, which is a benefit to you. We partner with over 40+ carriers in your state, so we have them compete against each other, which in turn results in us being able to offer the most comprehensive coverage at your state's lowest premiums.</li>
+                        <li><strong>Innovative Thinking:</strong> We stay ahead of trends, including the integration of digital currencies into financial planning.</li>
                     </ul>
+
+
+                    <h3 style="margin-top: 20px; margin-bottom: 10px; color: #091954;">Partner Companies - 40+ Life, Retirement, & Health Companies</h3>
+                    <div class="partner-carousel-wrap">
+                        <button type="button" class="partner-carousel-btn partner-carousel-prev" aria-label="Previous partners">‹</button>
+                        <div class="partner-carousel">
+                            <div class="partner-logo"><img src="F&G.png" alt="F&amp;G"></div>
+                            <div class="partner-logo"><img src="AIG.png" alt="AIG"></div>
+                            <div class="partner-logo"><img src="Transamerica.png" alt="Transamerica"></div>
+                            <div class="partner-logo"><img src="Gerber.png" alt="Gerber"></div>
+                            <div class="partner-logo"><img src="Foresters.png" alt="Foresters"></div>
+                            <div class="partner-logo"><img src="Athene.png" alt="Athene"></div>
+                            <div class="partner-logo"><img src="NorthAmerican.png" alt="North American"></div>
+                            <div class="partner-logo"><img src="NLG1.png" alt="NLG"></div>
+                            <div class="partner-logo"><img src="Nationwide.png" alt="Nationwide"></div>
+                            <div class="partner-logo"><img src="Pacific.png" alt="Pacific"></div>
+                        </div>
+                        <button type="button" class="partner-carousel-btn partner-carousel-next" aria-label="Next partners">›</button>
+                    </div>
+                    <div class="partner-carousel-wrap">
+                        <button type="button" class="partner-carousel-btn partner-carousel-prev" aria-label="Previous partners">‹</button>
+                        <div class="partner-carousel">
+                            <div class="partner-logo"><img src="UPMC.png" alt="UPMC"></div>
+                            <div class="partner-logo"><img src="UnitedHealthCare.png" alt="UnitedHealthCare"></div>
+                            <div class="partner-logo"><img src="Manhattan.png" alt="Manhattan"></div>
+                            <div class="partner-logo"><img src="Aetna1.png" alt="Aetna"></div>
+                            <div class="partner-logo"><img src="Humana.png" alt="Humana"></div>
+                            <div class="partner-logo"><img src="Cigna.png" alt="Cigna"></div>
+                            <div class="partner-logo"><img src="Highmark.png" alt="Highmark"></div>
+                            <div class="partner-logo"><img src="Bluecross.png" alt="Blue Cross"></div>
+                            <div class="partner-logo"><img src="Dental.png" alt="Dental"></div>
+                        </div>
+                        <button type="button" class="partner-carousel-btn partner-carousel-next" aria-label="Next partners">›</button>
+                    </div>
                     <div class="cta-button-wrapper">
+
+
+
                         <a href="about.html" class="cta-button">Learn More</a>
                     </div>
                 </div>
@@ -1596,7 +1736,7 @@ h2.client-scenarios-bar-title {
             <div class="client-scenarios-bar">
                 <h2 class="client-scenarios-bar-title">Care Compare<br>(Health Insurance) <span class="arrow">▼</span></h2>
                 <div class="client-scenarios-bar-content">
-                    <p>Answer 5 brief questions to see if we can obtain better fitting and/or less expesnive coverage for you and your family. </p>
+                    <p>Answer a handful of questions to see if we can obtain better fitting and/or less expensive coverage for you and your family or business. </p>
                     <div class="cta-button-wrapper" style="margin-top: 20px; text-align: center;">
                         <a href="care-compare.html" class="cta-button">Go to Questions</a>
                     </div>
@@ -1906,9 +2046,19 @@ setInterval(() => {
     }
 }, 60000); // Check every minute
         // Navbar Toggle
-        document.getElementById('mobile-footer-toggle').addEventListener('click', function() {
-            document.querySelector('.nav-menu').classList.toggle('active');
-        });
+      
+
+         (function() {
+            var menu = document.querySelector('.nav-menu');
+            var triggers = document.querySelectorAll('.mobile-nav-toggle, #mobile-footer-toggle');
+            if (!menu || !triggers.length) return;
+            triggers.forEach(function(btn) {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    menu.classList.toggle('active');
+                });
+            });
+        })();
 
                // Retractable Section Toggle
 
@@ -1918,7 +2068,6 @@ setInterval(() => {
                 this.classList.toggle('active');
                                 content.classList.toggle('active');
         });
-
 
 
 // Share Button Functionality – same style as Real Scenarios (gold background + logo)
@@ -1999,8 +2148,6 @@ document.getElementById('share-button').addEventListener('click', async () => {
     ctx.lineTo(lineX + lineWidth, lineY);
     ctx.stroke();
 
-
-
     // White IWM logo (same as Real Scenarios)
     const logo = new Image();
     logo.crossOrigin = 'anonymous';
@@ -2022,7 +2169,6 @@ document.getElementById('share-button').addEventListener('click', async () => {
         shareCanvas();
     };
 
-
     function shareCanvas() {
         canvas.toBlob(async (blob) => {
             if (!blob) return;
@@ -2042,6 +2188,9 @@ document.getElementById('share-button').addEventListener('click', async () => {
         }, 'image/png', 1.0);
     }
 });
+
+
+
 
 // Improved wrapText – precise width measurement
 function wrapText(ctx, text, maxW, lineH) {
@@ -2471,13 +2620,36 @@ window.shareScenario = function(index) {
                     }
                 });
             }
+     
+
         });
-
-
         });    </script>
+    <script>
+    (function() {
+        function initCarouselArrows() {
+            var step = 320;
+            document.querySelectorAll('.partner-carousel-wrap').forEach(function(wrap) {
+                var carousel = wrap.querySelector('.partner-carousel');
+                var prevBtn = wrap.querySelector('.partner-carousel-prev');
+                var nextBtn = wrap.querySelector('.partner-carousel-next');
+                if (!carousel || !prevBtn || !nextBtn) return;
+                prevBtn.addEventListener('click', function() {
+                    carousel.scrollLeft = carousel.scrollLeft - step;
+                });
+                nextBtn.addEventListener('click', function() {
+                    carousel.scrollLeft = carousel.scrollLeft + step;
+                });
+            });
+        }
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initCarouselArrows);
+        } else {
+            initCarouselArrows();
+        }
+    })();
+    </script>
     </body>
 </html>
-
 
 
 
