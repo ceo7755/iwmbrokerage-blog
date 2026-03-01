@@ -2239,7 +2239,19 @@ function wrapText(context, text, maxWidth, lineHeight) {
         const SCENARIO_PASSWORD = "blessed";
         let currentDeleteIndex = null;
         // Default scenario(s) – always shown when nothing is in localStorage
-        const DEFAULT_SCENARIOS = [{ "text": "Helped a good friend save about $40 a month and get an extra $600,000 in coverage. A total of $1,000,000 in coverage for only about $100 a month", "date": "2025-02-27T12:00:00.000Z" }];
+        const DEFAULT_SCENARIOS = [
+            { "text": "Helped a good friend save about $40 a month and get an extra $600,000 in coverage. A total of $1,000,000 in coverage for only about $100 a month", "date": "2025-02-27T12:00:00.000Z" },
+            { "text": "Protected a client with a $600,000, 20 year term life insurance policy to protect their business if something was to happen.", "date": "2025-02-27T12:00:00.000Z" },
+            { "text": "Helped protect a current client with a Mortgage protection policy. This will completely pay off her loan, not only if she were to pass away, but also if she became disabled and/or needed help with 2 of the 6 daily activities (toileting, eating, bathing, etc). During underwriting, she qualified for extra coverage at an even better rate, so we added on an extra $100,000. Her total premium was less than $30 a month. Big time peace of mind for minimal cost.", "date": "2025-02-27T12:00:00.000Z" },
+            { "text": "Helped protect a client with a Mortgage protection policy. This will completely pay off her loan, not only if she were to pass away, but also if she became disabled and/or needed help with 2 of the 6 daily activities (toileting, eating, bathing, etc).", "date": "2025-02-27T12:00:00.000Z" },
+            { "text": "📌 Helped protect a mid 60's client with a 20 year, $600,000 life insurance policy for only $150 a month. It will pay out upon death, terminal illness, critical illness (heart attack, stroke, cancer, etc), or confined care (need helping doing 2 of 6 daily activities).", "date": "2025-02-27T12:00:00.000Z" },
+            { "text": "🏥 Helped a client save $150 a month on health insurance and got him into a great Dental plan.", "date": "2025-02-27T12:00:00.000Z" },
+            { "text": "⛑️ Helped protect a post office worker that was looking out for his present & future with a policy that will pay him $2,000-$3,000 a month if he gets sick or injured. The policy also accumulates 0-7% in cash value, so there is liquid cash in the policy if he needs it. 100% is protected from market loss. 🔒", "date": "2025-02-27T12:00:00.000Z" },
+            { "text": "📌 Helped protect a client & her spouse with health insurance for ~$1,000 a month. Their premiums were going to be about ~$1,700 a month. The average doctor visit in PA is ~$100 & they are covered for up to $175. Which means they will pocket $75 each time they go to the doctor.", "date": "2025-02-27T12:00:00.000Z" },
+            { "text": "Helped a 70 year old client that wanted to protect $20,000. We agreed on a product that will protect him from market loss (can not lose money), while giving him a ceiling of possible returns up to 7-11%. It also bypasses probate if something was to happen.", "date": "2025-02-27T12:00:00.000Z" },
+            { "text": "Helped a client in his early 60's with a $100 a month, 20 year - $100,000 life insurance policy. He wanted to protect his \"lady friend\" and children when something happens", "date": "2025-02-27T12:00:00.000Z" },
+            { "text": "Helped protect a client with health coverage + dental coverage, even outside of the open enrollment period.", "date": "2025-02-27T12:00:00.000Z" }
+        ];
 
         // Load scenarios from localStorage (or show defaults if empty)
         function loadScenarios() {
