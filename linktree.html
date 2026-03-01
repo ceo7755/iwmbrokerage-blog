@@ -23,6 +23,20 @@
         .navbar .logo-img { width: 260px; height: auto; display: block; }
         /* Button icons: white so they’re visible on dark blue */
         .linktree-buttons .button-icon { filter: brightness(0) invert(1); }
+        /* Socials dropdown: show when .open (click/tap) at any screen size */
+        .linktree-buttons .dropdown.open .dropdown-menu {
+            display: block !important;
+            opacity: 1 !important;
+            transform: translateY(0) !important;
+            z-index: 100;
+        }
+        .linktree-buttons .dropdown .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            min-width: 100%;
+        }
         /* Lessen space between header and main title */
         .join-section.join-section-blue { padding-top: 30px; padding-bottom: 50px; }
         /* Smaller main title */
@@ -284,15 +298,20 @@
             })
             .catch(error => console.error('Error loading footer:', error));
 
-        // Linktree Socials: open dropdown on tap (mobile) and close on outside click
+        // Linktree Socials: open dropdown on click/tap and close on outside click
         (function() {
             var dropdown = document.querySelector('.linktree-buttons .dropdown');
             var toggle = document.querySelector('.linktree-buttons .dropdown-toggle');
             if (!dropdown || !toggle) return;
-            toggle.addEventListener('click', function(e) {
-                e.preventDefault();
+            function toggleOpen(e) {
+                if (e) e.preventDefault();
                 dropdown.classList.toggle('open');
-            });
+            }
+            toggle.addEventListener('click', toggleOpen);
+            toggle.addEventListener('touchend', function(e) {
+                e.preventDefault();
+                toggleOpen();
+            }, { passive: false });
             document.addEventListener('click', function(e) {
                 if (dropdown.classList.contains('open') && !dropdown.contains(e.target)) {
                     dropdown.classList.remove('open');
