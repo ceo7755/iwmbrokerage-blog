@@ -588,6 +588,12 @@ h2.client-scenarios-bar-title {
     text-transform: uppercase;
 }
 
+    /* Center header text in gold blocks; arrow stays right */
+    .bar-title-text {
+        flex: 1;
+        text-align: center;
+    }
+
     /* Glossy Shine Effect */
        h2.about-bar-title::before,
     h2.services-bar-title::before,
@@ -988,6 +994,14 @@ h2.client-scenarios-bar-title {
         text-decoration: none;
         width: 100%;
         box-sizing: border-box;
+    }
+
+    /* Center header text in gold link blocks; arrow stays right */
+    a.quote-bar-title .bar-title-text,
+    a.boat-bar-title .bar-title-text,
+    a.referrals-bar-title .bar-title-text {
+        flex: 1;
+        text-align: center;
     }
 
     /* Glossy Shine Effect */
@@ -1582,7 +1596,7 @@ h2.client-scenarios-bar-title {
         <!-- About Section -->
         <section id="about" class="about">
             <div class="about-bar">
-                <h2 class="about-bar-title">About Us <span class="arrow">▼</span></h2>
+                <h2 class="about-bar-title"><span class="bar-title-text">About Us</span><span class="arrow">▼</span></h2>
                 <div class="about-bar-content">
                     <p>At IWM, we believe that financial security and wealth creation go hand in hand with education. Founded in 2019, our mission is to empower individuals and businesses to not just grow, but protect their wealth through educated decisions in insurance, retirement planning, and beyond. We have protected families with over $10 million in benefit amount, written over $1,000,000 in annual premium volume, & helped over 500 clients with their insurance & retirement needs.</p>
                     <h3>Our Mission</h3>
@@ -1644,7 +1658,7 @@ h2.client-scenarios-bar-title {
          <!-- Services Section -->
         <section id="services" class="services">
             <div class="services-bar">
-                <h2 class="services-bar-title">Offerings <span class="arrow">▼</span></h2>
+                <h2 class="services-bar-title"><span class="bar-title-text">Offerings</span><span class="arrow">▼</span></h2>
                 <div class="services-bar-content">
                     <div style="text-align: left; padding: 20px;">
                         <h3 style="color: #091954; font-family: 'Libre Baskerville', serif; font-size: 1.5rem; margin-top: 20px; margin-bottom: 10px; font-weight: 700;">Insurance</h3>
@@ -1702,7 +1716,7 @@ h2.client-scenarios-bar-title {
         <!-- Reviews Section -->
         <section id="reviews" class="reviews">
             <div class="reviews-bar">
-                <h2 class="reviews-bar-title">Reviews<span class="arrow">▼</span></h2>
+                <h2 class="reviews-bar-title"><span class="bar-title-text">Reviews</span><span class="arrow">▼</span></h2>
                 <div class="reviews-bar-content">
                     <div class="reviews-container">
 <div class="review-card">
@@ -1734,7 +1748,7 @@ h2.client-scenarios-bar-title {
                       <!-- Real Scenarios Section -->
 <section id="real-scenarios" class="contact">
     <div class="contact-bar">
-        <h2 class="contact-bar-title">Real Scenarios <span class="arrow">▼</span></h2>
+        <h2 class="contact-bar-title"><span class="bar-title-text">Real Scenarios</span><span class="arrow">▼</span></h2>
         <div class="contact-bar-content">
             <div class="scenarios-container">
                 <div id="scenarios-list"></div>
@@ -1761,7 +1775,7 @@ h2.client-scenarios-bar-title {
               <!-- Care Comapre (Health Insurance) Section -->
         <section id="client-scenarios" class="client-scenarios">
             <div class="client-scenarios-bar">
-                <h2 class="client-scenarios-bar-title">Care Compare<br>(Health Insurance) <span class="arrow">▼</span></h2>
+                <h2 class="client-scenarios-bar-title"><span class="bar-title-text">Care Compare<br>(Health Insurance)</span><span class="arrow">▼</span></h2>
                 <div class="client-scenarios-bar-content">
                     <p>Answer a handful of questions to see if we can obtain better fitting and/or less expensive coverage for you and your family or business. </p>
                     <div class="cta-button-wrapper" style="margin-top: 20px; text-align: center;">
@@ -1783,7 +1797,7 @@ h2.client-scenarios-bar-title {
             <section class="quote-section">
                 <div class="quote-bar">
                     <a href="contact.html" class="quote-bar-title">
-                        Quote <span class="arrow">→</span>
+                        <span class="bar-title-text">Quote</span><span class="arrow">→</span>
                     </a>
                 </div>
             </section>
@@ -1792,7 +1806,7 @@ h2.client-scenarios-bar-title {
             <section class="boat-section">
                 <div class="boat-bar">
                     <a href="contact.html#schedule" class="boat-bar-title">
-                        Complimentary Tampa Bay Boat Consultation <span class="arrow">→</span>
+                        <span class="bar-title-text">Complimentary Tampa Bay Boat Consultation</span><span class="arrow">→</span>
                     </a>
                 </div>
             </section>
@@ -1801,7 +1815,7 @@ h2.client-scenarios-bar-title {
             <section class="referrals-section">
                 <div class="referrals-bar">
                     <a href="contact.html" class="referrals-bar-title">
-                        Referrals <span class="arrow">→</span>
+                        <span class="bar-title-text">Referrals</span><span class="arrow">→</span>
                     </a>
                 </div>
             </section>
