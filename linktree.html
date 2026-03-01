@@ -136,6 +136,22 @@
                 document.getElementById('footer-placeholder').innerHTML = data;
             })
             .catch(error => console.error('Error loading footer:', error));
+
+        // Linktree Socials: open dropdown on tap (mobile) and close on outside click
+        (function() {
+            var dropdown = document.querySelector('.linktree-buttons .dropdown');
+            var toggle = document.querySelector('.linktree-buttons .dropdown-toggle');
+            if (!dropdown || !toggle) return;
+            toggle.addEventListener('click', function(e) {
+                e.preventDefault();
+                dropdown.classList.toggle('open');
+            });
+            document.addEventListener('click', function(e) {
+                if (dropdown.classList.contains('open') && !dropdown.contains(e.target)) {
+                    dropdown.classList.remove('open');
+                }
+            });
+        })();
     </script>
 </body>
 </html>
