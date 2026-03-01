@@ -74,6 +74,81 @@
                 box-sizing: border-box;
             }
         }
+        /* Offerings popup: transparent menu */
+        .offerings-popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1001;
+        }
+        .offerings-popup-overlay.active {
+            display: block;
+        }
+        .offerings-popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 480px;
+            max-height: 85vh;
+            overflow-y: auto;
+            background: rgba(9, 25, 84, 0.96);
+            color: #ffffff;
+            border: 2px solid rgba(171, 156, 89, 0.6);
+            border-radius: 12px;
+            padding: 24px 28px;
+            z-index: 1002;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+        }
+        .offerings-popup.active {
+            display: block;
+        }
+        .offerings-popup h3 {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 1.1rem;
+            color: #AB9C59;
+            margin: 20px 0 8px;
+            padding-bottom: 4px;
+        }
+        .offerings-popup h3:first-child {
+            margin-top: 0;
+        }
+        .offerings-popup ul {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 8px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        .offerings-popup ul li {
+            padding: 2px 0;
+        }
+        .offerings-popup .offerings-learn-more {
+            display: block;
+            width: 100%;
+            max-width: 200px;
+            margin: 24px auto 0;
+            padding: 12px 24px;
+            text-align: center;
+            background: #AB9C59;
+            color: #091954;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        .offerings-popup .offerings-learn-more:hover {
+            background: #c4b369;
+            color: #091954;
+        }
     </style>
 </head>
 <body>
@@ -121,7 +196,7 @@
                     <span>Add Contact Info</span>
                     <img src="contact.png" alt="Contact Icon" class="button-icon">
                 </a>
-                <a href="offerings.html" class="cta-button">
+                <a href="#" class="cta-button" id="linktree-view-offerings">
                     <span>View Offerings</span>
                     <img src="offerings.png" alt="Offerings Icon" class="button-icon">
                 </a>
@@ -151,6 +226,50 @@
         </div>
     </section>
 
+    <!-- Offerings popup -->
+    <div class="offerings-popup-overlay" id="offerings-popup-overlay"></div>
+    <div class="offerings-popup" id="offerings-popup">
+        <h3>Insurance</h3>
+        <ul>
+            <li>Term Life</li>
+            <li>Whole Life</li>
+            <li>Cash Building Policies</li>
+            <li>Mortgage Protection</li>
+            <li>Children, Grandchildren, Nieces, & Nephews</li>
+            <li>Final Expense</li>
+            <li>Short & Long Term Disability</li>
+            <li>Accidental</li>
+        </ul>
+        <h3>Health Coverage & Medicare</h3>
+        <ul>
+            <li>Health Insurance</li>
+            <li>Medicare</li>
+            <li>Dental</li>
+            <li>Vision</li>
+            <li>Hospital Cash Benefits</li>
+            <li>Long Term Care</li>
+            <li>Accident</li>
+            <li>Cancer</li>
+            <li>Heart Attack</li>
+            <li>Stroke</li>
+            <li>Short & Long Term Disability</li>
+        </ul>
+        <h3>Retirement Planning</h3>
+        <ul>
+            <li>401k Protection</li>
+            <li>Guaranteed Income</li>
+            <li>Cash Building Policies</li>
+        </ul>
+        <h3>End of Life Planning</h3>
+        <ul>
+            <li>Final Expense</li>
+            <li>Estate & Will Planning</li>
+        </ul>
+        <h3>Macro Trends Education</h3>
+        <h3>Bitcoin & Digital Currencies Education</h3>
+        <a href="offerings.html" class="offerings-learn-more">Learn More</a>
+    </div>
+
     <!-- Footer Placeholder -->
     <div id="footer-placeholder"></div>
 
@@ -179,6 +298,27 @@
                     dropdown.classList.remove('open');
                 }
             });
+        })();
+
+        // Offerings popup: open on View Offerings click, close on overlay click
+        (function() {
+            var btn = document.getElementById('linktree-view-offerings');
+            var overlay = document.getElementById('offerings-popup-overlay');
+            var popup = document.getElementById('offerings-popup');
+            if (!btn || !overlay || !popup) return;
+            function openOfferings() {
+                overlay.classList.add('active');
+                popup.classList.add('active');
+            }
+            function closeOfferings() {
+                overlay.classList.remove('active');
+                popup.classList.remove('active');
+            }
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                openOfferings();
+            });
+            overlay.addEventListener('click', closeOfferings);
         })();
     </script>
 </body>
