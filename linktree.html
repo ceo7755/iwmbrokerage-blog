@@ -101,6 +101,10 @@
                 width: 100%;
                 box-sizing: border-box;
             }
+            /* About icon: no filter on mobile so it doesn’t turn into a white box */
+            .linktree-buttons .about-button-icon {
+                filter: none;
+            }
         }
         /* Offerings popup: transparent menu */
         .offerings-popup-overlay {
@@ -298,7 +302,7 @@
                 </a>
                 <a href="#" class="cta-button" id="linktree-about-us">
                     <span>About Us</span>
-                    <img src="about.png" alt="About Icon" class="button-icon">
+                    <img src="about.png" alt="About Icon" class="button-icon about-button-icon">
                 </a>
                 <a href="matt_deivert.vcf" download class="cta-button">
                     <span>Add Contact Info</span>
