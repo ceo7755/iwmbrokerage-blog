@@ -26,46 +26,37 @@
             background-color: #091954 !important;
             color: #ffffff;
         }
+        /* Header & nav – match about.html */
+        .navbar-wrapper {
+            background: #091954;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
         .navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: linear-gradient(to bottom, #091954 0%, rgba(9, 25, 84, 0) 50%);
-            padding: 12px 24px;
-            height: 68px;
-            position: fixed;
-            top: 0;
-            width: 100%;
-            max-width: 1200px;
-            left: 50%;
-            transform: translateX(-50%);
-            box-sizing: border-box;
-            z-index: 1000;
-            overflow: hidden;
+            padding: 5px 50px;
         }
         .logo {
             display: flex;
-            align-items: center;
-            flex-shrink: 0;
-            max-height: 44px;
+            align-items: flex-start;
         }
         .logo-img {
-            width: auto;
-            max-width: 140px;
-            max-height: 44px;
+            width: 200px;
             height: auto;
-            margin: 0;
-            object-fit: contain;
-            display: block;
+            margin-left: 0;
+            margin-top: 0;
         }
         .nav-menu {
             list-style: none;
             display: flex;
             justify-content: flex-end;
-            align-items: center;
+            gap: 20px;
             margin: 0;
             padding: 0;
-            gap: 12px;
+            align-items: center;
         }
         .nav-menu li {
             margin-left: 0;
@@ -73,33 +64,27 @@
         .nav-menu a {
             color: #ffffff;
             text-decoration: none;
+            font-size: 1.2rem;
             font-weight: 500;
-            font-size: 1.05rem;
-            white-space: nowrap;
+            transition: color 0.3s ease;
+            line-height: 1;
+        }
+        .nav-menu a:hover {
+            color: #AB9C59;
         }
         .dropdown {
             position: relative;
         }
-              .dropdown-menu {
-
+        .dropdown-menu {
             display: none;
-
             position: absolute;
-
             background: #091954;
-
             min-width: 200px;
-
             padding: 10px;
-
         }
-
         .dropdown:hover .dropdown-menu {
-
             display: block;
-
         }
-
         .mobile-footer-nav-toggle {
             display: none;
         }
@@ -248,50 +233,38 @@
             transform: rotate(180deg);
         }
 
-        /* Desktop: larger logo when screen is expanded */
-        @media (min-width: 769px) {
-            .navbar {
-                height: 78px;
-                padding: 14px 24px;
-            }
-            .logo {
-                max-height: 50px;
-            }
-            .logo-img {
-                max-width: 220px;
-                max-height: 50px;
-            }
-        }
-
-        /* Mobile Area Starts Here */
+        /* Mobile Area Starts Here – header matches about.html */
         @media (max-width: 768px) {
-
-            /* Header adjustments from about.html */
-
-
-
+            .navbar-wrapper {
+                background: linear-gradient(to bottom, #091954 0%, rgba(9, 25, 84, 0) 50%);
+            }
             .navbar {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                padding: 15px 20px;
-                background: #091954;
-                height: 50px;
-                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+                padding: 2px 20px;
                 position: fixed;
                 top: 0;
+                left: 0;
                 width: 100%;
                 z-index: 1000;
+                display: flex;
+                justify-content: center;
+            }
+            .logo {
+                position: static;
             }
             .logo-img {
-                position: static;
-                width: auto;
-                max-width: 150px;
-                height: auto;
-                margin: 0 20px 0 -15px; /* Adjusted to move left */
-                margin-right: 20px;
-                transform: none;
-                opacity: 1;
+                position: fixed;
+                top: 0;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 100%;
+                max-width: 300px;
+                z-index: 1001;
+                margin-left: 0;
+                margin-top: 0;
+                opacity: 0.1;
+                filter: brightness(170%) contrast(370%);
+            }
+            .logo a {
                 pointer-events: none;
             }
             .nav-menu {
@@ -430,31 +403,33 @@
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <header class="navbar">
-        <div class="logo">
-            <a href="index.html#home"><img src="iwm-logo.png" alt="IWM Brokerage Logo" class="logo-img"></a>
-        </div>
-        <nav>
-            <ul class="nav-menu">
-                <li><a href="index.html#home">Home</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="offerings.html">Offerings</a></li>
-                <li class="dropdown">
-                    <a href="blog.html" class="dropdown-toggle">Learn with IWM</a>
-                    <ul class="dropdown-menu">
-                        <li><a href="blog.html#insurance">Insurance</a></li>
-                        <li><a href="blog.html#retirement">Retirement</a></li>
-                        <li><a href="blog.html#end-of-life">End of Life</a></li>
-                        <li><a href="blog.html#macro-trends">Macro Trends</a></li>
-                        <li><a href="blog.html#bitcoin-crypto">Bitcoin & Crypto</a></li>
-                    </ul>
-                </li>
-                <li><a href="contact.html">Contact Us</a></li>
-                <li><a href="join.html">Join our Team</a></li>
-            </ul>
-        </nav>
-    </header>
+    <!-- Header – match about.html -->
+    <div class="navbar-wrapper">
+        <header class="navbar">
+            <div class="logo">
+                <a href="index.html#home"><img src="iwm-logo.png" alt="IWM Brokerage Logo" class="logo-img"></a>
+            </div>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="index.html#home">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="offerings.html">Offerings</a></li>
+                    <li class="dropdown">
+                        <a href="blog.html" class="dropdown-toggle">Learn with IWM</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="blog.html#insurance">Insurance</a></li>
+                            <li><a href="blog.html#retirement">Retirement</a></li>
+                            <li><a href="blog.html#end-of-life">End of Life</a></li>
+                            <li><a href="blog.html#macro-trends">Macro Trends</a></li>
+                            <li><a href="blog.html#bitcoin-crypto">Bitcoin & Crypto</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                    <li><a href="join.html">Join our Team</a></li>
+                </ul>
+            </nav>
+        </header>
+    </div>
 
     <!-- Offerings Section -->
     <section id="offerings" class="offerings">
