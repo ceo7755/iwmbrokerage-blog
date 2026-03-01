@@ -43,15 +43,18 @@
         }
         /* Mobile/small viewport: fix header cut-off, smaller title, tighter layout (980px so real phones always get this) */
         @media (max-width: 980px) {
-            body { padding-top: calc(100px + env(safe-area-inset-top, 0px)); }
+            body { padding-top: calc(140px + env(safe-area-inset-top, 0px)); }
             .navbar {
                 padding-top: max(10px, env(safe-area-inset-top, 0px));
                 padding-bottom: 10px;
                 min-height: 50px;
+                justify-content: space-between;
+                padding-left: 16px;
+                padding-right: 20px;
             }
-            .navbar .logo-img { width: 180px; max-width: 55vw; }
+            .navbar .logo-img { width: 240px; max-width: 70vw; }
             .join-section.join-section-blue {
-                padding-top: 32px;
+                padding-top: 40px;
                 padding-bottom: 30px;
                 min-height: calc(100vh - 80px);
             }
@@ -61,8 +64,7 @@
                 margin-bottom: 12px;
             }
             .linktree-logo {
-                max-width: 100px;
-                margin: 10px auto;
+                display: none;
             }
             .linktree-buttons > * {
                 width: 100%;
