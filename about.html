@@ -369,14 +369,31 @@
             <div class="partner-carousel-wrap">
                 <button type="button" class="partner-carousel-btn partner-carousel-prev" aria-label="Previous partners">‹</button>
                 <div class="partner-carousel">
-                    <div class="partner-logo"><img src="FG.png" alt="F&amp;G"></div>
+                    <div class="partner-logo"><img src="F&G.png" alt="F&amp;G"></div>
                     <div class="partner-logo"><img src="AIG.png" alt="AIG"></div>
                     <div class="partner-logo"><img src="Transamerica.png" alt="Transamerica"></div>
-                    <div class="partner-logo"><img src="Gerber.png" alt="Gerber"></div>
-                    <div class="partner-logo"><img src="Foresters.png" alt="Foresters"></div>
-                    <div class="partner-logo"><img src="Athene.png" alt="Athene"></div>
-                    <div class="partner-logo"><img src="NorthAmerican.png" alt="North American"></div>
+                    <div class="partner-logo"><img src="Gerber1.png" alt="Gerber"></div>
+                    <div class="partner-logo"><img src="Foresters1.png" alt="Foresters"></div>
+                    <div class="partner-logo"><img src="Athene1.png" alt="Athene"></div>
+                    <div class="partner-logo"><img src="NorthAmerican1.png" alt="North American"></div>
                     <div class="partner-logo"><img src="NLG1.png" alt="NLG"></div>
+                    <div class="partner-logo"><img src="Pacific.png" alt="Pacific"></div>
+                </div>
+
+                <button type="button" class="partner-carousel-btn partner-carousel-next" aria-label="Next partners">›</button>
+            </div>
+            <div class="partner-carousel-wrap">
+                <button type="button" class="partner-carousel-btn partner-carousel-prev" aria-label="Previous partners">‹</button>
+                <div class="partner-carousel">
+                    <div class="partner-logo"><img src="UPMC.png" alt="UPMC"></div>
+                    <div class="partner-logo"><img src="UnitedHealthCare.png" alt="UnitedHealthCare"></div>
+                    <div class="partner-logo"><img src="Manhattan.png" alt="Manhattan"></div>
+                    <div class="partner-logo"><img src="Aetna1.png" alt="Aetna"></div>
+                    <div class="partner-logo"><img src="Humana.png" alt="Humana"></div>
+                    <div class="partner-logo"><img src="Cigna.png" alt="Cigna"></div>
+                    <div class="partner-logo"><img src="Highmark.png" alt="Highmark"></div>
+                    <div class="partner-logo"><img src="Bluecross.png" alt="Blue Cross"></div>
+                    <div class="partner-logo"><img src="Dental.png" alt="Dental"></div>
                 </div>
                 <button type="button" class="partner-carousel-btn partner-carousel-next" aria-label="Next partners">›</button>
             </div>
@@ -462,14 +479,26 @@
 
 <script>
 (function() {
-    var wrap = document.querySelector('.partner-carousel-wrap');
-    if (!wrap) return;
-    var carousel = wrap.querySelector('.partner-carousel');
-    var prev = wrap.querySelector('.partner-carousel-prev');
-    var next = wrap.querySelector('.partner-carousel-next');
-    var step = 200;
-    if (prev) prev.addEventListener('click', function() { carousel.scrollBy({ left: -step, behavior: 'smooth' }); });
-    if (next) next.addEventListener('click', function() { carousel.scrollBy({ left: step, behavior: 'smooth' }); });
+    function initCarouselArrows() {
+        var step = 320;
+        document.querySelectorAll('.partner-carousel-wrap').forEach(function(wrap) {
+            var carousel = wrap.querySelector('.partner-carousel');
+            var prevBtn = wrap.querySelector('.partner-carousel-prev');
+            var nextBtn = wrap.querySelector('.partner-carousel-next');
+            if (!carousel || !prevBtn || !nextBtn) return;
+            prevBtn.addEventListener('click', function() {
+                carousel.scrollLeft = carousel.scrollLeft - step;
+            });
+            nextBtn.addEventListener('click', function() {
+                carousel.scrollLeft = carousel.scrollLeft + step;
+            });
+        });
+    }
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initCarouselArrows);
+    } else {
+        initCarouselArrows();
+    }
 })();
 </script>
 
