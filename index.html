@@ -2151,11 +2151,11 @@ document.getElementById('share-button').addEventListener('click', async () => {
     const lineWidth = 940;
     const lineX = (canvas.width - lineWidth) / 2;
     const lineGradient = ctx.createLinearGradient(lineX, lineY, lineX + lineWidth, lineY);
-    lineGradient.addColorStop(0, 'transparent');
+    lineGradient.addColorStop(0, '#ffffff');
     lineGradient.addColorStop(0.15, '#ffffff');
     lineGradient.addColorStop(0.5, '#ffffff');
     lineGradient.addColorStop(0.85, '#ffffff');
-    lineGradient.addColorStop(1, 'transparent');
+    lineGradient.addColorStop(0, '#ffffff');
     ctx.strokeStyle = lineGradient;
     ctx.lineWidth = 2.5;
     ctx.beginPath();
@@ -2398,7 +2398,7 @@ window.shareScenario = function(index) {
     lineGradient.addColorStop(0.15, '#ffffff');
     lineGradient.addColorStop(0.5, '#ffffff');
     lineGradient.addColorStop(0.85, '#ffffff');
-    lineGradient.addColorStop(1, 'transparent');
+    lineGradient.addColorStop(1, '#ffffff');
 
     ctx.strokeStyle = lineGradient;
     ctx.lineWidth = 2.5;
