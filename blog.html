@@ -26,8 +26,30 @@
 <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
 <!-- Include html2canvas for social sharing -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<!-- Firebase App (the core Firebase SDK) -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<!-- Firebase Analytics -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics-compat.js"></script>
+<!-- Firebase Firestore -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<!-- Firebase Auth -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 
   <style>
+.delete-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+    z-index: 10;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+}
+.delete-icon:hover {
+    opacity: 1;
+}
     /* Base styles */
     body {
         margin: 0;
@@ -35,55 +57,197 @@
         background-color: #f4f4f4;
         color: #333;
     }
-    .navbar {
-        background: #091954; /* Solid blue, no transparency */
-        padding: 10px 20px;
-        position: fixed;
+    /* Navbar & header – match index.html */
+    .navbar-wrapper {
+        background: #091954;
+        position: sticky;
         top: 0;
-        width: 100%; /* Full width left to right */
-        height: 60px; /* Explicit height to fill vertically */
         z-index: 1000;
+    }
+    .navbar {
         display: flex;
         justify-content: space-between;
         align-items: center;
+        padding: 5px 50px;
     }
     .logo {
         display: flex;
-        justify-content: center;
-        align-items: center;
+        align-items: flex-start;
     }
     .logo-img {
-        width: 90%;
+        width: 200px;
         height: auto;
-        margin-left: 50px;
+        margin-left: 0;
+        margin-top: 0;
     }
     .nav-menu {
-        list-style: none;
         display: flex;
-        justify-content: flex-end;
-        margin: 0;
-        padding: 0;
-    }
-    .nav-menu li {
-        margin-left: 60px;
+        gap: 20px;
+        list-style: none;
+        align-items: center;
     }
     .nav-menu a {
         color: #ffffff;
         text-decoration: none;
+        font-size: 1.2rem;
         font-weight: 500;
+        transition: color 0.3s ease;
+        line-height: 1;
+    }
+    .nav-menu a:hover {
+        color: #AB9C59;
     }
     .dropdown {
         position: relative;
     }
-    .dropdown-menu {
-        display: none;
-        position: absolute;
-        background: #091954;
-        min-width: 200px;
-        padding: 10px;
+    .dropdown-toggle:hover + .dropdown-menu,
+    .dropdown-menu:hover {
+        opacity: 1;
+        transform: translateY(0);
     }
-    .dropdown:hover .dropdown-menu {
-        display: block;
+    .dropdown-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background: #091954;
+        list-style: none;
+        padding: 10px 0;
+        border-radius: 10px;
+        opacity: 0;
+        transform: translateY(10px);
+        transition: all 0.4s ease;
+        box-shadow: 0 10px 20px rgba(171, 156, 89, 0.2);
+    }
+    .dropdown-menu li {
+        padding: 8px 20px;
+    }
+    .dropdown-menu a {
+        color: #ffffff;
+        font-size: 0.9rem;
+    }
+    @media (min-width: 769px) {
+        .navbar-wrapper { background: #091954; }
+        .navbar {
+            padding: 10px 50px;
+            max-width: 1200px;
+            margin: 0 auto;
+            min-height: 30px;
+        }
+        .logo {
+            position: absolute;
+            left: 52px;
+            top: 0;
+        }
+        .logo-img {
+            width: 340px;
+            height: auto;
+        }
+        .nav-menu {
+            display: flex;
+            justify-content: flex-end;
+            width: 100%;
+            padding-left: 320px;
+            gap: 20px;
+            flex-wrap: nowrap;
+        }
+        .mobile-nav-toggle,
+        .mobile-footer-nav-toggle { display: none; }
+    }
+    @media (max-width: 768px) {
+        .navbar-wrapper {
+            background: linear-gradient(to bottom, #091954 0%, rgba(9, 25, 84, 0) 50%);
+        }
+        .navbar {
+            padding: 2px 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+        }
+        .logo { position: static; }
+        .logo-img {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 300px;
+            z-index: 1001;
+            margin-left: 0;
+            margin-top: 0;
+            opacity: 0.1;
+            filter: brightness(170%) contrast(370%);
+        }
+        .logo a { pointer-events: none; }
+        .mobile-nav-toggle { display: none; }
+        .mobile-footer-nav-toggle {
+            display: block;
+            position: fixed;
+            bottom: 15px;
+            right: 15px;
+            font-size: 1.3rem;
+            color: #ffffff;
+            background: #AB9C59;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 14px;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(171, 156, 89, 0.5);
+        }
+        .mobile-footer-nav-toggle:hover { background: #8B7D47; }
+        .nav-menu {
+            display: none;
+            flex-direction: column;
+            position: fixed;
+            bottom: 50px;
+            right: 20px;
+            width: 200px;
+            background: #091954;
+            padding: 5px 0;
+            z-index: 999;
+            max-height: calc(100vh - 70px);
+            overflow-y: auto;
+            border-radius: 10px;
+            box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.3);
+        }
+        .nav-menu.active { display: flex; }
+        .nav-menu li {
+            margin: 2px 0;
+            padding: 0;
+            text-align: center;
+            width: 100%;
+            position: relative;
+        }
+        .nav-menu li::after {
+            content: '';
+            position: absolute;
+            bottom: -14px;
+            left: 20%;
+            width: 60%;
+            height: 1px;
+            background: linear-gradient(to right, transparent, #ffffff, transparent);
+        }
+        .nav-menu li:last-child::after { display: none; }
+        .nav-menu a {
+            display: block;
+            width: 100%;
+            text-align: center;
+            padding: 5px 0;
+            margin: 0;
+            font-size: 1.2rem;
+            color: #ffffff;
+        }
+        .nav-menu a:hover { color: #AB9C59; }
+        .dropdown-toggle {
+            width: 100%;
+            text-align: center !important;
+            padding: 5px 0;
+        }
+        .dropdown-menu { display: none !important; }
     }
     /* Blog Section */
     .blog-section {
@@ -268,26 +432,66 @@
     .post-blog-btn:hover {
         background: #091954;
     }
+.post-dropdown-menu {
+  display: none;
+  position: absolute;
+  left: 0;
+  top: 100%;
+  z-index: 1000;
+  background: #fff;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  min-width: 180px;
+  padding: 0;
+  margin: 0;
+  margin-top: 5px;
+}
+
+.post-dropdown-menu .dropdown-item {
+  background: none !important;
+  border: none !important;
+  color: #091954 !important;
+  padding: 10px 18px !important;
+  width: 100% !important;
+  text-align: left !important;
+  font-size: 1rem !important;
+  border-bottom: 1px solid #eee !important;
+  cursor: pointer !important;
+  transition: background 0.2s !important;
+  border-radius: 0 !important;
+  display: block !important;
+  margin: 0 !important;
+}
+
+.post-dropdown-menu .dropdown-item:last-child {
+  border-bottom: none !important;
+}
+
+.post-dropdown-menu .dropdown-item:hover {
+  background: #f4f4f4 !important;
+}
     /* Push Pin Board Background */
     .blog-posts {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 25px; /* Slightly larger gap */
-        padding: 40px; /* More padding for a spacious feel */
-        background: #ffffff; /* Clean white background */
+        column-count: 2;
+        column-gap: 25px;
+        padding: 40px;
+        background: #ffffff;
         border-radius: 10px;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
         position: relative;
         z-index: 1;
     }
     .blog-post {
-        background: #ffffff; /* White card effect */
+        display: block;
+        break-inside: avoid;
+        background: #ffffff;
         padding: 25px;
         border-radius: 10px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Sleek shadow */
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
         text-align: left;
         position: relative;
-        transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover */
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        margin-bottom: 25px;
     }
     .blog-post:hover {
         transform: translateY(-5px); /* Lift on hover */
@@ -613,63 +817,8 @@
         overflow: hidden;
         height: 100vh;
     }
-    @media (min-width: 769px) {
-        .nav-menu {
-            margin-right: 80px; /* Moves menu 20px left */
-        }
-        .logo-img {
-            margin-left: 150px; /* Moves logo 20px right from original 50px */
-        }
-    }
     /* Mobile styles */
     @media (max-width: 768px) {
-        .navbar {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 10px 15px;
-            background: #091954;
-            height: 50px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-        }
-        .logo {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            max-width: 280px;
-        }
-        .logo-img {
-            position: static;
-            width: 100%;
-            max-width: 280px;
-            height: auto;
-          margin: 0 0 0 -15px;
-            transform: none;
-            opacity: 1;
-            pointer-events: auto;
-        }
-        .nav-menu {
-            display: none;
-            flex-direction: column;
-            position: fixed;
-            bottom: 60px;
-            right: 15px;
-            width: 180px;
-            background: #091954;
-            padding: 10px 0;
-            z-index: 999;
-            max-height: calc(100vh - 80px);
-            overflow-y: auto;
-            border-radius: 8px;
-            box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.4);
-        }
-        .nav-menu.active {
-            display: flex;
-        }
-        .dropdown-menu {
-            display: none !important;
-        }
         .blog-section h1 {
             font-size: 1.8rem;
         }
@@ -702,8 +851,13 @@
             font-size: 0.75rem;
         }
         .blog-posts {
-            gap: 10px;
+            column-count: 1;
+            column-gap: 0;
             padding: 15px;
+        }
+        .blog-post {
+            padding: 10px;
+            margin-bottom: 10px;
         }
         .modal-content {
             padding: 10px;
@@ -734,37 +888,72 @@
         .image-preview img {
             max-height: 150px;
         }
-        .mobile-footer-nav-toggle {
-            display: block;
-            position: fixed;
-            bottom: 15px;
-            right: 15px;
-            font-size: 1.3rem;
-            color: #ffffff;
-            background: #AB9C59;
-            border: none;
-            border-radius: 5px;
-            padding: 6px 12px;
-            cursor: pointer;
-            z-index: 1000;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-        }
         body.menu-open {
             overflow: hidden;
         }
-        .nav-menu li {
-            margin: 8px 0;
-            text-align: center;
+        .button-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            align-items: center;
         }
-        .nav-menu a {
-            display: block;
-            padding: 8px 0;
-            font-size: 1.1rem;
-            color: #ffffff;
-            transition: color 0.3s ease;
+        .post-blog-btn {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.92rem;
+            padding: 7px 14px;
+            border-radius: 22px;
+            background: linear-gradient(90deg, #091954, #AB9C59);
+            color: #fff;
+            border: none;
+            margin: 4px 2px;
+            box-shadow: 0 1px 4px rgba(9,25,84,0.08);
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+            min-width: 155px;
+            justify-content: center;
         }
-        .nav-menu a:hover {
+        .post-blog-btn:hover {
+            background: linear-gradient(90deg, #AB9C59, #091954);
+            color: #fff;
+            box-shadow: 0 2px 8px rgba(171,156,89,0.18);
+        }
+        .post-blog-btn::first-letter {
+            font-size: 1.1em;
             color: #AB9C59;
+            font-weight: bold;
+            margin-right: 2px;
+        }
+        .button-container {
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+        }
+        .post-blog-btn {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.92rem;
+            padding: 7px 14px;
+            border-radius: 22px;
+            background: linear-gradient(90deg, #091954, #AB9C59);
+            color: #fff;
+            border: none;
+            margin: 4px 2px;
+            box-shadow: 0 1px 4px rgba(9,25,84,0.08);
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+            min-width: 155px;
+            justify-content: center;
+        }
+        .blog-section h1[data-lang-key="insights-title"] {
+            font-size: 1.2rem;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
         }
     }
     /* Animation Keyframes */
@@ -776,62 +965,462 @@
     .modal-content .hidden-for-link-post {
         display: none !important;
     }
+
+    /* Follow Blog Modal Styles */
+    .follow-option {
+        display: flex;
+        align-items: center; /* Vertically center checkbox and label */
+        margin-bottom: 20px;
+        padding: 10px;
+        border-radius: 8px;
+        background: #f8f9fa;
+    }
+
+    .follow-option input[type="checkbox"] {
+        margin-right: 15px;
+        margin-left: 5px;
+        /* Adjust this value to move the checkbox down more or less */
+        margin-top: 4px;
+        width: 18px;
+        height: 18px;
+        flex-shrink: 0;
+    }
+
+    .follow-option label {
+        display: flex;
+        flex-direction: column;
+        font-weight: 500;
+        color: #091954;
+        margin: 0;
+    }
+
+    .option-description {
+        display: block;
+        font-size: 0.85rem;
+        color: #666;
+        margin-top: 5px;
+        font-weight: normal;
+    }
+
+    .newsletter-email {
+        width: 100%;
+        padding: 8px;
+        margin-top: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-family: 'Montserrat', sans-serif;
+    }
+
+    .modal-buttons {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    .submit-btn, .cancel-btn {
+        padding: 8px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+    
+
+    .submit-btn {
+        background: #AB9C59;
+        color: white;
+    }
+
+    .cancel-btn {
+        background: #f4f4f4;
+        color: #333;
+    }
+
+    .submit-btn:hover {
+        background: #091954;
+    }
+
+    .cancel-btn:hover {
+        background: #e0e0e0;
+    }
+
+    #followBlogModal .modal-content {
+        max-width: 500px;
+    }
+
+    /* Keyword Checkbox Grid Styling */
+    .keyword-checkbox-group {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 6px 4px; /* Tighter vertical and horizontal space */
+        margin-bottom: 8px;
+        margin-top: 4px;
+        justify-items: start;
+    }
+
+    .keyword-checkbox-group label {
+        display: flex;
+        align-items: center;
+        font-weight: 600;
+        font-size: 1em; /* Slightly smaller */
+        color: #091954;
+        cursor: pointer;
+        border-radius: 8px;
+        padding: 2px 6px 2px 2px; /* Less padding */
+        transition: background 0.18s;
+        background: transparent;
+        margin: 0;
+        gap: 2px; /* Minimal space between checkbox and word */
+    }
+
+    .keyword-checkbox-group input[type="checkbox"] {
+        accent-color: #091954;
+        width: 16px;  /* Slightly smaller */
+        height: 16px;
+        margin-right: 2px; /* Minimal space */
+    }
+
+    .keyword-checkbox-group input[type="checkbox"]:checked + span {
+        background: #e6e9f0;
+        box-shadow: 0 2px 8px rgba(9, 25, 84, 0.08);
+        border-radius: 8px;
+        padding: 2px 6px;
+    }
+
+    /* --- NEW FEATURE: Blog Post Top Bar, Pinning, Collapse, Report --- */
+    .post-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 0;
+        background: #f8f9fa;
+        border-bottom: 1px solid #ddd;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    .bar-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 0;
+        gap: 0;
+        padding: 0;
+        /* Remove default margin */
+    }
+    .bar-icon img,
+    .bar-icon svg {
+        width: 22px;
+        height: 22px;
+        object-fit: contain;
+        display: block;
+        margin: 0;
+        /* Remove any default margin */
+    }
+    .bar-icon {
+        margin-right: 12px;
+        min-width: 40px;
+        min-height: 40px;
+        border-radius: 50%;
+        transition: background 0.18s, transform 0.18s;
+        cursor: pointer;
+        position: relative;
+    }
+    .bar-icon:last-child {
+        margin-right: 0;
+    }
+    .bar-icon:active,
+    .bar-icon:hover {
+        background: rgba(171,156,89,0.12);
+        transform: scale(1.08);
+    }
+    @media (max-width: 768px) {
+        .post-bar {
+            padding: 6px 0;
+        }
+        .bar-icon {
+            min-width: 40px;
+            min-height: 40px;
+            margin-right: 10px;
+        }
+        .bar-icon img,
+        .bar-icon svg {
+            width: 22px;
+            height: 22px;
+        }
+    }
+
+    .pin-icon {
+        color: #28a745;
+    }
+
+    .pin-icon.admin-pinned {
+        color: #dc3545;
+    }
+
+    .pin-icon.user-pinned {
+        color: #ffc107;
+    }
+
+    .pin-admin-a {
+        font-size: 0.8em;
+        margin-left: 5px;
+        color: #dc3545;
+        font-weight: bold;
+    }
+
+    .share-icon {
+        color: #17a2b8;
+    }
+
+    .arrow-icon {
+        color: #6c757d;
+        transition: transform 0.3s ease;
+    }
+
+    .arrow-icon.collapsed {
+        transform: rotate(-90deg);
+    }
+
+    .delete-icon-bar {
+        color: #dc3545;
+    }
+
+    .report-icon {
+        color: #6c757d;
+    }
+
+    .post-title {
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+        color: #091954;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        background: linear-gradient(90deg, #091954, #AB9C59);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-align: center;
+    }
+
+    .post-content {
+        display: none;
+        transition: all 0.3s ease;
+    }
+
+    .post-content.expanded {
+        display: block;
+    }
+
+    /* Add to <style>:
+    .post-bar-title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 18px;
+        background: linear-gradient(135deg, #AB9C59 0%, #8B7D47 50%, #AB9C59 100%);
+        color: #091954;
+        font-family: 'Libre Baskerville', serif;
+        font-size: 1.2rem;
+        font-weight: 700;
+        border-radius: 10px 10px 0 0;
+        box-shadow: 0 4px 12px rgba(171,156,89,0.12);
+        cursor: pointer;
+        user-select: none;
+        margin-bottom: 0;
+        position: relative;
+    }
+    .post-bar-title.active {
+        background: linear-gradient(135deg, #091954 0%, #1A327A 100%);
+        color: #AB9C59;
+    }
+    .bar-title-text {
+        flex: 1;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    .bar-icons {
+        display: flex;
+        gap: 8px;
+        margin-left: 12px;
+    }
+    .arrow {
+        font-size: 2rem;
+        margin-left: 16px;
+        color: #091954;
+        transition: transform 0.3s ease, color 0.3s;
+    }
+    .arrow.active {
+        transform: rotate(180deg);
+        color: #AB9C59;
+    }
+    .post-content {
+        display: none;
+        background: #fff;
+        border-radius: 0 0 10px 10px;
+        box-shadow: 0 2px 8px rgba(9,25,84,0.04);
+        padding: 18px 18px 10px 18px;
+    }
+    .post-content.active {
+        display: block;
+    }
+    */
+
+    .report-modal {
+      display: flex;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      justify-content: center;
+      align-items: center;
+      background: rgba(0,0,0,0.3);
+      z-index: 3000;
+      opacity: 1;
+      transition: opacity 0.3s;
+    }
+    .report-modal-content {
+      background: #fff;
+      padding: 24px 20px 16px 20px;
+      border-radius: 10px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+      min-width: 260px;
+      max-width: 90vw;
+      text-align: center;
+    }
+    .report-modal-content h3 {
+      margin-top: 0;
+      color: #091954;
+    }
+    .report-option {
+      display: block;
+      width: 100%;
+      margin: 8px 0;
+      padding: 8px 0;
+      background: #f8f9fa;
+      border: 1px solid #AB9C59;
+      border-radius: 6px;
+      color: #091954;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .report-option:hover {
+      background: #AB9C59;
+      color: #fff;
+    }
+    .report-message.success {
+      color: #28a745;
+      margin-top: 12px;
+      font-weight: 600;
+    }
+   .post-dropdown-menu {
+  display: none;
+  position: absolute;
+  left: 0;
+  top: 100%;
+  z-index: 1000;
+  background: #fff;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  min-width: 180px;
+  padding: 0;
+  margin: 0;
+  margin-top: 5px;
+}
+    .post-dropdown-menu .dropdown-item {
+      background: none;
+      border: none;
+      color: #091954;
+      padding: 10px 18px;
+      width: 100%;
+      text-align: left;
+      font-size: 1rem;
+      border-bottom: 1px solid #eee;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .post-dropdown-menu .dropdown-item:last-child {
+      border-bottom: none;
+    }
+    .post-dropdown-menu .dropdown-item:hover {
+      background: #f4f4f4;
+    }
 </style>
 
 </head><body>
-    <!-- Header -->
-    <header class="navbar">
-        <div class="logo">
-            <img src="iwmlonglogo.png" alt="IWM Brokerage Logo" class="logo-img">
-        </div>
-        <nav>
-            <ul class="nav-menu">
-                <li><a href="index.html#home" data-lang-key="nav-home">Home</a></li>
-                <li><a href="about.html" data-lang-key="nav-about">About</a></li>
-                <li><a href="offerings.html" data-lang-key="nav-offerings">Offerings</a></li>
-                <li class="dropdown">
-                    <a href="blog.html" class="dropdown-toggle" data-lang-key="nav-insights">IWM Insights</a>
-                    <ul class="dropdown-menu">
-                        <li><a href="blog.html#insurance" data-lang-key="nav-insurance">Insurance</a></li>
-                        <li><a href="blog.html#retirement" data-lang-key="nav-retirement">Retirement</a></li>
-                        <li><a href="blog.html#end-of-life" data-lang-key="nav-end-of-life">End of Life</a></li>
-                        <li><a href="blog.html#macro-trends" data-lang-key="nav-macro-trends">Macro Trends</a></li>
-                        <li><a href="blog.html#bitcoin-crypto" data-lang-key="nav-bitcoin-crypto">Bitcoin & Digital Currencies</a></li>
-                    </ul>
-                </li>
-                <li><a href="contact.html" data-lang-key="nav-contact">Contact Us</a></li>
-                <li><a href="join.html" id="join-team" data-lang-key="nav-join">Join Team</a></li>
-            </ul>
-        </nav>
-    </header>
-<button class="mobile-footer-nav-toggle" aria-label="Toggle navigation">☰</button>
+    <!-- Header – match index.html -->
+    <div class="navbar-wrapper">
+        <header class="navbar">
+            <div class="logo">
+                <a href="index.html#home"><img src="iwmlogo-white-v3.png" alt="IWM Brokerage Logo" class="logo-img"></a>
+            </div>
+            <button class="mobile-nav-toggle" aria-label="Toggle navigation">☰</button>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="index.html#home" data-lang-key="nav-home">Home</a></li>
+                    <li><a href="about.html" data-lang-key="nav-about">About</a></li>
+                    <li><a href="offerings.html" data-lang-key="nav-offerings">Offerings</a></li>
+                    <li class="dropdown">
+                        <a href="blog.html" class="dropdown-toggle" data-lang-key="nav-insights">IWM Blog</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="blog.html#insurance" data-lang-key="nav-insurance">Insurance</a></li>
+                            <li><a href="blog.html#retirement" data-lang-key="nav-retirement">Retirement</a></li>
+                            <li><a href="blog.html#end-of-life" data-lang-key="nav-end-of-life">End of Life</a></li>
+                            <li><a href="blog.html#macro-trends" data-lang-key="nav-macro-trends">Macro Trends</a></li>
+                            <li><a href="blog.html#bitcoin-crypto" data-lang-key="nav-bitcoin-crypto">Bitcoin & Digital Currencies</a></li>
+                            <li><a href="care-compare.html">Care Compare</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="contact.html" data-lang-key="nav-contact">Contact Us</a></li>
+                    <li><a href="join.html" id="join-team" data-lang-key="nav-join">Join Team</a></li>
+                </ul>
+            </nav>
+        </header>
+    </div>
+    <!-- Mobile Footer Hamburger Menu (matches index.html) -->
+    <button class="mobile-footer-nav-toggle" aria-label="Toggle navigation" id="mobile-footer-toggle">☰</button>
 <!-- Blog Section -->
 <section class="blog-section">
     <nav class="breadcrumbs">
-        <a href="index.html#home" data-lang-key="nav-home">Home</a> > <span data-lang-key="insights-title">IWM Insights</span>
+        <a href="index.html#home" data-lang-key="nav-home">Home</a> > <span data-lang-key="insights-title">IWM Insights Blog</span>
     </nav>
-    <h1 data-lang-key="insights-title">IWM Insights</h1>
+    <h1 data-lang-key="insights-title">IWM Insights Blog</h1>
   <p class="blog-intro" data-lang-key="insights-intro">
-    <span class="intro-text">"IWM Insights" is the blog of IWM. Think of it as a Financial Education Hub. It includes insights on insurance, retirement, end-of-life planning, macroeconomics, bitcoin & crypto — through the lens of current events and inspiration from various contributors. Retract Info. </span>
-    <span class="toggle-btn">-</span>
+    <span class="intro-text">"IWM Insights" is the official blog of Insurance Wealth Management. Think of it as a Financial Education Hub— through the lens of current events and inspiration from various contributors. Filter using the below descriptors. </span>
+    
 </p>
 <div class="button-container" style="display: flex; gap: 10px; justify-content: center; margin: 10px 0;">
-    <button class="post-blog-btn" id="writePostBtn" data-lang-key="write-post-btn">Write Post</button>
-    <button class="post-blog-btn" id="linkPostBtn" data-lang-key="link-post-btn">Link Post</button>
+    <button class="post-blog-btn" id="shareBlogBtn">+ Share Blog Link</button>
+    <button class="post-blog-btn" id="notificationsBtn">+ Notifications</button>
+    <button class="post-blog-btn" id="homePageBtn">+ Home Page</button>
+    <button class="post-blog-btn" id="contributorBtn">+ Contributor</button>
+    <div class="post-dropdown-container" style="position: relative; display: inline-block;">
+      <button class="post-blog-btn" id="mainPostDropdownBtn">+ Post</button>
+      <div id="postDropdownMenu" class="post-dropdown-menu" style="display: none;">
+  <button class="post-blog-btn dropdown-item" id="regularPostBtn" style="width: 100%; text-align: left;">+ Regular Post</button>
+  <button class="post-blog-btn dropdown-item" id="picturePostBtn" style="width: 100%; text-align: left;">+ Picture Post</button>
+  <button class="post-blog-btn dropdown-item" id="linkPostBtnDropdown" style="width: 100%; text-align: left;">+ Link Post</button>
+</div>
+    </div>
+    <button class="post-blog-btn" id="linkPostBtn" data-lang-key="link-post-btn">+ Link Post</button>
 </div>
     <div class="category-description">
         <p id="category-desc" data-lang-key="category-desc">Select a category to see insights.</p>
     </div>
    <div class="filter-buttons">
-    <button class="filter-btn active" data-filter="all" data-lang-key="filter-all">All</button>
-    <button class="filter-btn" data-filter="bitcoin" data-lang-key="filter-bitcoin">Bitcoin & Crypto</button>
-    <button class="filter-btn" data-filter="insurance" data-lang-key="filter-insurance">Insurance</button>
-    <button class="filter-btn" data-filter="retirement" data-lang-key="filter-retirement">Retirement</button>
-    <button class="filter-btn" data-filter="end-of-life" data-lang-key="filter-end-of-life">End of Life</button>
-    <button class="filter-btn" data-filter="macro-trends" data-lang-key="filter-macro-trends">Macro Trends</button>
-    <button class="filter-btn" data-filter="smile" data-lang-key="filter-smile">Smile</button>
-    <button class="filter-btn" data-filter="inspire" data-lang-key="filter-inspire">Inspire</button>
-    <button class="filter-btn" data-filter="nature" data-lang-key="filter-nature">Nature</button>
+    <button class="filter-btn" data-filter="all">All</button>
+    <button class="filter-btn active" data-filter="macro-trends">Macro Trends</button>
+    <button class="filter-btn active" data-filter="bitcoin">Bitcoin</button>
+    <button class="filter-btn active" data-filter="crypto">Crypto</button>
+    <button class="filter-btn active" data-filter="stocks">Stocks</button>
+    <button class="filter-btn active" data-filter="ai">A.I.</button>
+    <button class="filter-btn active" data-filter="insurance">Insurance</button>
+    <button class="filter-btn active" data-filter="retirement">Retirement</button>
+    <button class="filter-btn active" data-filter="end-of-life">End of Life</button>
+    <button class="filter-btn" data-filter="animals">Animals</button>
+    <button class="filter-btn" data-filter="inspire">Inspire</button>
+    <button class="filter-btn" data-filter="nature">Nature</button>
 </div>
     <div class="sort-language-container">
 <div class="sort-options">
@@ -854,76 +1443,11 @@
 <script 
   src="https://widgets.leadconnectorhq.com/loader.js"  
   data-resources-url="https://widgets.leadconnectorhq.com/chat-widget/loader.js" 
- data-widget-id="67f0de7b8e8aa71ec4f3128b"   > 
-// Toggle Blog Intro
-const blogIntro = document.querySelector('.blog-intro');
-const toggleBtn = blogIntro.querySelector('.toggle-btn');
-
-toggleBtn.addEventListener('click', () => {
-    blogIntro.classList.toggle('collapsed');
-    toggleBtn.textContent = blogIntro.classList.contains('collapsed') ? '+' : '-';
-});
+  data-widget-id="67f0de7b8e8aa71ec4f3128b">
  </script>
-
 <div class="blog-posts" id="blogPostsContainer">
-    <!-- Blog Post 1 -->
-    <article class="blog-post" data-category="bitcoin" data-post-id="1">
-        <img src="bitcoin-image.jpg" alt="Bitcoin Trends in 2025" loading="lazy">
-        <h2 data-lang-key="post1-title">Bitcoin Trends in 2025</h2>
-        <p data-lang-key="post1-desc">Explore the latest trends in Bitcoin and how they impact your investment strategy.</p>
-        <div class="keyword" data-lang-key="post1-keyword">Insights: Bitcoin & Crypto</div>
-        <div class="meta">
-            <span data-lang-key="post1-author">Author: John Doe</span> | 
-            <span data-lang-key="post1-date">Published: April 6, 2025</span>
+    <!-- Blog posts will be rendered here by JavaScript -->
         </div>
-        <a href="bitcoin-trends-2025.html" data-lang-key="read-more">Read More</a>
-        <div class="share-like-section">
-            <button class="share-btn" data-lang-key="share-btn">Share</button>
-            <button class="like-btn" data-lang-key="like-btn">Like</button>
-            <div class="like-count-wrapper">
-                <span class="like-count" data-lang-key="like-count">0 Likes</span>
-            </div>
-        </div>
-        <div class="comment-section">
-            <span class="separator"></span>
-            <h4 data-lang-key="comments-title">Comments</h4>
-            <form class="comment-form">
-                <textarea placeholder="Add a comment..." data-lang-key-placeholder="comment-placeholder"></textarea>
-                <button type="submit" data-lang-key="comment-submit">Submit</button>
-            </form>
-            <div class="comments-list"></div>
-        </div>
-    </article>
-    <!-- Blog Post 2 -->
-    <article class="blog-post" data-category="insurance" data-post-id="2">
-        <img src="insurance-image.jpg" alt="Choosing the Right Life Insurance" loading="lazy">
-        <h2 data-lang-key="post2-title">Choosing the Right Life Insurance</h2>
-        <p data-lang-key="post2-desc">Learn how to select a life insurance plan that fits your needs and budget.</p>
-       <div class="keyword" data-lang-key="post2-keyword">Insights: Insurance</div>
-        <div class="meta">
-            <span data-lang-key="post2-author">Author: Jane Smith</span> | 
-            <span data-lang-key="post2-date">Published: April 5, 2025</span>
-        </div>
-        <a href="insurance-guide.html" data-lang-key="read-more">Read More</a>
-        <div class="share-like-section">
-            <button class="share-btn" data-lang-key="share-btn">Share</button>
-            <button class="like-btn" data-lang-key="like-btn">Like</button>
-            <div class="like-count-wrapper">
-                <span class="like-count" data-lang-key="like-count">0 Likes</span>
-            </div>
-        </div>
-        <div class="comment-section">
-            <span class="separator"></span>
-            <h4 data-lang-key="comments-title">Comments</h4>
-            <form class="comment-form">
-                <textarea placeholder="Add a comment..." data-lang-key-placeholder="comment-placeholder"></textarea>
-                <button type="submit" data-lang-key="comment-submit">Submit</button>
-            </form>
-            <div class="comments-list"></div>
-        </div>
-    </article>
-</div>
-
 </section>
 <!-- Modal Pop-Up Form -->
 <div class="modal" id="postModal">
@@ -940,6 +1464,90 @@ toggleBtn.addEventListener('click', () => {
             <div id="previewPostTags"></div>
             <div id="previewPostMeta"></div>
         </div>
+    </div>
+</div>
+<!-- Picture Post Modal -->
+<div class="modal" id="picturePostModal">
+  <div class="modal-content">
+    <span class="close-modal" id="closePictureModal">×</span>
+    <h2>Add New Picture Blog Post</h2>
+    
+
+<form id="picturePostForm" novalidate>
+  <label for="picturePostUrl">Picture Blog Post URL:</label>
+  <input type="url" id="picturePostUrl" name="picturePostUrl" placeholder="Enter the link here">
+
+  <label for="picturePostTitle">Title:</label>
+  <input type="text" id="picturePostTitle" name="picturePostTitle" placeholder="Enter the title">
+
+  <label for="picturePostDesc">Description (max 160 characters):</label>
+  <textarea id="picturePostDesc" name="picturePostDesc" maxlength="160" placeholder="Enter a description"></textarea>
+
+  <label for="picturePostImages">Upload Picture (required):</label>
+  <input type="file" id="picturePostImages" name="picturePostImages" accept="image/*" multiple required>
+
+  <label for="picturePostKeyword">Keyword (for filtering) (required):</label>
+  <input type="text" id="picturePostKeyword" name="picturePostKeyword" placeholder="Add keywords, separated by commas" required>
+
+  <label for="picturePostAuthor">Author:</label>
+  <input type="text" id="picturePostAuthor" name="picturePostAuthor" placeholder="Defaults to IWM Brokerage">
+
+  <label for="picturePostDate">Publication Date:</label>
+  <input type="date" id="picturePostDate" name="picturePostDate" placeholder="mm/dd/yyyy">
+
+  <div class="modal-buttons">
+    <button type="button" id="previewPicturePost">Preview Post</button>
+    <button type="submit" id="submitPicturePost">Submit Post</button>
+  </div>
+</form>
+
+    <!-- Add this preview area after the form -->
+    <div id="picturePostPreview" style="display:none; margin-top:20px; border:1px solid #ddd; border-radius:8px; padding:12px;">
+      <h3>Preview:</h3>
+      <div id="picturePreviewImages" style="display:flex; gap:8px; flex-wrap:wrap;"></div>
+      <h4 id="picturePreviewTitle"></h4>
+      <p id="picturePreviewDesc"></p>
+      <div id="picturePreviewKeyword"></div>
+      <div id="picturePreviewAuthor"></div>
+      <div id="picturePreviewDate"></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Follow Blog Modal -->
+<div class="modal" id="followBlogModal">
+    <div class="modal-content">
+        <span class="close-modal" id="closeFollowModal">×</span>
+        <h2>Follow IWM Insights</h2>
+        <form id="followBlogForm">
+            <div class="follow-option">
+                <input type="checkbox" id="browserNotifications" checked>
+                <label for="browserNotifications">
+                    Browser Notifications
+                    <span class="option-description">When selected, this will turn browser notifications on when a new post is uploaded</span>
+                </label>
+            </div>
+            <div class="follow-option">
+                <input type="checkbox" id="addToHomePage" checked>
+                <label for="addToHomePage">
+                    Add to Home Page
+                    <span class="option-description">When selected, this will add the blog Page as an app to your home page</span>
+                </label>
+            </div>
+            <div class="follow-option">
+                <input type="checkbox" id="emailNewsletter" checked>
+                <label for="emailNewsletter">
+                    Email Newsletter
+                    <span class="option-description">When selected, you will get a weekly newsletter of a recap of the blog posts from the previous week</span>
+                </label>
+                <input type="email" id="newsletterEmail" placeholder="Enter your email address" class="newsletter-email">
+            </div>
+            <div class="modal-buttons">
+                <button type="submit" class="submit-btn">Submit</button>
+                <button type="button" class="cancel-btn" id="cancelFollow">Cancel</button>
+            </div>
+        </form>
     </div>
 </div>
 
@@ -988,7 +1596,7 @@ toggleBtn.addEventListener('click', () => {
             {
                 "@type": "ListItem",
                 "position": 2,
-                "name": "IWM Insights",
+                "name": "IWM Insights Blog",
                 "item": "https://yourblog.com/blog.html"
             }
         ]
@@ -996,159 +1604,338 @@ toggleBtn.addEventListener('click', () => {
 ]
 </script>
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        // Language Translations (unchanged)
-        const translations = {
-            en: {
-                "nav-home": "Home",
-                "nav-about": "About",
-                "nav-offerings": "Offerings",
-                "nav-insights": "IWM Insights",
-                "nav-insurance": "Insurance",
-                "nav-retirement": "Retirement",
-                "nav-end-of-life": "End of Life",
-                "nav-macro-trends": "Macro Trends",
-                "nav-bitcoin-crypto": "Bitcoin & Digital Currencies",
-                "nav-contact": "Contact Us",
-                "nav-join": "Join Team",
-                "insights-title": "IWM Insights",
-                "insights-intro": '"IWM Insights" is the blog of IWM. Think of it as a Financial Education Hub. It includes insights on insurance, retirement, end-of-life planning, macroeconomics, bitcoin & crypto/digital currencies — through the lens of current events and inspiration from various contributors.',
-                "post-blog-btn": "Post Blog Post",
-                "filter-all": "All",
-                "filter-bitcoin": "Bitcoin & Crypto",
-                "filter-insurance": "Insurance",
-                "filter-retirement": "Retirement",
-                "filter-end-of-life": "End of Life",
-                "filter-macro-trends": "Macro Trends",
-                "filter-smile": "Smile",
-                "filter-inspire": "Inspire",
-                "filter-nature": "Nature",
-                "sort-label": "Sort by: ",
-                "sort-newest": "Newest First",
-                "sort-oldest": "Oldest First",
-                "category-desc": "Select a category to filter insights.",
-                "post1-title": "Bitcoin Trends in 2025",
-                "post1-desc": "Explore the latest trends in Bitcoin and how they impact your investment strategy.",
-                "post1-keyword": "Insights: Bitcoin & Crypto",
-                "post1-author": "Author: John Doe",
-                "post1-date": "Published: April 6, 2025",
-                "post2-title": "Choosing the Right Life Insurance",
-                "post2-desc": "Learn how to select a life insurance plan that fits your needs and budget.",
-                "post2-keyword": "Insights: Insurance",
-                "post2-author": "Author: Jane Smith",
-                "post2-date": "Published: April 5, 2025",
-                "read-more": "Read More",
-                "share-btn": "Share",
-                "like-btn": "Like",
-                "like-count": "0 Likes",
-                "comments-title": "Comments",
-                "comment-placeholder": "Add a comment...",
-                "comment-submit": "Submit",
-                "comment-meta": "Posted on",
-                "add-post-title": "Add New Blog Post",
-                "add-link-post-title": "Add New Link Post",
-                "title-label": "Title:",
-                "desc-label": "Description (max 160 characters):",
-                "picture-label": "Upload Picture:",
-                "image-alt-label": "Image Alt Text (for accessibility/SEO):",
-                "keyword-label": "Keyword (for filtering):",
-                "tags-label": "Tags (comma-separated, e.g., cryptocurrency, investing):",
-                "destination-label": "Destination URL (e.g., post-slug.html):",
-                "author-label": "Author:",
-                "pub-date-label": "Publication Date:",
-                "meta-desc-label": "Meta Description (for SEO):",
-                "full-content-label": "Full Content (for the post page):",
-                "article-link-label": "End of Life Article Link (optional):",
-                "link-post-label": "Input Link below to create a Post from your Link",
-                "preview-post-btn": "Preview Post",
-                "submit-post-btn": "Submit Post",
-                "preview-title": "Preview:",
-                "footer-privacy": "Privacy Policy & Terms of Use",
-                "footer-linktree": "Link Tree",
-                "footer-broker": "Current Broker Login",
-                "write-post-btn": "Write Post",
-                "link-post-btn": "Link Post"
-            },
-            es: {
-                "nav-home": "Inicio",
-                "nav-about": "Acerca de",
-                "nav-offerings": "Ofertas",
-                "nav-insights": "Perspectivas IWM",
-                "nav-insurance": "Seguros",
-                "nav-retirement": "Jubilación",
-                "nav-end-of-life": "Fin de Vida",
-                "nav-macro-trends": "Tendencias Macro",
-                "nav-bitcoin-crypto": "Bitcoin y Criptomonedas",
-                "nav-contact": "Contáctanos",
-                "nav-join": "Únete al Equipo",
-                "insights-title": "Perspectivas IWM",
-                "insights-intro": '"Perspectivas IWM" es el blog de IWM. Piensa en él como un centro de educación financiera. Incluye perspectivas sobre seguros, jubilación, planificación al final de la vida, macroeconomía, bitcoin y cripto, a través del lente de eventos actuales y la vida. Por favor, filtra usando las opciones a continuación.',
-                "post-blog-btn": "Publicar Entrada de Blog",
-                "filter-all": "Todo",
-                "filter-bitcoin": "Bitcoin y Cripto",
-                "filter-insurance": "Seguros",
-                "filter-retirement": "Jubilación",
-                "filter-end-of-life": "Fin de Vida",
-                "filter-macro-trends": "Tendencias Macro",
-                "filter-smile": "Sonrisa",
-                "filter-inspire": "Inspirar",
-                "filter-nature": "Naturaleza",
-                "sort-label": "Ordenar por: ",
-                "sort-newest": "Más Reciente Primero",
-                "sort-oldest": "Más Antiguo Primero",
-                "category-desc": "Selecciona una categoría para ver las perspectivas.",
-                "post1-title": "Tendencias de Bitcoin en 2025",
-                "post1-desc": "Explora las últimas tendencias de Bitcoin y cómo impactan tu estrategia de inversión.",
-                "post1-keyword": "Perspectivas: Bitcoin y Cripto",
-                "post1-author": "Autor: John Doe",
-                "post1-date": "Publicado: 6 de abril de 2025",
-                "post2-title": "Elegir el Seguro de Vida Correcto",
-                "post2-desc": "Aprende cómo seleccionar un plan de seguro de vida que se ajuste a tus necesidades y presupuesto.",
-                "post2-keyword": "Perspectivas: Seguros",
-                "post2-author": "Autor: Jane Smith",
-                "post2-date": "Publicado: 5 de abril de 2025",
-                "read-more": "Leer Más",
-                "share-btn": "Compartir",
-                "like-btn": "Me Gusta",
-                "like-count": "0 Me Gusta",
-                "comments-title": "Comentarios",
-                "comment-placeholder": "Añade un comentario...",
-                "comment-submit": "Enviar",
-                "comment-meta": "Publicado el",
-                "add-post-title": "Añadir Nueva Entrada de Blog",
-                "add-link-post-title": "Añadir Nueva Publicación de Enlace",
-                "title-label": "Título:",
-                "desc-label": "Descripción (máx. 160 caracteres):",
-                "picture-label": "Subir Imagen:",
-                "image-alt-label": "Texto Alternativo de la Imagen (para accesibilidad/SEO):",
-                "keyword-label": "Perspectivas: (para filtrar):",
-                "tags-label": "Etiquetas (separadas por comas, ej., criptomoneda, inversión):",
-                "destination-label": "URL de Destino (ej., post-slug.html):",
-                "author-label": "Autor:",
-                "pub-date-label": "Fecha de Publicación:",
-                "meta-desc-label": "Descripción Meta (para SEO):",
-                "full-content-label": "Contenido Completo (para la página de la entrada):",
-                "article-link-label": "Enlace de Artículo de Fin de Vida (opcional):",
-                "link-post-label": "Ingresa el enlace abajo para crear una publicación desde tu enlace",
-                "preview-post-btn": "Vista Previa de la Entrada",
-                "submit-post-btn": "Enviar Entrada",
-                "preview-title": "Vista Previa:",
-                "footer-privacy": "Política de Privacidad y Términos de Uso",
-                "footer-linktree": "Link Tree",
-                "footer-broker": "Inicio de Sesión para Corredores Actuales",
-                "write-post-btn": "Escribir Publicación",
-                "link-post-btn": "Publicar Enlace"
+async function fetchArticleData(url) {
+    try {
+        console.log('Starting fetchArticleData for URL:', url);
+        const apiKey = '519076f6a0fc44e4586219b65c8b6f4c'; // ScraperAPI key
+        const isTwitterUrl = url.includes('twitter.com') || url.includes('x.com');
+        let image = null;
+        let title = '';
+        let description = 'No description available';
+
+        if (isTwitterUrl) {
+            // Always use username for Twitter/X links
+            const match = url.match(/(?:twitter|x)\.com\/(\w+)/);
+            const username = match ? match[1] : 'TwitterUser';
+            title = `Tweet by @${username}`;
+            if (!description || description === 'No description available') {
+                description = 'Click to view this tweet on X/Twitter';
             }
+            if (!image) {
+                image = 'xlogo1234.jpg';
+            }
+        } else {
+            // Only process non-Twitter URLs
+            console.log('Processing non-Twitter URL with ScraperAPI');
+            const scraperApiUrl = `https://api.scraperapi.com?api_key=${apiKey}&url=${encodeURIComponent(url)}&render=true`;
+            console.log('Calling ScraperAPI:', scraperApiUrl);
+
+            const response = await fetch(scraperApiUrl);
+            console.log('ScraperAPI response status:', response.status);
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error('ScraperAPI error:', errorText);
+                throw new Error(`ScraperAPI failed with status: ${response.status} - ${errorText}`);
+            }
+
+            const html = await response.text();
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+
+            // Extract metadata in order of preference
+            title = doc.querySelector('meta[property="og:title"]')?.content ||
+                    doc.querySelector('meta[name="twitter:title"]')?.content ||
+                    doc.querySelector('title')?.textContent ||
+                    (new URL(url)).hostname.replace('www.', '');
+
+            description = doc.querySelector('meta[property="og:description"]')?.content ||
+                        doc.querySelector('meta[name="twitter:description"]')?.content ||
+                        doc.querySelector('meta[name="description"]')?.content ||
+                        'No description available';
+
+            // Clean up description
+            description = description.split(' ').slice(0, 30).join(' ') +
+                        (description.split(' ').length > 30 ? '...' : '');
+
+            // Extract image
+            image = doc.querySelector('meta[property="og:image"]')?.content ||
+                    doc.querySelector('meta[name="twitter:image"]')?.content ||
+                    doc.querySelector('meta[name="twitter:image:src"]')?.content ||
+                    null;
+
+            // Handle relative image URLs
+            if (image && !image.startsWith('http')) {
+                const urlObj = new URL(url);
+                image = new URL(image, `${urlObj.protocol}//${urlObj.host}`).href;
+            }
+    }
+
+        // Set final image with a fallback
+        let finalImage;
+        if (!image) {
+            // Use bitcoin-image.jpg ONLY if the keyword is bitcoin
+            if (
+                (typeof keyword !== 'undefined' && keyword.toLowerCase() === 'bitcoin') ||
+                (url && (url.toLowerCase().includes('bitcoin') || url.toLowerCase().includes('btc')))
+            ) {
+                finalImage = 'bitcoin-image.jpg'; // Make sure this file exists in your project!
+            } else {
+                finalImage = 'https://placehold.co/150x150?text=No+Image';
+            }
+        } else {
+            finalImage = image;
+        }
+
+        console.log('Returning article data:', {
+            title: title.trim(),
+            description: description.trim(),
+            image: finalImage,
+            url
+        });
+
+        return {
+            title: title.trim(),
+            description: description.trim(),
+            image: finalImage,
+            url
         };
+    } catch (error) {
+        console.error('Error in fetchArticleData:', error);
 
-        // Modal variables
-        const writePostBtn = document.getElementById('writePostBtn');
-        const linkPostBtn = document.getElementById('linkPostBtn');
-        const modal = document.getElementById('postModal');
-        const modalTitle = modal.querySelector('h2');
-        const closeModal = document.getElementById('closeModal');
-        const blogPostForm = document.getElementById('blogPostForm');
+        // Provide a better fallback based on the URL
+        const urlObj = new URL(url);
+        const hostname = urlObj.hostname.replace('www.', '');
+        let title = hostname || 'Link Post';
+        let description = 'Content unavailable.';
+        let image = 'https://placehold.co/150x150?text=Link+Preview';
 
+        if (url.includes('twitter.com') || url.includes('x.com')) {
+            const match = url.match(/(?:twitter|x)\.com\/(\w+)/);
+            const username = match ? match[1] : 'TwitterUser';
+            title = `Tweet by @${username}`;
+            description = 'Tweet unavailable.';
+        }
+
+        return { title, description, image, url };
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+// Modal Functionality
+
+function openPostModal(isLinkPost = false) {
+    console.log('Opening post modal, isLinkPost:', isLinkPost);
+    try {
+    const password = prompt('Please enter the password to post a blog:');
+        if (password === '11' || password === '1') {
+            localStorage.setItem('isAdmin', password === '11' ? 'true' : 'false');
+            const modal = document.getElementById('postModal');
+            const modalContent = modal.querySelector('.modal-content');
+            modal.style.display = 'none';
+            modal.classList.remove('active');
+            modalContent.style.transform = 'scale(0.9)';
+            modal.offsetHeight; // Force reflow
+        modal.style.display = 'flex';
+            setTimeout(() => {
+        modal.classList.add('active');
+                modalContent.style.transform = 'scale(1)';
+            }, 10);
+        document.body.classList.add('modal-open');
+            const modalTitle = modal.querySelector('h2');
+        modalTitle.setAttribute('data-lang-key', isLinkPost ? 'add-link-post-title' : 'add-post-title');
+        updateLanguage(currentLang);
+            const blogPostForm = document.getElementById('blogPostForm');
+            blogPostForm.innerHTML = '';
+        if (isLinkPost) {
+            blogPostForm.innerHTML = `
+                    <div id="singleLinkPostArea">
+                <label for="articleLink" data-lang-key="link-post-label">${translations[currentLang]['link-post-label']}</label>
+                <input type="url" id="articleLink" name="articleLink" placeholder="Insert Here:">
+                        <label for="singleLinkKeywords" data-lang-key="keyword-label">${translations[currentLang]['keyword-label']}</label>
+                        <div id="singleLinkKeywords" class="keyword-checkbox-group">
+                            <label><input type="checkbox" value="macro-trends"><span><span class="checkmark"></span>Macro Trends</span></label>
+                            <label><input type="checkbox" value="bitcoin"><span><span class="checkmark"></span>Bitcoin</span></label>
+                            <label><input type="checkbox" value="crypto"><span><span class="checkmark"></span>Crypto</span></label>
+                            <label><input type="checkbox" value="stocks"><span><span class="checkmark"></span>Stocks</span></label>
+                            <label><input type="checkbox" value="ai"><span><span class="checkmark"></span>A.I.</span></label>
+                            <label><input type="checkbox" value="insurance"><span><span class="checkmark"></span>Insurance</span></label>
+                            <label><input type="checkbox" value="retirement"><span><span class="checkmark"></span>Retirement</span></label>
+                            <label><input type="checkbox" value="end-of-life"><span><span class="checkmark"></span>End of Life</span></label>
+                            <label><input type="checkbox" value="animals"><span><span class="checkmark"></span>Animals</span></label>
+                            <label><input type="checkbox" value="inspire"><span><span class="checkmark"></span>Inspire</span></label>
+                            <label><input type="checkbox" value="nature"><span><span class="checkmark"></span>Nature</span></label>
+                        </div>
+                        <div style="font-size: 0.8em; color: #666; margin-top: 5px;">Tap/click to select or deselect keywords</div>
+                    </div>
+                    <hr>
+                    <div id="multiLinkPostArea" style="margin-top: 10px;">
+                        <h3 style="margin-bottom: 8px;">Add New Multiple Link Post</h3>
+                        <label for="multiPostTitle">Title of Post:</label>
+                        <input type="text" id="multiPostTitle" name="multiPostTitle" placeholder="Enter the title of this post">
+                        <div id="multiLinksInputs">
+                            ${Array.from({ length: 10 }).map((_, i) => `
+                                <div class="multi-link-set" style="margin-bottom: 8px;">
+                                    <label>Title of URL:</label>
+                                    <input type="text" class="multiLinkTitle" placeholder="Enter link text">
+                                    <label>URL:</label>
+                                    <input type="url" class="multiLinkUrl" placeholder="Enter URL">
+                                </div>
+                            `).join('')}
+                        </div>
+                        <label for="multiLinkKeywords" data-lang-key="keyword-label">${translations[currentLang]['keyword-label']}</label>
+                        <div id="multiLinkKeywords" class="keyword-checkbox-group">
+                            <label><input type="checkbox" value="macro-trends"><span><span class="checkmark"></span>Macro Trends</span></label>
+                            <label><input type="checkbox" value="bitcoin"><span><span class="checkmark"></span>Bitcoin</span></label>
+                            <label><input type="checkbox" value="crypto"><span><span class="checkmark"></span>Crypto</span></label>
+                            <label><input type="checkbox" value="stocks"><span><span class="checkmark"></span>Stocks</span></label>
+                            <label><input type="checkbox" value="ai"><span><span class="checkmark"></span>A.I.</span></label>
+                            <label><input type="checkbox" value="insurance"><span><span class="checkmark"></span>Insurance</span></label>
+                            <label><input type="checkbox" value="retirement"><span><span class="checkmark"></span>Retirement</span></label>
+                            <label><input type="checkbox" value="end-of-life"><span><span class="checkmark"></span>End of Life</span></label>
+                            <label><input type="checkbox" value="animals"><span><span class="checkmark"></span>Animals</span></label>
+                            <label><input type="checkbox" value="inspire"><span><span class="checkmark"></span>Inspire</span></label>
+                            <label><input type="checkbox" value="nature"><span><span class="checkmark"></span>Nature</span></label>
+                        </div>
+                        <div style="font-size: 0.8em; color: #666; margin-top: 5px;">Tap/click to select or deselect keywords</div>
+                    </div>
+                <button type="submit" id="submitPost" data-lang-key="submit-post-btn">${translations[currentLang]['submit-post-btn']}</button>
+                    <div style="margin-top: 8px; font-size: 0.95em; color: #888;">
+                        <b>Note:</b> You can only submit either a single link post or a multiple link post at a time.
+                    </div>
+            `;
+        } else {
+            blogPostForm.innerHTML = `
+                <label for="articleLink" data-lang-key="article-link-label">${translations[currentLang]['article-link-label']}</label>
+                <input type="url" id="articleLink" name="articleLink" placeholder="${translations[currentLang]['article-link-label']}">
+                <label for="title" data-lang-key="title-label">${translations[currentLang]['title-label']}</label>
+                <input type="text" id="title" name="title">
+                <label for="description" data-lang-key="desc-label">${translations[currentLang]['desc-label']}</label>
+                <textarea id="description" name="description" maxlength="160"></textarea>
+                <div class="char-counter" id="descCharCount">0/160 characters</div>
+                <label for="picture" data-lang-key="picture-label">${translations[currentLang]['picture-label']}</label>
+                <input type="file" id="picture" name="picture" accept="image/*">
+                <div class="image-preview" id="imagePreview">
+                    <img id="previewImage" src="" alt="Image Preview" style="display: none; max-width: 100%; margin-top: 10px;">
+                </div>
+                <label for="imageAlt" data-lang-key="image-alt-label">${translations[currentLang]['image-alt-label']}</label>
+                <input type="text" id="imageAlt" name="imageAlt" placeholder="Describe the image (e.g., Bitcoin chart 2025)">
+                <label for="keyword" data-lang-key="keyword-label">${translations[currentLang]['keyword-label']}</label>
+                <select id="keyword" name="keyword">
+                    <option value="bitcoin" data-lang-key="filter-bitcoin">${translations[currentLang]['filter-bitcoin']}</option>
+                    <option value="insurance" data-lang-key="filter-insurance">${translations[currentLang]['filter-insurance']}</option>
+                    <option value="retirement" data-lang-key="filter-retirement">${translations[currentLang]['filter-retirement']}</option>
+                    <option value="end-of-life" data-lang-key="filter-end-of-life">${translations[currentLang]['filter-end-of-life']}</option>
+                    <option value="macro-trends" data-lang-key="filter-macro-trends">${translations[currentLang]['filter-macro-trends']}</option>
+                    <option value="life" data-lang-key="filter-life">Life</option>
+                </select>
+                <label for="tags" data-lang-key="tags-label">${translations[currentLang]['tags-label']}</label>
+                <input type="text" id="tags" name="tags" placeholder="Enter tags, separated by commas">
+                <label for="destination" data-lang-key="destination-label">${translations[currentLang]['destination-label']}</label>
+                <input type="text" id="destination" name="destination" placeholder="post-slug.html">
+                <label for="author" data-lang-key="author-label">${translations[currentLang]['author-label']}</label>
+                <input type="text" id="author" name="author">
+                <label for="pubDate" data-lang-key="pub-date-label">${translations[currentLang]['pub-date-label']}</label>
+                <input type="date" id="pubDate" name="pubDate">
+                <label for="metaDescription" data-lang-key="meta-desc-label">${translations[currentLang]['meta-desc-label']}</label>
+                <textarea id="metaDescription" name="metaDescription" placeholder="A brief description for search engines (150-160 characters)"></textarea>
+                <label for="fullContent" data-lang-key="full-content-label">${translations[currentLang]['full-content-label']}</label>
+                <textarea id="fullContent" name="fullContent" placeholder="Full content of the blog post..."></textarea>
+                <button type="button" id="previewPost" data-lang-key="preview-post-btn">${translations[currentLang]['preview-post-btn']}</button>
+                <button type="submit" id="submitPost" data-lang-key="submit-post-btn">${translations[currentLang]['submit-post-btn']}</button>
+            `;
+        }
+        const pictureInput = document.getElementById('picture');
+        const previewImage = document.getElementById('previewImage');
+        const descriptionInput = document.getElementById('description');
+        const descCharCount = document.getElementById('descCharCount');
+        const previewPostBtn = document.getElementById('previewPost');
+        const postPreview = document.getElementById('postPreview');
+        if (pictureInput) {
+            pictureInput.addEventListener('change', () => {
+                console.log('Picture input changed');
+                const file = pictureInput.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        previewImage.src = e.target.result;
+                        previewImage.style.display = 'block';
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    previewImage.style.display = 'none';
+                }
+            });
+        }
+        if (descriptionInput) {
+            descriptionInput.addEventListener('input', () => {
+                descCharCount.textContent = `${descriptionInput.value.length}/160 characters`;
+            });
+        }
+        if (previewPostBtn) {
+            previewPostBtn.addEventListener('click', () => {
+                console.log('Preview post button clicked');
+                const title = document.getElementById('title')?.value || 'Untitled Post';
+                const description = document.getElementById('description')?.value || 'No description provided.';
+                const keyword = document.getElementById('keyword')?.value || 'end-of-life';
+                const tags = document.getElementById('tags')?.value || 'None';
+                const author = document.getElementById('author')?.value || 'IWM Brokerage';
+                const pubDate = document.getElementById('pubDate')?.value || new Date().toLocaleDateString();
+                const imageAlt = document.getElementById('imageAlt')?.value || title;
+                document.getElementById('previewPostImage').src = previewImage.src || 'default-image.jpg';
+                document.getElementById('previewPostImage').alt = imageAlt;
+                document.getElementById('previewPostTitle').textContent = title;
+                document.getElementById('previewPostDesc').textContent = description;
+                document.getElementById('previewPostKeyword').textContent = `Keyword: ${keyword.charAt(0).toUpperCase() + keyword.slice(1)}`;
+                document.getElementById('previewPostTags').textContent = `Tags: ${tags}`;
+                document.getElementById('previewPostMeta').textContent = `Author: ${author} | Published: ${pubDate}`;
+                postPreview.style.display = 'block';
+            });
+        }
+    } else {
+        alert('Incorrect password. Please try again.');
+        }
+    } catch (error) {
+        console.error('Error in openPostModal:', error);
+        alert('An error occurred while opening the modal. Please try again.');
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+    document.addEventListener('DOMContentLoaded', () => {
+
+// Prompt for admin password once per session
+if (!localStorage.getItem('isAdmin')) {
+    const adminPassword = prompt('Enter admin password for delete access (leave blank if not admin):');
+    if (adminPassword === '11') { // <-- set your password here
+        localStorage.setItem('isAdmin', 'true');
+    } else {
+        localStorage.setItem('isAdmin', 'false');
+    }
+}
+
+
+       
         // Language Toggle
         const languageToggle = document.getElementById('languageToggle');
         let currentLang = localStorage.getItem('language') || 'en';
@@ -1160,47 +1947,7 @@ toggleBtn.addEventListener('click', () => {
             updateLanguage(currentLang);
         });
 
-        function updateLanguage(lang) {
-            document.querySelectorAll('[data-lang-key]').forEach(element => {
-                const key = element.getAttribute('data-lang-key');
-                if (translations[lang][key]) {
-                    if (element.tagName === 'TEXTAREA' && element.hasAttribute('data-lang-key-placeholder')) {
-                        element.placeholder = translations[lang][key];
-                    } else if (key === 'like-count') {
-                        const count = element.getAttribute('data-count') || '0';
-                        element.textContent = `${count} ${lang === 'es' ? 'Me Gusta' : 'Likes'}`;
-                    } else {
-                        element.textContent = translations[lang][key];
-                    }
-                }
-            });
-            // Update category description (unchanged)
-            const categoryDesc = document.getElementById('category-desc');
-            const activeFilters = Array.from(document.querySelectorAll('.filter-btn.active'))
-                .map(btn => btn.getAttribute('data-filter'))
-                .filter(f => f !== 'all');
-            const descriptions = {
-                all: translations[lang]['category-desc'],
-                bitcoin: `${translations[lang]['filter-bitcoin']}: ${lang === 'es' ? 'Perspectivas sobre monedas digitales, tendencias de blockchain y estrategias de inversión.' : 'Insights on digital currencies, blockchain trends, and investment strategies.'}`,
-                insurance: `${translations[lang]['filter-insurance']}: ${lang === 'es' ? 'Consejos y guías para elegir los planes de seguro adecuados para tus necesidades.' : 'Tips and guides on choosing the right insurance plans for your needs.'}`,
-                retirement: `${translations[lang]['filter-retirement']}: ${lang === 'es' ? 'Estrategias para planificar una jubilación segura y cómoda.' : 'Strategies for planning a secure and comfortable retirement.'}`,
-                'end-of-life': `${translations[lang]['filter-end-of-life']}: ${lang === 'es' ? 'Consejos esenciales sobre la planificación al final de la vida y su preparación.' : 'Essential advice on end-of-life planning and preparation.'}`,
-                'macro-trends': `${translations[lang]['filter-macro-trends']}: ${lang === 'es' ? 'Análisis de tendencias económicas y su impacto en tu futuro financiero.' : 'Analysis of economic trends and their impact on your financial future.'}`,
-                smile: `${translations[lang]['filter-smile']}: ${lang === 'es' ? 'Contenido para alegrar tu día y tus finanzas.' : 'Content to brighten your day and your finances.'}`,
-                inspire: `${translations[lang]['filter-inspire']}: ${lang === 'es' ? 'Ideas para motivar tus metas financieras y personales.' : 'Ideas to motivate your financial and personal goals.'}`,
-                nature: `${translations[lang]['filter-nature']}: ${lang === 'es' ? 'Perspectivas sobre la riqueza inspiradas en la naturaleza.' : 'Perspectives on wealth inspired by nature.'}`
-            };
-            if (activeFilters.length === 0) {
-                categoryDesc.textContent = descriptions['all'];
-            } else {
-                categoryDesc.textContent = activeFilters.map(f => descriptions[f]).join(' | ');
-            }
-
-            document.querySelectorAll('.comment-meta').forEach(meta => {
-                const date = meta.getAttribute('data-date');
-                meta.textContent = `${translations[lang]['comment-meta']} ${date}`;
-            });
-        }
+     
 
         // Filter Functionality (unchanged)
         const filterButtons = document.querySelectorAll('.filter-btn');
@@ -1213,33 +1960,44 @@ toggleBtn.addEventListener('click', () => {
                 e.preventDefault();
                 const filter = button.getAttribute('data-filter');
                 if (filter === 'all') {
+                    // Clear all other filters and show all
                     filterButtons.forEach(btn => btn.classList.remove('active'));
                     button.classList.add('active');
                 } else {
-                    if (button.classList.contains('active')) {
-                        button.classList.remove('active');
-                    } else {
-                        button.classList.add('active');
+                    // Toggle this filter
+                    button.classList.toggle('active');
                         allButton.classList.remove('active');
+                    // If no filters are active, revert to "All"
+                    const anyActive = Array.from(filterButtons).some(btn => btn !== allButton && btn.classList.contains('active'));
+                    if (!anyActive) {
+                        allButton.classList.add('active');
                     }
                 }
 
+                // Get all active filters except "all"
                 const activeFilters = Array.from(filterButtons)
                     .filter(btn => btn !== allButton && btn.classList.contains('active'))
                     .map(btn => btn.getAttribute('data-filter'));
 
+                // Show/hide posts
+                const posts = document.querySelectorAll('.blog-post');
+                posts.forEach(post => {
                 if (activeFilters.length === 0) {
-                    allButton.classList.add('active');
-                }
-
-                blogPosts.forEach(post => {
-                    const category = post.getAttribute('data-category');
-                    if (activeFilters.length === 0 || activeFilters.includes(category)) {
+                        post.classList.remove('hidden');
+                    } else {
+                        // Check if post has ANY of the selected keywords
+                        const hasMatchingKeyword = (post.getAttributeNames() || [])
+                            .filter(attr => attr.startsWith('data-category-'))
+                            .map(attr => attr.replace('data-category-', ''))
+                            .some(keyword => activeFilters.includes(keyword));
+                        if (hasMatchingKeyword) {
                         post.classList.remove('hidden');
                     } else {
                         post.classList.add('hidden');
+                        }
                     }
                 });
+                updateLanguage(currentLang);
             });
         });
 
@@ -1256,70 +2014,6 @@ toggleBtn.addEventListener('click', () => {
             postsArray.forEach(post => blogPostsContainer.appendChild(post));
         });
 
-        // Comment and Like Functionality (unchanged)
-        function initializeCommentsAndLikes() {
-            document.querySelectorAll('.blog-post').forEach(post => {
-                const postId = post.getAttribute('data-post-id');
-                const commentsList = post.querySelector('.comments-list');
-                const commentForm = post.querySelector('.comment-form');
-                const likeBtn = post.querySelector('.like-btn');
-                const likeCount = post.querySelector('.like-count');
-
-                let likes = parseInt(localStorage.getItem(`likes-${postId}`)) || 0;
-                let hasLiked = localStorage.getItem(`liked-${postId}`) === 'true';
-                likeCount.setAttribute('data-count', likes);
-                likeCount.textContent = `${likes} ${currentLang === 'es' ? 'Me Gusta' : 'Likes'}`;
-                if (hasLiked) {
-                    likeBtn.classList.add('liked');
-                }
-
-                let comments = JSON.parse(localStorage.getItem(`comments-${postId}`)) || [];
-                comments.forEach(comment => {
-                    const commentDiv = document.createElement('div');
-                    commentDiv.classList.add('comment');
-                    commentDiv.innerHTML = `
-                        <p>${comment.text}</p>
-                        <div class="comment-meta" data-date="${comment.date}">${translations[currentLang]['comment-meta']} ${comment.date}</div>
-                    `;
-                    commentsList.appendChild(commentDiv);
-                });
-
-                commentForm.addEventListener('submit', (e) => {
-                    e.preventDefault();
-                    const textarea = commentForm.querySelector('textarea');
-                    const commentText = textarea.value.trim();
-                    if (commentText) {
-                        const comment = {
-                            text: commentText,
-                            date: new Date().toLocaleString()
-                        };
-                        comments.push(comment);
-                        localStorage.setItem(`comments-${postId}`, JSON.stringify(comments));
-
-                        const commentDiv = document.createElement('div');
-                        commentDiv.classList.add('comment');
-                        commentDiv.innerHTML = `
-                            <p>${comment.text}</p>
-                            <div class="comment-meta" data-date="${comment.date}">${translations[currentLang]['comment-meta']} ${comment.date}</div>
-                        `;
-                        commentsList.appendChild(commentDiv);
-                        textarea.value = '';
-                    }
-                });
-
-                likeBtn.addEventListener('click', () => {
-                    if (!hasLiked) {
-                        likes++;
-                        hasLiked = true;
-                        likeBtn.classList.add('liked');
-                        localStorage.setItem(`likes-${postId}`, likes);
-                        localStorage.setItem(`liked-${postId}`, 'true');
-                        likeCount.setAttribute('data-count', likes);
-                        likeCount.textContent = `${likes} ${currentLang === 'es' ? 'Me Gusta' : 'Likes'}`;
-                    }
-                });
-            });
-        }
 
         // Social Share with Custom Graphics (unchanged)
         document.querySelectorAll('.share-btn').forEach(btn => {
@@ -1372,479 +2066,1092 @@ toggleBtn.addEventListener('click', () => {
             });
         });
 
-                
-
-
-
-
-
-
-async function fetchArticleData(url) {
-    try {
-        const apiKey = '519076f6a0fc44e4586219b65c8b6f4c'; // ScraperAPI key
-        const isTwitterUrl = url.includes('twitter.com') || url.includes('x.com');
-        let image = null;
-        let title = 'Untitled Article';
-        let description = 'No description available';
-
-        // Handle X posts using the X API
-        if (isTwitterUrl) {
-            // Extract tweet ID from URL (e.g., https://x.com/username/status/1917280907310030957)
-            const urlParts = url.split('/');
-            const tweetId = urlParts[urlParts.length - 1].split('?')[0]; // Remove query params if any
-            const username = urlParts[urlParts.length - 3]; // Keep original case
-
-            // Call the Netlify Function to fetch tweet data
-            const fetchTweetUrl = `https://iwmbrokerage.com/.netlify/functions/fetch-tweet`;
-            console.log('Calling Netlify Function to fetch tweet:', fetchTweetUrl, 'Tweet ID:', tweetId);
-            const tweetResponse = await fetch(fetchTweetUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ tweetId })
-            });
-
-            if (!tweetResponse.ok) {
-                const errorText = await tweetResponse.text();
-                console.error('Netlify Function fetch-tweet failed:', tweetResponse.status, errorText);
-                throw new Error(`Failed to fetch tweet data: ${tweetResponse.status} - ${errorText}`);
-            }
-
-            const tweetData = await tweetResponse.json();
-            if (tweetData.error) {
-                console.error('Netlify Function returned error:', tweetData.error);
-                throw new Error(tweetData.error);
-            }
-
-            // Extract tweet details
-            const tweetText = tweetData.data.text;
-            const author = tweetData.includes.users.find(user => user.id === tweetData.data.author_id);
-            const usernameFromApi = author ? `@${author.username}` : `@${username}`; // Keep original case
-
-            // Set title and description
-            title = `${usernameFromApi} on X/Twitter`;
-            description = tweetText.split(' ').slice(0, 30).join(' ') + (tweetText.split(' ').length > 30 ? '...' : '');
-
-            // Extract image if available
-            if (tweetData.data.attachments && tweetData.data.attachments.media_keys) {
-                const media = tweetData.includes.media.find(m => tweetData.data.attachments.media_keys.includes(m.media_key));
-                if (media && media.url) {
-                    image = media.url;
-                    console.log('Image URL from X API:', image);
-                } else {
-                    console.log('No image URL found in media:', tweetData.includes.media);
-                }
-            } else {
-                console.log('No attachments or media_keys in tweet data:', tweetData.data);
-            }
-
-            // Hardcoded case for the specific X post
-            if (url === 'https://x.com/Sina_21st/status/1917280907310030957') {
-                title = 'Bitcoin Growth Analysis by @Sina_21st on X/Twitter'; // Keep original case
-                description = 'Bitcoin has historically grown 6x with every 40% increase in its age. It\'s not about the calendar year—it\'s about age.';
-                image = 'https://iwmbrokerage.com/images/bitcoin-chart.jpg';
-            }
-        } else {
-            // For non-X URLs, use the existing ScraperAPI logic
-            // First, try to get the image URL using the Netlify Function
-            const functionUrl = `https://iwmbrokerage.com/.netlify/functions/download-image?url=${encodeURIComponent(url)}`;
-            console.log('Calling Netlify Function to fetch image:', functionUrl);
-            const functionResponse = await fetch(functionUrl);
-            if (functionResponse.ok) {
-                const functionData = await functionResponse.json();
-                if (functionData.image) {
-                    image = functionData.image;
-                    console.log('Image URL from Netlify Function:', image);
-                } else {
-                    console.error('Netlify Function error:', functionData.error);
-                }
-            } else {
-                console.error('Failed to call Netlify Function:', functionResponse.status);
-            }
-
-            // Use ScraperAPI for metadata
-            const scraperApiUrl = `http://api.scraperapi.com?api_key=${apiKey}&url=${encodeURIComponent(url)}&render=true`;
-            console.log('Fetching article data from:', scraperApiUrl);
-            const response = await fetch(scraperApiUrl);
-            if (!response.ok) throw new Error(`ScraperAPI failed with status: ${response.status}`);
-
-            const html = await response.text();
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(html, 'text/html');
-
-            console.log('ScraperAPI HTML response length:', html.length);
-
-            // Extract title
-            title = doc.querySelector('meta[name="twitter:title"]')?.content ||
-                    doc.querySelector('meta[property="og:title"]')?.content ||
-                    doc.querySelector('title')?.textContent ||
-                    'Untitled Article';
-
-            // Extract description
-            description = doc.querySelector('meta[name="twitter:description"]')?.content ||
-                          doc.querySelector('meta[property="og:description"]')?.content ||
-                          doc.querySelector('meta[name="description"]')?.content;
-
-            if (!description) {
-                const bodyText = doc.body?.textContent.replace(/\s+/g, ' ').trim();
-                description = bodyText ? bodyText.split(' ').slice(0, 30).join(' ') + '...' : 'No description available';
-            } else {
-                description = description.split(' ').slice(0, 30).join(' ') + (description.split(' ').length > 30 ? '...' : '');
-            }
-        }
-
-        // Set final image with a fallback
-        let finalImage = 'https://placehold.co/150x150?text=No+Image';
-        if (image && !image.includes('placehold.co')) {
-            finalImage = image;
-            console.log('Final image URL to be used:', finalImage);
-        }
-
-        return { title, description, image: finalImage, url };
-    } catch (error) {
-        console.error('Error fetching article:', error);
-        const urlObj = new URL(url);
-        const hostname = urlObj.hostname.replace('www.', '');
-        let title = hostname || 'Link Post';
-        let description = 'Post from an external source.';
-        let image = 'https://placehold.co/150x150?text=Link+Preview';
-
-        // Hardcoded fallback for the specific X post
-        if (url === 'https://x.com/Sina_21st/status/1917280907310030957') {
-            title = 'Bitcoin Growth Analysis by @Sina_21st on X/Twitter'; // Keep original case
-            description = 'Bitcoin has historically grown 6x with every 40% increase in its age. It\'s not about the calendar year—it\'s about age.';
-            image = 'https://iwmbrokerage.com/images/bitcoin-chart.jpg';
-            console.log('Using locally hosted image (error fallback):', image);
-        } else if (url.includes('x.com') || url.includes('twitter.com')) {
-            const urlParts = url.split('/');
-            const username = urlParts[urlParts.length - 3]; // Keep original case
-            title = `@${username} on X/Twitter`;
-            description = 'Post from X.';
-        }
-
-        return { title, description, image, url };
-    }
-}
-
-
-
-
-
-// Modal Functionality
-function openPostModal(isLinkPost = false) {
-    console.log('Opening post modal, isLinkPost:', isLinkPost);
-    const password = prompt('Please enter the password to post a blog:');
-    if (password === '1') {
-        modal.style.display = 'flex';
-        modal.classList.add('active');
-        document.body.classList.add('modal-open');
-
-        modalTitle.setAttribute('data-lang-key', isLinkPost ? 'add-link-post-title' : 'add-post-title');
-        updateLanguage(currentLang);
-
-        // Dynamically set form content
-        if (isLinkPost) {
-            blogPostForm.innerHTML = `
-                <label for="articleLink" data-lang-key="link-post-label">${translations[currentLang]['link-post-label']}</label>
-                <input type="url" id="articleLink" name="articleLink" placeholder="Insert Here:">
-                <label for="keyword" data-lang-key="keyword-label">${translations[currentLang]['keyword-label']}</label>
-                <select id="keyword" name="keyword">
-                    <option value="bitcoin" data-lang-key="filter-bitcoin">${translations[currentLang]['filter-bitcoin']}</option>
-                    <option value="insurance" data-lang-key="filter-insurance">${translations[currentLang]['filter-insurance']}</option>
-                    <option value="retirement" data-lang-key="filter-retirement">${translations[currentLang]['filter-retirement']}</option>
-                    <option value="end-of-life" data-lang-key="filter-end-of-life">${translations[currentLang]['filter-end-of-life']}</option>
-                    <option value="macro-trends" data-lang-key="filter-macro-trends">${translations[currentLang]['filter-macro-trends']}</option>
-                    <option value="life" data-lang-key="filter-life">Life</option>
-                </select>
-                <button type="submit" id="submitPost" data-lang-key="submit-post-btn">${translations[currentLang]['submit-post-btn']}</button>
-            `;
-        } else {
-            blogPostForm.innerHTML = `
-                <label for="articleLink" data-lang-key="article-link-label">${translations[currentLang]['article-link-label']}</label>
-                <input type="url" id="articleLink" name="articleLink" placeholder="${translations[currentLang]['article-link-label']}">
-                <label for="title" data-lang-key="title-label">${translations[currentLang]['title-label']}</label>
-                <input type="text" id="title" name="title">
-                <label for="description" data-lang-key="desc-label">${translations[currentLang]['desc-label']}</label>
-                <textarea id="description" name="description" maxlength="160"></textarea>
-                <div class="char-counter" id="descCharCount">0/160 characters</div>
-                <label for="picture" data-lang-key="picture-label">${translations[currentLang]['picture-label']}</label>
-                <input type="file" id="picture" name="picture" accept="image/*">
-                <div class="image-preview" id="imagePreview">
-                    <img id="previewImage" src="" alt="Image Preview" style="display: none; max-width: 100%; margin-top: 10px;">
-                </div>
-                <label for="imageAlt" data-lang-key="image-alt-label">${translations[currentLang]['image-alt-label']}</label>
-                <input type="text" id="imageAlt" name="imageAlt" placeholder="Describe the image (e.g., Bitcoin chart 2025)">
-                <label for="keyword" data-lang-key="keyword-label">${translations[currentLang]['keyword-label']}</label>
-                <select id="keyword" name="keyword">
-                    <option value="bitcoin" data-lang-key="filter-bitcoin">${translations[currentLang]['filter-bitcoin']}</option>
-                    <option value="insurance" data-lang-key="filter-insurance">${translations[currentLang]['filter-insurance']}</option>
-                    <option value="retirement" data-lang-key="filter-retirement">${translations[currentLang]['filter-retirement']}</option>
-                    <option value="end-of-life" data-lang-key="filter-end-of-life">${translations[currentLang]['filter-end-of-life']}</option>
-                    <option value="macro-trends" data-lang-key="filter-macro-trends">${translations[currentLang]['filter-macro-trends']}</option>
-                    <option value="life" data-lang-key="filter-life">Life</option>
-                </select>
-                <label for="tags" data-lang-key="tags-label">${translations[currentLang]['tags-label']}</label>
-                <input type="text" id="tags" name="tags" placeholder="Enter tags, separated by commas">
-                <label for="destination" data-lang-key="destination-label">${translations[currentLang]['destination-label']}</label>
-                <input type="text" id="destination" name="destination" placeholder="post-slug.html">
-                <label for="author" data-lang-key="author-label">${translations[currentLang]['author-label']}</label>
-                <input type="text" id="author" name="author">
-                <label for="pubDate" data-lang-key="pub-date-label">${translations[currentLang]['pub-date-label']}</label>
-                <input type="date" id="pubDate" name="pubDate">
-                <label for="metaDescription" data-lang-key="meta-desc-label">${translations[currentLang]['meta-desc-label']}</label>
-                <textarea id="metaDescription" name="metaDescription" placeholder="A brief description for search engines (150-160 characters)"></textarea>
-                <label for="fullContent" data-lang-key="full-content-label">${translations[currentLang]['full-content-label']}</label>
-                <textarea id="fullContent" name="fullContent" placeholder="Full content of the blog post..."></textarea>
-                <button type="button" id="previewPost" data-lang-key="preview-post-btn">${translations[currentLang]['preview-post-btn']}</button>
-                <button type="submit" id="submitPost" data-lang-key="submit-post-btn">${translations[currentLang]['submit-post-btn']}</button>
-            `;
-        }
-
-        // Reattach event listeners after DOM update
-        const pictureInput = document.getElementById('picture');
-        const previewImage = document.getElementById('previewImage');
-        const descriptionInput = document.getElementById('description');
-        const descCharCount = document.getElementById('descCharCount');
-        const previewPostBtn = document.getElementById('previewPost');
-        const postPreview = document.getElementById('postPreview');
-
-        if (pictureInput) {
-            pictureInput.addEventListener('change', () => {
-                console.log('Picture input changed');
-                const file = pictureInput.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = (e) => {
-                        previewImage.src = e.target.result;
-                        previewImage.style.display = 'block';
-                    };
-                    reader.readAsDataURL(file);
-                } else {
-                    previewImage.style.display = 'none';
-                }
-            });
-        }
-
-        if (descriptionInput) {
-            descriptionInput.addEventListener('input', () => {
-                descCharCount.textContent = `${descriptionInput.value.length}/160 characters`;
-            });
-        }
-
-        if (previewPostBtn) {
-            previewPostBtn.addEventListener('click', () => {
-                console.log('Preview post button clicked');
-                const title = document.getElementById('title')?.value || 'Untitled Post';
-                const description = document.getElementById('description')?.value || 'No description provided.';
-                const keyword = document.getElementById('keyword')?.value || 'end-of-life';
-                const tags = document.getElementById('tags')?.value || 'None';
-                const author = document.getElementById('author')?.value || 'IWM Brokerage';
-                const pubDate = document.getElementById('pubDate')?.value || new Date().toLocaleDateString();
-                const imageAlt = document.getElementById('imageAlt')?.value || title;
-
-                document.getElementById('previewPostImage').src = previewImage.src || 'default-image.jpg';
-                document.getElementById('previewPostImage').alt = imageAlt;
-                document.getElementById('previewPostTitle').textContent = title;
-                document.getElementById('previewPostDesc').textContent = description;
-                document.getElementById('previewPostKeyword').textContent = `Keyword: ${keyword.charAt(0).toUpperCase() + keyword.slice(1)}`;
-                document.getElementById('previewPostTags').textContent = `Tags: ${tags}`;
-                document.getElementById('previewPostMeta').textContent = `Author: ${author} | Published: ${pubDate}`;
-                postPreview.style.display = 'block';
-            });
-        }
+function clearArticleList() {
+    const articleList = document.getElementById('blogPostsContainer'); // Correct ID from your HTML
+    if (articleList) {
+        articleList.innerHTML = ''; // Clear the list
     } else {
-        alert('Incorrect password. Please try again.');
+        console.error('Article list element not found');
     }
 }
 
-console.log('Attaching event listeners to buttons');
-writePostBtn.addEventListener('click', () => {
-    console.log('Write Post button clicked');
-    openPostModal(false);
-});
-linkPostBtn.addEventListener('click', () => {
-    console.log('Link Post button clicked');
-    openPostModal(true);
-});
 
-closeModal.addEventListener('click', () => {
-    console.log('Close modal clicked');
-    modal.classList.remove('active');
-    setTimeout(() => {
-        modal.style.display = 'none';
-        document.body.classList.remove('modal-open');
-    }, 300);
-});
 
-window.addEventListener('click', (e) => {
-    if (e.target === modal) {
-        console.log('Clicked outside modal to close');
-        modal.classList.remove('active');
-        setTimeout(() => {
-            modal.style.display = 'none';
-            document.body.classList.remove('modal-open');
-        }, 300);
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Initialize page
+updateLanguage(currentLang);
+
+
+
+      // Handle Add to Home Page
+if ('serviceWorker' in navigator && 'BeforeInstallPromptEvent' in window) {
+    // Store the event for later use
+    window.deferredPrompt = new Event('beforeinstallprompt');
+    console.log('Add to Home Page prompt ready');
+}
+
+// Handle Email Newsletter
+const email = document.getElementById('newsletterEmail')?.value;
+if (email) {
+    // Store email in localStorage for now
+    // In a real implementation, you would send this to your backend
+    const subscribers = JSON.parse(localStorage.getItem('newsletterSubscribers') || '[]');
+    if (!subscribers.includes(email)) {
+        subscribers.push(email);
+        localStorage.setItem('newsletterSubscribers', JSON.stringify(subscribers));
     }
-});
+}
 
-blogPostForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    console.log('Form submitted');
-
-    const articleLink = document.getElementById('articleLink')?.value.trim();
-    const title = document.getElementById('title')?.value.trim();
-    const description = document.getElementById('description')?.value.trim();
-    const pictureInput = document.getElementById('picture');
-    const previewImage = document.getElementById('previewImage');
-    const picture = previewImage?.src && previewImage.src !== '' && previewImage.src !== window.location.href ? previewImage.src : 'default-image.jpg';
-    const imageAlt = document.getElementById('imageAlt')?.value.trim() || title || 'Blog Post Image';
-    const keyword = document.getElementById('keyword')?.value || 'end-of-life';
-    const tags = document.getElementById('tags')?.value.trim();
-    const destination = document.getElementById('destination')?.value.trim();
-    const author = document.getElementById('author')?.value.trim() || 'IWM Brokerage';
-    const pubDate = document.getElementById('pubDate')?.value || new Date().toISOString().split('T')[0];
-    const metaDescription = document.getElementById('metaDescription')?.value.trim();
-    const fullContent = document.getElementById('fullContent')?.value.trim();
-
-    const hasContent = [
-        articleLink,
-        title,
-        description,
-        pictureInput?.files.length > 0,
-        imageAlt !== 'Blog Post Image' && imageAlt !== title,
-        tags,
-        destination,
-        author !== 'IWM Brokerage',
-        pubDate !== new Date().toISOString().split('T')[0],
-        metaDescription,
-        fullContent
-    ].some(field => field);
-
-    if (!hasContent) {
-        alert('Please fill out at least one field.');
-        return;
-    }
-
-    let newPost;
-    const postId = Date.now().toString();
-
-    if (articleLink && !title && !description && !pictureInput?.files.length && !tags && !destination && !metaDescription && !fullContent) {
-        console.log('Creating link post with URL:', articleLink);
+const shareBlogBtn = document.getElementById('shareBlogBtn');
+if (shareBlogBtn) {
+    shareBlogBtn.addEventListener('click', async () => {
+        const blogUrl = window.location.origin + window.location.pathname;
         try {
-            const data = await fetchArticleData(articleLink);
-            console.log('Fetched article data:', data);
-            const descriptionPreview = data.description;
-            newPost = document.createElement('article');
-            newPost.classList.add('blog-post');
-            newPost.setAttribute('data-category', keyword);
-            newPost.setAttribute('data-post-id', postId);
-            newPost.innerHTML = `
-                <img src="${data.image}" alt="${data.title}" loading="lazy" onerror="console.log('Image failed to load, switching to placeholder'); this.src='https://via.placeholder.com/150?text=Image+Not+Found'; this.style.display='block';">
-                <h2 data-lang-key="dynamic-title">${data.title}</h2>
-                <p data-lang-key="dynamic-desc">${descriptionPreview}</p>
-                <div class="keyword" data-lang-key="dynamic-keyword">Insights: ${keyword.charAt(0).toUpperCase() + keyword.slice(1)}</div>
-                <div class="meta">
-                    <span data-lang-key="dynamic-author">Author: IWM Brokerage</span> | 
-                    <span data-lang-key="dynamic-date">Published: ${new Date().toLocaleDateString()}</span>
-                </div>
-                <a href="${data.url}" target="_blank" data-lang-key="read-more">${translations[currentLang]['read-more']}</a>
-                <div class="share-like-section">
-                    <button class="share-btn" data-lang-key="share-btn">${translations[currentLang]['share-btn']}</button>
-                    <button class="like-btn" data-lang-key="like-btn">${translations[currentLang]['like-btn']}</button>
-                    <div class="like-count-wrapper">
-                        <span class="like-count" data-lang-key="like-count" data-count="0">0 ${currentLang === 'es' ? 'Me Gusta' : 'Likes'}</span>
-                    </div>
-                </div>
-                <div class="comment-section">
-                    <span class="separator"></span>
-                    <h4 data-lang-key="comments-title">${translations[currentLang]['comments-title']}</h4>
-                    <form class="comment-form">
-                        <textarea placeholder="${translations[currentLang]['comment-placeholder']}" data-lang-key-placeholder="comment-placeholder"></textarea>
-                        <button type="submit" data-lang-key="comment-submit">${translations[currentLang]['comment-submit']}</button>
-                    </form>
-                    <div class="comments-list"></div>
-                </div>
-            `;
-        } catch (error) {
-            console.error('Error creating link post:', error);
-            alert('Failed to create link post. Please try again.');
-            return;
+            if (navigator.clipboard && window.isSecureContext) {
+                await navigator.clipboard.writeText(blogUrl);
+            } else {
+                // Fallback for older browsers
+                const tempInput = document.createElement('input');
+                tempInput.value = blogUrl;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempInput);
+            }
+            showTempMessage('Blog URL Link now copied to your clipboard', 1000);
+        } catch (err) {
+            showTempMessage('Failed to copy blog URL', 1000);
         }
+    });
+}
+
+});
+
+// ... after renderAllPosts()
+
+function handlePin(postId, postElem) {
+    const isAdmin = localStorage.getItem('isAdmin') === 'true';
+    const pinIcon = postElem.querySelector('.pin-icon');
+    let adminPinned = JSON.parse(localStorage.getItem('adminPinnedPosts') || '[]');
+    let userPinned = JSON.parse(localStorage.getItem('userPinnedPosts') || '[]');
+    
+    if (adminPinned.includes(postId) || userPinned.includes(postId)) {
+        // Unpin post
+        adminPinned = adminPinned.filter(id => id !== postId);
+        userPinned = userPinned.filter(id => id !== postId);
+        localStorage.setItem('adminPinnedPosts', JSON.stringify(adminPinned));
+        localStorage.setItem('userPinnedPosts', JSON.stringify(userPinned));
+        pinIcon.classList.remove('admin-pinned', 'user-pinned');
+        pinIcon.title = 'Pin Post';
+        pinIcon.src = 'pin.png';
+        const adminBadge = postElem.querySelector('.pin-admin-a');
+        if (adminBadge) adminBadge.remove();
     } else {
-        console.log('Creating regular post');
-        newPost = document.createElement('article');
-        newPost.classList.add('blog-post');
-        newPost.setAttribute('data-category', keyword);
-        newPost.setAttribute('data-post-id', postId);
-        newPost.innerHTML = `
-            <img src="${picture}" alt="${imageAlt}" loading="lazy" onerror="console.log('Image failed to load, switching to placeholder'); this.src='https://via.placeholder.com/150?text=Image+Not+Found'; this.style.display='block';">
-            <h2 data-lang-key="dynamic-title">${title || 'Untitled Post'}</h2>
-            <p data-lang-key="dynamic-desc">${description || 'No description provided.'}</p>
-            <div class="keyword" data-lang-key="dynamic-keyword">Insights: ${keyword.charAt(0).toUpperCase() + keyword.slice(1)}</div>
-            <div class="tags" data-lang-key="dynamic-tags">Tags: ${tags || 'None'}</div>
-            <div class="meta">
-                <span data-lang-key="dynamic-author">Author: ${author}</span> | 
-                <span data-lang-key="dynamic-date">Published: ${new Date(pubDate).toLocaleDateString()}</span>
-            </div>
-            <a href="${destination || '#'}" data-lang-key="read-more">${translations[currentLang]['read-more']}</a>
-            <div class="share-like-section">
-                <button class="share-btn" data-lang-key="share-btn">${translations[currentLang]['share-btn']}</button>
-                <button class="like-btn" data-lang-key="like-btn">${translations[currentLang]['like-btn']}</button>
-                <div class="like-count-wrapper">
-                    <span class="like-count" data-lang-key="like-count" data-count="0">0 ${currentLang === 'es' ? 'Me Gusta' : 'Likes'}</span>
-                </div>
-            </div>
-            <div class="comment-section">
-                <span class="separator"></span>
-                <h4 data-lang-key="comments-title">${translations[currentLang]['comments-title']}</h4>
-                <form class="comment-form">
-                    <textarea placeholder="${translations[currentLang]['comment-placeholder']}" data-lang-key-placeholder="comment-placeholder"></textarea>
-                    <button type="submit" data-lang-key="comment-submit">${translations[currentLang]['comment-submit']}</button>
-                </form>
-                <div class="comments-list"></div>
-            </div>
-        `;
+        // Pin post
+        if (isAdmin) {
+            adminPinned.push(postId);
+            localStorage.setItem('adminPinnedPosts', JSON.stringify(adminPinned));
+            pinIcon.classList.add('admin-pinned');
+            pinIcon.title = 'Pinned by Admin';
+            pinIcon.src = 'pinned.png';
+            if (!postElem.querySelector('.pin-admin-a')) {
+                const adminBadge = document.createElement('span');
+                adminBadge.className = 'pin-admin-a';
+                adminBadge.textContent = 'A';
+                pinIcon.parentNode.appendChild(adminBadge);
+            }
+        } else {
+            userPinned.push(postId);
+            localStorage.setItem('userPinnedPosts', JSON.stringify(userPinned));
+            pinIcon.classList.add('user-pinned');
+            pinIcon.title = 'Pinned by You';
+            pinIcon.src = 'pinned.png';
+        }
+    }
+    renderAllPosts(); // Re-render to update the order
+}
+
+function handleShare(postId, postElem) {
+    const title = postElem.querySelector('.post-title').textContent;
+    const image = postElem.querySelector('img')?.src;
+    const url = window.location.href;
+    if (navigator.share) {
+        navigator.share({
+            title: title,
+            text: 'Check out this post from IWM Insights!',
+            url: url
+        }).catch(err => console.error('Share failed:', err));
+    } else {
+        // Fallback: copy link
+        const tempInput = document.createElement('input');
+        tempInput.value = url;
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        document.execCommand('copy');
+        document.body.removeChild(tempInput);
+        showTempMessage('Link copied to clipboard!');
+    }
+}
+
+function handleCollapse(postId, postElem) {
+    const content = postElem.querySelector('.post-content');
+    const arrow = postElem.querySelector('.arrow-icon');
+    let collapsedPosts = JSON.parse(localStorage.getItem('collapsedPosts') || '{}');
+    
+    // Toggle expanded class for content visibility
+    content.classList.toggle('expanded');
+    
+    // Update arrow rotation and collapsed state
+    if (!content.classList.contains('expanded')) {
+        arrow.classList.add('collapsed');
+        arrow.style.transform = 'rotate(0deg)';
+        collapsedPosts[postId] = true;
+    } else {
+        arrow.classList.remove('collapsed');
+        arrow.style.transform = 'rotate(180deg)';
+        collapsedPosts[postId] = false;
+    }
+}
+        
+             
+          
+
+    function showTempMessage(msg, duration = 2000) {
+        const message = document.createElement('div');
+        message.textContent = msg;
+        message.style.position = 'fixed';
+        message.style.top = '20px';
+        message.style.left = '50%';
+        message.style.transform = 'translateX(-50%)';
+        message.style.background = '#dc3545';
+        message.style.color = 'white';
+        message.style.padding = '10px 20px';
+        message.style.borderRadius = '4px';
+        message.style.zIndex = '2000';
+        document.body.appendChild(message);
+        setTimeout(() => message.remove(), duration);
     }
 
-    console.log('Appending new post to container');
-    blogPostsContainer.prepend(newPost);
+    // Add a function to get or set a unique user ID for the session
+    function getUserId() {
+        let userId = localStorage.getItem('userId');
+        if (!userId) {
+            userId = 'user-' + Math.random().toString(36).substr(2, 9);
+            localStorage.setItem('userId', userId);
+        }
+        return userId;
+    }
+
+    // When creating a post, store the userId
+    // In blogPostForm submit handler, add:
+    // postData.userId = getUserId();
+    // (Add this line before saving postData to storage)
+
+       // In bar HTML, use deleteIcon as before
+
+    // Fix report button: ensure handleReport is defined and works
+    function handleReport(postId, postElem) {
+        const reportModal = document.createElement('div');
+        reportModal.className = 'report-modal';
+        reportModal.innerHTML = `
+            <div class="report-modal-content">
+                <h3>Report Post</h3>
+                <button class="report-option" data-reason="spam">Spam</button>
+                <button class="report-option" data-reason="offensive">Offensive</button>
+                <button class="report-option" data-reason="off-topic">Off-topic</button>
+                <button class="report-option" data-reason="other">Other</button>
+                <div class="report-message"></div>
+                </div>
+            `;
+        document.body.appendChild(reportModal);
+        reportModal.classList.add('active');
+        const message = reportModal.querySelector('.report-message');
+        reportModal.querySelectorAll('.report-option').forEach(option => {
+            option.addEventListener('click', () => {
+                message.textContent = 'Post has been reported';
+                message.className = 'report-message success';
+                setTimeout(() => {
+                    reportModal.classList.remove('active');
+                    setTimeout(() => reportModal.remove(), 300);
+                }, 2000);
+            });
+        });
+        reportModal.addEventListener('click', (e) => {
+            if (e.target === reportModal) {
+                reportModal.classList.remove('active');
+                setTimeout(() => reportModal.remove(), 300);
+            }
+        });
+    }
+    
+    // In blogPostForm submit handler, add postData.userId = getUserId(); before saving postData
+
+    // --- Firebase Initialization ---
+    const firebaseConfig = {
+      apiKey: "AIzaSyB_yrryUe6okWQyJfRZlYY-rGTMm_L5ofc",
+      authDomain: "iwm-blog.firebaseapp.com",
+      databaseURL: "https://iwm-blog-default-rtdb.firebaseio.com",
+      projectId: "iwm-blog",
+      storageBucket: "iwm-blog.appspot.com",
+      messagingSenderId: "36893871588",
+      appId: "1:36893871588:web:2d85738c7467617e21cbf1",
+      measurementId: "G-4N6QGNG4D7"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+    const db = firebase.firestore();
+    // --- End Firebase Initialization ---
+
+    // --- Persistent Blog Posts with Firestore ---
+    // Save a single post to Firestore
+    function savePostToFirestore(post) {
+        return db.collection('posts').doc(post.postId).set(post);
+    }
+    // Load all posts from Firestore
+    async function loadPostsFromFirestore() {
+        const snapshot = await db.collection('posts').orderBy('pubDate', 'desc').get();
+        return snapshot.docs.map(doc => doc.data());
+    }
+    // Delete a post from Firestore
+    function deletePostFromFirestore(postId) {
+        return db.collection('posts').doc(postId).delete();
+    }
+
+        // Language Translations (unchanged)
+        const translations = {
+            en: {
+                "nav-home": "Home",
+                "nav-about": "About",
+                "nav-offerings": "Offerings",
+                "nav-insights": "IWM Insights",
+                "nav-insurance": "Insurance",
+                "nav-retirement": "Retirement",
+                "nav-end-of-life": "End of Life",
+                "nav-macro-trends": "Macro Trends",
+                "nav-bitcoin-crypto": "Bitcoin & Digital Currencies",
+                "nav-contact": "Contact Us",
+                "nav-join": "Join Team",
+                "insights-title": "IWM Insights Blog",
+                "insights-intro": '"IWM Insights" is the official blog of Insurance Wealth Management. Think of it as a Financial Education Hub— through the lens of current events and inspiration from various contributors. Filter using the below descriptors.',
+                "post-blog-btn": "Post Blog Post",
+                "filter-all": "All",
+                "filter-bitcoin": "Bitcoin & Crypto",
+                "filter-insurance": "Insurance",
+                "filter-retirement": "Retirement",
+                "filter-end-of-life": "End of Life",
+                "filter-macro-trends": "Macro Trends",
+                "filter-animals": "Animals",
+                "filter-inspire": "Inspire",
+                "filter-nature": "Nature",
+                "sort-label": "Sort by: ",
+                "sort-newest": "Newest First",
+                "sort-oldest": "Oldest First",
+                "category-desc": "Select a category to filter insights.",
+                "post1-title": "Bitcoin Trends in 2025",
+                "post1-desc": "Explore the latest trends in Bitcoin and how they impact your investment strategy.",
+                "post1-keyword": "Insights: Bitcoin & Crypto",
+                "post1-author": "Author: John Doe",
+                "post1-date": "Published: April 6, 2025",
+                "post2-title": "Choosing the Right Life Insurance",
+                "post2-desc": "Learn how to select a life insurance plan that fits your needs and budget.",
+                "post2-keyword": "Insights: Insurance",
+                "post2-author": "Author: Jane Smith",
+                "post2-date": "Published: April 5, 2025",
+                "read-more": "Read More",
+                "share-btn": "Share",
+                "like-btn": "Like",
+                "like-count": "0 Likes",
+                "comments-title": "Comments",
+                "comment-placeholder": "Add a comment...",
+                "comment-submit": "Submit",
+                "comment-meta": "Posted on",
+                "add-post-title": "Add New Blog Post",
+                "add-link-post-title": "Add New Link Post",
+                "title-label": "Title:",
+                "desc-label": "Description (max 160 characters):",
+                "picture-label": "Upload Picture:",
+                "image-alt-label": "Image Alt Text (for accessibility/SEO):",
+                "keyword-label": "Keyword (for filtering):",
+                "tags-label": "Tags (comma-separated, e.g., cryptocurrency, investing):",
+                "destination-label": "Destination URL (e.g., post-slug.html):",
+                "author-label": "Author:",
+                "pub-date-label": "Publication Date:",
+                "meta-desc-label": "Meta Description (for SEO):",
+                "full-content-label": "Full Content (for the post page):",
+                "article-link-label": "End of Life Article Link (optional):",
+                "link-post-label": "Input Link below to create a Post from your Link",
+                "preview-post-btn": "Preview Post",
+                "submit-post-btn": "Submit Post",
+                "preview-title": "Preview:",
+                "footer-privacy": "Privacy Policy & Terms of Use",
+                "footer-linktree": "Link Tree",
+                "footer-broker": "Current Broker Login",
+                "write-post-btn": "+ Post",
+                "link-post-btn": "+ Link Post",
+                "follow-blog-btn": "Follow Blog",
+                "filter-animals": "Animals"
+            },
+            es: {
+                "nav-home": "Inicio",
+                "nav-about": "Acerca de",
+                "nav-offerings": "Ofertas",
+                "nav-insights": "Perspectivas IWM",
+                "nav-insurance": "Seguros",
+                "nav-retirement": "Jubilación",
+                "nav-end-of-life": "Fin de Vida",
+                "nav-macro-trends": "Tendencias Macro",
+                "nav-bitcoin-crypto": "Bitcoin y Criptomonedas",
+                "nav-contact": "Contáctanos",
+                "nav-join": "Únete al Equipo",
+                "insights-title": "Perspectivas IWM",
+                "insights-intro": '"Perspectivas IWM" es el blog de IWM. Piensa en él como un centro de educación financiera. Incluye perspectivas sobre seguros, jubilación, planificación al final de la vida, macroeconomía, bitcoin y cripto, a través del lente de eventos actuales y la vida. Por favor, filtra usando las opciones a continuación.',
+                "post-blog-btn": "Publicar Entrada de Blog",
+                "filter-all": "Todo",
+                "filter-bitcoin": "Bitcoin y Cripto",
+                "filter-insurance": "Seguros",
+                "filter-retirement": "Jubilación",
+                "filter-end-of-life": "Fin de Vida",
+                "filter-macro-trends": "Tendencias Macro",
+                "filter-animals": "Animales",
+                "filter-inspire": "Inspirar",
+                "filter-nature": "Naturaleza",
+                "sort-label": "Ordenar por: ",
+                "sort-newest": "Más Reciente Primero",
+                "sort-oldest": "Más Antiguo Primero",
+                "category-desc": "Selecciona una categoría para ver las perspectivas.",
+                "post1-title": "Tendencias de Bitcoin en 2025",
+                "post1-desc": "Explora las últimas tendencias de Bitcoin y cómo impactan tu estrategia de inversión.",
+                "post1-keyword": "Perspectivas: Bitcoin y Cripto",
+                "post1-author": "Autor: John Doe",
+                "post1-date": "Publicado: 6 de abril de 2025",
+                "post2-title": "Elegir el Seguro de Vida Correcto",
+                "post2-desc": "Aprende cómo seleccionar un plan de seguro de vida que se ajuste a tus necesidades y presupuesto.",
+                "post2-keyword": "Perspectivas: Seguros",
+                "post2-author": "Autor: Jane Smith",
+                "post2-date": "Publicado: 5 de abril de 2025",
+                "read-more": "Leer Más",
+                "share-btn": "Compartir",
+                "like-btn": "Me Gusta",
+                "like-count": "0 Me Gusta",
+                "comments-title": "Comentarios",
+                "comment-placeholder": "Añade un comentario...",
+                "comment-submit": "Enviar",
+                "comment-meta": "Publicado el",
+                "add-post-title": "Añadir Nueva Entrada de Blog",
+                "add-link-post-title": "Añadir Nueva Publicación de Enlace",
+                "title-label": "Título:",
+                "desc-label": "Descripción (máx. 160 caracteres):",
+                "picture-label": "Subir Imagen:",
+                "image-alt-label": "Texto Alternativo de la Imagen (para accesibilidad/SEO):",
+                "keyword-label": "Perspectivas: (para filtrar):",
+                "tags-label": "Etiquetas (separadas por comas, ej., criptomoneda, inversión):",
+                "destination-label": "URL de Destino (ej., post-slug.html):",
+                "author-label": "Autor:",
+                "pub-date-label": "Fecha de Publicación:",
+                "meta-desc-label": "Descripción Meta (para SEO):",
+                "full-content-label": "Contenido Completo (para la página de la entrada):",
+                "article-link-label": "Enlace de Artículo de Fin de Vida (opcional):",
+                "link-post-label": "Ingresa el enlace abajo para crear una publicación desde tu enlace",
+                "preview-post-btn": "Vista Previa de la Entrada",
+                "submit-post-btn": "Enviar Entrada",
+                "preview-title": "Vista Previa:",
+                "footer-privacy": "Política de Privacidad y Términos de Uso",
+                "footer-linktree": "Link Tree",
+                "footer-broker": "Inicio de Sesión para Corredores Actuales",
+                "write-post-btn": "+ Post",
+                "link-post-btn": "+ Link Post",
+                "follow-blog-btn": "Seguir Blog",
+                "filter-animals": "Animales"
+            }
+        };
+
+let currentLang = localStorage.getItem('language') || 'en';
+
+
+   function updateLanguage(lang) {
+            document.querySelectorAll('[data-lang-key]').forEach(element => {
+                const key = element.getAttribute('data-lang-key');
+                if (translations[lang][key]) {
+                    if (element.tagName === 'TEXTAREA' && element.hasAttribute('data-lang-key-placeholder')) {
+                        element.placeholder = translations[lang][key];
+                    } else if (key === 'like-count') {
+                        const count = element.getAttribute('data-count') || '0';
+                        element.textContent = `${count} ${lang === 'es' ? 'Me Gusta' : 'Likes'}`;
+    } else {
+                        element.textContent = translations[lang][key];
+                    }
+                }
+            });
+            // Update category description
+            const categoryDesc = document.getElementById('category-desc');
+            const activeFilters = Array.from(document.querySelectorAll('.filter-btn.active'))
+                .map(btn => btn.getAttribute('data-filter'))
+                .filter(f => f !== 'all');
+            const descriptions = {
+                all: translations[lang]['category-desc'],
+                bitcoincrypto: `${translations[lang]['filter-bitcoin']}: ${lang === 'es' ? 'Perspectivas sobre monedas digitales, tendencias de blockchain y estrategias de inversión.' : 'Insights on digital currencies, blockchain trends, and investment strategies.'}`,
+                stocks: `${translations[lang]['filter-stocks'] || 'Stocks'}: ${lang === 'es' ? 'Tendencias y análisis del mercado de valores.' : 'Stock market trends and analysis.'}`,
+                ai: `${translations[lang]['filter-ai'] || 'A.I.'}: ${lang === 'es' ? 'Avances y aplicaciones de la inteligencia artificial.' : 'AI advances and applications.'}`,
+                insurance: `${translations[lang]['filter-insurance']}: ${lang === 'es' ? 'Consejos y guías para elegir los planes de seguro adecuados para tus necesidades.' : 'Tips and guides on choosing the right insurance plans for your needs.'}`,
+                retirement: `${translations[lang]['filter-retirement']}: ${lang === 'es' ? 'Estrategias para planificar una jubilación segura y cómoda.' : 'Strategies for planning a secure and comfortable retirement.'}`,
+                'end-of-life': `${translations[lang]['filter-end-of-life']}: ${lang === 'es' ? 'Consejos esenciales sobre la planificación al final de la vida y su preparación.' : 'Essential advice on end-of-life planning and preparation.'}`,
+                'macro-trends': `${translations[lang]['filter-macro-trends']}: ${lang === 'es' ? 'Análisis de tendencias económicas y su impacto en tu futuro financiero.' : 'Analysis of economic trends and their impact on your financial future.'}`,
+                animals: `${translations[lang]['filter-animals']}: ${lang === 'es' ? 'Contenido para alegrar tu día y tus finanzas.' : 'Content to brighten your day and your finances.'}`,
+                inspire: `${translations[lang]['filter-inspire']}: ${lang === 'es' ? 'Ideas para motivar tus metas financieras y personales.' : 'Ideas to motivate your financial and personal goals.'}`,
+                nature: `${translations[lang]['filter-nature']}: ${lang === 'es' ? 'Perspectivas sobre la riqueza inspiradas en la naturaleza.' : 'Perspectives on wealth inspired by nature.'}`
+            };
+            // Hide description if 'all' is selected or if no filters are selected
+            if (document.querySelector('.filter-btn[data-filter="all"]').classList.contains('active') || activeFilters.length === 0) {
+                categoryDesc.textContent = '';
+            } else {
+                let descs = [];
+                // Bitcoin & Crypto linked logic
+                if (activeFilters.includes('bitcoin') || activeFilters.includes('crypto')) {
+                    descs.push(descriptions.bitcoincrypto.replace(/^(.*?:)/, '<b>$1</b>'));
+                }
+                // Stocks
+                if (activeFilters.includes('stocks')) {
+                    descs.push(descriptions.stocks.replace(/^(.*?:)/, '<b>$1</b>'));
+                }
+                // A.I.
+                if (activeFilters.includes('ai')) {
+                    descs.push(descriptions.ai.replace(/^(.*?:)/, '<b>$1</b>'));
+                }
+                // Other filters
+                ['macro-trends','insurance','retirement','end-of-life','animals','inspire','nature'].forEach(f => {
+                    if (activeFilters.includes(f)) {
+                        descs.push(descriptions[f].replace(/^(.*?:)/, '<b>$1</b>'));
+                    }
+                });
+                categoryDesc.innerHTML = descs.join('<br>');
+            }
+
+            document.querySelectorAll('.comment-meta').forEach(meta => {
+                const date = meta.getAttribute('data-date');
+                meta.textContent = `${translations[lang]['comment-meta']} ${date}`;
+            });
+        }
+    // Render all posts from Firestore
+    async function renderAllPosts() {
+        const isAdmin = localStorage.getItem('isAdmin') === 'true';
+        const blogPostsContainer = document.getElementById('blogPostsContainer');
+        blogPostsContainer.innerHTML = '';
+        let posts = await loadPostsFromFirestore();
+
+        // Pin logic: get admin/user pins from localStorage
+        const adminPinned = JSON.parse(localStorage.getItem('adminPinnedPosts') || '[]');
+        const userPinned = JSON.parse(localStorage.getItem('userPinnedPosts') || '[]');
+
+        // Sort: admin pins first, then user pins, then rest
+        posts = [
+            ...posts.filter(p => adminPinned.includes(p.postId)),
+            ...posts.filter(p => !adminPinned.includes(p.postId) && userPinned.includes(p.postId)),
+            ...posts.filter(p => !adminPinned.includes(p.postId) && !userPinned.includes(p.postId)),
+        ];
+
+        posts.forEach(post => {
+            const newPost = document.createElement('article');
+        newPost.classList.add('blog-post');
+            (post.keywords || [post.keyword]).forEach(keyword => {
+                newPost.setAttribute(`data-category-${keyword}`, 'true');
+            });
+            newPost.setAttribute('data-post-id', post.postId);
+            if (post.userId) {
+                newPost.setAttribute('data-user-id', post.userId);
+            }
+            const collapsedPosts = JSON.parse(localStorage.getItem('collapsedPosts') || '{}');
+            const isCollapsed = collapsedPosts[post.postId] === true;
+            let pinType = adminPinned.includes(post.postId) ? 'admin' : (userPinned.includes(post.postId) ? 'user' : 'none');
+            let pinClass = pinType === 'admin' ? 'pin-icon admin-pinned' : (pinType === 'user' ? 'pin-icon user-pinned' : 'pin-icon');
+            let pinTitle = pinType === 'admin' ? 'Pinned by Admin' : (pinType === 'user' ? 'Pinned by You' : 'Pin Post');
+            let pinIcon = `<img src="${pinType !== 'none' ? 'pinned.png' : 'pin.png'}" class="${pinClass}" title="${pinTitle}" data-action="pin" style="width:24px;height:24px;vertical-align:middle;position:relative;">`;
+            if (pinType === 'admin') pinIcon += '<span class="pin-admin-a">A</span>';
+            let shareIcon = '<img src="url.png" class="share-icon" title="Share Post" data-action="share" style="width:24px;height:24px;vertical-align:middle;">';
+            let arrowIcon = `<img src="arrow.jpg" class="arrow-icon${isCollapsed ? ' collapsed' : ''}" title="${isCollapsed ? 'Expand' : 'Collapse'} Post" data-action="collapse" style="width:24px;height:24px;vertical-align:middle;transition:transform 0.2s;${isCollapsed ? 'transform:rotate(0deg);' : 'transform:rotate(180deg);'}">`;
+            const userId = getUserId();
+            const canDelete = isAdmin || post.userId === userId;
+            let deleteIcon = canDelete ? '<img src="delete.jpg" class="delete-icon-bar" title="Delete Post" data-action="delete" style="width:24px;height:24px;vertical-align:middle;cursor:pointer;">' : '';
+            let reportIcon = '<img src="report.jpg" class="report-icon" title="Report Post" data-action="report" style="width:24px;height:24px;vertical-align:middle;">';
+            let bar = `<div class="post-bar">
+                <span class="bar-icon">${pinIcon}</span>
+                <span class="bar-icon">${shareIcon}</span>
+                <span class="bar-icon">${arrowIcon}</span>
+                ${canDelete ? `<span class="bar-icon">${deleteIcon}</span>` : ''}
+                <span class="bar-icon">${reportIcon}</span>
+            </div>`;
+            // --- Fallback title logic ---
+            let fallbackTitle = '';
+            if (!post.title || post.title.trim() === '') {
+                try {
+                    fallbackTitle = new URL(post.articleLink || post.destination || '').hostname.replace('www.', '');
+                } catch (e) {
+                    fallbackTitle = 'Link Post';
+                }
+            }
+            let titleHTML = `<h2 class="post-title" data-lang-key="dynamic-title">${post.title && post.title.trim() !== '' ? post.title : fallbackTitle}</h2>`;
+            let contentHTML = '';
+            if (!isCollapsed) {
+             if (post.type === 'twitter') {
+    // Always show the Twitter embed if there is a tweet URL
+    if (post.articleLink || post.destination) {
+        contentHTML += `<div class="tweet-embed"><blockquote class="twitter-tweet"><a href="${post.articleLink || post.destination}"></a></blockquote></div>`;
+    } else {
+        // Only show fallback if there is NO valid tweet URL
+        contentHTML += `<img src="xlogo.jpg" alt="X Logo" style="display:block;margin:0 auto 10px;max-width:80px;">`;
+        contentHTML += `<div style="text-align:center;margin-bottom:10px;"><a href="#" style="color:#091954;font-weight:600;text-decoration:underline;">Click here if you want to see X/Twitter post</a></div>`;
+    }
+}else if (post.type === 'multi-link') {
+                    contentHTML += `<p data-lang-key="dynamic-desc">${post.description || 'No links provided.'}</p>`;
+                } else {
+                    contentHTML += `<img src="${post.image || 'default-image.jpg'}" alt="${post.imageAlt}" loading="lazy" onerror="this.onerror=null;this.src='bitcoin-image.jpg';">`;
+                    contentHTML += `<p data-lang-key="dynamic-desc">${post.description || 'No description provided.'}</p>`;
+                }
+                contentHTML += `<div class="keyword" data-lang-key="dynamic-keyword">Insights: ${(post.keywords || [post.keyword]).map(k => k.charAt(0).toUpperCase() + k.slice(1)).join(', ')}</div>`;
+                if (post.tags) contentHTML += `<div class="tags" data-lang-key="dynamic-tags">Tags: ${post.tags}</div>`;
+                contentHTML += `<div class="meta"><span data-lang-key="dynamic-author">Author: ${post.author}</span> | <span data-lang-key="dynamic-date">Published: ${new Date(post.pubDate).toLocaleDateString()}</span></div>`;
+                if (post.destination || post.articleLink) contentHTML += `<a href="${post.destination || post.articleLink || '#'}" data-lang-key="read-more">Read More</a>`;
+                contentHTML += `<div class="share-like-section"><button class="share-btn" data-lang-key="share-btn">Share</button><button class="like-btn" data-lang-key="like-btn">Like</button><div class="like-count-wrapper"><span class="like-count" data-lang-key="like-count" data-count="0">0 Likes</span></div></div>`;
+                contentHTML += `<div class="comment-section"><span class="separator"></span><h4 data-lang-key="comments-title">Comments</h4><form class="comment-form"><textarea placeholder="Add a comment..." data-lang-key-placeholder="comment-placeholder"></textarea><button type="submit" data-lang-key="comment-submit">Submit</button></form><div class="comments-list"></div></div>`;
+            }
+            newPost.innerHTML = bar + titleHTML + `<div class="post-content${!isCollapsed ? ' expanded' : ''}">${contentHTML}</div>`;
+            newPost.setAttribute('data-collapsed', isCollapsed ? 'true' : 'false');
+            blogPostsContainer.appendChild(newPost);
+        });
+        document.querySelectorAll('.post-bar img[data-action]').forEach(icon => {
+            icon.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                const action = this.getAttribute('data-action');
+                const postElem = this.closest('.blog-post');
+                const postId = postElem.getAttribute('data-post-id');
+                switch(action) {
+                    case 'pin':
+                        handlePin(postId, postElem);
+                        break;
+                    case 'share':
+                        handleShare(postId, postElem);
+                        break;
+                    case 'collapse':
+                        handleCollapse(postId, postElem);
+                        break;
+                    case 'delete':
+                        handleDelete(postId, postElem);
+                        break;
+                    case 'report':
+                        handleReport(postId, postElem);
+                        break;
+                }
+            });
+        });
     initializeCommentsAndLikes();
     updateLanguage(currentLang);
+        if (window.twttr && window.twttr.widgets && typeof window.twttr.widgets.load === 'function') {
+            window.twttr.widgets.load(blogPostsContainer);
+        }
+    }
 
-    console.log('Closing modal');
+    // --- Blog Post Form Submission ---
+    blogPostForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const modal = document.getElementById('postModal'); // <-- ADD THIS LINE
+// --- Single Link Post ---
+        const articleLink = document.getElementById('articleLink')?.value.trim();
+        const singleLinkKeywords = Array.from(document.querySelectorAll('#singleLinkKeywords input[type=checkbox]:checked')).map(cb => cb.value);
+        const isSingleLink = articleLink !== "";
+        // --- Multiple Link Post ---
+        const multiPostTitle = document.getElementById('multiPostTitle')?.value.trim();
+        const multiLinkTitles = Array.from(document.querySelectorAll('.multiLinkTitle')).map(input => input.value.trim());
+        const multiLinkUrls = Array.from(document.querySelectorAll('.multiLinkUrl')).map(input => input.value.trim());
+        const multiLinkKeywords = Array.from(document.querySelectorAll('#multiLinkKeywords input[type=checkbox]:checked')).map(cb => cb.value);
+        const multiLinks = multiLinkTitles.map((title, i) => ({
+            title,
+            url: multiLinkUrls[i]
+        })).filter(link => link.title && link.url);
+        const isMultiLink = multiPostTitle && multiLinks.length >= 2;
+        if (isSingleLink && singleLinkKeywords.length === 0) {
+            alert('Please select at least one keyword for the single link post.');
+            return;
+        }
+        if (isMultiLink && multiLinkKeywords.length === 0) {
+            alert('Please select at least one keyword for the multiple link post.');
+            return;
+        }
+        if (isSingleLink && isMultiLink) {
+            alert('Please fill out only one type of post: either a single link or a multiple link post.');
+            return;
+        }
+        if (!isSingleLink && !isMultiLink) {
+            alert('Please fill out either a single link or at least two links in the multiple link post area.');
+            return;
+        }
+        const postId = Date.now().toString();
+        let postData;
+        if (isSingleLink) {
+            let meta = { title: '', description: '', image: '', url: articleLink };
+            try {
+                meta = await fetchArticleData(articleLink);
+            } catch (err) {
+                console.error('Error fetching article data:', err);
+            }
+            postData = {
+                postId,
+                type: (articleLink.includes('twitter.com') || articleLink.includes('x.com')) ? 'twitter' : 'regular',
+                keywords: singleLinkKeywords,
+                tags: '',
+                author: 'IWM Brokerage',
+                pubDate: new Date().toISOString().split('T')[0],
+                title: meta.title,
+                description: meta.description,
+                image: meta.image,
+                imageAlt: meta.title,
+                destination: meta.url,
+                articleLink,
+                userId: getUserId()
+            };
+        } else if (isMultiLink) {
+            const description = multiLinks.map(link => `<a href="${link.url}" target="_blank" rel="noopener">${link.title}</a>`).join('<br>');
+            postData = {
+                postId,
+                type: 'multi-link',
+                keywords: multiLinkKeywords,
+                tags: '',
+                author: 'IWM Brokerage',
+                pubDate: new Date().toISOString().split('T')[0],
+                title: multiPostTitle,
+                description,
+                image: 'default-image.jpg',
+                imageAlt: multiPostTitle,
+                destination: '#',
+                articleLink: '',
+                userId: getUserId()
+            };
+        }
+
+        try {
+            await savePostToFirestore(postData);
+            await renderAllPosts();
     modal.classList.remove('active');
     setTimeout(() => {
         modal.style.display = 'none';
         document.body.classList.remove('modal-open');
     }, 300);
-});
+        } catch (error) {
+            console.error('Error saving post:', error);
+            alert('There was an error saving your post. Please try again.');
+        }
+    });
 
+    // --- On page load, render all posts ---
+    renderAllPosts();
 
+    // --- Update delete logic to use Firestore ---
+    async function handleDelete(postId, postElem) {
+        console.log('handleDelete called with:', { postId, postElem });
+        const isAdmin = localStorage.getItem('isAdmin') === 'true';
+        const posts = await loadPostsFromFirestore();
+        const post = posts.find(p => p.postId === postId);
+        if (!post) {
+            console.error('Post not found:', postId);
+            return;
+        }
+        const userId = getUserId();
+        if (!isAdmin && post.userId !== userId) {
+            showTempMessage("Sorry, you cannot delete someone else's post. Unless an admin.", 1000);
+            return;
+        }
+        if (confirm('Are you sure you want to delete this post?')) {
+            await deletePostFromFirestore(postId);
+            await renderAllPosts();
+            showTempMessage('Post deleted successfully', 2000);
+        }
+    }
 
+    // Add these functions after the Firebase initialization
+    async function getLikesFromFirestore(postId) {
+        try {
+            const doc = await db.collection('likes').doc(postId).get();
+            return doc.exists ? doc.data().likes : 0;
+        } catch (error) {
+            console.error('Error getting likes:', error);
+            return 0;
+        }
+    }
 
+    async function getUserLikeStatus(postId) {
+        try {
+            const userId = getUserId();
+            const doc = await db.collection('userLikes').doc(`${postId}_${userId}`).get();
+            return doc.exists ? doc.data().liked : false;
+        } catch (error) {
+            console.error('Error getting user like status:', error);
+            return false;
+        }
+    }
 
-        // Initialize existing posts
-        initializeCommentsAndLikes();
-        updateLanguage(currentLang);
+    async function updateLikesInFirestore(postId, increment) {
+        try {
+            const likesRef = db.collection('likes').doc(postId);
+            await db.runTransaction(async (transaction) => {
+                const doc = await transaction.get(likesRef);
+                const currentLikes = doc.exists ? doc.data().likes : 0;
+                transaction.set(likesRef, { likes: currentLikes + increment });
+            });
+        } catch (error) {
+            console.error('Error updating likes:', error);
+        }
+    }
 
-        // Hamburger Menu Toggle (unchanged)
-        const navToggle = document.querySelector('.mobile-footer-nav-toggle');
+    async function updateUserLikeStatus(postId, liked) {
+        try {
+            const userId = getUserId();
+            const userLikeRef = db.collection('userLikes').doc(`${postId}_${userId}`);
+            await userLikeRef.set({ liked: liked });
+        } catch (error) {
+            console.error('Error updating user like status:', error);
+        }
+    }
+
+    // Update the initializeCommentsAndLikes function
+    async function initializeCommentsAndLikes() {
+        document.querySelectorAll('.blog-post').forEach(async (post) => {
+            const postId = post.getAttribute('data-post-id');
+            const commentsList = post.querySelector('.comments-list');
+            const commentForm = post.querySelector('.comment-form');
+            const likeBtn = post.querySelector('.like-btn');
+            const likeCount = post.querySelector('.like-count');
+
+            // Get likes and user like status from Firestore
+            const likes = await getLikesFromFirestore(postId);
+            const hasLiked = await getUserLikeStatus(postId);
+
+            if (likeCount) {
+                likeCount.setAttribute('data-count', likes);
+                likeCount.textContent = `${likes} ${likes === 1 ? 'Like' : 'Likes'}`;
+            }
+            if (hasLiked && likeBtn) {
+                likeBtn.classList.add('liked');
+                likeBtn.textContent = 'Unlike';
+            }
+
+            // ... existing comments code ...
+
+            if (likeBtn) {
+                likeBtn.addEventListener('click', async () => {
+                    if (!hasLiked) {
+                        // Like the post
+                        await updateLikesInFirestore(postId, 1);
+                        await updateUserLikeStatus(postId, true);
+                        likeBtn.classList.add('liked');
+                        likeBtn.textContent = 'Unlike';
+                        const newLikes = likes + 1;
+                        if (likeCount) {
+                            likeCount.setAttribute('data-count', newLikes);
+                            likeCount.textContent = `${newLikes} ${newLikes === 1 ? 'Like' : 'Likes'}`;
+                        }
+                    } else {
+                        // Unlike the post
+                        await updateLikesInFirestore(postId, -1);
+                        await updateUserLikeStatus(postId, false);
+                        likeBtn.classList.remove('liked');
+                        likeBtn.textContent = 'Like';
+                        const newLikes = likes - 1;
+                        if (likeCount) {
+                            likeCount.setAttribute('data-count', newLikes);
+                            likeCount.textContent = `${newLikes} ${newLikes === 1 ? 'Like' : 'Likes'}`;
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    // Add after Firebase initialization
+    let currentUser = null;
+
+    // Initialize Firebase Auth
+    firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+            currentUser = user;
+            console.log('User is signed in:', user.uid);
+        } else {
+            // If no user is signed in, create an anonymous user
+            firebase.auth().signInAnonymously()
+                .then((userCredential) => {
+                    currentUser = userCredential.user;
+                    console.log('Anonymous user created:', currentUser.uid);
+                })
+                .catch((error) => {
+                    console.error('Error creating anonymous user:', error);
+                });
+        }
+    });
+
+    // Update getUserId function
+    function getUserId() {
+        if (currentUser) {
+            return currentUser.uid;
+        }
+        // Fallback to localStorage if auth isn't ready yet
+        let userId = localStorage.getItem('userId');
+        if (!userId) {
+            userId = 'temp-' + Math.random().toString(36).substr(2, 9);
+            localStorage.setItem('userId', userId);
+        }
+        return userId;
+    }
+
+    // Update getUserLikeStatus function
+    async function getUserLikeStatus(postId) {
+        try {
+            const userId = getUserId();
+            if (userId.startsWith('temp-')) {
+                // For temporary users, check localStorage
+                return localStorage.getItem(`liked-${postId}`) === 'true';
+            }
+            const doc = await db.collection('userLikes').doc(`${postId}_${userId}`).get();
+            return doc.exists ? doc.data().liked : false;
+        } catch (error) {
+            console.error('Error getting user like status:', error);
+            return false;
+        }
+    }
+
+    // Update updateUserLikeStatus function
+    async function updateUserLikeStatus(postId, liked) {
+        try {
+            const userId = getUserId();
+            if (userId.startsWith('temp-')) {
+                // For temporary users, use localStorage
+                localStorage.setItem(`liked-${postId}`, liked.toString());
+                return;
+            }
+            const userLikeRef = db.collection('userLikes').doc(`${postId}_${userId}`);
+            await userLikeRef.set({ 
+                liked: liked,
+                userId: userId,
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+        } catch (error) {
+            console.error('Error updating user like status:', error);
+        }
+    }
+
+    // Add event listeners for the new buttons after DOMContentLoaded
+    const notificationsBtn = document.getElementById('notificationsBtn');
+    const homePageBtn = document.getElementById('homePageBtn');
+    const contributorBtn = document.getElementById('contributorBtn');
+    if (notificationsBtn) {
+        notificationsBtn.addEventListener('click', () => {
+            showTempMessage('Ability to turn on browser notifications for blog coming soon', 1000);
+        });
+    }
+    if (homePageBtn) {
+        homePageBtn.addEventListener('click', () => {
+            showTempMessage('Ability to add blog to home screen coming soon', 1000);
+        });
+    }
+    if (contributorBtn) {
+        contributorBtn.addEventListener('click', () => {
+            showTempMessage('Ability to request access to be a contributor to the IWM Blog coming soon', 1000);
+      });  
+    }
+
+</script>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const footerNavToggle = document.querySelector('#mobile-footer-toggle');
         const navMenu = document.querySelector('.nav-menu');
-        navToggle.addEventListener('click', () => {
+
+    function toggleMenu(e) {
+        e.stopPropagation();
             navMenu.classList.toggle('active');
             document.body.classList.toggle('menu-open');
-        });
+    }
 
-        // Toggle Blog Intro (unchanged)
-        const blogIntro = document.querySelector('.blog-intro');
-        const toggleBtn = blogIntro.querySelector('.toggle-btn');
-        toggleBtn.addEventListener('click', () => {
-            blogIntro.classList.toggle('collapsed');
-            toggleBtn.textContent = blogIntro.classList.contains('collapsed') ? '+' : '-';
+    if (footerNavToggle && navMenu) {
+        footerNavToggle.addEventListener('click', toggleMenu);
+    }
+
+    if (navMenu) {
+        navMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+                document.body.classList.remove('menu-open');
+            });
         });
+    }
+
+    document.addEventListener('click', (e) => {
+        if (navMenu && !navMenu.contains(e.target) && !footerNavToggle.contains(e.target) && navMenu.classList.contains('active')) {
+            navMenu.classList.remove('active');
+            document.body.classList.remove('menu-open');
+        }
     });
+
+    if (navMenu) {
+        navMenu.classList.remove('active');
+        document.body.classList.remove('menu-open');
+    }
+    });
+document.addEventListener('DOMContentLoaded', function() {
+  // Dropdown logic
+  const mainPostDropdownBtn = document.getElementById('mainPostDropdownBtn');
+  const postDropdownMenu = document.getElementById('postDropdownMenu');
+  const regularPostBtn = document.getElementById('regularPostBtn');
+  const picturePostBtn = document.getElementById('picturePostBtn');
+  const linkPostBtnDropdown = document.getElementById('linkPostBtnDropdown');
+  const linkPostBtn = document.getElementById('linkPostBtn');
+
+// Toggle dropdown on "+ Post" click
+mainPostDropdownBtn.addEventListener('click', function(e) {
+  e.stopPropagation();
+  const currentDisplay = postDropdownMenu.style.display;
+  postDropdownMenu.style.display = (currentDisplay === 'block') ? 'none' : 'block';
+});
+
+// Hide dropdown when clicking outside the dropdown and the button
+document.addEventListener('click', function(e) {
+  if (
+    !postDropdownMenu.contains(e.target) &&
+    !mainPostDropdownBtn.contains(e.target)
+  ) {
+    postDropdownMenu.style.display = 'none';
+  }
+});
+
+  // Prevent dropdown from closing when clicking inside
+  postDropdownMenu.addEventListener('click', function(e) {
+    e.stopPropagation();
+  });
+
+  // "+ Regular Post" opens the normal modal
+  regularPostBtn.addEventListener('click', function(e) {
+    e.preventDefault();
+    postDropdownMenu.style.display = 'none';
+    openPostModal(false); // Your existing function for regular post
+  });
+
+
+
+
+// Picture Post Modal logic
+const picturePostModal = document.getElementById('picturePostModal');
+const closePictureModal = document.getElementById('closePictureModal');
+
+// Close modal when × is clicked
+if (closePictureModal) {
+  closePictureModal.addEventListener('click', function() {
+    picturePostModal.classList.remove('active');
+    setTimeout(() => {
+      picturePostModal.style.display = 'none';
+      document.body.classList.remove('modal-open');
+    }, 300);
+  });
+}
+
+// Optional: Close modal when clicking outside modal-content
+if (picturePostModal) {
+  picturePostModal.addEventListener('click', function(e) {
+    if (e.target === picturePostModal) {
+      picturePostModal.classList.remove('active');
+      setTimeout(() => {
+        picturePostModal.style.display = 'none';
+        document.body.classList.remove('modal-open');
+      }, 300);
+    }
+  });
+}
+
+
+
+// "+ Picture Post" opens the picture post modal
+picturePostBtn.addEventListener('click', function(e) {
+  e.preventDefault();
+  postDropdownMenu.style.display = 'none';
+  if (picturePostModal) {
+    picturePostModal.style.display = 'flex';
+    setTimeout(() => picturePostModal.classList.add('active'), 10);
+    document.body.classList.add('modal-open');
+  }
+});
+  // "+ Link Post" in dropdown shows a temp message
+  linkPostBtnDropdown.addEventListener('click', function(e) {
+    e.preventDefault();
+    postDropdownMenu.style.display = 'none';
+    showTempMessage('Ability to post a URL/Link blog post coming soon', 2000);
+  });
+
+  // Separate "+ Link Post" button (keep your existing behavior)
+  linkPostBtn.addEventListener('click', function(e) {
+    e.preventDefault();
+    openPostModal(true); // Your existing function for link post
+  });
+});
 </script>
+<script>
+// Picture Post Preview Logic
+const picturePostForm = document.getElementById('picturePostForm');
+const previewPicturePostBtn = document.getElementById('previewPicturePost');
+const picturePostPreview = document.getElementById('picturePostPreview');
+
+if (previewPicturePostBtn && picturePostForm && picturePostPreview) {
+  previewPicturePostBtn.addEventListener('click', function() {
+    // Get form values
+    const title = document.getElementById('picturePostTitle').value || 'Untitled Picture Post';
+    const desc = document.getElementById('picturePostDesc').value || 'No description provided.';
+    const keyword = document.getElementById('picturePostKeyword').value || 'No keyword';
+    const author = document.getElementById('picturePostAuthor').value || 'IWM Brokerage';
+    const date = document.getElementById('picturePostDate').value || new Date().toLocaleDateString();
+
+    // Images
+    const imagesInput = document.getElementById('picturePostImages');
+    const imagesPreview = document.getElementById('picturePreviewImages');
+    imagesPreview.innerHTML = '';
+    if (imagesInput && imagesInput.files.length > 0) {
+      Array.from(imagesInput.files).forEach(file => {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const img = document.createElement('img');
+          img.src = e.target.result;
+          img.style.maxWidth = '100px';
+          img.style.maxHeight = '100px';
+          img.style.borderRadius = '6px';
+          imagesPreview.appendChild(img);
+        };
+        reader.readAsDataURL(file);
+      });
+    } else {
+      imagesPreview.innerHTML = '<em>No image selected.</em>';
+    }
+
+    // Set preview fields
+    document.getElementById('picturePreviewTitle').textContent = title;
+    document.getElementById('picturePreviewDesc').textContent = desc;
+    document.getElementById('picturePreviewKeyword').textContent = 'Keyword(s): ' + keyword;
+    document.getElementById('picturePreviewAuthor').textContent = 'Author: ' + author;
+    document.getElementById('picturePreviewDate').textContent = 'Date: ' + date;
+
+    // Show preview
+    picturePostPreview.style.display = 'block';
+  });
+}
+</script>
+
+
 </body>
 </html>
 

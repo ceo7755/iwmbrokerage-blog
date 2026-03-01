@@ -31,33 +31,51 @@
             justify-content: space-between;
             align-items: center;
             background: linear-gradient(to bottom, #091954 0%, rgba(9, 25, 84, 0) 50%);
-            padding: 20px 30px;
-            height: 60px;
+            padding: 12px 24px;
+            height: 68px;
             position: fixed;
             top: 0;
             width: 100%;
+            max-width: 1200px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-sizing: border-box;
             z-index: 1000;
+            overflow: hidden;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+            max-height: 44px;
         }
         .logo-img {
             width: auto;
-            max-width: 200px;
+            max-width: 140px;
+            max-height: 44px;
             height: auto;
             margin: 0;
+            object-fit: contain;
+            display: block;
         }
         .nav-menu {
             list-style: none;
             display: flex;
             justify-content: flex-end;
+            align-items: center;
             margin: 0;
             padding: 0;
+            gap: 12px;
         }
         .nav-menu li {
-            margin-left: 20px;
+            margin-left: 0;
         }
         .nav-menu a {
             color: #ffffff;
             text-decoration: none;
             font-weight: 500;
+            font-size: 1.05rem;
+            white-space: nowrap;
         }
         .dropdown {
             position: relative;
@@ -228,6 +246,21 @@
 
         .options-toggle-img-large.rotated {
             transform: rotate(180deg);
+        }
+
+        /* Desktop: larger logo when screen is expanded */
+        @media (min-width: 769px) {
+            .navbar {
+                height: 78px;
+                padding: 14px 24px;
+            }
+            .logo {
+                max-height: 50px;
+            }
+            .logo-img {
+                max-width: 220px;
+                max-height: 50px;
+            }
         }
 
         /* Mobile Area Starts Here */
@@ -426,7 +459,7 @@
     <!-- Offerings Section -->
     <section id="offerings" class="offerings">
         <h1>Our Offerings</h1>
-        <p>At IWM Brokerage, we make insurance easy to understand and affordable to own. From life to health, we shop 30+ top-rated carriers in your state to find you the most comprehensive coverage, at the lowest available rate. <br>Already insured? We'll run a free quote and more often than not, we beat your current rate. </p>
+        <p>At IWM Brokerage, we make insurance easy to understand and affordable to own. From life to health, we shop 30+ top-rated carriers in your state to find you the most comprehensive coverage, at the lowest available rate.<br><br>Already insured? We'll run a free quote and 80% of the time, we can beat your current rate.<br><br><strong>Click on each area to expand & learn more about our offerings & products</strong></p>
         <div class="offering-cards"> 
        
 
@@ -439,7 +472,7 @@
 
                 <p>Protect and grow what matters most with our range of insurance plans  </p>
 
-                              <img src="https://i.imgur.com/8JjnGpd.jpeg" alt="Click for Options" class="options-toggle-img" id="insurance-options-toggle">
+                              <span id="insurance-options-toggle" class="options-toggle-img" role="button" tabindex="0" style="display:block; width:100%; min-height:20px; cursor:pointer;"></span>
 
                 <a href="blog.html#insurance" class="learn-more">Learn More</a>
 
@@ -476,7 +509,7 @@
 
                 <p> Safeguard your health and finances with comprehensive, inexpesnive health insurance solutions  </p>
 
-                <img src="https://i.imgur.com/8JjnGpd.jpeg" alt="Click for Options" class="options-toggle-img" id="health-insurance-options-toggle">
+                <span id="health-insurance-options-toggle" class="options-toggle-img" role="button" tabindex="0" style="display:block; width:100%; min-height:20px; cursor:pointer;"></span>
 
                 <a href="blog.html#insurance" class="learn-more">Learn More</a>
 
@@ -516,7 +549,7 @@
 
                 <p>Secure your future with tailored retirement strategies </p>
 
-                <img src="https://i.imgur.com/8JjnGpd.jpeg" alt="Click for Options" class="options-toggle-img" id="retirement-options-toggle">
+                <span id="retirement-options-toggle" class="options-toggle-img" role="button" tabindex="0" style="display:block; width:100%; min-height:20px; cursor:pointer;"></span>
 
                 <a href="blog.html#retirement" class="learn-more">Learn More</a>
 
@@ -543,7 +576,7 @@
 
                 <p>Ensure your legacy, help your loved ones, and have invaluable peace of mind with end-of-life planning and protection </p>
 
-                <img src="https://i.imgur.com/8JjnGpd.jpeg" alt="Click for Options" class="options-toggle-img" id="end-of-life-options-toggle">
+                <span id="end-of-life-options-toggle" class="options-toggle-img" role="button" tabindex="0" style="display:block; width:100%; min-height:20px; cursor:pointer;"></span>
 
                 <a href="blog.html#end-of-life" class="learn-more">Learn More</a>
 
@@ -568,7 +601,7 @@
 
                 <p>Stay current and ahead of economic trends with our insights into macro events: A.I., stock market, BTC, etc. Click for IWM Blog. .</p>
 
-                                <img src="https://i.imgur.com/OwwBWq1.jpeg" alt="Click for Options" class="options-toggle-img-large" id="macro-trends-options-toggle">
+                                <span id="macro-trends-options-toggle" class="options-toggle-img-large" role="button" tabindex="0" style="display:block; width:100%; min-height:20px; cursor:pointer;"></span>
 
                 <a href="blog.html#macro-trends" class="learn-more">Learn More</a>
 
@@ -584,7 +617,7 @@
 
                 <p>Explore the future of finance with our expertise in Bitcoin (BTC) and digital currencies. We help you integrate crypto into your portfolio safely and strategically. Click for IWM Blog. </p>
 
-                                <img src="https://i.imgur.com/OwwBWq1.jpeg" alt="Click for Options" class="options-toggle-img-large" id="bitcoin-options-toggle">
+                                <span id="bitcoin-options-toggle" class="options-toggle-img-large" role="button" tabindex="0" style="display:block; width:100%; min-height:20px; cursor:pointer;"></span>
 
                 <a href="blog.html#bitcoin-crypto" class="learn-more">Learn More</a>
 
@@ -601,7 +634,7 @@
 
                 <p>Click to see real life examples.</p>
 
-                              <img src="https://i.imgur.com/mUohNBD.jpeg" alt="Click for Options" class="options-toggle-img-large" id="client-scenarios-options-toggle">
+                              <span id="client-scenarios-options-toggle" class="options-toggle-img-large" role="button" tabindex="0" style="display:block; width:100%; min-height:20px; cursor:pointer;"></span>
 
                                <div class="health-insurance-subitems" id="client-scenarios-subitems">
 

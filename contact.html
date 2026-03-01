@@ -105,6 +105,9 @@
             margin: 10px auto;
             max-width: 80%;
         }
+        .mobile-footer-nav-toggle {
+            display: none;
+        }
         /* Mobile Adjustments */
 @media (max-width: 768px) {
     .dropdown-container {
@@ -191,16 +194,92 @@
     }
     .logo-img {
         position: fixed;
-        top: -80px;
+        top: 5px;
         left: 50%;
         transform: translateX(-50%);
         width: 100%;
-        max-width: 250px;
+        max-width: 150px;
         z-index: 1001;
         opacity: 0.6;
     }
     .logo a {
         pointer-events: none;
+    }
+    /* Hamburger menu popup (match index) – do not change header above */
+    .nav-menu {
+        display: none;
+        flex-direction: column;
+        position: fixed;
+        bottom: 50px;
+        right: 20px;
+        width: 200px;
+        background: #091954;
+        padding: 5px 0;
+        z-index: 999;
+        max-height: calc(100vh - 70px);
+        overflow-y: auto;
+        border-radius: 10px;
+        box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.3);
+    }
+    .nav-menu.active {
+        display: flex;
+    }
+    .nav-menu li {
+        margin: 2px 0;
+        padding: 0;
+        text-align: center;
+        width: 100%;
+        position: relative;
+    }
+    .nav-menu li::after {
+        content: '';
+        position: absolute;
+        bottom: -14px;
+        left: 20%;
+        width: 60%;
+        height: 1px;
+        background: linear-gradient(to right, transparent, #ffffff, transparent);
+    }
+    .nav-menu li:last-child::after {
+        display: none;
+    }
+    .nav-menu a {
+        display: block;
+        width: 100%;
+        text-align: center;
+        padding: 5px 0;
+        margin: 0;
+        font-size: 1.2rem;
+        color: #ffffff;
+    }
+    .nav-menu a:hover {
+        color: #AB9C59;
+    }
+    .dropdown-toggle {
+        width: 100%;
+        text-align: center !important;
+        padding: 5px 0;
+    }
+    .dropdown-menu {
+        display: none !important;
+    }
+    .mobile-footer-nav-toggle {
+        display: block;
+        position: fixed;
+        bottom: 15px;
+        right: 15px;
+        font-size: 1.3rem;
+        color: #ffffff;
+        background: #AB9C59;
+        border: none;
+        border-radius: 8px;
+        padding: 8px 14px;
+        cursor: pointer;
+        z-index: 1000;
+        box-shadow: 0 2px 8px rgba(171, 156, 89, 0.5);
+    }
+    .mobile-footer-nav-toggle:hover {
+        background: #8B7D47;
     }
 .contact-details p span.separator {
     text-decoration: none;
@@ -252,7 +331,7 @@
                 <li><a href="about.html">About</a></li>
                 <li><a href="offerings.html">Offerings</a></li>
                 <li class="dropdown">
-                    <a href="blog.html">Learn with IWM</a>
+                    <a href="blog.html" class="dropdown-toggle">Learn with IWM</a>
                     <ul class="dropdown-menu">
                         <li><a href="blog.html#insurance">Insurance</a></li>
                         <li><a href="blog.html#retirement">Retirement</a></li>
@@ -392,9 +471,8 @@
   data-resources-url="https://widgets.leadconnectorhq.com/chat-widget/loader.js" 
  data-widget-id="67f0de7b8e8aa71ec4f3128b"   > 
  </script>
- <!-- Mobile Footer Hamburger Menu -->
-
-<button class="mobile-footer-nav-toggle" aria-label="Toggle navigation">☰</button>
+ <!-- Mobile Footer Hamburger Menu (matches index; closes on outside click) -->
+<button class="mobile-footer-nav-toggle" aria-label="Toggle navigation" id="mobile-footer-toggle">☰</button>
 
 <script src="script.js"></script>
 
@@ -506,6 +584,18 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         if (!bestTimeButton.contains(e.target) && !bestTimeMenu.contains(e.target)) {
             bestTimeMenu.classList.remove('active');
+        }
+    });
+
+    // Close hamburger menu when clicking outside it
+    const navMenu = document.querySelector('.nav-menu');
+    const footerNavToggle = document.getElementById('mobile-footer-toggle');
+    document.addEventListener('click', (e) => {
+        if (navMenu && navMenu.classList.contains('active')) {
+            if (!navMenu.contains(e.target) && footerNavToggle && !footerNavToggle.contains(e.target)) {
+                navMenu.classList.remove('active');
+                document.body.classList.remove('menu-open');
+            }
         }
     });
 
