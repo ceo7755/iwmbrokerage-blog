@@ -27,6 +27,29 @@
         .join-section.join-section-blue { padding-top: 30px; padding-bottom: 50px; }
         /* Smaller main title */
         .join-section .join-content h1 { font-size: 2rem; }
+        /* Mobile: fix header cut-off, smaller title, tighter layout */
+        @media (max-width: 768px) {
+            body { padding-top: calc(50px + env(safe-area-inset-top, 0px)); }
+            .navbar {
+                padding-top: max(10px, env(safe-area-inset-top, 0px));
+                padding-bottom: 10px;
+                min-height: 50px;
+            }
+            .navbar .logo-img { width: 180px; max-width: 55vw; }
+            .join-section.join-section-blue {
+                padding-top: 20px;
+                padding-bottom: 30px;
+            }
+            .join-section .join-content h1 {
+                font-size: 1.25rem;
+                line-height: 1.35;
+                margin-bottom: 12px;
+            }
+            .linktree-logo {
+                max-width: 100px;
+                margin: 10px auto;
+            }
+        }
     </style>
 </head>
 <body>
