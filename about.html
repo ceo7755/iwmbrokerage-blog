@@ -138,6 +138,8 @@
             .dropdown-menu {
                 display: none !important;
             }
+
+
             .mobile-footer-nav-toggle {
                 display: block;
                 position: fixed;
@@ -154,7 +156,162 @@
                 box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
             }
         }
+
+
+        /* Licenses & Certificates */
+        .licenses-certificates {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 28px;
+            margin: 24px 0 32px 0;
+            align-items: flex-start;
+        }
+        .license-link {
+            display: block;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .license-link:hover {
+            transform: scale(1.03);
+        }
+        .license-img {
+            max-width: 360px;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            display: block;
+        }
+        .license-link:hover .license-img {
+            box-shadow: 0 6px 20px rgba(171, 156, 89, 0.4);
+        }
+        /* Lightbox – same screen, larger */
+        .license-lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: rgba(0, 0, 0, 0.85);
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .license-lightbox.open {
+            display: flex;
+        }
+        .license-lightbox-img {
+            max-width: 90vw;
+            max-height: 85vh;
+            width: auto;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            pointer-events: none;
+        }
+        .license-lightbox-close {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            width: 44px;
+            height: 44px;
+            font-size: 2rem;
+            line-height: 1;
+            color: #fff;
+            background: rgba(171, 156, 89, 0.9);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            padding: 0;
+        }
+        .license-lightbox-close:hover {
+            background: #AB9C59;
+        }
+        @media (max-width: 768px) {
+            .licenses-certificates { flex-direction: column; align-items: center; }
+            .license-img { max-width: 100%; }
+        }
+
+
+
+        /* Partner Companies carousel */
+        .partner-carousel-wrap {
+            position: relative;
+            margin: 24px 0 32px 0;
+            padding: 0 44px;
+        }
+        .partner-carousel {
+            display: flex;
+            gap: 32px;
+            overflow-x: auto;
+            overflow-y: hidden;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            padding: 16px 0;
+            scrollbar-width: thin;
+        }
+        .partner-carousel::-webkit-scrollbar {
+            height: 6px;
+        }
+        .partner-carousel::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.1);
+            border-radius: 3px;
+        }
+        .partner-carousel::-webkit-scrollbar-thumb {
+            background: #AB9C59;
+            border-radius: 3px;
+        }
+        .partner-logo {
+            flex: 0 0 auto;
+            scroll-snap-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 140px;
+            max-width: 160px;
+            height: 80px;
+        }
+        .partner-logo img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            
+        }
+        .partner-logo img:hover {
+            opacity: 1;
+        }
+        .partner-carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            font-size: 1.8rem;
+            line-height: 1;
+            color: #fff;
+            background: rgba(171, 156, 89, 0.8);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            padding: 0;
+            z-index: 2;
+        }
+        .partner-carousel-btn:hover {
+            background: #AB9C59;
+        }
+        .partner-carousel-prev { left: 0; }
+        .partner-carousel-next { right: 0; }
+        @media (max-width: 768px) {
+            .partner-carousel-wrap { padding: 0 36px; }
+            .partner-carousel-btn { width: 36px; height: 36px; font-size: 1.5rem; }
+            .partner-logo { min-width: 120px; height: 70px; }
+        }
+
+
     </style>
+
+
+
 </head>
 <body>
     <!-- Header -->
@@ -206,9 +363,53 @@
 		<li><strong>Brokers, not Agents:</strong> Which means we do not have a tie to a singular carrier, which is a benefit to you. We partner with over 40+ carriers in your state, so we have them compete against each other, which in turn results in us being able to offer the most comprehensive coverage at your state's lowest premiums.</li>
                 <li><strong>Innovative Thinking:</strong> We stay ahead of trends, including the integration of digital currencies into financial planning.</li>
             </ul>
-            <h2>Meet Our Team</h2>
-            <p>Meet our Team area coming soon</p>
+          
+
+                      <h2>Partner Companies</h2>
+            <div class="partner-carousel-wrap">
+                <button type="button" class="partner-carousel-btn partner-carousel-prev" aria-label="Previous partners">‹</button>
+                <div class="partner-carousel">
+                    <div class="partner-logo"><img src="FG.png" alt="F&amp;G"></div>
+                    <div class="partner-logo"><img src="AIG.png" alt="AIG"></div>
+                    <div class="partner-logo"><img src="Transamerica.png" alt="Transamerica"></div>
+                    <div class="partner-logo"><img src="Gerber.png" alt="Gerber"></div>
+                    <div class="partner-logo"><img src="Foresters.png" alt="Foresters"></div>
+                    <div class="partner-logo"><img src="Athene.png" alt="Athene"></div>
+                    <div class="partner-logo"><img src="NorthAmerican.png" alt="North American"></div>
+                    <div class="partner-logo"><img src="NLG1.png" alt="NLG"></div>
+                </div>
+                <button type="button" class="partner-carousel-btn partner-carousel-next" aria-label="Next partners">›</button>
+            </div>
+         
+
+                     <h2>Licenses & Certificates</h2>
+            <div class="licenses-certificates">
+                <a href="#" class="license-link" title="View PA License larger">
+                    <img src="PALicense.jpg" alt="PA License" class="license-img">
+                </a>
+                <a href="#" class="license-link" title="View AHIP Certificate larger">
+                    <img src="AHIP.jpg" alt="AHIP Certificate" class="license-img">
+                </a>
+                <a href="#" class="license-link" title="View Marketplace certificate larger">
+                    <img src="Marketplace.jpg" alt="Marketplace" class="license-img">
+                </a>
+                <a href="#" class="license-link" title="View UnitedHealthCare certificate larger">
+                    <img src="UnitedHealthCare.jpg" alt="UnitedHealthCare" class="license-img">
+                </a>
+            </div>
+            <div id="license-lightbox" class="license-lightbox" aria-hidden="true">
+               
+
+
+ <button type="button" class="license-lightbox-close" aria-label="Close">×</button>
+                <img src="" alt="" class="license-lightbox-img">
+            </div>
+
+
+
+
             <div class="about-buttons">
+
                 <a href="javascript:history.back()" class="cta-button neon">Back</a>
                 <a href="offerings.html" class="cta-button neon">Services & Offerings</a>
                <a href="contact.html" class="cta-button neon">Get in Touch</a>
@@ -231,4 +432,47 @@
     </p>
 </footer>
 
+<script>
+(function() {
+    var lightbox = document.getElementById('license-lightbox');
+    var lightboxImg = lightbox && lightbox.querySelector('.license-lightbox-img');
+    if (!lightbox || !lightboxImg) return;
+    document.querySelectorAll('.license-link').forEach(function(link) {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            var img = link.querySelector('.license-img');
+            if (img && img.src) {
+                lightboxImg.src = img.src;
+                lightboxImg.alt = img.alt;
+                lightbox.classList.add('open');
+                lightbox.setAttribute('aria-hidden', 'false');
+            }
+        });
+    });
+    function closeLightbox() {
+        lightbox.classList.remove('open');
+        lightbox.setAttribute('aria-hidden', 'true');
+    }
+    lightbox.querySelector('.license-lightbox-close').addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', function(e) {
+        if (e.target === lightbox) closeLightbox();
+    });
+})();
+</script>
+
+<script>
+(function() {
+    var wrap = document.querySelector('.partner-carousel-wrap');
+    if (!wrap) return;
+    var carousel = wrap.querySelector('.partner-carousel');
+    var prev = wrap.querySelector('.partner-carousel-prev');
+    var next = wrap.querySelector('.partner-carousel-next');
+    var step = 200;
+    if (prev) prev.addEventListener('click', function() { carousel.scrollBy({ left: -step, behavior: 'smooth' }); });
+    if (next) next.addEventListener('click', function() { carousel.scrollBy({ left: step, behavior: 'smooth' }); });
+})();
+</script>
+
+
 <script src="script.js"></script>
+</body>
