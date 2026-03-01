@@ -1,6 +1,9 @@
 BEGIN:VCARD
 VERSION:3.0
-FN:Matt Deivert
+N:Matt Deivert;Insurance Advisor/Broker;;;
+FN:Insurance Advisor/Broker Matt Deivert
+ORG:Insurance Advisor/Broker
+TITLE:Insurance Advisor/Broker
 TEL;TYPE=CELL:814-706-1332
 EMAIL:matt@iwmbrokerage.com
 URL:https://iwmbrokerage.com
