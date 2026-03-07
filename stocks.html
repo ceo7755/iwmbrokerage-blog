@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stocks - Largest Movers | IWM Brokerage</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Montserrat', sans-serif; background-color: #091954; color: #fff; margin: 0; }
+    .navbar-wrapper { background: #091954; position: sticky; top: 0; z-index: 1000; }
+    .navbar { display: flex; justify-content: space-between; align-items: center; padding: 5px 50px; }
+    .logo-img { width: 200px; height: auto; }
+    .nav-menu { display: flex; gap: 20px; list-style: none; align-items: center; margin: 0; padding: 0; }
+    .nav-menu a { color: #fff; text-decoration: none; font-size: 1.2rem; font-weight: 500; transition: color 0.3s ease; }
+    .nav-menu a:hover { color: #AB9C59; }
+    .dropdown { position: relative; }
+    .dropdown-menu { position: absolute; top: 100%; left: 0; background: #091954; list-style: none; padding: 10px 0; border-radius: 10px; opacity: 0; transform: translateY(10px); transition: all 0.4s ease; box-shadow: 0 10px 20px rgba(171, 156, 89, 0.2); min-width: 200px; }
+    .dropdown:hover .dropdown-menu { opacity: 1; transform: translateY(0); }
+    .dropdown-menu li { padding: 8px 20px; }
+    .dropdown-menu a { color: #fff; font-size: 0.9rem; }
+
+    .stocks-section { max-width: 1400px; margin: 0 auto; padding: 40px 24px 60px; }
+    .stocks-section h1 { font-family: 'Libre Baskerville', serif; color: #AB9C59; margin-bottom: 8px; }
+    .stocks-section .subtitle { color: rgba(255,255,255,0.85); margin-bottom: 24px; font-size: 0.95rem; }
+    .stocks-section h2 { font-family: 'Libre Baskerville', serif; color: #AB9C59; margin: 48px 0 8px; font-size: 1.35rem; }
+    .stocks-section h2:first-of-type { margin-top: 0; }
+    #status, #statusRegular { font-weight: bold; color: #AB9C59; margin-bottom: 12px; }
+
+    .table-container { max-height: 600px; overflow: auto; border: 1px solid rgba(171, 156, 89, 0.4); border-radius: 8px; background: rgba(0,0,0,0.2); margin-bottom: 24px; }
+    .movers-table { border-collapse: collapse; width: 100%; }
+    .movers-table th, .movers-table td { border: 1px solid rgba(171, 156, 89, 0.3); padding: 10px 12px; text-align: right; font-size: 0.9rem; }
+    .movers-table th { background: rgba(171, 156, 89, 0.25); color: #fff; position: sticky; top: 0; z-index: 1; white-space: nowrap; }
+    .movers-table td.symbol { font-weight: 600; color: #AB9C59; }
+    .movers-table .positive { color: #7cff7c; font-weight: bold; }
+    .movers-table .negative { color: #ff7c7c; font-weight: bold; }
+    .movers-table .industry { text-align: left; max-width: 200px; }
+    .news-link { color: #AB9C59; text-decoration: none; }
+    .news-link:hover { text-decoration: underline; }
+
+    footer { text-align: center; padding: 24px 16px; border-top: 1px solid rgba(171, 156, 89, 0.3); margin-top: 40px; }
+    footer p { margin: 0; color: rgba(255,255,255,0.9); font-size: 0.9rem; }
+    footer a { color: #AB9C59; text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    @media (max-width: 768px) {
+      .navbar { padding: 10px 16px; }
+      .movers-table th, .movers-table td { padding: 6px 8px; font-size: 0.75rem; }
+      .movers-table .industry { max-width: 120px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar-wrapper">
+    <header class="navbar">
+      <div class="logo">
+        <a href="index.html#home"><img src="iwmlogo-white-v3.png" alt="IWM Brokerage Logo" class="logo-img"></a>
+      </div>
+      <nav>
+        <ul class="nav-menu">
+          <li><a href="index.html#home">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="offerings.html">Offerings</a></li>
+          <li class="dropdown">
+            <a href="blog.html" class="dropdown-toggle">IWM Blog</a>
+            <ul class="dropdown-menu">
+              <li><a href="blog.html#insurance">Insurance</a></li>
+              <li><a href="blog.html#retirement">Retirement</a></li>
+              <li><a href="blog.html#end-of-life">End of Life</a></li>
+              <li><a href="blog.html#macro-trends">Macro Trends</a></li>
+              <li><a href="blog.html#bitcoin-crypto">Bitcoin & Digital Currencies</a></li>
+              <li><a href="care-compare.html">Care Compare</a></li>
+            </ul>
+          </li>
+          <li><a href="stocks.html">Stocks</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+          <li><a href="join.html">Join Team</a></li>
+        </ul>
+      </nav>
+    </header>
+  </div>
+
+  <section class="stocks-section">
+    <h1>Largest Movers</h1>
+
+    <h2>Pre-Market (5:00–9:30 AM EST)</h2>
+    <p class="subtitle">Top 15 Gainers $0.01–$20. Updates every 5 min.</p>
+    <p id="status">Initializing...</p>
+    <div class="table-container">
+      <table id="moversTable" class="movers-table">
+        <thead>
+          <tr>
+            <th>Time (EST)</th>
+            <th>Rank</th>
+            <th>Symbol</th>
+            <th>Baseline Price</th>
+            <th>Current Price</th>
+            <th>% Moved</th>
+            <th>Current Volume</th>
+            <th>30-Day Avg Vol</th>
+            <th>Vol vs Avg</th>
+            <th>Vol % Change</th>
+            <th>News</th>
+            <th>Industry</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <h2>Regular Session (9:30–11:00 AM EST)</h2>
+    <p class="subtitle">Top 15 Gainers $0.01–$20 from market open. Baseline set at first fetch in window. Updates every 5 min.</p>
+    <p id="statusRegular">Initializing...</p>
+    <div class="table-container">
+      <table id="moversTableRegular" class="movers-table">
+        <thead>
+          <tr>
+            <th>Time (EST)</th>
+            <th>Rank</th>
+            <th>Symbol</th>
+            <th>Baseline Price</th>
+            <th>Current Price</th>
+            <th>% Moved</th>
+            <th>Current Volume</th>
+            <th>30-Day Avg Vol</th>
+            <th>Vol vs Avg</th>
+            <th>Vol % Change</th>
+            <th>News</th>
+            <th>Industry</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2025 IWM Brokerage. Insurance Wealth Management, L.L.C. All rights reserved. |
+      <a href="privacy.html">Privacy Policy & Terms of Use</a> |
+      <a href="linktree.html">Link Tree</a> |
+      <a href="contact.html">Contact Us</a> |
+      <a href="broker-login.html">Current Broker Login</a>
+    </p>
+  </footer>
+
+  <script>
+    const API_KEY = 'YOUR_POLYGON_API_KEY'; // Replace with your Polygon.io API key
+    const UPDATE_MS = 5 * 60 * 1000;
+    const PRICE_MIN = 0.01;
+    const PRICE_MAX = 20;
+    const STORAGE_KEY_BASE = 'premarket_baselines';
+    const STORAGE_KEY_BASE_REGULAR = 'regular_session_baselines_930';
+    const STORAGE_KEY_AVGS = 'premarket_avg_volumes';
+    const STORAGE_KEY_NEWS = 'premarket_news_cache';
+    const STORAGE_KEY_INDUSTRY = 'premarket_industry_cache';
+
+    let baselines = JSON.parse(localStorage.getItem(STORAGE_KEY_BASE)) || {};
+    let baselinesRegular = JSON.parse(localStorage.getItem(STORAGE_KEY_BASE_REGULAR)) || {};
+    let avgVolumes = JSON.parse(localStorage.getItem(STORAGE_KEY_AVGS)) || {};
+    let newsCache = JSON.parse(localStorage.getItem(STORAGE_KEY_NEWS)) || {};
+    let industryCache = JSON.parse(localStorage.getItem(STORAGE_KEY_INDUSTRY)) || {};
+
+    const sicToIndustry = {
+      '2834': 'Biotechnology / Pharmaceuticals',
+      '2836': 'Biological Products',
+      '1000': 'Metal Mining',
+      '1040': 'Gold & Silver Ores',
+      '1311': 'Oil & Gas Exploration',
+      '1389': 'Oil & Gas Field Services',
+      '4911': 'Electric Services',
+      '4922': 'Natural Gas Transmission',
+      '7370': 'Computer Programming / Software',
+      '7372': 'Prepackaged Software',
+      '3571': 'Electronic Computers',
+      '3674': 'Semiconductors',
+      '3841': 'Surgical & Medical Instruments',
+      '3842': 'Orthopedic / Surgical Supplies',
+      '7389': 'Business Services (Misc)',
+      '8200': 'Educational Services',
+    };
+
+    function isWithinWindow() {
+      const now = new Date();
+      const et = new Date(now.toLocaleString('en-US', { timeZone: 'America/New_York' }));
+      const h = et.getHours(), m = et.getMinutes();
+      return (h === 5) || (h > 5 && h < 9) || (h === 9 && m <= 30);
+    }
+
+    function isWithinWindowRegular() {
+      const now = new Date();
+      const et = new Date(now.toLocaleString('en-US', { timeZone: 'America/New_York' }));
+      const h = et.getHours(), m = et.getMinutes();
+      return (h === 9 && m >= 30) || (h === 10);
+    }
+
+    async function fetchJSON(url) {
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(`API error: ${res.status}`);
+      return res.json();
+    }
+
+    async function get30DayAvgVolume(ticker) {
+      if (avgVolumes[ticker]) return avgVolumes[ticker];
+      try {
+        const today = new Date().toISOString().split('T')[0];
+        const from = new Date(Date.now() - 45*24*60*60*1000).toISOString().split('T')[0];
+        const url = `https://api.polygon.io/v2/aggs/ticker/${ticker}/range/1/day/${from}/${today}?adjusted=true&sort=desc&limit=30&apiKey=${API_KEY}`;
+        const data = await fetchJSON(url);
+        if (!data.results?.length) return null;
+        const vols = data.results.map(r => r.v || 0);
+        const avg = vols.reduce((a, b) => a + b, 0) / vols.length;
+        avgVolumes[ticker] = avg;
+        localStorage.setItem(STORAGE_KEY_AVGS, JSON.stringify(avgVolumes));
+        return avg;
+      } catch (e) {
+        return null;
+      }
+    }
+
+    async function hasRecentNews(ticker) {
+      const cacheKey = `${ticker}_${new Date().toDateString()}`;
+      if (newsCache[cacheKey] !== undefined) return newsCache[cacheKey];
+      try {
+        const today = new Date().toISOString().split('T')[0];
+        const url = `https://api.polygon.io/v2/reference/news?ticker=${ticker}&published_utc.gte=${today}&limit=3&order=desc&sort=published_utc&apiKey=${API_KEY}`;
+        const data = await fetchJSON(url);
+        const hasNews = data.results?.length > 0;
+        newsCache[cacheKey] = hasNews ? data.results[0].article_url : null;
+        localStorage.setItem(STORAGE_KEY_NEWS, JSON.stringify(newsCache));
+        return newsCache[cacheKey];
+      } catch (e) {
+        return null;
+      }
+    }
+
+    async function getIndustry(ticker) {
+      const cacheKey = `${ticker}_${new Date().toDateString()}`;
+      if (industryCache[cacheKey]) return industryCache[cacheKey];
+      try {
+        const url = `https://api.polygon.io/v3/reference/tickers/${ticker}?apiKey=${API_KEY}`;
+        const data = await fetchJSON(url);
+        const sic = data.results?.sic_code;
+        if (!sic) {
+          industryCache[cacheKey] = 'N/A';
+        } else {
+          industryCache[cacheKey] = sicToIndustry[sic] || `SIC ${sic} (Other)`;
+        }
+        localStorage.setItem(STORAGE_KEY_INDUSTRY, JSON.stringify(industryCache));
+        return industryCache[cacheKey];
+      } catch (e) {
+        industryCache[cacheKey] = 'N/A';
+        return 'N/A';
+      }
+    }
+
+    async function updateTable() {
+      const tbody = document.querySelector('#moversTable tbody');
+      if (!isWithinWindow()) {
+        document.getElementById('status').textContent = 'Outside pre-market window (5:00–9:30 AM EST). Next check in 5 min.';
+        if (tbody.rows.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="13" style="text-align:center;padding:24px;">Data refreshes during pre-market hours.</td></tr>';
+        }
+        return;
+      }
+
+      document.getElementById('status').textContent = 'Fetching...';
+
+      try {
+        const url = `https://api.polygon.io/v2/snapshot/locale/us/markets/stocks/gainers?apiKey=${API_KEY}`;
+        const data = await fetchJSON(url);
+        let tickers = data.tickers || [];
+
+        tickers = tickers.filter(t => {
+          const price = t.lastQuote?.P || t.day?.c || t.prevDay?.c || 0;
+          return price >= PRICE_MIN && price <= PRICE_MAX;
+        }).slice(0, 15);
+
+        const nowEST = new Date().toLocaleString('en-US', { timeZone: 'America/New_York', hour12: false });
+        const today = new Date().toDateString();
+
+        if (!baselines.date || baselines.date !== today) {
+          baselines = { date: today };
+          for (const t of tickers) {
+            const price = t.lastQuote?.P || t.day?.c || t.prevDay?.c || 0;
+            if (price > 0) baselines[t.ticker] = price;
+          }
+          localStorage.setItem(STORAGE_KEY_BASE, JSON.stringify(baselines));
+        }
+
+        let rowsHTML = '';
+        if (tickers.length === 0) {
+          rowsHTML = '<tr><td colspan="13" style="text-align:center;padding:24px;">No qualifying gainers in range.</td></tr>';
+        } else {
+          for (let i = 0; i < tickers.length; i++) {
+            const stock = tickers[i];
+            const tickerSym = stock.ticker;
+            const currPrice = stock.lastQuote?.P || stock.day?.c || 'N/A';
+            const basePrice = baselines[tickerSym] || stock.prevDay?.c || 'N/A';
+            const pctFromBase = (basePrice !== 'N/A' && currPrice !== 'N/A')
+              ? ((currPrice - basePrice) / basePrice * 100).toFixed(2) : 'N/A';
+            const vol = stock.day?.v || 0;
+            const avgVol = await get30DayAvgVolume(tickerSym) || 'N/A';
+            const volRatio = (avgVol !== 'N/A' && vol > 0) ? (vol / avgVol).toFixed(2) + 'x' : 'N/A';
+            const volPct = avgVol !== 'N/A' ? ((vol - avgVol) / avgVol * 100).toFixed(2) : 'N/A';
+            const newsUrl = await hasRecentNews(tickerSym);
+            const newsCell = newsUrl ? `<a href="${newsUrl}" target="_blank" rel="noopener" class="news-link">✅</a>` : '';
+            const industry = await getIndustry(tickerSym);
+
+            const pctClass = pctFromBase > 0 ? 'positive' : (pctFromBase < 0 ? 'negative' : '');
+            const volPctClass = volPct !== 'N/A' ? (volPct > 0 ? 'positive' : 'negative') : '';
+
+            const timeCell = i === 0 ? `<td rowspan="${tickers.length}">${nowEST}</td>` : '';
+            rowsHTML += `<tr>${timeCell}
+              <td>${i+1}</td>
+              <td class="symbol">${tickerSym}</td>
+              <td>${basePrice === 'N/A' ? '–' : Number(basePrice).toFixed(2)}</td>
+              <td>${currPrice === 'N/A' ? '–' : Number(currPrice).toFixed(2)}</td>
+              <td class="${pctClass}">${pctFromBase === 'N/A' ? '–' : pctFromBase + '%'}</td>
+              <td>${vol.toLocaleString()}</td>
+              <td>${avgVol === 'N/A' ? '–' : Number(avgVol).toLocaleString(undefined, {maximumFractionDigits: 0})}</td>
+              <td>${volRatio}</td>
+              <td class="${volPctClass}">${volPct === 'N/A' ? '–' : volPct + '%'}</td>
+              <td>${newsCell}</td>
+              <td class="industry">${industry}</td>
+            </tr>`;
+          }
+        }
+
+        tbody.innerHTML = rowsHTML;
+        document.getElementById('status').textContent = `Updated: ${nowEST}`;
+      } catch (err) {
+        document.getElementById('status').textContent = `Error: ${err.message}`;
+        tbody.innerHTML = '<tr><td colspan="13" style="text-align:center;padding:24px;color:#ff7c7c;">' + err.message + '</td></tr>';
+      }
+    }
+
+    async function updateTableRegular() {
+      const tbody = document.querySelector('#moversTableRegular tbody');
+      if (!isWithinWindowRegular()) {
+        document.getElementById('statusRegular').textContent = 'Outside window (9:30–11:00 AM EST). Next check in 5 min.';
+        if (tbody.rows.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="13" style="text-align:center;padding:24px;">Data refreshes 9:30–11:00 AM EST.</td></tr>';
+        }
+        return;
+      }
+
+      document.getElementById('statusRegular').textContent = 'Fetching...';
+
+      try {
+        const url = `https://api.polygon.io/v2/snapshot/locale/us/markets/stocks/gainers?apiKey=${API_KEY}`;
+        const data = await fetchJSON(url);
+        let tickers = data.tickers || [];
+
+        tickers = tickers.filter(t => {
+          const price = t.lastQuote?.P || t.day?.c || t.prevDay?.c || 0;
+          return price >= PRICE_MIN && price <= PRICE_MAX;
+        }).slice(0, 15);
+
+        const nowEST = new Date().toLocaleString('en-US', { timeZone: 'America/New_York', hour12: false });
+        const today = new Date().toDateString();
+
+        if (!baselinesRegular.date || baselinesRegular.date !== today) {
+          baselinesRegular = { date: today };
+          for (const t of tickers) {
+            const price = t.lastQuote?.P || t.day?.c || t.prevDay?.c || 0;
+            if (price > 0) baselinesRegular[t.ticker] = price;
+          }
+          localStorage.setItem(STORAGE_KEY_BASE_REGULAR, JSON.stringify(baselinesRegular));
+        }
+
+        let rowsHTML = '';
+        if (tickers.length === 0) {
+          rowsHTML = '<tr><td colspan="13" style="text-align:center;padding:24px;">No qualifying gainers in range.</td></tr>';
+        } else {
+          for (let i = 0; i < tickers.length; i++) {
+            const stock = tickers[i];
+            const tickerSym = stock.ticker;
+            const currPrice = stock.lastQuote?.P || stock.day?.c || 'N/A';
+            const basePrice = baselinesRegular[tickerSym] || stock.prevDay?.c || 'N/A';
+            const pctFromBase = (basePrice !== 'N/A' && currPrice !== 'N/A')
+              ? ((currPrice - basePrice) / basePrice * 100).toFixed(2) : 'N/A';
+            const vol = stock.day?.v || 0;
+            const avgVol = await get30DayAvgVolume(tickerSym) || 'N/A';
+            const volRatio = (avgVol !== 'N/A' && vol > 0) ? (vol / avgVol).toFixed(2) + 'x' : 'N/A';
+            const volPct = avgVol !== 'N/A' ? ((vol - avgVol) / avgVol * 100).toFixed(2) : 'N/A';
+            const newsUrl = await hasRecentNews(tickerSym);
+            const newsCell = newsUrl ? `<a href="${newsUrl}" target="_blank" rel="noopener" class="news-link">✅</a>` : '';
+            const industry = await getIndustry(tickerSym);
+
+            const pctClass = pctFromBase > 0 ? 'positive' : (pctFromBase < 0 ? 'negative' : '');
+            const volPctClass = volPct !== 'N/A' ? (volPct > 0 ? 'positive' : 'negative') : '';
+
+            const timeCell = i === 0 ? `<td rowspan="${tickers.length}">${nowEST}</td>` : '';
+            rowsHTML += `<tr>${timeCell}
+              <td>${i+1}</td>
+              <td class="symbol">${tickerSym}</td>
+              <td>${basePrice === 'N/A' ? '–' : Number(basePrice).toFixed(2)}</td>
+              <td>${currPrice === 'N/A' ? '–' : Number(currPrice).toFixed(2)}</td>
+              <td class="${pctClass}">${pctFromBase === 'N/A' ? '–' : pctFromBase + '%'}</td>
+              <td>${vol.toLocaleString()}</td>
+              <td>${avgVol === 'N/A' ? '–' : Number(avgVol).toLocaleString(undefined, {maximumFractionDigits: 0})}</td>
+              <td>${volRatio}</td>
+              <td class="${volPctClass}">${volPct === 'N/A' ? '–' : volPct + '%'}</td>
+              <td>${newsCell}</td>
+              <td class="industry">${industry}</td>
+            </tr>`;
+          }
+        }
+
+        tbody.innerHTML = rowsHTML;
+        document.getElementById('statusRegular').textContent = `Updated: ${nowEST}`;
+      } catch (err) {
+        document.getElementById('statusRegular').textContent = `Error: ${err.message}`;
+        tbody.innerHTML = '<tr><td colspan="13" style="text-align:center;padding:24px;color:#ff7c7c;">' + err.message + '</td></tr>';
+      }
+    }
+
+    updateTable();
+    updateTableRegular();
+    setInterval(updateTable, UPDATE_MS);
+    setInterval(updateTableRegular, UPDATE_MS);
+  </script>
+</body>
+</html>
