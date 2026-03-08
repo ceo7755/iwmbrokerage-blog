@@ -144,7 +144,6 @@
   </footer>
 
   <script>
-    const API_KEY = 'YOUR_POLYGON_API_KEY'; // Replace with your Polygon.io API key
     const UPDATE_MS = 5 * 60 * 1000;
     const PRICE_MIN = 0.01;
     const PRICE_MAX = 20;
@@ -193,7 +192,8 @@
       return (h === 9 && m >= 30) || (h === 10);
     }
 
-    async function fetchJSON(url) {
+    async function fetchViaProxy(pathAndQuery) {
+      const url = '/.netlify/functions/massive-proxy?request=' + encodeURIComponent(pathAndQuery);
       const res = await fetch(url);
       if (!res.ok) throw new Error(`API error: ${res.status}`);
       return res.json();
@@ -204,8 +204,8 @@
       try {
         const today = new Date().toISOString().split('T')[0];
         const from = new Date(Date.now() - 45*24*60*60*1000).toISOString().split('T')[0];
-        const url = `https://api.polygon.io/v2/aggs/ticker/${ticker}/range/1/day/${from}/${today}?adjusted=true&sort=desc&limit=30&apiKey=${API_KEY}`;
-        const data = await fetchJSON(url);
+        const pathAndQuery = `v2/aggs/ticker/${ticker}/range/1/day/${from}/${today}?adjusted=true&sort=desc&limit=30`;
+        const data = await fetchViaProxy(pathAndQuery);
         if (!data.results?.length) return null;
         const vols = data.results.map(r => r.v || 0);
         const avg = vols.reduce((a, b) => a + b, 0) / vols.length;
@@ -222,8 +222,8 @@
       if (newsCache[cacheKey] !== undefined) return newsCache[cacheKey];
       try {
         const today = new Date().toISOString().split('T')[0];
-        const url = `https://api.polygon.io/v2/reference/news?ticker=${ticker}&published_utc.gte=${today}&limit=3&order=desc&sort=published_utc&apiKey=${API_KEY}`;
-        const data = await fetchJSON(url);
+        const pathAndQuery = `v2/reference/news?ticker=${ticker}&published_utc.gte=${today}&limit=3&order=desc&sort=published_utc`;
+        const data = await fetchViaProxy(pathAndQuery);
         const hasNews = data.results?.length > 0;
         newsCache[cacheKey] = hasNews ? data.results[0].article_url : null;
         localStorage.setItem(STORAGE_KEY_NEWS, JSON.stringify(newsCache));
@@ -237,8 +237,8 @@
       const cacheKey = `${ticker}_${new Date().toDateString()}`;
       if (industryCache[cacheKey]) return industryCache[cacheKey];
       try {
-        const url = `https://api.polygon.io/v3/reference/tickers/${ticker}?apiKey=${API_KEY}`;
-        const data = await fetchJSON(url);
+        const pathAndQuery = `v3/reference/tickers/${ticker}`;
+        const data = await fetchViaProxy(pathAndQuery);
         const sic = data.results?.sic_code;
         if (!sic) {
           industryCache[cacheKey] = 'N/A';
@@ -266,8 +266,8 @@
       document.getElementById('status').textContent = 'Fetching...';
 
       try {
-        const url = `https://api.polygon.io/v2/snapshot/locale/us/markets/stocks/gainers?apiKey=${API_KEY}`;
-        const data = await fetchJSON(url);
+        const pathAndQuery = 'v2/snapshot/locale/us/markets/stocks/gainers';
+        const data = await fetchViaProxy(pathAndQuery);
         let tickers = data.tickers || [];
 
         tickers = tickers.filter(t => {
@@ -347,8 +347,8 @@
       document.getElementById('statusRegular').textContent = 'Fetching...';
 
       try {
-        const url = `https://api.polygon.io/v2/snapshot/locale/us/markets/stocks/gainers?apiKey=${API_KEY}`;
-        const data = await fetchJSON(url);
+        const pathAndQuery = 'v2/snapshot/locale/us/markets/stocks/gainers';
+        const data = await fetchViaProxy(pathAndQuery);
         let tickers = data.tickers || [];
 
         tickers = tickers.filter(t => {

@@ -19,9 +19,17 @@
     <link rel="stylesheet" href="styles.css?v=2">
     <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
+        /* Ensure page scrolls on desktop so Socials and footer are reachable */
+        html, body {
+            overflow-y: auto !important;
+            height: auto !important;
+            min-height: 100%;
+        }
         /* Header logo – use same file as other pages */
         .navbar .logo-img { width: 260px; height: auto; display: block; }
         /* Button icons: white so they’re visible on dark blue */
+        .linktree-buttons .cta-button,
+        .linktree-buttons .cta-button span { white-space: nowrap; }
         .linktree-buttons .button-icon { filter: brightness(0) invert(1); }
         /* Socials dropdown: show when .open (click/tap) at any screen size */
         .linktree-buttons .dropdown.open .dropdown-menu {
@@ -51,8 +59,8 @@
             height: 14px;
             filter: brightness(0) invert(1);
         }
-        /* Lessen space between header and main title */
-        .join-section.join-section-blue { padding-top: 30px; padding-bottom: 50px; }
+        /* Lessen space between header and main title; enough bottom padding to scroll past Socials */
+        .join-section.join-section-blue { padding-top: 30px; padding-bottom: 80px; }
         /* Smaller main title */
         .join-section .join-content h1 { font-size: 2rem; }
         /* No big gap below buttons: footer placeholder and footer on this page */
@@ -94,7 +102,7 @@
             }
             .linktree-buttons > * {
                 width: 100%;
-                max-width: 250px;
+                max-width: 320px;
                 box-sizing: border-box;
             }
             .linktree-buttons .dropdown .cta-button {
