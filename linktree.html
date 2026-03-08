@@ -406,20 +406,14 @@
         <a href="about.html" class="about-learn-more">Learn More</a>
     </div>
 
-    <!-- Footer Placeholder -->
-    <div id="footer-placeholder"></div>
+    <!-- Footer -->
+    <footer>
+        <p>© 2025 IWM Brokerage. Insurance Wealth Management, L.L.C.. All rights reserved. | <a href="privacy.html" class="footer-link">Privacy Policy & Terms of Use</a> | <a href="linktree.html" class="footer-link">Link Tree</a> | <a href="contact.html" class="footer-link">Contact Us</a> | <a href="broker-login.html" class="footer-link">Current Broker Login</a></p>
+    </footer>
 
     <!-- Scripts -->
     <script src="script.js"></script>
     <script>
-        // Load Footer
-        fetch('footer.html')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('footer-placeholder').innerHTML = data;
-            })
-            .catch(error => console.error('Error loading footer:', error));
-
         // Linktree Socials: open dropdown on click/tap and close on outside click
         (function() {
             var dropdown = document.querySelector('.linktree-buttons .dropdown');
