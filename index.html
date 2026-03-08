@@ -51,6 +51,7 @@
                     </li>
 
 
+                    <li><a href="stocks.html">Stocks</a></li>
                     <li><a href="contact.html">Contact Us</a></li>
                     <li><a href="join.html" id="join-team">Join Team</a></li>
                 </ul>
@@ -946,10 +947,11 @@ h2.client-scenarios-bar-title {
         background: #bbbbbb;
     }
 
-    /* Quote, Boat, and Referrals Gold Blocks */
+    /* Quote, Boat, Referrals, and Stocks Gold Blocks */
     .quote-bar,
     .boat-bar,
-    .referrals-bar {
+    .referrals-bar,
+    .stocks-bar {
 
 
         max-width: 800px; /* Default for mobile */
@@ -965,14 +967,16 @@ h2.client-scenarios-bar-title {
     /* Add spacing between the blocks */
     .quote-section,
     .boat-section,
-    .referrals-section {
+    .referrals-section,
+    .stocks-section {
         margin-bottom: 50px;
     }
 
     @media (min-width: 769px) {
         .quote-bar,
         .boat-bar,
-        .referrals-bar {
+        .referrals-bar,
+        .stocks-bar {
             max-width: 550px; /* Match other blocks on desktop */
         }
     }
@@ -980,7 +984,8 @@ h2.client-scenarios-bar-title {
     /* Gold Block Titles (as links) */
     a.quote-bar-title,
     a.boat-bar-title,
-    a.referrals-bar-title {
+    a.referrals-bar-title,
+    a.stocks-bar-title {
         background: linear-gradient(135deg, #AB9C59 0%, #8B7D47 50%, #AB9C59 100%);
         color: #091954;
         padding: 15px 30px;
@@ -1009,7 +1014,8 @@ h2.client-scenarios-bar-title {
     /* Center header text in gold link blocks; arrow stays right */
     a.quote-bar-title .bar-title-text,
     a.boat-bar-title .bar-title-text,
-    a.referrals-bar-title .bar-title-text {
+    a.referrals-bar-title .bar-title-text,
+    a.stocks-bar-title .bar-title-text {
         flex: 1;
         text-align: center;
     }
@@ -1017,7 +1023,8 @@ h2.client-scenarios-bar-title {
     /* Glossy Shine Effect */
     a.quote-bar-title::before,
     a.boat-bar-title::before,
-    a.referrals-bar-title::before {
+    a.referrals-bar-title::before,
+    a.stocks-bar-title::before {
         content: '';
         position: absolute;
         top: -50%;
@@ -1034,7 +1041,8 @@ h2.client-scenarios-bar-title {
     @media (min-width: 769px) {
         a.quote-bar-title,
         a.boat-bar-title,
-        a.referrals-bar-title {
+        a.referrals-bar-title,
+        a.stocks-bar-title {
             width: 550px;
             font-size: 2.7rem;
             white-space: normal;
@@ -1045,12 +1053,16 @@ h2.client-scenarios-bar-title {
         a.boat-bar-title {
             font-size: 1.8rem; /* Smaller font for long text */
         }
+        a.stocks-bar-title {
+            font-size: 1.8rem; /* Smaller font for "Stocks Largest Movers" */
+        }
     }
 
     /* Hover Effect */
     a.quote-bar-title:hover,
     a.boat-bar-title:hover,
-    a.referrals-bar-title:hover {
+    a.referrals-bar-title:hover,
+    a.stocks-bar-title:hover {
         background: linear-gradient(135deg, #8B7D47 0%, #AB9C59 50%, #8B7D47 100%);
         transform: translateY(-3px) scale(1.02);
         box-shadow: 0 10px 20px rgba(171, 156, 89, 0.6), inset 0 2px 5px rgba(255, 255, 255, 0.4);
@@ -1058,7 +1070,8 @@ h2.client-scenarios-bar-title {
 
     a.quote-bar-title:hover::before,
     a.boat-bar-title:hover::before,
-    a.referrals-bar-title:hover::before {
+    a.referrals-bar-title:hover::before,
+    a.stocks-bar-title:hover::before {
         transform: rotate(30deg) translate(20%, 20%);
     }
 
@@ -1066,7 +1079,8 @@ h2.client-scenarios-bar-title {
     @media (max-width: 768px) {
         .quote-bar,
         .boat-bar,
-        .referrals-bar {
+        .referrals-bar,
+        .stocks-bar {
             max-width: 95%;
             width: 95%;
             margin: 0 auto 8px;
@@ -1076,13 +1090,15 @@ h2.client-scenarios-bar-title {
         
         .quote-section,
         .boat-section,
-        .referrals-section {
+        .referrals-section,
+        .stocks-section {
             margin-bottom: 30px;
         }
 
         a.quote-bar-title,
         a.boat-bar-title,
-        a.referrals-bar-title {
+        a.referrals-bar-title,
+        a.stocks-bar-title {
             font-size: 1.8rem;
             padding: 12px 15px;
             line-height: 1.2;
@@ -1826,6 +1842,15 @@ h2.client-scenarios-bar-title {
                 <div class="referrals-bar">
                     <a href="contact.html" class="referrals-bar-title">
                         <span class="bar-title-text">Referrals</span><span class="arrow">→</span>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Stocks Largest Movers Block -->
+            <section class="stocks-section">
+                <div class="stocks-bar">
+                    <a href="stocks.html" class="stocks-bar-title">
+                        <span class="bar-title-text">Stocks Largest Movers</span><span class="arrow">→</span>
                     </a>
                 </div>
             </section>

@@ -32,9 +32,14 @@
     .movers-table th, .movers-table td { border: 1px solid rgba(171, 156, 89, 0.3); padding: 10px 12px; text-align: right; font-size: 0.9rem; }
     .movers-table th { background: rgba(171, 156, 89, 0.25); color: #fff; position: sticky; top: 0; z-index: 1; white-space: nowrap; }
     .movers-table td.symbol { font-weight: 600; color: #AB9C59; }
+    .movers-table td.name-symbol { cursor: pointer; }
+    #name-tooltip { position: fixed; background: rgba(9,25,84,0.95); color: #fff; border: 1px solid #AB9C59; border-radius: 6px; padding: 8px 12px; font-size: 0.9rem; z-index: 9999; pointer-events: none; max-width: 280px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
     .movers-table .positive { color: #7cff7c; font-weight: bold; }
     .movers-table .negative { color: #ff7c7c; font-weight: bold; }
     .movers-table .industry { text-align: left; max-width: 200px; }
+    .movers-table .slot-time-cell { cursor: pointer; white-space: nowrap; }
+    .movers-table .toggle-icon { cursor: pointer; user-select: none; margin-left: 4px; opacity: 0.9; }
+    .movers-table .slot-body-row.hidden { display: none; }
     .news-link { color: #AB9C59; text-decoration: none; }
     .news-link:hover { text-decoration: underline; }
 
@@ -92,13 +97,12 @@
           <tr>
             <th>Time (EST)</th>
             <th>Rank</th>
-            <th>Symbol</th>
+            <th>Name/Symbol</th>
             <th>Baseline Price</th>
             <th>Current Price</th>
             <th>% Moved</th>
-            <th>Current Volume</th>
             <th>30-Day Avg Vol</th>
-            <th>Vol vs Avg</th>
+            <th>Current Volume</th>
             <th>Vol % Change</th>
             <th>News</th>
             <th>Industry</th>
@@ -117,13 +121,12 @@
           <tr>
             <th>Time (EST)</th>
             <th>Rank</th>
-            <th>Symbol</th>
+            <th>Name/Symbol</th>
             <th>Baseline Price</th>
             <th>Current Price</th>
             <th>% Moved</th>
-            <th>Current Volume</th>
             <th>30-Day Avg Vol</th>
-            <th>Vol vs Avg</th>
+            <th>Current Volume</th>
             <th>Vol % Change</th>
             <th>News</th>
             <th>Industry</th>
@@ -142,6 +145,7 @@
       <a href="broker-login.html">Current Broker Login</a>
     </p>
   </footer>
+  <div id="name-tooltip" style="display:none;"></div>
 
   <script>
     const UPDATE_MS = 5 * 60 * 1000;
@@ -152,12 +156,14 @@
     const STORAGE_KEY_AVGS = 'premarket_avg_volumes';
     const STORAGE_KEY_NEWS = 'premarket_news_cache';
     const STORAGE_KEY_INDUSTRY = 'premarket_industry_cache';
+    const STORAGE_KEY_TICKER_DETAILS = 'premarket_ticker_details';
 
     let baselines = JSON.parse(localStorage.getItem(STORAGE_KEY_BASE)) || {};
     let baselinesRegular = JSON.parse(localStorage.getItem(STORAGE_KEY_BASE_REGULAR)) || {};
     let avgVolumes = JSON.parse(localStorage.getItem(STORAGE_KEY_AVGS)) || {};
     let newsCache = JSON.parse(localStorage.getItem(STORAGE_KEY_NEWS)) || {};
     let industryCache = JSON.parse(localStorage.getItem(STORAGE_KEY_INDUSTRY)) || {};
+    let tickerDetailsCache = JSON.parse(localStorage.getItem(STORAGE_KEY_TICKER_DETAILS)) || {};
 
     const sicToIndustry = {
       '2834': 'Biotechnology / Pharmaceuticals',
@@ -177,6 +183,43 @@
       '7389': 'Business Services (Misc)',
       '8200': 'Educational Services',
     };
+
+    const ROWS_PER_SLOT = 15;
+    const PREMARKET_SLOTS = (() => {
+      const s = []; for (let h = 5; h <= 9; h++) for (let m = 0; m < 60; m += 5) { if (h === 9 && m > 30) break; s.push(h + ':' + String(m).padStart(2, '0')); } return s;
+    })();
+    const REGULAR_SLOTS = (() => {
+      const s = []; for (let m = 30; m < 60; m += 5) s.push('9:' + String(m).padStart(2, '0')); for (let m = 0; m < 60; m += 5) s.push('10:' + String(m).padStart(2, '0')); s.push('11:00'); return s;
+    })();
+    const PREMARKET_SLOTS_REVERSED = [...PREMARKET_SLOTS].reverse();
+    const REGULAR_SLOTS_REVERSED = [...REGULAR_SLOTS].reverse();
+    const EXPANDED_SLOTS_COUNT = 2;
+
+    function getCurrentSlotEst() {
+      const et = new Date(new Date().toLocaleString('en-US', { timeZone: 'America/New_York' }));
+      const h = et.getHours(), m = et.getMinutes();
+      const slotM = Math.floor(m / 5) * 5;
+      return h + ':' + String(slotM).padStart(2, '0');
+    }
+
+    function slotToggleIcon(collapsed) { return collapsed ? '&#9654;' : '&#9660;'; }
+
+    function buildEmptyTableBody(slotsReversed) {
+      let html = '';
+      for (let idx = 0; idx < slotsReversed.length; idx++) {
+        const time = slotsReversed[idx];
+        const collapsed = idx >= EXPANDED_SLOTS_COUNT;
+        const icon = slotToggleIcon(collapsed);
+        const timeRowspan = collapsed ? 1 : ROWS_PER_SLOT;
+        html += '<tr data-slot-index="' + idx + '" class="slot-header-row"><td rowspan="' + timeRowspan + '" class="slot-time-cell"><span class="slot-time">' + time + '</span> <span class="toggle-icon" aria-label="Expand/collapse">' + icon + '</span></td>';
+        html += '<td>1</td><td class="symbol name-symbol">–</td><td>–</td><td>–</td><td>–</td><td>–</td><td>–</td><td>–</td><td></td><td class="industry">–</td></tr>';
+        for (let r = 1; r < ROWS_PER_SLOT; r++) {
+          const rowClass = collapsed ? 'slot-body-row hidden' : 'slot-body-row';
+          html += '<tr data-slot-index="' + idx + '" class="' + rowClass + '"><td>' + (r + 1) + '</td><td class="symbol name-symbol">–</td><td>–</td><td>–</td><td>–</td><td>–</td><td>–</td><td>–</td><td></td><td class="industry">–</td></tr>';
+        }
+      }
+      return html;
+    }
 
     function isWithinWindow() {
       const now = new Date();
@@ -233,51 +276,54 @@
       }
     }
 
-    async function getIndustry(ticker) {
+    async function getTickerDetails(ticker) {
       const cacheKey = `${ticker}_${new Date().toDateString()}`;
-      if (industryCache[cacheKey]) return industryCache[cacheKey];
+      if (tickerDetailsCache[cacheKey]) return tickerDetailsCache[cacheKey];
       try {
         const pathAndQuery = `v3/reference/tickers/${ticker}`;
         const data = await fetchViaProxy(pathAndQuery);
-        const sic = data.results?.sic_code;
-        if (!sic) {
-          industryCache[cacheKey] = 'N/A';
-        } else {
-          industryCache[cacheKey] = sicToIndustry[sic] || `SIC ${sic} (Other)`;
-        }
-        localStorage.setItem(STORAGE_KEY_INDUSTRY, JSON.stringify(industryCache));
-        return industryCache[cacheKey];
+        const r = data.results || {};
+        const name = r.name || ticker;
+        const sic = r.sic_code;
+        const industry = !sic ? 'N/A' : (sicToIndustry[sic] || `SIC ${sic} (Other)`);
+        tickerDetailsCache[cacheKey] = { name, industry };
+        localStorage.setItem(STORAGE_KEY_TICKER_DETAILS, JSON.stringify(tickerDetailsCache));
+        return tickerDetailsCache[cacheKey];
       } catch (e) {
-        industryCache[cacheKey] = 'N/A';
-        return 'N/A';
+        tickerDetailsCache[cacheKey] = { name: ticker, industry: 'N/A' };
+        return tickerDetailsCache[cacheKey];
       }
+    }
+
+    async function getIndustry(ticker) {
+      const d = await getTickerDetails(ticker);
+      return d.industry;
+    }
+
+    async function getCompanyName(ticker) {
+      const d = await getTickerDetails(ticker);
+      return d.name;
     }
 
     async function updateTable() {
       const tbody = document.querySelector('#moversTable tbody');
       if (!isWithinWindow()) {
         document.getElementById('status').textContent = 'Outside pre-market window (5:00–9:30 AM EST). Next check in 5 min.';
-        if (tbody.rows.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="13" style="text-align:center;padding:24px;">Data refreshes during pre-market hours.</td></tr>';
-        }
         return;
       }
-
+      const slotTime = getCurrentSlotEst();
+      const slotIndex = PREMARKET_SLOTS_REVERSED.indexOf(slotTime);
+      if (slotIndex < 0) return;
       document.getElementById('status').textContent = 'Fetching...';
-
       try {
         const pathAndQuery = 'v2/snapshot/locale/us/markets/stocks/gainers';
         const data = await fetchViaProxy(pathAndQuery);
         let tickers = data.tickers || [];
-
         tickers = tickers.filter(t => {
           const price = t.lastQuote?.P || t.day?.c || t.prevDay?.c || 0;
           return price >= PRICE_MIN && price <= PRICE_MAX;
         }).slice(0, 15);
-
-        const nowEST = new Date().toLocaleString('en-US', { timeZone: 'America/New_York', hour12: false });
         const today = new Date().toDateString();
-
         if (!baselines.date || baselines.date !== today) {
           baselines = { date: today };
           for (const t of tickers) {
@@ -286,51 +332,41 @@
           }
           localStorage.setItem(STORAGE_KEY_BASE, JSON.stringify(baselines));
         }
-
-        let rowsHTML = '';
-        if (tickers.length === 0) {
-          rowsHTML = '<tr><td colspan="13" style="text-align:center;padding:24px;">No qualifying gainers in range.</td></tr>';
-        } else {
-          for (let i = 0; i < tickers.length; i++) {
-            const stock = tickers[i];
-            const tickerSym = stock.ticker;
-            const currPrice = stock.lastQuote?.P || stock.day?.c || 'N/A';
-            const basePrice = baselines[tickerSym] || stock.prevDay?.c || 'N/A';
-            const pctFromBase = (basePrice !== 'N/A' && currPrice !== 'N/A')
-              ? ((currPrice - basePrice) / basePrice * 100).toFixed(2) : 'N/A';
-            const vol = stock.day?.v || 0;
-            const avgVol = await get30DayAvgVolume(tickerSym) || 'N/A';
-            const volRatio = (avgVol !== 'N/A' && vol > 0) ? (vol / avgVol).toFixed(2) + 'x' : 'N/A';
-            const volPct = avgVol !== 'N/A' ? ((vol - avgVol) / avgVol * 100).toFixed(2) : 'N/A';
-            const newsUrl = await hasRecentNews(tickerSym);
-            const newsCell = newsUrl ? `<a href="${newsUrl}" target="_blank" rel="noopener" class="news-link">✅</a>` : '';
-            const industry = await getIndustry(tickerSym);
-
-            const pctClass = pctFromBase > 0 ? 'positive' : (pctFromBase < 0 ? 'negative' : '');
-            const volPctClass = volPct !== 'N/A' ? (volPct > 0 ? 'positive' : 'negative') : '';
-
-            const timeCell = i === 0 ? `<td rowspan="${tickers.length}">${nowEST}</td>` : '';
-            rowsHTML += `<tr>${timeCell}
-              <td>${i+1}</td>
-              <td class="symbol">${tickerSym}</td>
-              <td>${basePrice === 'N/A' ? '–' : Number(basePrice).toFixed(2)}</td>
-              <td>${currPrice === 'N/A' ? '–' : Number(currPrice).toFixed(2)}</td>
-              <td class="${pctClass}">${pctFromBase === 'N/A' ? '–' : pctFromBase + '%'}</td>
-              <td>${vol.toLocaleString()}</td>
-              <td>${avgVol === 'N/A' ? '–' : Number(avgVol).toLocaleString(undefined, {maximumFractionDigits: 0})}</td>
-              <td>${volRatio}</td>
-              <td class="${volPctClass}">${volPct === 'N/A' ? '–' : volPct + '%'}</td>
-              <td>${newsCell}</td>
-              <td class="industry">${industry}</td>
-            </tr>`;
-          }
+        const rowsHTML = [];
+        for (let i = 0; i < tickers.length; i++) {
+          const stock = tickers[i];
+          const tickerSym = stock.ticker;
+          const currPrice = stock.lastQuote?.P || stock.day?.c || 'N/A';
+          const basePrice = baselines[tickerSym] || stock.prevDay?.c || 'N/A';
+          const pctFromBase = (basePrice !== 'N/A' && currPrice !== 'N/A') ? ((currPrice - basePrice) / basePrice * 100).toFixed(2) : 'N/A';
+          const vol = stock.day?.v || 0;
+          const avgVol = await get30DayAvgVolume(tickerSym) || 'N/A';
+          const volPct = avgVol !== 'N/A' ? ((vol - avgVol) / avgVol * 100).toFixed(2) : 'N/A';
+          const newsUrl = await hasRecentNews(tickerSym);
+          const newsCell = newsUrl ? `<a href="${newsUrl}" target="_blank" rel="noopener" class="news-link">✅</a>` : '';
+          const details = await getTickerDetails(tickerSym);
+          const companyName = details.name || tickerSym;
+          const industry = details.industry;
+          const symbolCell = `<td class="symbol name-symbol" title="${companyName.replace(/"/g, '&quot;')}" data-name="${companyName.replace(/"/g, '&quot;')}">${tickerSym}</td>`;
+          const pctClass = pctFromBase > 0 ? 'positive' : (pctFromBase < 0 ? 'negative' : '');
+          const volPctClass = volPct !== 'N/A' ? (volPct > 0 ? 'positive' : 'negative') : '';
+          const collapsed = slotIndex >= EXPANDED_SLOTS_COUNT;
+          const icon = slotToggleIcon(collapsed);
+          const timeRowspan = collapsed ? 1 : tickers.length;
+          const timeCell = i === 0 ? `<td rowspan="${timeRowspan}" class="slot-time-cell"><span class="slot-time">${slotTime}</span> <span class="toggle-icon" aria-label="Expand/collapse">${icon}</span></td>` : '';
+          const rowClass = i === 0 ? 'slot-header-row' : (collapsed ? 'slot-body-row hidden' : 'slot-body-row');
+          const dataAttr = ' data-slot-index="' + slotIndex + '"';
+          rowsHTML.push(`<tr${dataAttr} class="${rowClass}">${timeCell}<td>${i+1}</td>${symbolCell}<td>${basePrice === 'N/A' ? '–' : Number(basePrice).toFixed(2)}</td><td>${currPrice === 'N/A' ? '–' : Number(currPrice).toFixed(2)}</td><td class="${pctClass}">${pctFromBase === 'N/A' ? '–' : pctFromBase + '%'}</td><td>${avgVol === 'N/A' ? '–' : Number(avgVol).toLocaleString(undefined, {maximumFractionDigits: 0})}</td><td>${vol.toLocaleString()}</td><td class="${volPctClass}">${volPct === 'N/A' ? '–' : volPct + '%'}</td><td>${newsCell}</td><td class="industry">${industry}</td></tr>`);
         }
-
-        tbody.innerHTML = rowsHTML;
-        document.getElementById('status').textContent = `Updated: ${nowEST}`;
+        const start = slotIndex * ROWS_PER_SLOT;
+        for (let i = ROWS_PER_SLOT - 1; i >= 0; i--) tbody.deleteRow(start + i);
+        const div = document.createElement('div');
+        div.innerHTML = '<table><tbody>' + rowsHTML.join('') + '</tbody></table>';
+        const ref = tbody.rows[start] || null;
+        for (const tr of div.querySelector('tbody').rows) tbody.insertBefore(tr, ref);
+        document.getElementById('status').textContent = 'Updated: ' + slotTime;
       } catch (err) {
-        document.getElementById('status').textContent = `Error: ${err.message}`;
-        tbody.innerHTML = '<tr><td colspan="13" style="text-align:center;padding:24px;color:#ff7c7c;">' + err.message + '</td></tr>';
+        document.getElementById('status').textContent = 'Error: ' + err.message;
       }
     }
 
@@ -338,27 +374,21 @@
       const tbody = document.querySelector('#moversTableRegular tbody');
       if (!isWithinWindowRegular()) {
         document.getElementById('statusRegular').textContent = 'Outside window (9:30–11:00 AM EST). Next check in 5 min.';
-        if (tbody.rows.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="13" style="text-align:center;padding:24px;">Data refreshes 9:30–11:00 AM EST.</td></tr>';
-        }
         return;
       }
-
+      const slotTime = getCurrentSlotEst();
+      const slotIndex = REGULAR_SLOTS_REVERSED.indexOf(slotTime);
+      if (slotIndex < 0) return;
       document.getElementById('statusRegular').textContent = 'Fetching...';
-
       try {
         const pathAndQuery = 'v2/snapshot/locale/us/markets/stocks/gainers';
         const data = await fetchViaProxy(pathAndQuery);
         let tickers = data.tickers || [];
-
         tickers = tickers.filter(t => {
           const price = t.lastQuote?.P || t.day?.c || t.prevDay?.c || 0;
           return price >= PRICE_MIN && price <= PRICE_MAX;
         }).slice(0, 15);
-
-        const nowEST = new Date().toLocaleString('en-US', { timeZone: 'America/New_York', hour12: false });
         const today = new Date().toDateString();
-
         if (!baselinesRegular.date || baselinesRegular.date !== today) {
           baselinesRegular = { date: today };
           for (const t of tickers) {
@@ -367,54 +397,77 @@
           }
           localStorage.setItem(STORAGE_KEY_BASE_REGULAR, JSON.stringify(baselinesRegular));
         }
-
-        let rowsHTML = '';
-        if (tickers.length === 0) {
-          rowsHTML = '<tr><td colspan="13" style="text-align:center;padding:24px;">No qualifying gainers in range.</td></tr>';
-        } else {
-          for (let i = 0; i < tickers.length; i++) {
-            const stock = tickers[i];
-            const tickerSym = stock.ticker;
-            const currPrice = stock.lastQuote?.P || stock.day?.c || 'N/A';
-            const basePrice = baselinesRegular[tickerSym] || stock.prevDay?.c || 'N/A';
-            const pctFromBase = (basePrice !== 'N/A' && currPrice !== 'N/A')
-              ? ((currPrice - basePrice) / basePrice * 100).toFixed(2) : 'N/A';
-            const vol = stock.day?.v || 0;
-            const avgVol = await get30DayAvgVolume(tickerSym) || 'N/A';
-            const volRatio = (avgVol !== 'N/A' && vol > 0) ? (vol / avgVol).toFixed(2) + 'x' : 'N/A';
-            const volPct = avgVol !== 'N/A' ? ((vol - avgVol) / avgVol * 100).toFixed(2) : 'N/A';
-            const newsUrl = await hasRecentNews(tickerSym);
-            const newsCell = newsUrl ? `<a href="${newsUrl}" target="_blank" rel="noopener" class="news-link">✅</a>` : '';
-            const industry = await getIndustry(tickerSym);
-
-            const pctClass = pctFromBase > 0 ? 'positive' : (pctFromBase < 0 ? 'negative' : '');
-            const volPctClass = volPct !== 'N/A' ? (volPct > 0 ? 'positive' : 'negative') : '';
-
-            const timeCell = i === 0 ? `<td rowspan="${tickers.length}">${nowEST}</td>` : '';
-            rowsHTML += `<tr>${timeCell}
-              <td>${i+1}</td>
-              <td class="symbol">${tickerSym}</td>
-              <td>${basePrice === 'N/A' ? '–' : Number(basePrice).toFixed(2)}</td>
-              <td>${currPrice === 'N/A' ? '–' : Number(currPrice).toFixed(2)}</td>
-              <td class="${pctClass}">${pctFromBase === 'N/A' ? '–' : pctFromBase + '%'}</td>
-              <td>${vol.toLocaleString()}</td>
-              <td>${avgVol === 'N/A' ? '–' : Number(avgVol).toLocaleString(undefined, {maximumFractionDigits: 0})}</td>
-              <td>${volRatio}</td>
-              <td class="${volPctClass}">${volPct === 'N/A' ? '–' : volPct + '%'}</td>
-              <td>${newsCell}</td>
-              <td class="industry">${industry}</td>
-            </tr>`;
-          }
+        const rowsHTML = [];
+        for (let i = 0; i < tickers.length; i++) {
+          const stock = tickers[i];
+          const tickerSym = stock.ticker;
+          const currPrice = stock.lastQuote?.P || stock.day?.c || 'N/A';
+          const basePrice = baselinesRegular[tickerSym] || stock.prevDay?.c || 'N/A';
+          const pctFromBase = (basePrice !== 'N/A' && currPrice !== 'N/A') ? ((currPrice - basePrice) / basePrice * 100).toFixed(2) : 'N/A';
+          const vol = stock.day?.v || 0;
+          const avgVol = await get30DayAvgVolume(tickerSym) || 'N/A';
+          const volPct = avgVol !== 'N/A' ? ((vol - avgVol) / avgVol * 100).toFixed(2) : 'N/A';
+          const newsUrl = await hasRecentNews(tickerSym);
+          const newsCell = newsUrl ? `<a href="${newsUrl}" target="_blank" rel="noopener" class="news-link">✅</a>` : '';
+          const details = await getTickerDetails(tickerSym);
+          const companyName = details.name || tickerSym;
+          const industry = details.industry;
+          const symbolCell = `<td class="symbol name-symbol" title="${companyName.replace(/"/g, '&quot;')}" data-name="${companyName.replace(/"/g, '&quot;')}">${tickerSym}</td>`;
+          const pctClass = pctFromBase > 0 ? 'positive' : (pctFromBase < 0 ? 'negative' : '');
+          const volPctClass = volPct !== 'N/A' ? (volPct > 0 ? 'positive' : 'negative') : '';
+          const collapsed = slotIndex >= EXPANDED_SLOTS_COUNT;
+          const icon = slotToggleIcon(collapsed);
+          const timeRowspan = collapsed ? 1 : tickers.length;
+          const timeCell = i === 0 ? `<td rowspan="${timeRowspan}" class="slot-time-cell"><span class="slot-time">${slotTime}</span> <span class="toggle-icon" aria-label="Expand/collapse">${icon}</span></td>` : '';
+          const rowClass = i === 0 ? 'slot-header-row' : (collapsed ? 'slot-body-row hidden' : 'slot-body-row');
+          const dataAttr = ' data-slot-index="' + slotIndex + '"';
+          rowsHTML.push(`<tr${dataAttr} class="${rowClass}">${timeCell}<td>${i+1}</td>${symbolCell}<td>${basePrice === 'N/A' ? '–' : Number(basePrice).toFixed(2)}</td><td>${currPrice === 'N/A' ? '–' : Number(currPrice).toFixed(2)}</td><td class="${pctClass}">${pctFromBase === 'N/A' ? '–' : pctFromBase + '%'}</td><td>${avgVol === 'N/A' ? '–' : Number(avgVol).toLocaleString(undefined, {maximumFractionDigits: 0})}</td><td>${vol.toLocaleString()}</td><td class="${volPctClass}">${volPct === 'N/A' ? '–' : volPct + '%'}</td><td>${newsCell}</td><td class="industry">${industry}</td></tr>`);
         }
-
-        tbody.innerHTML = rowsHTML;
-        document.getElementById('statusRegular').textContent = `Updated: ${nowEST}`;
+        const start = slotIndex * ROWS_PER_SLOT;
+        for (let i = ROWS_PER_SLOT - 1; i >= 0; i--) tbody.deleteRow(start + i);
+        const div = document.createElement('div');
+        div.innerHTML = '<table><tbody>' + rowsHTML.join('') + '</tbody></table>';
+        const ref = tbody.rows[start] || null;
+        for (const tr of div.querySelector('tbody').rows) tbody.insertBefore(tr, ref);
+        document.getElementById('statusRegular').textContent = 'Updated: ' + slotTime;
       } catch (err) {
-        document.getElementById('statusRegular').textContent = `Error: ${err.message}`;
-        tbody.innerHTML = '<tr><td colspan="13" style="text-align:center;padding:24px;color:#ff7c7c;">' + err.message + '</td></tr>';
+        document.getElementById('statusRegular').textContent = 'Error: ' + err.message;
       }
     }
 
+    document.querySelector('#moversTable tbody').innerHTML = buildEmptyTableBody(PREMARKET_SLOTS_REVERSED);
+    document.querySelector('#moversTableRegular tbody').innerHTML = buildEmptyTableBody(REGULAR_SLOTS_REVERSED);
+
+    document.body.addEventListener('click', function(e) {
+      const timeCellOrIcon = e.target.closest('.slot-time-cell, .toggle-icon');
+      if (timeCellOrIcon) {
+        const headerRow = timeCellOrIcon.closest('tr');
+        if (!headerRow || !headerRow.classList.contains('slot-header-row')) return;
+        const tbody = headerRow.closest('tbody');
+        const slotIndex = headerRow.getAttribute('data-slot-index');
+        if (slotIndex === null || !tbody) return;
+        const bodyRows = tbody.querySelectorAll('tr.slot-body-row[data-slot-index="' + slotIndex + '"]');
+        const icon = headerRow.querySelector('.toggle-icon');
+        const timeTd = headerRow.querySelector('td.slot-time-cell');
+        const isCollapsed = bodyRows.length && bodyRows[0].classList.contains('hidden');
+        bodyRows.forEach(function(r) { r.classList.toggle('hidden', !isCollapsed); });
+        if (timeTd) timeTd.rowSpan = isCollapsed ? ROWS_PER_SLOT : 1;
+        if (icon) icon.innerHTML = slotToggleIcon(!isCollapsed);
+        e.preventDefault();
+        return;
+      }
+      const cell = e.target.closest('.name-symbol');
+      if (!cell) return;
+      const name = cell.getAttribute('data-name') || cell.getAttribute('title');
+      if (!name) return;
+      const tip = document.getElementById('name-tooltip');
+      tip.textContent = name;
+      tip.style.display = 'block';
+      tip.style.left = (e.pageX + 12) + 'px';
+      tip.style.top = (e.pageY + 8) + 'px';
+      clearTimeout(tip._hide);
+      tip._hide = setTimeout(function() { tip.style.display = 'none'; }, 2500);
+    });
     updateTable();
     updateTableRegular();
     setInterval(updateTable, UPDATE_MS);
