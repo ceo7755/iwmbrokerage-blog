@@ -241,7 +241,11 @@
       // Massive (formerly Polygon) REST APIs are currently served from api.polygon.io
       const url = `https://api.polygon.io/${pathAndQuery}${separator}apiKey=${API_KEY}`;
       const res = await fetch(url);
-      if (!res.ok) throw new Error(`API error: ${res.status}`);
+      if (!res.ok) {
+        const text = await res.text().catch(() => '');
+        // Surface a more helpful error message (403, plan limits, bad key, etc.)
+        throw new Error(`API error: ${res.status}${text ? ' - ' + text.slice(0, 200) : ''}`);
+      }
       return res.json();
     }
 
