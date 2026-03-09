@@ -151,6 +151,7 @@
     const UPDATE_MS = 5 * 60 * 1000;
     const PRICE_MIN = 0.01;
     const PRICE_MAX = 20;
+    const API_KEY = 'LfpGdJ3V8WgFEn1MizpZyBFcHoesTByY'; // Massive / Polygon API key
     const STORAGE_KEY_BASE = 'premarket_baselines';
     const STORAGE_KEY_BASE_REGULAR = 'regular_session_baselines_930';
     const STORAGE_KEY_AVGS = 'premarket_avg_volumes';
@@ -235,8 +236,10 @@
       return (h === 9 && m >= 30) || (h === 10);
     }
 
-    async function fetchViaProxy(pathAndQuery) {
-      const url = '/.netlify/functions/massive-proxy?request=' + encodeURIComponent(pathAndQuery);
+    async function fetchJSON(pathAndQuery) {
+      const separator = pathAndQuery.includes('?') ? '&' : '?';
+      // Massive (formerly Polygon) REST APIs are currently served from api.polygon.io
+      const url = `https://api.polygon.io/${pathAndQuery}${separator}apiKey=${API_KEY}`;
       const res = await fetch(url);
       if (!res.ok) throw new Error(`API error: ${res.status}`);
       return res.json();
@@ -248,7 +251,7 @@
         const today = new Date().toISOString().split('T')[0];
         const from = new Date(Date.now() - 45*24*60*60*1000).toISOString().split('T')[0];
         const pathAndQuery = `v2/aggs/ticker/${ticker}/range/1/day/${from}/${today}?adjusted=true&sort=desc&limit=30`;
-        const data = await fetchViaProxy(pathAndQuery);
+        const data = await fetchJSON(pathAndQuery);
         if (!data.results?.length) return null;
         const vols = data.results.map(r => r.v || 0);
         const avg = vols.reduce((a, b) => a + b, 0) / vols.length;
@@ -266,7 +269,7 @@
       try {
         const today = new Date().toISOString().split('T')[0];
         const pathAndQuery = `v2/reference/news?ticker=${ticker}&published_utc.gte=${today}&limit=3&order=desc&sort=published_utc`;
-        const data = await fetchViaProxy(pathAndQuery);
+        const data = await fetchJSON(pathAndQuery);
         const hasNews = data.results?.length > 0;
         newsCache[cacheKey] = hasNews ? data.results[0].article_url : null;
         localStorage.setItem(STORAGE_KEY_NEWS, JSON.stringify(newsCache));
@@ -281,7 +284,7 @@
       if (tickerDetailsCache[cacheKey]) return tickerDetailsCache[cacheKey];
       try {
         const pathAndQuery = `v3/reference/tickers/${ticker}`;
-        const data = await fetchViaProxy(pathAndQuery);
+        const data = await fetchJSON(pathAndQuery);
         const r = data.results || {};
         const name = r.name || ticker;
         const sic = r.sic_code;
@@ -317,7 +320,7 @@
       document.getElementById('status').textContent = 'Fetching...';
       try {
         const pathAndQuery = 'v2/snapshot/locale/us/markets/stocks/gainers';
-        const data = await fetchViaProxy(pathAndQuery);
+        const data = await fetchJSON(pathAndQuery);
         let tickers = data.tickers || [];
         tickers = tickers.filter(t => {
           const price = t.lastQuote?.P || t.day?.c || t.prevDay?.c || 0;
@@ -382,7 +385,7 @@
       document.getElementById('statusRegular').textContent = 'Fetching...';
       try {
         const pathAndQuery = 'v2/snapshot/locale/us/markets/stocks/gainers';
-        const data = await fetchViaProxy(pathAndQuery);
+        const data = await fetchJSON(pathAndQuery);
         let tickers = data.tickers || [];
         tickers = tickers.filter(t => {
           const price = t.lastQuote?.P || t.day?.c || t.prevDay?.c || 0;
