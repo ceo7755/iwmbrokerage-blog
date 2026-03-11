@@ -209,8 +209,8 @@
     const PRICE_MAX = 20;
     // Massive (Polygon) API for top gainers and prices
     const MASSIVE_API_KEY = 'LfpGdJ3V8WgFEn1MizpZyBFcHoesTByY';
-    // Finnhub disabled now that we're using Massive only
-    const FINNHUB_API_KEY = ''; // leave empty so no Finnhub calls are made
+    // Finnhub (free): used only for News / Industry / 30-day avg vol
+    const FINNHUB_API_KEY = 'd6o3go1r01qsfaqqsr7gd6o3go1r01qsfaqqsr80';
     // v2 keys so we ignore any old baselines that were computed incorrectly
     const STORAGE_KEY_BASE = 'premarket_baselines_v2';
     const STORAGE_KEY_BASE_REGULAR = 'regular_session_baselines_930_v2';
@@ -485,19 +485,41 @@
             ? (changesPerc > 0 ? 'positive' : (changesPerc < 0 ? 'negative' : ''))
             : '';
           const baseline = prevClose && prevClose > 0 ? prevClose : null;
+          let companyName = tickerSym;
+          let industry = '–';
+          let newsUrl = null;
+          let avgVol = null;
+          let volPct = '–';
+          let volPctClass = '';
+          if (FINNHUB_API_KEY) {
+            const [profile, news, avgV] = await Promise.all([
+              getFinnhubProfile(tickerSym),
+              getFinnhubNews(tickerSym),
+              getFinnhub30DayAvgVol(tickerSym)
+            ]);
+            if (profile && profile.name) companyName = profile.name;
+            if (profile && profile.industry) industry = profile.industry;
+            newsUrl = news;
+            avgVol = avgV;
+            if (avgVol && avgVol > 0) {
+              volPct = ((vol - avgVol) / avgVol * 100).toFixed(2);
+              volPctClass = Number(volPct) > 0 ? 'positive' : (Number(volPct) < 0 ? 'negative' : '');
+            }
+          }
+          const newsCell = newsUrl ? `<a href="${newsUrl}" target="_blank" rel="noopener" class="news-link">&#9989;</a>` : '';
           rowsHTML.push(
             `<tr>` +
             `<td>${timeLabel}</td>` +
             `<td>${i + 1}</td>` +
-            `<td class="symbol">${tickerSym}</td>` +
+            `<td class="symbol name-symbol" title="${companyName.replace(/"/g, '&quot;')}" data-name="${companyName.replace(/"/g, '&quot;')}">${tickerSym}</td>` +
             `<td>${baseline ? baseline.toFixed(2) : '–'}</td>` +
             `<td>${!isNaN(currPrice) ? currPrice.toFixed(2) : '–'}</td>` +
             `<td class="${pctClass}">${isNaN(changesPerc) ? '–' : changesPerc.toFixed(2) + '%'}</td>` +
-            `<td>–</td>` + // 30-Day Avg Vol
+            `<td>${avgVol != null ? Number(avgVol).toLocaleString(undefined, { maximumFractionDigits: 0 }) : '–'}</td>` +
             `<td>${vol ? vol.toLocaleString() : '–'}</td>` +
-            `<td>–</td>` + // Vol % Change
-            `<td></td>` +  // News
-            `<td class="industry">–</td>` +
+            `<td class="${volPctClass}">${volPct === '–' ? '–' : volPct + '%'}</td>` +
+            `<td>${newsCell}</td>` +
+            `<td class="industry">${industry}</td>` +
             `</tr>`
           );
         }
