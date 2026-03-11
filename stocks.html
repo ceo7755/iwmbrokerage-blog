@@ -119,6 +119,25 @@
       </p>
     </div>
 
+    <!-- All-day test table (for checking Massive API outside 5:00–11:00) -->
+    <h2>Live Test (All Day)</h2>
+    <p class="subtitle">This small table always shows the current Massive.com top gainers (15-minute delayed). Use it to verify the API is working even outside the 5:00–11:00 AM EST windows.</p>
+    <p id="statusTest">Initializing...</p>
+    <div class="table-container">
+      <table id="moversTableTest" class="movers-table">
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Name/Symbol</th>
+            <th>Current Price</th>
+            <th>% Moved</th>
+            <th>Current Volume</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
     <h2>Pre-Market (5:00–9:30 AM EST)</h2>
     <p class="subtitle">Top 15 Gainers $0.01–$20. Updates every 5 min. Not financial advice. The purpose is for education purposes only and to show fast movers so traders can possibly ride the wave of the moves and scalp trade. Trading is risky, trade at your own risk.</p>
     <p id="status">Initializing...</p>
@@ -431,6 +450,41 @@
       return rowsHTML;
     }
 
+    async function updateTableTest() {
+      const tbody = document.querySelector('#moversTableTest tbody');
+      document.getElementById('statusTest').textContent = 'Fetching from Massive...';
+      try {
+        const raw = await fetchFMPGainers();
+        let tickers = raw.filter(t => {
+          const p = Number(t.price);
+          return p >= PRICE_MIN && p <= PRICE_MAX;
+        }).slice(0, 15);
+        const rowsHTML = [];
+        for (let i = 0; i < tickers.length; i++) {
+          const s = tickers[i];
+          const tickerSym = s.symbol || s.ticker;
+          const currPrice = Number(s.price);
+          const changesPercRaw = s.changesPercentage != null ? String(s.changesPercentage) : '';
+          const changesPerc = Number(changesPercRaw.toString().replace('%', ''));
+          const vol = Number(s.volume) || 0;
+          const pctClass = !isNaN(changesPerc)
+            ? (changesPerc > 0 ? 'positive' : (changesPerc < 0 ? 'negative' : ''))
+            : '';
+          rowsHTML.push(
+            `<tr><td>${i + 1}</td>` +
+            `<td class="symbol">${tickerSym}</td>` +
+            `<td>${!isNaN(currPrice) ? currPrice.toFixed(2) : '–'}</td>` +
+            `<td class="${pctClass}">${isNaN(changesPerc) ? '–' : changesPerc.toFixed(2) + '%'}</td>` +
+            `<td>${vol ? vol.toLocaleString() : '–'}</td></tr>`
+          );
+        }
+        tbody.innerHTML = rowsHTML.join('') || '<tr><td colspan="5">No data returned from Massive.</td></tr>';
+        document.getElementById('statusTest').textContent = 'Updated from Massive snapshot gainers.';
+      } catch (err) {
+        document.getElementById('statusTest').textContent = 'Error: ' + err.message;
+      }
+    }
+
     async function updateTable() {
       const tbody = document.querySelector('#moversTable tbody');
       if (!isWithinWindow()) {
@@ -524,8 +578,10 @@
       clearTimeout(tip._hide);
       tip._hide = setTimeout(function() { tip.style.display = 'none'; }, 2500);
     });
+    updateTableTest();
     updateTable();
     updateTableRegular();
+    setInterval(updateTableTest, UPDATE_MS);
     setInterval(updateTable, UPDATE_MS);
     setInterval(updateTableRegular, UPDATE_MS);
   </script>
