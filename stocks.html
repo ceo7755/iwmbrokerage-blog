@@ -352,19 +352,38 @@
     }
 
     async function getFinnhub30DayAvgVol(ticker) {
+      // Now backed by Massive (Polygon) daily aggregates instead of Finnhub.
+      // Name kept the same to avoid touching all call sites.
       const key = `${ticker}_${todayStr()}`;
       if (finnhubVolCache[key] != null) return finnhubVolCache[key];
-      const to = Math.floor(Date.now() / 1000);
-      const from = to - 30 * 24 * 60 * 60;
-      const data = await fetchFinnhub('stock/candle', { symbol: ticker, resolution: 'D', from, to });
-      let avg = null;
-      if (data && data.v && data.v.length) {
-        const sum = data.v.reduce((a, b) => a + b, 0);
-        avg = Math.round(sum / data.v.length);
+      try {
+        const toDate = new Date();
+        const fromDate = new Date(toDate.getTime() - 45 * 24 * 60 * 60 * 1000); // 45 calendar days back
+        const to = toDate.toISOString().split('T')[0];
+        const from = fromDate.toISOString().split('T')[0];
+        const url = `https://api.polygon.io/v2/aggs/ticker/${encodeURIComponent(
+          ticker
+        )}/range/1/day/${from}/${to}?adjusted=true&sort=desc&limit=30&apiKey=${MASSIVE_API_KEY}`;
+        const res = await fetch(url);
+        if (!res.ok) {
+          finnhubVolCache[key] = null;
+          return null;
+        }
+        const data = await res.json();
+        const results = Array.isArray(data.results) ? data.results : [];
+        if (!results.length) {
+          finnhubVolCache[key] = null;
+          return null;
+        }
+        const vols = results.map(r => (typeof r.v === 'number' ? r.v : 0));
+        const avg = vols.length ? Math.round(vols.reduce((a, b) => a + b, 0) / vols.length) : null;
+        finnhubVolCache[key] = avg;
+        localStorage.setItem(STORAGE_KEY_FINNHUB_VOL, JSON.stringify(finnhubVolCache));
+        return avg;
+      } catch (e) {
+        finnhubVolCache[key] = null;
+        return null;
       }
-      finnhubVolCache[key] = avg;
-      localStorage.setItem(STORAGE_KEY_FINNHUB_VOL, JSON.stringify(finnhubVolCache));
-      return avg;
     }
 
     async function getFinnhubQuote(ticker) {
