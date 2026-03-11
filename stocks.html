@@ -161,12 +161,14 @@
     const STORAGE_KEY_FINNHUB_PROFILE = 'finnhub_profile_cache';
     const STORAGE_KEY_FINNHUB_NEWS = 'finnhub_news_cache';
     const STORAGE_KEY_FINNHUB_VOL = 'finnhub_vol_cache';
+    const STORAGE_KEY_FINNHUB_QUOTE = 'finnhub_quote_cache';
 
     let baselines = JSON.parse(localStorage.getItem(STORAGE_KEY_BASE)) || {};
     let baselinesRegular = JSON.parse(localStorage.getItem(STORAGE_KEY_BASE_REGULAR)) || {};
     let finnhubProfileCache = JSON.parse(localStorage.getItem(STORAGE_KEY_FINNHUB_PROFILE)) || {};
     let finnhubNewsCache = JSON.parse(localStorage.getItem(STORAGE_KEY_FINNHUB_NEWS)) || {};
     let finnhubVolCache = JSON.parse(localStorage.getItem(STORAGE_KEY_FINNHUB_VOL)) || {};
+    let finnhubQuoteCache = JSON.parse(localStorage.getItem(STORAGE_KEY_FINNHUB_QUOTE)) || {};
 
     const ROWS_PER_SLOT = 15;
     const PREMARKET_SLOTS = (() => {
@@ -285,6 +287,16 @@
       return avg;
     }
 
+    async function getFinnhubQuote(ticker) {
+      const key = `${ticker}_${todayStr()}`;
+      if (finnhubQuoteCache[key]) return finnhubQuoteCache[key];
+      const data = await fetchFinnhub('quote', { symbol: ticker });
+      const safe = data && typeof data === 'object' ? data : {};
+      finnhubQuoteCache[key] = { c: safe.c, pc: safe.pc };
+      localStorage.setItem(STORAGE_KEY_FINNHUB_QUOTE, JSON.stringify(finnhubQuoteCache));
+      return finnhubQuoteCache[key];
+    }
+
     async function buildRowsFromGainers(gainers, baselinesObj, storageKey, slotTime, slotIndex, today) {
       if (!gainers.length) return [];
       // Ensure we track baselines per day
@@ -299,7 +311,7 @@
       for (let i = 0; i < gainers.length; i++) {
         const s = gainers[i];
         const tickerSym = s.symbol || s.ticker;
-        const currPrice = Number(s.price);
+        let currPrice = Number(s.price);
         const changeAbs = Number(s.change || 0);
         const changesPercRaw = s.changesPercentage != null ? String(s.changesPercentage) : '';
         const changesPerc = Number(changesPercRaw.toString().replace('%', ''));
@@ -332,16 +344,23 @@
         let industry = '–';
         let avgVol = null;
         let newsUrl = null;
+        let quote = null;
         if (useFinnhub) {
-          const [profile, news, avgV] = await Promise.all([
+          const [profile, news, avgV, q] = await Promise.all([
             getFinnhubProfile(tickerSym),
             getFinnhubNews(tickerSym),
-            getFinnhub30DayAvgVol(tickerSym)
+            getFinnhub30DayAvgVol(tickerSym),
+            getFinnhubQuote(tickerSym)
           ]);
           if (profile && profile.name) companyName = profile.name.replace(/"/g, '&quot;');
           if (profile && profile.industry) industry = profile.industry;
           avgVol = avgV;
           newsUrl = news;
+          quote = q;
+        }
+
+        if (quote && typeof quote.c === 'number' && quote.c > 0) {
+          currPrice = quote.c;
         }
         const volPct = (avgVol != null && avgVol > 0) ? ((vol - avgVol) / avgVol * 100).toFixed(2) : '–';
         const volPctClass = volPct !== '–' ? (Number(volPct) > 0 ? 'positive' : 'negative') : '';
