@@ -218,9 +218,10 @@
       return (h === 9 && m >= 30) || (h === 10);
     }
 
-    async function fetchFMP(path, extraParams = {}) {
-      const params = new URLSearchParams({ apikey: FMP_API_KEY, ...extraParams });
-      const url = `https://financialmodelingprep.com/api/v3/${path}?${params}`;
+    async function fetchFMPGainers() {
+      // Use FMP's non-legacy stable gainers endpoint
+      const params = new URLSearchParams({ apikey: FMP_API_KEY });
+      const url = `https://financialmodelingprep.com/stable/biggest-gainers?${params}`;
       const res = await fetch(url);
       if (!res.ok) {
         const text = await res.text().catch(() => '');
@@ -345,7 +346,7 @@
       if (slotIndex < 0) return;
       document.getElementById('status').textContent = 'Fetching...';
       try {
-        const data = await fetchFMP('stock_market/gainers');
+        const data = await fetchFMPGainers();
         const raw = Array.isArray(data) ? data : (data.mostGainerStock || data.mostGainers || data.gainers || []);
         let tickers = raw.filter(t => {
           const p = Number(t.price);
@@ -376,7 +377,7 @@
       if (slotIndex < 0) return;
       document.getElementById('statusRegular').textContent = 'Fetching...';
       try {
-        const data = await fetchFMP('stock_market/gainers');
+        const data = await fetchFMPGainers();
         const raw = Array.isArray(data) ? data : (data.mostGainerStock || data.mostGainers || data.gainers || []);
         let tickers = raw.filter(t => {
           const p = Number(t.price);
