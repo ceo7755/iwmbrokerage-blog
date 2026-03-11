@@ -119,27 +119,6 @@
       </p>
     </div>
 
-    <!-- Stocktwits trending widget (option 2) -->
-    <div class="table-container" style="margin-bottom: 32px;">
-      <div class="stocktwits-widget">
-        <script async src="https://widgets-api.stocktwits-cdn.com/loader.js">
-{
-  "assetClass": "all",
-  "colorTheme": "dark",
-  "location": "US",
-  "logos": true,
-  "quantity": 10,
-  "sparklines": true,
-  "transparent": false,
-  "widget": "cards"
-}
-        </script>
-      </div>
-      <p class="subtitle" style="margin-top: 8px; font-size: 0.9rem;">
-        <strong>Note:</strong> Stocktwits shows symbols that are trending in the community (often overlapping with big movers and high-volume names).
-      </p>
-    </div>
-
     <h2>Pre-Market (5:00–9:30 AM EST)</h2>
     <p class="subtitle">Top 15 Gainers $0.01–$20. Updates every 5 min. Not financial advice. The purpose is for education purposes only and to show fast movers so traders can possibly ride the wave of the moves and scalp trade. Trading is risky, trade at your own risk.</p>
     <p id="status">Initializing...</p>
@@ -203,10 +182,10 @@
     const UPDATE_MS = 5 * 60 * 1000;
     const PRICE_MIN = 0.01;
     const PRICE_MAX = 20;
-    // Financial Modeling Prep: gainers list. Get key at https://site.financialmodelingprep.com/register
-    const FMP_API_KEY = 'mbJeU33AZYdW3zctbo3GGnJ5v4ujs5n9';
-    // Finnhub (free): volume, news, industry. Get key at https://finnhub.io/register
-    const FINNHUB_API_KEY = 'd6o3go1r01qsfaqqsr7gd6o3go1r01qsfaqqsr80'; // 30-day avg vol, news, industry
+    // Massive (Polygon) API for top gainers and prices
+    const MASSIVE_API_KEY = 'LfpGdJ3V8WgFEn1MizpZyBFcHoesTByY';
+    // Finnhub disabled now that we're using Massive only
+    const FINNHUB_API_KEY = ''; // leave empty so no Finnhub calls are made
     // v2 keys so we ignore any old baselines that were computed incorrectly
     const STORAGE_KEY_BASE = 'premarket_baselines_v2';
     const STORAGE_KEY_BASE_REGULAR = 'regular_session_baselines_930_v2';
@@ -274,15 +253,38 @@
     }
 
     async function fetchFMPGainers() {
-      // Use FMP's non-legacy stable gainers endpoint
-      const params = new URLSearchParams({ apikey: FMP_API_KEY });
-      const url = `https://financialmodelingprep.com/stable/biggest-gainers?${params}`;
+      // Now backed by Massive (Polygon) snapshot top gainers
+      const url = `https://api.polygon.io/v2/snapshot/locale/us/markets/stocks/gainers?apiKey=${MASSIVE_API_KEY}`;
       const res = await fetch(url);
       if (!res.ok) {
         const text = await res.text().catch(() => '');
         throw new Error(`API error: ${res.status}${text ? ' - ' + text.slice(0, 200) : ''}`);
       }
-      return res.json();
+      const data = await res.json();
+      const tickers = Array.isArray(data.tickers) ? data.tickers : [];
+      // Adapt Massive snapshot shape to the format expected by buildRowsFromGainers
+      return tickers.map(t => {
+        const price =
+          (t.lastQuote && typeof t.lastQuote.P === 'number' && t.lastQuote.P) ||
+          (t.day && typeof t.day.c === 'number' && t.day.c) ||
+          (t.prevDay && typeof t.prevDay.c === 'number' && t.prevDay.c) ||
+          null;
+        const prevClose =
+          (t.prevDay && typeof t.prevDay.c === 'number' && t.prevDay.c) || null;
+        const todaysChange =
+          typeof t.todaysChange === 'number'
+            ? t.todaysChange
+            : (price != null && prevClose != null ? price - prevClose : null);
+        return {
+          symbol: t.ticker,
+          name: t.ticker,
+          price,
+          change: todaysChange,
+          changesPercentage:
+            typeof t.todaysChangePerc === 'number' ? t.todaysChangePerc : null,
+          volume: (t.day && typeof t.day.v === 'number' && t.day.v) || null
+        };
+      });
     }
 
     async function fetchFinnhub(path, params = {}) {
@@ -440,8 +442,7 @@
       if (slotIndex < 0) return;
       document.getElementById('status').textContent = 'Fetching...';
       try {
-        const data = await fetchFMPGainers();
-        const raw = Array.isArray(data) ? data : (data.mostGainerStock || data.mostGainers || data.gainers || []);
+        const raw = await fetchFMPGainers();
         let tickers = raw.filter(t => {
           const p = Number(t.price);
           return p >= PRICE_MIN && p <= PRICE_MAX;
@@ -471,8 +472,7 @@
       if (slotIndex < 0) return;
       document.getElementById('statusRegular').textContent = 'Fetching...';
       try {
-        const data = await fetchFMPGainers();
-        const raw = Array.isArray(data) ? data : (data.mostGainerStock || data.mostGainers || data.gainers || []);
+        const raw = await fetchFMPGainers();
         let tickers = raw.filter(t => {
           const p = Number(t.price);
           return p >= PRICE_MIN && p <= PRICE_MAX;
