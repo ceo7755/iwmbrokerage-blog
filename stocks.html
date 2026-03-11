@@ -88,6 +88,43 @@
   <section class="stocks-section">
     <h1>Largest Movers</h1>
 
+    <!-- TradingView US stock market movers widget -->
+    <div class="table-container" style="margin-bottom: 32px;">
+      <div class="tradingview-widget-container">
+        <div class="tradingview-widget-container__widget"></div>
+        <div class="tradingview-widget-copyright">
+          <a href="https://www.tradingview.com/markets/stocks-usa/market-movers-gainers/"
+             rel="noopener" target="_blank" style="color: #AB9C59; text-decoration: none;">
+            US stock market movers by TradingView
+          </a>
+        </div>
+        <script type="text/javascript"
+                src="https://s3.tradingview.com/external-embedding/embed-widget-stock-market.js" async>
+        {
+          "width": "100%",
+          "height": 500,
+          "colorTheme": "dark",
+          "locale": "en",
+          "showChart": true,
+          "showFloatingTooltip": true,
+          "isTransparent": false,
+          "largeChartUrl": "",
+          "tabs": [
+            {
+              "title": "US Market Movers",
+              "symbols": [],
+              "states": [
+                { "title": "Gainers", "type": "gainers", "data": "stock", "exchange": "US" },
+                { "title": "Losers", "type": "losers", "data": "stock", "exchange": "US" },
+                { "title": "Most Active", "type": "most_active", "data": "stock", "exchange": "US" }
+              ]
+            }
+          ]
+        }
+        </script>
+      </div>
+    </div>
+
     <h2>Pre-Market (5:00–9:30 AM EST)</h2>
     <p class="subtitle">Top 15 Gainers $0.01–$20. Updates every 5 min. Not financial advice. The purpose is for education purposes only and to show fast movers so traders can possibly ride the wave of the moves and scalp trade. Trading is risky, trade at your own risk.</p>
     <p id="status">Initializing...</p>
