@@ -121,17 +121,23 @@
 
     <!-- All-day test table (for checking Massive API outside 5:00–11:00) -->
     <h2>Live Test (All Day)</h2>
-    <p class="subtitle">This small table always shows the current Massive.com top gainers (15-minute delayed). Use it to verify the API is working even outside the 5:00–11:00 AM EST windows.</p>
+    <p class="subtitle">This table always shows the current Massive.com top gainers (15-minute delayed). Use it to verify the API is working even outside the 5:00–11:00 AM EST windows.</p>
     <p id="statusTest">Initializing...</p>
     <div class="table-container">
       <table id="moversTableTest" class="movers-table">
         <thead>
           <tr>
+            <th>Time (EST)</th>
             <th>Rank</th>
             <th>Name/Symbol</th>
+            <th>Baseline Price</th>
             <th>Current Price</th>
             <th>% Moved</th>
+            <th>30-Day Avg Vol</th>
             <th>Current Volume</th>
+            <th>Vol % Change</th>
+            <th>News</th>
+            <th>Industry</th>
           </tr>
         </thead>
         <tbody></tbody>
@@ -460,6 +466,8 @@
           return p >= PRICE_MIN && p <= PRICE_MAX;
         }).slice(0, 15);
         const rowsHTML = [];
+        const nowEt = new Date(new Date().toLocaleString('en-US', { timeZone: 'America/New_York' }));
+        const timeLabel = nowEt.getHours() + ':' + String(nowEt.getMinutes()).padStart(2, '0');
         for (let i = 0; i < tickers.length; i++) {
           const s = tickers[i];
           const tickerSym = s.symbol || s.ticker;
@@ -471,14 +479,22 @@
             ? (changesPerc > 0 ? 'positive' : (changesPerc < 0 ? 'negative' : ''))
             : '';
           rowsHTML.push(
-            `<tr><td>${i + 1}</td>` +
+            `<tr>` +
+            `<td>${timeLabel}</td>` +
+            `<td>${i + 1}</td>` +
             `<td class="symbol">${tickerSym}</td>` +
+            `<td>–</td>` + // Baseline Price (not needed for this test)
             `<td>${!isNaN(currPrice) ? currPrice.toFixed(2) : '–'}</td>` +
             `<td class="${pctClass}">${isNaN(changesPerc) ? '–' : changesPerc.toFixed(2) + '%'}</td>` +
-            `<td>${vol ? vol.toLocaleString() : '–'}</td></tr>`
+            `<td>–</td>` + // 30-Day Avg Vol
+            `<td>${vol ? vol.toLocaleString() : '–'}</td>` +
+            `<td>–</td>` + // Vol % Change
+            `<td></td>` +  // News
+            `<td class="industry">–</td>` +
+            `</tr>`
           );
         }
-        tbody.innerHTML = rowsHTML.join('') || '<tr><td colspan="5">No data returned from Massive.</td></tr>';
+        tbody.innerHTML = rowsHTML.join('') || '<tr><td colspan="11">No data returned from Massive.</td></tr>';
         document.getElementById('statusTest').textContent = 'Updated from Massive snapshot gainers.';
       } catch (err) {
         document.getElementById('statusTest').textContent = 'Error: ' + err.message;
