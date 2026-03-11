@@ -151,39 +151,21 @@
     const UPDATE_MS = 5 * 60 * 1000;
     const PRICE_MIN = 0.01;
     const PRICE_MAX = 20;
-    const API_KEY = 'LfpGdJ3V8WgFEn1MizpZyBFcHoesTByY'; // Massive / Polygon API key
+    // Financial Modeling Prep: gainers list. Get key at https://site.financialmodelingprep.com/register
+    const FMP_API_KEY = 'demo'; // Replace with your FMP API key
+    // Finnhub (free): volume, news, industry. Get key at https://finnhub.io/register
+    const FINNHUB_API_KEY = 'd6o3go1r01qsfaqqsr7gd6o3go1r01qsfaqqsr80'; // 30-day avg vol, news, industry
     const STORAGE_KEY_BASE = 'premarket_baselines';
     const STORAGE_KEY_BASE_REGULAR = 'regular_session_baselines_930';
-    const STORAGE_KEY_AVGS = 'premarket_avg_volumes';
-    const STORAGE_KEY_NEWS = 'premarket_news_cache';
-    const STORAGE_KEY_INDUSTRY = 'premarket_industry_cache';
-    const STORAGE_KEY_TICKER_DETAILS = 'premarket_ticker_details';
+    const STORAGE_KEY_FINNHUB_PROFILE = 'finnhub_profile_cache';
+    const STORAGE_KEY_FINNHUB_NEWS = 'finnhub_news_cache';
+    const STORAGE_KEY_FINNHUB_VOL = 'finnhub_vol_cache';
 
     let baselines = JSON.parse(localStorage.getItem(STORAGE_KEY_BASE)) || {};
     let baselinesRegular = JSON.parse(localStorage.getItem(STORAGE_KEY_BASE_REGULAR)) || {};
-    let avgVolumes = JSON.parse(localStorage.getItem(STORAGE_KEY_AVGS)) || {};
-    let newsCache = JSON.parse(localStorage.getItem(STORAGE_KEY_NEWS)) || {};
-    let industryCache = JSON.parse(localStorage.getItem(STORAGE_KEY_INDUSTRY)) || {};
-    let tickerDetailsCache = JSON.parse(localStorage.getItem(STORAGE_KEY_TICKER_DETAILS)) || {};
-
-    const sicToIndustry = {
-      '2834': 'Biotechnology / Pharmaceuticals',
-      '2836': 'Biological Products',
-      '1000': 'Metal Mining',
-      '1040': 'Gold & Silver Ores',
-      '1311': 'Oil & Gas Exploration',
-      '1389': 'Oil & Gas Field Services',
-      '4911': 'Electric Services',
-      '4922': 'Natural Gas Transmission',
-      '7370': 'Computer Programming / Software',
-      '7372': 'Prepackaged Software',
-      '3571': 'Electronic Computers',
-      '3674': 'Semiconductors',
-      '3841': 'Surgical & Medical Instruments',
-      '3842': 'Orthopedic / Surgical Supplies',
-      '7389': 'Business Services (Misc)',
-      '8200': 'Educational Services',
-    };
+    let finnhubProfileCache = JSON.parse(localStorage.getItem(STORAGE_KEY_FINNHUB_PROFILE)) || {};
+    let finnhubNewsCache = JSON.parse(localStorage.getItem(STORAGE_KEY_FINNHUB_NEWS)) || {};
+    let finnhubVolCache = JSON.parse(localStorage.getItem(STORAGE_KEY_FINNHUB_VOL)) || {};
 
     const ROWS_PER_SLOT = 15;
     const PREMARKET_SLOTS = (() => {
@@ -236,80 +218,120 @@
       return (h === 9 && m >= 30) || (h === 10);
     }
 
-    async function fetchJSON(pathAndQuery) {
-      const separator = pathAndQuery.includes('?') ? '&' : '?';
-      // Massive (formerly Polygon) REST APIs are currently served from api.polygon.io
-      const url = `https://api.polygon.io/${pathAndQuery}${separator}apiKey=${API_KEY}`;
+    async function fetchFMP(path, extraParams = {}) {
+      const params = new URLSearchParams({ apikey: FMP_API_KEY, ...extraParams });
+      const url = `https://financialmodelingprep.com/api/v3/${path}?${params}`;
       const res = await fetch(url);
       if (!res.ok) {
         const text = await res.text().catch(() => '');
-        // Surface a more helpful error message (403, plan limits, bad key, etc.)
         throw new Error(`API error: ${res.status}${text ? ' - ' + text.slice(0, 200) : ''}`);
       }
       return res.json();
     }
 
-    async function get30DayAvgVolume(ticker) {
-      if (avgVolumes[ticker]) return avgVolumes[ticker];
-      try {
-        const today = new Date().toISOString().split('T')[0];
-        const from = new Date(Date.now() - 45*24*60*60*1000).toISOString().split('T')[0];
-        const pathAndQuery = `v2/aggs/ticker/${ticker}/range/1/day/${from}/${today}?adjusted=true&sort=desc&limit=30`;
-        const data = await fetchJSON(pathAndQuery);
-        if (!data.results?.length) return null;
-        const vols = data.results.map(r => r.v || 0);
-        const avg = vols.reduce((a, b) => a + b, 0) / vols.length;
-        avgVolumes[ticker] = avg;
-        localStorage.setItem(STORAGE_KEY_AVGS, JSON.stringify(avgVolumes));
-        return avg;
-      } catch (e) {
-        return null;
+    async function fetchFinnhub(path, params = {}) {
+      const q = new URLSearchParams({ token: FINNHUB_API_KEY, ...params });
+      const url = `https://finnhub.io/api/v1/${path}?${q}`;
+      const res = await fetch(url);
+      if (!res.ok) return null;
+      return res.json();
+    }
+
+    const todayStr = () => new Date().toDateString();
+
+    async function getFinnhubProfile(ticker) {
+      const key = `${ticker}_${todayStr()}`;
+      if (finnhubProfileCache[key]) return finnhubProfileCache[key];
+      const data = await fetchFinnhub('stock/profile2', { symbol: ticker });
+      const name = (data && data.name) ? data.name : null;
+      const industry = (data && data.finnhubIndustry) ? data.finnhubIndustry : null;
+      finnhubProfileCache[key] = { name, industry };
+      localStorage.setItem(STORAGE_KEY_FINNHUB_PROFILE, JSON.stringify(finnhubProfileCache));
+      return finnhubProfileCache[key];
+    }
+
+    async function getFinnhubNews(ticker) {
+      const key = `${ticker}_${todayStr()}`;
+      if (finnhubNewsCache[key] !== undefined) return finnhubNewsCache[key];
+      const to = new Date();
+      const from = new Date(to);
+      from.setDate(from.getDate() - 7);
+      const data = await fetchFinnhub('company-news', {
+        symbol: ticker,
+        from: from.toISOString().slice(0, 10),
+        to: to.toISOString().slice(0, 10)
+      });
+      const url = (Array.isArray(data) && data.length && data[0].url) ? data[0].url : null;
+      finnhubNewsCache[key] = url;
+      localStorage.setItem(STORAGE_KEY_FINNHUB_NEWS, JSON.stringify(finnhubNewsCache));
+      return url;
+    }
+
+    async function getFinnhub30DayAvgVol(ticker) {
+      const key = `${ticker}_${todayStr()}`;
+      if (finnhubVolCache[key] != null) return finnhubVolCache[key];
+      const to = Math.floor(Date.now() / 1000);
+      const from = to - 30 * 24 * 60 * 60;
+      const data = await fetchFinnhub('stock/candle', { symbol: ticker, resolution: 'D', from, to });
+      let avg = null;
+      if (data && data.v && data.v.length) {
+        const sum = data.v.reduce((a, b) => a + b, 0);
+        avg = Math.round(sum / data.v.length);
       }
+      finnhubVolCache[key] = avg;
+      localStorage.setItem(STORAGE_KEY_FINNHUB_VOL, JSON.stringify(finnhubVolCache));
+      return avg;
     }
 
-    async function hasRecentNews(ticker) {
-      const cacheKey = `${ticker}_${new Date().toDateString()}`;
-      if (newsCache[cacheKey] !== undefined) return newsCache[cacheKey];
-      try {
-        const today = new Date().toISOString().split('T')[0];
-        const pathAndQuery = `v2/reference/news?ticker=${ticker}&published_utc.gte=${today}&limit=3&order=desc&sort=published_utc`;
-        const data = await fetchJSON(pathAndQuery);
-        const hasNews = data.results?.length > 0;
-        newsCache[cacheKey] = hasNews ? data.results[0].article_url : null;
-        localStorage.setItem(STORAGE_KEY_NEWS, JSON.stringify(newsCache));
-        return newsCache[cacheKey];
-      } catch (e) {
-        return null;
+    async function buildRowsFromGainers(gainers, baselinesObj, storageKey, slotTime, slotIndex, today) {
+      if (!gainers.length) return [];
+      if (!baselinesObj.date || baselinesObj.date !== today) {
+        baselinesObj.date = today;
+        for (const s of gainers) {
+          const p = Number(s.price);
+          const sym = s.symbol || s.ticker;
+          if (p > 0 && sym) baselinesObj[sym] = p;
+        }
+        localStorage.setItem(storageKey, JSON.stringify(baselinesObj));
       }
-    }
-
-    async function getTickerDetails(ticker) {
-      const cacheKey = `${ticker}_${new Date().toDateString()}`;
-      if (tickerDetailsCache[cacheKey]) return tickerDetailsCache[cacheKey];
-      try {
-        const pathAndQuery = `v3/reference/tickers/${ticker}`;
-        const data = await fetchJSON(pathAndQuery);
-        const r = data.results || {};
-        const name = r.name || ticker;
-        const sic = r.sic_code;
-        const industry = !sic ? 'N/A' : (sicToIndustry[sic] || `SIC ${sic} (Other)`);
-        tickerDetailsCache[cacheKey] = { name, industry };
-        localStorage.setItem(STORAGE_KEY_TICKER_DETAILS, JSON.stringify(tickerDetailsCache));
-        return tickerDetailsCache[cacheKey];
-      } catch (e) {
-        tickerDetailsCache[cacheKey] = { name: ticker, industry: 'N/A' };
-        return tickerDetailsCache[cacheKey];
+      const useFinnhub = !!FINNHUB_API_KEY;
+      const rowsHTML = [];
+      const collapsed = slotIndex >= EXPANDED_SLOTS_COUNT;
+      const icon = slotToggleIcon(collapsed);
+      const timeRowspan = collapsed ? 1 : gainers.length;
+      for (let i = 0; i < gainers.length; i++) {
+        const s = gainers[i];
+        const tickerSym = s.symbol || s.ticker;
+        const currPrice = Number(s.price);
+        const basePrice = baselinesObj[tickerSym] != null ? baselinesObj[tickerSym] : (currPrice - Number(s.change || 0));
+        const pctFromBase = (basePrice > 0 && !isNaN(currPrice)) ? ((currPrice - basePrice) / basePrice * 100).toFixed(2) : (s.changesPercentage != null ? Number(s.changesPercentage).toFixed(2) : '–');
+        const vol = Number(s.volume) || 0;
+        let companyName = (s.name || tickerSym).replace(/"/g, '&quot;');
+        let industry = '–';
+        let avgVol = null;
+        let newsUrl = null;
+        if (useFinnhub) {
+          const [profile, news, avgV] = await Promise.all([
+            getFinnhubProfile(tickerSym),
+            getFinnhubNews(tickerSym),
+            getFinnhub30DayAvgVol(tickerSym)
+          ]);
+          if (profile && profile.name) companyName = profile.name.replace(/"/g, '&quot;');
+          if (profile && profile.industry) industry = profile.industry;
+          avgVol = avgV;
+          newsUrl = news;
+        }
+        const volPct = (avgVol != null && avgVol > 0) ? ((vol - avgVol) / avgVol * 100).toFixed(2) : '–';
+        const volPctClass = volPct !== '–' ? (Number(volPct) > 0 ? 'positive' : 'negative') : '';
+        const newsCell = newsUrl ? `<a href="${newsUrl}" target="_blank" rel="noopener" class="news-link">&#9989;</a>` : '';
+        const symbolCell = `<td class="symbol name-symbol" title="${companyName}" data-name="${companyName}">${tickerSym}</td>`;
+        const pctClass = Number(pctFromBase) > 0 ? 'positive' : (Number(pctFromBase) < 0 ? 'negative' : '');
+        const timeCell = i === 0 ? `<td rowspan="${timeRowspan}" class="slot-time-cell"><span class="slot-time">${slotTime}</span> <span class="toggle-icon" aria-label="Expand/collapse">${icon}</span></td>` : '';
+        const rowClass = i === 0 ? 'slot-header-row' : (collapsed ? 'slot-body-row hidden' : 'slot-body-row');
+        const avgVolStr = avgVol != null ? Number(avgVol).toLocaleString(undefined, { maximumFractionDigits: 0 }) : '–';
+        rowsHTML.push(`<tr data-slot-index="${slotIndex}" class="${rowClass}">${timeCell}<td>${i+1}</td>${symbolCell}<td>${basePrice > 0 ? Number(basePrice).toFixed(2) : '–'}</td><td>${!isNaN(currPrice) ? currPrice.toFixed(2) : '–'}</td><td class="${pctClass}">${pctFromBase === '–' ? '–' : pctFromBase + '%'}</td><td>${avgVolStr}</td><td>${vol.toLocaleString()}</td><td class="${volPctClass}">${volPct === '–' ? '–' : volPct + '%'}</td><td>${newsCell}</td><td class="industry">${industry}</td></tr>`);
       }
-    }
-
-    async function getIndustry(ticker) {
-      const d = await getTickerDetails(ticker);
-      return d.industry;
-    }
-
-    async function getCompanyName(ticker) {
-      const d = await getTickerDetails(ticker);
-      return d.name;
+      return rowsHTML;
     }
 
     async function updateTable() {
@@ -323,48 +345,14 @@
       if (slotIndex < 0) return;
       document.getElementById('status').textContent = 'Fetching...';
       try {
-        const pathAndQuery = 'v2/snapshot/locale/us/markets/stocks/gainers';
-        const data = await fetchJSON(pathAndQuery);
-        let tickers = data.tickers || [];
-        tickers = tickers.filter(t => {
-          const price = t.lastQuote?.P || t.day?.c || t.prevDay?.c || 0;
-          return price >= PRICE_MIN && price <= PRICE_MAX;
+        const data = await fetchFMP('stock_market/gainers');
+        const raw = Array.isArray(data) ? data : (data.mostGainerStock || data.mostGainers || data.gainers || []);
+        let tickers = raw.filter(t => {
+          const p = Number(t.price);
+          return p >= PRICE_MIN && p <= PRICE_MAX;
         }).slice(0, 15);
         const today = new Date().toDateString();
-        if (!baselines.date || baselines.date !== today) {
-          baselines = { date: today };
-          for (const t of tickers) {
-            const price = t.lastQuote?.P || t.day?.c || t.prevDay?.c || 0;
-            if (price > 0) baselines[t.ticker] = price;
-          }
-          localStorage.setItem(STORAGE_KEY_BASE, JSON.stringify(baselines));
-        }
-        const rowsHTML = [];
-        for (let i = 0; i < tickers.length; i++) {
-          const stock = tickers[i];
-          const tickerSym = stock.ticker;
-          const currPrice = stock.lastQuote?.P || stock.day?.c || 'N/A';
-          const basePrice = baselines[tickerSym] || stock.prevDay?.c || 'N/A';
-          const pctFromBase = (basePrice !== 'N/A' && currPrice !== 'N/A') ? ((currPrice - basePrice) / basePrice * 100).toFixed(2) : 'N/A';
-          const vol = stock.day?.v || 0;
-          const avgVol = await get30DayAvgVolume(tickerSym) || 'N/A';
-          const volPct = avgVol !== 'N/A' ? ((vol - avgVol) / avgVol * 100).toFixed(2) : 'N/A';
-          const newsUrl = await hasRecentNews(tickerSym);
-          const newsCell = newsUrl ? `<a href="${newsUrl}" target="_blank" rel="noopener" class="news-link">✅</a>` : '';
-          const details = await getTickerDetails(tickerSym);
-          const companyName = details.name || tickerSym;
-          const industry = details.industry;
-          const symbolCell = `<td class="symbol name-symbol" title="${companyName.replace(/"/g, '&quot;')}" data-name="${companyName.replace(/"/g, '&quot;')}">${tickerSym}</td>`;
-          const pctClass = pctFromBase > 0 ? 'positive' : (pctFromBase < 0 ? 'negative' : '');
-          const volPctClass = volPct !== 'N/A' ? (volPct > 0 ? 'positive' : 'negative') : '';
-          const collapsed = slotIndex >= EXPANDED_SLOTS_COUNT;
-          const icon = slotToggleIcon(collapsed);
-          const timeRowspan = collapsed ? 1 : tickers.length;
-          const timeCell = i === 0 ? `<td rowspan="${timeRowspan}" class="slot-time-cell"><span class="slot-time">${slotTime}</span> <span class="toggle-icon" aria-label="Expand/collapse">${icon}</span></td>` : '';
-          const rowClass = i === 0 ? 'slot-header-row' : (collapsed ? 'slot-body-row hidden' : 'slot-body-row');
-          const dataAttr = ' data-slot-index="' + slotIndex + '"';
-          rowsHTML.push(`<tr${dataAttr} class="${rowClass}">${timeCell}<td>${i+1}</td>${symbolCell}<td>${basePrice === 'N/A' ? '–' : Number(basePrice).toFixed(2)}</td><td>${currPrice === 'N/A' ? '–' : Number(currPrice).toFixed(2)}</td><td class="${pctClass}">${pctFromBase === 'N/A' ? '–' : pctFromBase + '%'}</td><td>${avgVol === 'N/A' ? '–' : Number(avgVol).toLocaleString(undefined, {maximumFractionDigits: 0})}</td><td>${vol.toLocaleString()}</td><td class="${volPctClass}">${volPct === 'N/A' ? '–' : volPct + '%'}</td><td>${newsCell}</td><td class="industry">${industry}</td></tr>`);
-        }
+        const rowsHTML = await buildRowsFromGainers(tickers, baselines, STORAGE_KEY_BASE, slotTime, slotIndex, today);
         const start = slotIndex * ROWS_PER_SLOT;
         for (let i = ROWS_PER_SLOT - 1; i >= 0; i--) tbody.deleteRow(start + i);
         const div = document.createElement('div');
@@ -388,48 +376,14 @@
       if (slotIndex < 0) return;
       document.getElementById('statusRegular').textContent = 'Fetching...';
       try {
-        const pathAndQuery = 'v2/snapshot/locale/us/markets/stocks/gainers';
-        const data = await fetchJSON(pathAndQuery);
-        let tickers = data.tickers || [];
-        tickers = tickers.filter(t => {
-          const price = t.lastQuote?.P || t.day?.c || t.prevDay?.c || 0;
-          return price >= PRICE_MIN && price <= PRICE_MAX;
+        const data = await fetchFMP('stock_market/gainers');
+        const raw = Array.isArray(data) ? data : (data.mostGainerStock || data.mostGainers || data.gainers || []);
+        let tickers = raw.filter(t => {
+          const p = Number(t.price);
+          return p >= PRICE_MIN && p <= PRICE_MAX;
         }).slice(0, 15);
         const today = new Date().toDateString();
-        if (!baselinesRegular.date || baselinesRegular.date !== today) {
-          baselinesRegular = { date: today };
-          for (const t of tickers) {
-            const price = t.lastQuote?.P || t.day?.c || t.prevDay?.c || 0;
-            if (price > 0) baselinesRegular[t.ticker] = price;
-          }
-          localStorage.setItem(STORAGE_KEY_BASE_REGULAR, JSON.stringify(baselinesRegular));
-        }
-        const rowsHTML = [];
-        for (let i = 0; i < tickers.length; i++) {
-          const stock = tickers[i];
-          const tickerSym = stock.ticker;
-          const currPrice = stock.lastQuote?.P || stock.day?.c || 'N/A';
-          const basePrice = baselinesRegular[tickerSym] || stock.prevDay?.c || 'N/A';
-          const pctFromBase = (basePrice !== 'N/A' && currPrice !== 'N/A') ? ((currPrice - basePrice) / basePrice * 100).toFixed(2) : 'N/A';
-          const vol = stock.day?.v || 0;
-          const avgVol = await get30DayAvgVolume(tickerSym) || 'N/A';
-          const volPct = avgVol !== 'N/A' ? ((vol - avgVol) / avgVol * 100).toFixed(2) : 'N/A';
-          const newsUrl = await hasRecentNews(tickerSym);
-          const newsCell = newsUrl ? `<a href="${newsUrl}" target="_blank" rel="noopener" class="news-link">✅</a>` : '';
-          const details = await getTickerDetails(tickerSym);
-          const companyName = details.name || tickerSym;
-          const industry = details.industry;
-          const symbolCell = `<td class="symbol name-symbol" title="${companyName.replace(/"/g, '&quot;')}" data-name="${companyName.replace(/"/g, '&quot;')}">${tickerSym}</td>`;
-          const pctClass = pctFromBase > 0 ? 'positive' : (pctFromBase < 0 ? 'negative' : '');
-          const volPctClass = volPct !== 'N/A' ? (volPct > 0 ? 'positive' : 'negative') : '';
-          const collapsed = slotIndex >= EXPANDED_SLOTS_COUNT;
-          const icon = slotToggleIcon(collapsed);
-          const timeRowspan = collapsed ? 1 : tickers.length;
-          const timeCell = i === 0 ? `<td rowspan="${timeRowspan}" class="slot-time-cell"><span class="slot-time">${slotTime}</span> <span class="toggle-icon" aria-label="Expand/collapse">${icon}</span></td>` : '';
-          const rowClass = i === 0 ? 'slot-header-row' : (collapsed ? 'slot-body-row hidden' : 'slot-body-row');
-          const dataAttr = ' data-slot-index="' + slotIndex + '"';
-          rowsHTML.push(`<tr${dataAttr} class="${rowClass}">${timeCell}<td>${i+1}</td>${symbolCell}<td>${basePrice === 'N/A' ? '–' : Number(basePrice).toFixed(2)}</td><td>${currPrice === 'N/A' ? '–' : Number(currPrice).toFixed(2)}</td><td class="${pctClass}">${pctFromBase === 'N/A' ? '–' : pctFromBase + '%'}</td><td>${avgVol === 'N/A' ? '–' : Number(avgVol).toLocaleString(undefined, {maximumFractionDigits: 0})}</td><td>${vol.toLocaleString()}</td><td class="${volPctClass}">${volPct === 'N/A' ? '–' : volPct + '%'}</td><td>${newsCell}</td><td class="industry">${industry}</td></tr>`);
-        }
+        const rowsHTML = await buildRowsFromGainers(tickers, baselinesRegular, STORAGE_KEY_BASE_REGULAR, slotTime, slotIndex, today);
         const start = slotIndex * ROWS_PER_SLOT;
         for (let i = ROWS_PER_SLOT - 1; i >= 0; i--) tbody.deleteRow(start + i);
         const div = document.createElement('div');
