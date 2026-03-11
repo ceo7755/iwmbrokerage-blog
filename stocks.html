@@ -286,14 +286,10 @@
 
     async function buildRowsFromGainers(gainers, baselinesObj, storageKey, slotTime, slotIndex, today) {
       if (!gainers.length) return [];
+      // Ensure we track baselines per day, but baseline should be PRIOR price (last close),
+      // not today's current price. We derive it from FMP's change field.
       if (!baselinesObj.date || baselinesObj.date !== today) {
-        baselinesObj.date = today;
-        for (const s of gainers) {
-          const p = Number(s.price);
-          const sym = s.symbol || s.ticker;
-          if (p > 0 && sym) baselinesObj[sym] = p;
-        }
-        localStorage.setItem(storageKey, JSON.stringify(baselinesObj));
+        baselinesObj = { date: today };
       }
       const useFinnhub = !!FINNHUB_API_KEY;
       const rowsHTML = [];
@@ -304,7 +300,16 @@
         const s = gainers[i];
         const tickerSym = s.symbol || s.ticker;
         const currPrice = Number(s.price);
-        const basePrice = baselinesObj[tickerSym] != null ? baselinesObj[tickerSym] : (currPrice - Number(s.change || 0));
+        const change = Number(s.change || 0);
+        // If we don't already have a baseline for this ticker today, set it to "current - change",
+        // which should correspond to the prior close from FMP's data.
+        if (baselinesObj[tickerSym] == null && !isNaN(currPrice) && !isNaN(change)) {
+          const derivedBase = currPrice - change;
+          if (derivedBase > 0) baselinesObj[tickerSym] = derivedBase;
+        }
+        const basePrice = baselinesObj[tickerSym] != null
+          ? baselinesObj[tickerSym]
+          : (!isNaN(currPrice) && !isNaN(change) && currPrice - change > 0 ? currPrice - change : null);
         const pctFromBase = (basePrice > 0 && !isNaN(currPrice)) ? ((currPrice - basePrice) / basePrice * 100).toFixed(2) : (s.changesPercentage != null ? Number(s.changesPercentage).toFixed(2) : '–');
         const vol = Number(s.volume) || 0;
         let companyName = (s.name || tickerSym).replace(/"/g, '&quot;');
@@ -330,8 +335,10 @@
         const timeCell = i === 0 ? `<td rowspan="${timeRowspan}" class="slot-time-cell"><span class="slot-time">${slotTime}</span> <span class="toggle-icon" aria-label="Expand/collapse">${icon}</span></td>` : '';
         const rowClass = i === 0 ? 'slot-header-row' : (collapsed ? 'slot-body-row hidden' : 'slot-body-row');
         const avgVolStr = avgVol != null ? Number(avgVol).toLocaleString(undefined, { maximumFractionDigits: 0 }) : '–';
-        rowsHTML.push(`<tr data-slot-index="${slotIndex}" class="${rowClass}">${timeCell}<td>${i+1}</td>${symbolCell}<td>${basePrice > 0 ? Number(basePrice).toFixed(2) : '–'}</td><td>${!isNaN(currPrice) ? currPrice.toFixed(2) : '–'}</td><td class="${pctClass}">${pctFromBase === '–' ? '–' : pctFromBase + '%'}</td><td>${avgVolStr}</td><td>${vol.toLocaleString()}</td><td class="${volPctClass}">${volPct === '–' ? '–' : volPct + '%'}</td><td>${newsCell}</td><td class="industry">${industry}</td></tr>`);
+        rowsHTML.push(`<tr data-slot-index="${slotIndex}" class="${rowClass}">${timeCell}<td>${i+1}</td>${symbolCell}<td>${basePrice && basePrice > 0 ? Number(basePrice).toFixed(2) : '–'}</td><td>${!isNaN(currPrice) ? currPrice.toFixed(2) : '–'}</td><td class="${pctClass}">${pctFromBase === '–' ? '–' : pctFromBase + '%'}</td><td>${avgVolStr}</td><td>${vol.toLocaleString()}</td><td class="${volPctClass}">${volPct === '–' ? '–' : volPct + '%'}</td><td>${newsCell}</td><td class="industry">${industry}</td></tr>`);
       }
+      // Persist updated baselines for this table (premarket or regular) for the rest of the day.
+      localStorage.setItem(storageKey, JSON.stringify(baselinesObj));
       return rowsHTML;
     }
 
