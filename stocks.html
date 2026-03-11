@@ -307,7 +307,8 @@
           change: todaysChange,
           changesPercentage:
             typeof t.todaysChangePerc === 'number' ? t.todaysChangePerc : null,
-          volume: (t.day && typeof t.day.v === 'number' && t.day.v) || null
+          volume: (t.day && typeof t.day.v === 'number' && t.day.v) || null,
+          prevClose
         };
       });
     }
@@ -472,18 +473,24 @@
           const s = tickers[i];
           const tickerSym = s.symbol || s.ticker;
           const currPrice = Number(s.price);
+          const prevClose = s.prevClose != null ? Number(s.prevClose) : null;
           const changesPercRaw = s.changesPercentage != null ? String(s.changesPercentage) : '';
-          const changesPerc = Number(changesPercRaw.toString().replace('%', ''));
+          let changesPerc = Number(changesPercRaw.toString().replace('%', ''));
+          // If percentage missing but we have price and prev close, compute it
+          if ((isNaN(changesPerc) || changesPerc === 0) && prevClose && currPrice) {
+            changesPerc = ((currPrice - prevClose) / prevClose) * 100;
+          }
           const vol = Number(s.volume) || 0;
           const pctClass = !isNaN(changesPerc)
             ? (changesPerc > 0 ? 'positive' : (changesPerc < 0 ? 'negative' : ''))
             : '';
+          const baseline = prevClose && prevClose > 0 ? prevClose : null;
           rowsHTML.push(
             `<tr>` +
             `<td>${timeLabel}</td>` +
             `<td>${i + 1}</td>` +
             `<td class="symbol">${tickerSym}</td>` +
-            `<td>–</td>` + // Baseline Price (not needed for this test)
+            `<td>${baseline ? baseline.toFixed(2) : '–'}</td>` +
             `<td>${!isNaN(currPrice) ? currPrice.toFixed(2) : '–'}</td>` +
             `<td class="${pctClass}">${isNaN(changesPerc) ? '–' : changesPerc.toFixed(2) + '%'}</td>` +
             `<td>–</td>` + // 30-Day Avg Vol
