@@ -286,8 +286,7 @@
 
     async function buildRowsFromGainers(gainers, baselinesObj, storageKey, slotTime, slotIndex, today) {
       if (!gainers.length) return [];
-      // Ensure we track baselines per day, but baseline should be PRIOR price (last close),
-      // not today's current price. We derive it from FMP's change field.
+      // Ensure we track baselines per day
       if (!baselinesObj.date || baselinesObj.date !== today) {
         baselinesObj = { date: today };
       }
@@ -300,17 +299,33 @@
         const s = gainers[i];
         const tickerSym = s.symbol || s.ticker;
         const currPrice = Number(s.price);
-        const change = Number(s.change || 0);
-        // If we don't already have a baseline for this ticker today, set it to "current - change",
-        // which should correspond to the prior close from FMP's data.
-        if (baselinesObj[tickerSym] == null && !isNaN(currPrice) && !isNaN(change)) {
-          const derivedBase = currPrice - change;
-          if (derivedBase > 0) baselinesObj[tickerSym] = derivedBase;
+        const changeAbs = Number(s.change || 0);
+        const changesPercRaw = s.changesPercentage != null ? String(s.changesPercentage) : '';
+        const changesPerc = Number(changesPercRaw.toString().replace('%', ''));
+
+        // Prefer deriving prior close from percentage change when available:
+        // priorClose ≈ currentPrice / (1 + pct/100)
+        let derivedBase = null;
+        if (!isNaN(currPrice) && !isNaN(changesPerc) && changesPerc !== 0) {
+          const denom = 1 + (changesPerc / 100);
+          if (denom !== 0) {
+            derivedBase = currPrice / denom;
+          }
+        } else if (!isNaN(currPrice) && !isNaN(changeAbs)) {
+          // Fallback: use absolute change if percentage isn't usable
+          derivedBase = currPrice - changeAbs;
         }
-        const basePrice = baselinesObj[tickerSym] != null
+
+        if (baselinesObj[tickerSym] == null && derivedBase != null && derivedBase > 0) {
+          baselinesObj[tickerSym] = derivedBase;
+        }
+
+        const basePrice = baselinesObj[tickerSym] != null && baselinesObj[tickerSym] > 0
           ? baselinesObj[tickerSym]
-          : (!isNaN(currPrice) && !isNaN(change) && currPrice - change > 0 ? currPrice - change : null);
-        const pctFromBase = (basePrice > 0 && !isNaN(currPrice)) ? ((currPrice - basePrice) / basePrice * 100).toFixed(2) : (s.changesPercentage != null ? Number(s.changesPercentage).toFixed(2) : '–');
+          : (derivedBase && derivedBase > 0 ? derivedBase : null);
+        const pctFromBase = (basePrice > 0 && !isNaN(currPrice))
+          ? ((currPrice - basePrice) / basePrice * 100).toFixed(2)
+          : (!isNaN(changesPerc) ? changesPerc.toFixed(2) : '–');
         const vol = Number(s.volume) || 0;
         let companyName = (s.name || tickerSym).replace(/"/g, '&quot;');
         let industry = '–';
