@@ -218,6 +218,7 @@
     const STORAGE_KEY_FINNHUB_NEWS = 'finnhub_news_cache';
     const STORAGE_KEY_FINNHUB_VOL = 'finnhub_vol_cache';
     const STORAGE_KEY_FINNHUB_QUOTE = 'finnhub_quote_cache';
+    const STORAGE_KEY_MASSIVE_PROFILE = 'massive_profile_cache';
 
     let baselines = JSON.parse(localStorage.getItem(STORAGE_KEY_BASE)) || {};
     let baselinesRegular = JSON.parse(localStorage.getItem(STORAGE_KEY_BASE_REGULAR)) || {};
@@ -225,6 +226,7 @@
     let finnhubNewsCache = JSON.parse(localStorage.getItem(STORAGE_KEY_FINNHUB_NEWS)) || {};
     let finnhubVolCache = JSON.parse(localStorage.getItem(STORAGE_KEY_FINNHUB_VOL)) || {};
     let finnhubQuoteCache = JSON.parse(localStorage.getItem(STORAGE_KEY_FINNHUB_QUOTE)) || {};
+    let massiveProfileCache = JSON.parse(localStorage.getItem(STORAGE_KEY_MASSIVE_PROFILE)) || {};
 
     const ROWS_PER_SLOT = 15;
     const PREMARKET_SLOTS = (() => {
@@ -351,6 +353,35 @@
       return url;
     }
 
+    async function getMassiveIndustry(ticker) {
+      const key = `${ticker}_${todayStr()}`;
+      if (massiveProfileCache[key]) return massiveProfileCache[key];
+      try {
+        const url = `https://api.polygon.io/v3/reference/tickers/${encodeURIComponent(
+          ticker
+        )}?apiKey=${MASSIVE_API_KEY}`;
+        const res = await fetch(url);
+        if (!res.ok) {
+          massiveProfileCache[key] = null;
+          return null;
+        }
+        const data = await res.json();
+        const r = data && data.results ? data.results : {};
+        const sic = r.sic_code;
+        const industry =
+          !sic ? null : (sicToIndustry[sic] || `SIC ${sic} (Other)`);
+        massiveProfileCache[key] = industry;
+        localStorage.setItem(
+          STORAGE_KEY_MASSIVE_PROFILE,
+          JSON.stringify(massiveProfileCache)
+        );
+        return industry;
+      } catch (e) {
+        massiveProfileCache[key] = null;
+        return null;
+      }
+    }
+
     async function getFinnhub30DayAvgVol(ticker) {
       // Now backed by Massive (Polygon) daily aggregates instead of Finnhub.
       // Name kept the same to avoid touching all call sites.
@@ -457,6 +488,10 @@
           newsUrl = news;
           quote = q;
         }
+        if (!industry || industry === '–') {
+          const massiveIndustry = await getMassiveIndustry(tickerSym);
+          if (massiveIndustry) industry = massiveIndustry;
+        }
 
         if (quote && typeof quote.c === 'number' && quote.c > 0) {
           currPrice = quote.c;
@@ -524,6 +559,10 @@
               volPct = ((vol - avgVol) / avgVol * 100).toFixed(2);
               volPctClass = Number(volPct) > 0 ? 'positive' : (Number(volPct) < 0 ? 'negative' : '');
             }
+          }
+          if (!industry || industry === '–') {
+            const massiveIndustry = await getMassiveIndustry(tickerSym);
+            if (massiveIndustry) industry = massiveIndustry;
           }
           const newsCell = newsUrl ? `<a href="${newsUrl}" target="_blank" rel="noopener" class="news-link">&#9989;</a>` : '';
           rowsHTML.push(
