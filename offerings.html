@@ -64,7 +64,7 @@
         .nav-menu a {
             color: #ffffff;
             text-decoration: none;
-            font-size: 1.2rem;
+            font-size: 1rem;
             font-weight: 500;
             transition: color 0.3s ease;
             line-height: 1;
@@ -413,7 +413,20 @@
                 <ul class="nav-menu">
                     <li><a href="index.html#home">Home</a></li>
                     <li><a href="about.html">About</a></li>
-                    <li><a href="offerings.html">Offerings</a></li>
+                    <li class="dropdown dropdown-offerings">
+                        <a href="offerings.html" class="dropdown-toggle">Offerings</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="offerings.html#offering-life">Life Insurance</a></li>
+                            <li><a href="offerings.html#offering-health">Health Insurance (Private &amp; ACA/Marketplace)</a></li>
+                            <li><a href="offerings.html#offering-medicare">Medicare</a></li>
+                            <li><a href="offerings.html#offering-disability">Short &amp; Long Term Disability</a></li>
+                            <li><a href="offerings.html#offering-retirement">Retirement Planning</a></li>
+                            <li><a href="offerings.html#offering-infinite-banking">Infinite Banking (become your own bank)</a></li>
+                            <li><a href="offerings.html#offering-end-of-life">End of Life Planning</a></li>
+                            <li><a href="offerings.html#offering-macro">Macro Trends Education</a></li>
+                            <li><a href="offerings.html#offering-bitcoin">Bitcoin &amp; Digital Currencies Education</a></li>
+                        </ul>
+                    </li>
                     <li class="dropdown">
                         <a href="blog.html" class="dropdown-toggle">Learn with IWM</a>
                         <ul class="dropdown-menu">
@@ -570,7 +583,7 @@
 
 
 
-                                             <div class="offering-card">
+                                             <div class="offering-card" id="macro-trends-card">
 
                 <h3>Macro Trends</h3>
 
@@ -586,7 +599,7 @@
 
 
 
-                        <div class="offering-card">
+                        <div class="offering-card" id="bitcoin-education-card">
 
                 <h3>Bitcoin & Digital Currencies</h3>
 
@@ -1080,6 +1093,69 @@
                 closePopup();
 
             });
+
+            // Deep links: offerings.html#offering-life, #offering-health, etc.
+            function applyOfferingsDeepLink() {
+                const hash = (location.hash || '').replace(/^#/, '').toLowerCase();
+
+                if (!hash.startsWith('offering-')) {
+                    return;
+                }
+
+                document.querySelectorAll('.health-insurance-subitems').forEach((el) => el.classList.remove('active'));
+                document.querySelectorAll('.health-explanation.active').forEach((el) => el.classList.remove('active'));
+                document.querySelectorAll('.health-subitem.active').forEach((el) => el.classList.remove('active'));
+
+                const configs = {
+                    'offering-life': { subId: 'insurance-subitems', scrollId: 'insurance-card' },
+                    'offering-health': { subId: 'health-subitems', scrollId: 'health-insurance-card', subitemSel: '#health-subitems .health-subitem[data-item="health-insurance"]' },
+                    'offering-medicare': { subId: 'health-subitems', scrollId: 'health-insurance-card', subitemSel: '#health-subitems .health-subitem[data-item="medicare"]' },
+                    'offering-disability': { subId: 'insurance-subitems', scrollId: 'insurance-card', subitemSel: '#insurance-subitems .health-subitem[data-item="disability"]' },
+                    'offering-retirement': { subId: 'retirement-subitems', scrollId: 'retirement-card' },
+                    'offering-infinite-banking': { subId: 'insurance-subitems', scrollId: 'insurance-card', subitemSel: '#insurance-subitems .health-subitem[data-item="cash-building"]' },
+                    'offering-end-of-life': { subId: 'end-of-life-subitems', scrollId: 'end-of-life-card' },
+                    'offering-macro': { scrollId: 'macro-trends-card' },
+                    'offering-bitcoin': { scrollId: 'bitcoin-education-card' }
+                };
+
+                const cfg = configs[hash];
+                if (!cfg) {
+                    return;
+                }
+
+                if (cfg.subId) {
+                    const sub = document.getElementById(cfg.subId);
+                    if (sub) {
+                        sub.classList.add('active');
+                    }
+                }
+
+                const scrollEl = document.getElementById(cfg.scrollId);
+                if (scrollEl) {
+                    setTimeout(() => {
+                        scrollEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }, 100);
+                }
+
+                if (cfg.subitemSel) {
+                    setTimeout(() => {
+                        const subitem = document.querySelector(cfg.subitemSel);
+                        if (subitem) {
+                            subitem.click();
+                        }
+                    }, 150);
+                }
+
+                // Drop #offering-* from the address bar after handling so a normal refresh
+                // opens a collapsed page (hash would otherwise re-run this on every reload).
+                if (history.replaceState) {
+                    const url = window.location.pathname + window.location.search;
+                    history.replaceState(null, '', url);
+                }
+            }
+
+            applyOfferingsDeepLink();
+            window.addEventListener('hashchange', applyOfferingsDeepLink);
 
         });
 
