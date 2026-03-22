@@ -20,7 +20,7 @@
         .logo { display: flex; align-items: center; }
         .logo-img { width: 200px; height: auto; margin-left: 0; margin-top: 0; display: block; }
         .nav-menu { display: flex; gap: 20px; list-style: none; margin: 0; padding: 0; align-items: center; }
-        .nav-menu a { color: #ffffff; text-decoration: none; font-size: 1.2rem; font-weight: 500; transition: color 0.3s ease; line-height: 1; }
+        .nav-menu a { color: #ffffff; text-decoration: none; font-size: 1rem; font-weight: 500; transition: color 0.3s ease; line-height: 1; }
         .nav-menu a:hover { color: #AB9C59; }
         .dropdown { position: relative; }
         .dropdown-toggle:hover + .dropdown-menu, .dropdown-menu:hover { opacity: 1; transform: translateY(0); }
@@ -49,7 +49,7 @@
             .nav-menu li { margin: 2px 0; padding: 0; text-align: center; width: 100%; position: relative; }
             .nav-menu li::after { content: ''; position: absolute; bottom: -14px; left: 20%; width: 60%; height: 1px; background: linear-gradient(to right, transparent, #ffffff, transparent); }
             .nav-menu li:last-child::after { display: none; }
-            .nav-menu a { display: block; width: 100%; text-align: center; padding: 5px 0; margin: 0; font-size: 1.2rem; color: #ffffff; }
+            .nav-menu a { display: block; width: 100%; text-align: center; padding: 5px 0; margin: 0; font-size: 1rem; color: #ffffff; }
             .nav-menu a:hover { color: #AB9C59; }
             .dropdown-toggle { width: 100%; text-align: center !important; padding: 5px 0; }
             .dropdown-menu { display: none !important; }
@@ -67,7 +67,20 @@
                 <ul class="nav-menu">
                     <li><a href="index.html#home">Home</a></li>
                     <li><a href="about.html">About</a></li>
-                    <li><a href="offerings.html">Offerings</a></li>
+                    <li class="dropdown dropdown-offerings">
+                        <a href="offerings.html" class="dropdown-toggle">Offerings</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="offerings.html#offering-life">Life Insurance</a></li>
+                            <li><a href="offerings.html#offering-health">Health Insurance (Private &amp; ACA/Marketplace)</a></li>
+                            <li><a href="offerings.html#offering-medicare">Medicare</a></li>
+                            <li><a href="offerings.html#offering-disability">Short &amp; Long Term Disability</a></li>
+                            <li><a href="offerings.html#offering-retirement">Retirement Planning</a></li>
+                            <li><a href="offerings.html#offering-infinite-banking">Infinite Banking (become your own bank)</a></li>
+                            <li><a href="offerings.html#offering-end-of-life">End of Life Planning</a></li>
+                            <li><a href="offerings.html#offering-macro">Macro Trends Education</a></li>
+                            <li><a href="offerings.html#offering-bitcoin">Bitcoin &amp; Digital Currencies Education</a></li>
+                        </ul>
+                    </li>
                     <li class="dropdown">
                         <a href="blog.html" class="dropdown-toggle">IWM Blog</a>
                         <ul class="dropdown-menu">
