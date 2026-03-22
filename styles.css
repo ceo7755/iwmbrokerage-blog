@@ -10,12 +10,17 @@
     box-sizing: border-box;
 }
 
+html {
+    background: #091954; /* Prevents white bar below content on short pages (e.g. linktree mobile) */
+}
+
 body {
     font-family: 'Montserrat', sans-serif;
     color: #ffffff;
     background: #091954;
     line-height: 1.6;
     margin: 0; /* Remove default margins */
+    min-height: 100vh;
 }
 
 /* Blog Page Background */
@@ -51,7 +56,7 @@ body {
 .nav-menu a {
     color: #ffffff;
     text-decoration: none;
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-weight: 500;
     transition: color 0.3s ease;
     line-height: 1;
@@ -89,9 +94,12 @@ body {
     padding: 8px 20px;
 }
 
+/* Stronger than .nav-menu a so inline pages don’t blow submenu text up to 1.2rem (matches index) */
+.nav-menu .dropdown-menu a,
 .dropdown-menu a {
     color: #ffffff;
     font-size: 0.9rem;
+    font-weight: 400;
 }
 
 /* Hero Section (Index Page) */
@@ -342,6 +350,9 @@ body {
     margin: 20px 0 15px;
     text-shadow: 0 0 10px rgba(171, 156, 89, 0.5);
 }
+.about-bar-content .partner-companies-title {
+    font-size: 1.2rem;
+}
 
 .about-bar-content ul {
     list-style: none;
@@ -350,7 +361,7 @@ body {
 }
 
 .about-bar-content ul li {
-    font-size: 1.2rem;
+    font-size: 0.95rem;
     margin-bottom: 10px;
     position: relative;
     padding-left: 25px;
@@ -1006,6 +1017,18 @@ body {
     margin-top: 40px;
 }
 
+/* All linktree buttons (and dropdown wrapper) same width so they align */
+.linktree-buttons > * {
+    width: 100%;
+    max-width: 320px;
+    box-sizing: border-box;
+}
+
+.linktree-buttons .dropdown .cta-button {
+    width: 100%;
+    box-sizing: border-box;
+}
+
 .linktree-logo {
     display: block;
     margin: 20px auto;
@@ -1342,19 +1365,47 @@ footer {
 }
 
 .offering-card {
-    background-color: #ffffff;
+    /* Frosted white — still reads as white, lets the blue page show through slightly */
+    background: linear-gradient(
+        155deg,
+        rgba(255, 255, 255, 0.9) 0%,
+        rgba(255, 255, 255, 0.72) 45%,
+        rgba(255, 255, 255, 0.78) 100%
+    );
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.55);
     border-radius: 50px;
     padding: 20px;
     width: 100%;
     max-width: 300px;
+    min-height: 260px;
     text-align: center;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.12),
+        0 2px 8px rgba(9, 25, 84, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.85);
+    transition: transform 0.35s ease, box-shadow 0.35s ease, background 0.35s ease;
     cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .offering-card:hover {
     transform: translateY(-5px);
+    background: linear-gradient(
+        155deg,
+        rgba(255, 255, 255, 0.95) 0%,
+        rgba(255, 255, 255, 0.82) 50%,
+        rgba(255, 255, 255, 0.88) 100%
+    );
+    box-shadow:
+        0 14px 44px rgba(0, 0, 0, 0.16),
+        0 4px 12px rgba(171, 156, 89, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.95);
+    border-color: rgba(255, 255, 255, 0.7);
 }
 
 .offering-card h3 {
@@ -1398,9 +1449,19 @@ footer {
     text-align: center;
     padding: 20px;
     background-color: #091954;
-    color: #ffffff;
+    color: #AB9C59;
     font-family: 'Montserrat', sans-serif;
     font-size: 0.9rem;
+}
+footer p,
+footer a,
+footer .footer-link {
+    color: #AB9C59;
+}
+footer a:hover,
+footer .footer-link:hover {
+    color: #AB9C59;
+    text-decoration: underline;
 }
 
 /* Responsive adjustments for mobile */
@@ -1468,7 +1529,7 @@ footer {
         text-align: center;
         padding: 10px 0;
         margin: 0;
-        font-size: 1.2rem;
+        font-size: 1rem;
         color: #ffffff;
     }
 
@@ -1485,6 +1546,13 @@ footer {
 
     .dropdown-menu {
         display: none !important;
+    }
+
+    /* Linktree: allow Socials dropdown to open on tap */
+    .linktree-buttons .dropdown.open .dropdown-menu {
+        display: block !important;
+        opacity: 1;
+        transform: translateY(0);
     }
 
     /* Pop-up Adjustments for Mobile (Blog and Offerings) */
@@ -1843,5 +1911,61 @@ footer {
         width: 100%;
         max-width: 250px;
         margin: 0 auto;
+    }
+}
+
+/* Linktree on small viewports (e.g. phones that report width up to 980px): tap opens Socials dropdown */
+@media (max-width: 980px) {
+    .linktree-buttons .dropdown.open .dropdown-menu {
+        display: block !important;
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Offerings nav: wider submenu for long labels (hover on desktop) */
+.dropdown.dropdown-offerings .dropdown-menu {
+    min-width: min(420px, 92vw);
+    max-width: 420px;
+    z-index: 1001;
+}
+
+.dropdown.dropdown-offerings .dropdown-menu li {
+    padding: 6px 16px;
+}
+
+.dropdown.dropdown-offerings .dropdown-menu a {
+    white-space: normal;
+    line-height: 1.35;
+    display: block;
+    padding: 4px 0;
+    font-size: 0.9rem;
+    font-weight: 400;
+}
+
+/* Mobile: show Offerings submenu inside hamburger (overrides pages that hide .dropdown-menu) */
+@media (max-width: 768px) {
+    .dropdown.dropdown-offerings .dropdown-menu {
+        display: flex !important;
+        flex-direction: column;
+        position: static;
+        opacity: 1 !important;
+        transform: none !important;
+        box-shadow: none;
+        background: rgba(9, 25, 84, 0.95);
+        border-radius: 8px;
+        margin: 4px 8px 8px;
+        padding: 6px 0;
+        max-height: none;
+        overflow: visible;
+    }
+
+    .dropdown.dropdown-offerings .dropdown-menu li {
+        padding: 4px 12px;
+        text-align: center;
+    }
+
+    .dropdown.dropdown-offerings .dropdown-menu a {
+        font-size: 0.95rem;
     }
 }
