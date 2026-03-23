@@ -84,6 +84,15 @@
             display: block;
             margin: 0 auto;
         }
+        .turn-in-application-row {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.25);
+        }
+        .turn-in-application-label span {
+            font-weight: 600;
+            color: #AB9C59;
+        }
         /* Social links inline styling */
         .social-links-inline {
             display: flex;
@@ -249,7 +258,7 @@
         text-align: center;
         padding: 5px 0;
         margin: 0;
-        font-size: 1.2rem;
+        font-size: 1rem;
         color: #ffffff;
     }
     .nav-menu a:hover {
@@ -329,7 +338,20 @@
             <ul class="nav-menu">
                 <li><a href="index.html#home">Home</a></li>
                 <li><a href="about.html">About</a></li>
-                <li><a href="offerings.html">Offerings</a></li>
+                <li class="dropdown dropdown-offerings">
+                    <a href="offerings.html" class="dropdown-toggle">Offerings</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="offerings.html#offering-life">Life Insurance</a></li>
+                        <li><a href="offerings.html#offering-health">Health Insurance (Private &amp; ACA/Marketplace)</a></li>
+                        <li><a href="offerings.html#offering-medicare">Medicare</a></li>
+                        <li><a href="offerings.html#offering-disability">Short &amp; Long Term Disability</a></li>
+                        <li><a href="offerings.html#offering-retirement">Retirement Planning</a></li>
+                        <li><a href="offerings.html#offering-infinite-banking">Infinite Banking (become your own bank)</a></li>
+                        <li><a href="offerings.html#offering-end-of-life">End of Life Planning</a></li>
+                        <li><a href="offerings.html#offering-macro">Macro Trends Education</a></li>
+                        <li><a href="offerings.html#offering-bitcoin">Bitcoin &amp; Digital Currencies Education</a></li>
+                    </ul>
+                </li>
                 <li class="dropdown">
                     <a href="blog.html" class="dropdown-toggle">Learn with IWM</a>
                     <ul class="dropdown-menu">
@@ -354,9 +376,9 @@
         <div class="separator"></div>
     </div>
 
-    <!-- Selectable Bubbles (Checkboxes) -->
+    <!-- Selectable Bubbles (Checkboxes) — synced to Netlify form below -->
     <div class="contact-options">
-        <div class="checkbox-row">
+        <div class="checkbox-row contact-reasons-sync">
             <label class="bubble-label">
                 <input type="checkbox" name="contact-reason" value="life-insurance">
                 <span>Life Insurance</span>
@@ -366,12 +388,22 @@
                 <span>Retirement</span>
             </label>
             <label class="bubble-label">
+                <input type="checkbox" name="contact-reason" value="health">
+                <span>Health</span>
+            </label>
+            <label class="bubble-label">
                 <input type="checkbox" name="contact-reason" value="not-sure">
                 <span>Not quite sure, would like a consultation</span>
             </label>
             <label class="bubble-label">
                 <input type="checkbox" name="contact-reason" value="boat-consultation">
                 <span>More info on a Complimentary Tampa Bay Private Captained Boat Consultation (must be in or visiting the Tampa, FL, Clearwater, St. Pete, etc. areas)</span>
+            </label>
+        </div>
+        <div class="checkbox-row turn-in-application-row">
+            <label class="bubble-label turn-in-application-label">
+                <input type="checkbox" id="turn-in-application-checkbox" name="turn-in-application" value="yes">
+                <span>Turn in Application info</span>
             </label>
         </div>
     </div>
@@ -428,6 +460,7 @@
     <div class="checkbox-row" style="display: none;">
         <input type="checkbox" name="contact-reason[]" value="life-insurance" class="hidden-checkbox">
         <input type="checkbox" name="contact-reason[]" value="retirement" class="hidden-checkbox">
+        <input type="checkbox" name="contact-reason[]" value="health" class="hidden-checkbox">
         <input type="checkbox" name="contact-reason[]" value="not-sure" class="hidden-checkbox">
         <input type="checkbox" name="contact-reason[]" value="boat-consultation" class="hidden-checkbox">
     </div>
@@ -599,23 +632,36 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Form Handling for Netlify
-    const form = document.querySelector('.contact-form');
-    const visibleCheckboxes = document.querySelectorAll('.contact-options .checkbox-row input[type="checkbox"]');
+    // Form Handling for Netlify (main form is contact-v2)
+    const form = document.querySelector('form[name="contact-v2"]');
+    const visibleCheckboxes = document.querySelectorAll('.contact-reasons-sync input[type="checkbox"]');
     const hiddenCheckboxes = document.querySelectorAll('.hidden-checkbox');
 
-    // Sync visible checkboxes with hidden ones
+    // Sync visible interest checkboxes with hidden ones (same order)
     visibleCheckboxes.forEach((checkbox, index) => {
         checkbox.addEventListener('change', () => {
-            hiddenCheckboxes[index].checked = checkbox.checked;
+            if (hiddenCheckboxes[index]) {
+                hiddenCheckboxes[index].checked = checkbox.checked;
+            }
         });
     });
 
+    // Turn in Application info → open embedded application form page
+    const turnInApp = document.getElementById('turn-in-application-checkbox');
+    if (turnInApp) {
+        turnInApp.addEventListener('change', function () {
+            if (this.checked) {
+                window.location.href = 'application-form.html';
+            }
+        });
+    }
+
     // Handle form submission for Netlify
-    form.addEventListener('submit', (e) => {
-        console.log('Form submitted to Netlify');
-        // Netlify redirects to /thanks.html or default success page
-    });
+    if (form) {
+        form.addEventListener('submit', () => {
+            console.log('Form submitted to Netlify');
+        });
+    }
 });
 </script>
 </body>
