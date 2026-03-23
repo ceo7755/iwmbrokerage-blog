@@ -1364,28 +1364,37 @@ footer {
     margin-bottom: 40px;
 }
 
+/* Offerings tiles — “classy glass” experiment (more white + more see-through) */
 .offering-card {
-    /* Frosted white — still reads as white, lets the blue page show through slightly */
+    position: relative;
+    overflow: hidden;
     background: linear-gradient(
-        155deg,
-        rgba(255, 255, 255, 0.9) 0%,
-        rgba(255, 255, 255, 0.72) 45%,
-        rgba(255, 255, 255, 0.78) 100%
+        168deg,
+        rgba(255, 255, 255, 0.88) 0%,
+        rgba(255, 255, 255, 0.5) 38%,
+        rgba(255, 255, 255, 0.42) 72%,
+        rgba(255, 255, 255, 0.55) 100%
     );
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    border: 1px solid rgba(255, 255, 255, 0.55);
-    border-radius: 50px;
-    padding: 20px;
+    backdrop-filter: blur(22px) saturate(1.08);
+    -webkit-backdrop-filter: blur(22px) saturate(1.08);
+    border: 1px solid rgba(255, 255, 255, 0.72);
+    border-radius: 36px;
+    padding: 24px 22px;
     width: 100%;
     max-width: 300px;
     min-height: 260px;
     text-align: center;
     box-shadow:
-        0 8px 32px rgba(0, 0, 0, 0.12),
-        0 2px 8px rgba(9, 25, 84, 0.08),
-        inset 0 1px 0 rgba(255, 255, 255, 0.85);
-    transition: transform 0.35s ease, box-shadow 0.35s ease, background 0.35s ease;
+        0 0 0 1px rgba(171, 156, 89, 0.14),
+        0 16px 48px rgba(9, 25, 84, 0.2),
+        0 4px 14px rgba(0, 0, 0, 0.06),
+        inset 0 1px 0 rgba(255, 255, 255, 0.95),
+        inset 0 -8px 24px rgba(255, 255, 255, 0.12);
+    transition:
+        transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+        box-shadow 0.4s ease,
+        border-color 0.4s ease,
+        background 0.4s ease;
     cursor: pointer;
     display: flex;
     flex-direction: column;
@@ -1393,32 +1402,59 @@ footer {
     align-items: center;
 }
 
-.offering-card:hover {
-    transform: translateY(-5px);
+/* Soft highlight across the top — reads “white” without going opaque */
+.offering-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
     background: linear-gradient(
-        155deg,
-        rgba(255, 255, 255, 0.95) 0%,
-        rgba(255, 255, 255, 0.82) 50%,
-        rgba(255, 255, 255, 0.88) 100%
+        185deg,
+        rgba(255, 255, 255, 0.55) 0%,
+        rgba(255, 255, 255, 0.08) 42%,
+        transparent 65%
     );
+    pointer-events: none;
+    z-index: 0;
+}
+
+.offering-card > * {
+    position: relative;
+    z-index: 1;
+}
+
+.offering-card:hover {
+    transform: translateY(-6px);
+    background: linear-gradient(
+        168deg,
+        rgba(255, 255, 255, 0.94) 0%,
+        rgba(255, 255, 255, 0.62) 40%,
+        rgba(255, 255, 255, 0.52) 75%,
+        rgba(255, 255, 255, 0.68) 100%
+    );
+    border-color: rgba(255, 255, 255, 0.88);
     box-shadow:
-        0 14px 44px rgba(0, 0, 0, 0.16),
-        0 4px 12px rgba(171, 156, 89, 0.15),
-        inset 0 1px 0 rgba(255, 255, 255, 0.95);
-    border-color: rgba(255, 255, 255, 0.7);
+        0 0 0 1px rgba(171, 156, 89, 0.22),
+        0 22px 56px rgba(9, 25, 84, 0.22),
+        0 8px 20px rgba(171, 156, 89, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 1),
+        inset 0 -8px 28px rgba(255, 255, 255, 0.18);
 }
 
 .offering-card h3 {
     font-family: 'Montserrat', sans-serif;
-    font-size: 1.3rem;
+    font-size: 1.28rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
     color: #091954;
     margin-bottom: 10px;
 }
 
 .offering-card p {
     font-family: 'Montserrat', sans-serif;
-    font-size: 1rem;
-    color: #666;
+    font-size: 0.98rem;
+    line-height: 1.55;
+    color: rgba(9, 25, 84, 0.68);
     margin-bottom: 15px;
 }
 
