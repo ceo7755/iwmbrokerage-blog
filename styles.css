@@ -74,6 +74,7 @@ body {
 .dropdown-menu:hover {
     opacity: 1;
     transform: translateY(0);
+    pointer-events: auto;
 }
 
 .dropdown-menu {
@@ -88,6 +89,8 @@ body {
     transform: translateY(10px);
     transition: all 0.4s ease;
     box-shadow: 0 10px 20px rgba(171, 156, 89, 0.2);
+    /* Invisible closed menu still sat in the layout box; don’t capture hovers */
+    pointer-events: none;
 }
 
 .dropdown-menu li {
@@ -1589,6 +1592,7 @@ footer .footer-link:hover {
         display: block !important;
         opacity: 1;
         transform: translateY(0);
+        pointer-events: auto !important;
     }
 
     /* Pop-up Adjustments for Mobile (Blog and Offerings) */
@@ -1956,6 +1960,7 @@ footer .footer-link:hover {
         display: block !important;
         opacity: 1;
         transform: translateY(0);
+        pointer-events: auto !important;
     }
 }
 
@@ -1994,6 +1999,7 @@ footer .footer-link:hover {
         padding: 6px 0;
         max-height: none;
         overflow: visible;
+        pointer-events: auto !important;
     }
 
     .dropdown.dropdown-offerings .dropdown-menu li {

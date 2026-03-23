@@ -36,6 +36,7 @@
             display: block !important;
             opacity: 1 !important;
             transform: translateY(0) !important;
+            pointer-events: auto !important;
             z-index: 100;
         }
         .linktree-buttons .dropdown .dropdown-menu {
@@ -278,7 +279,20 @@
             <ul class="nav-menu">
                 <li><a href="index.html#home">Home</a></li>
                 <li><a href="about.html">About</a></li>
-                <li><a href="offerings.html">Offerings</a></li>
+                <li class="dropdown dropdown-offerings">
+                    <a href="offerings.html" class="dropdown-toggle">Offerings</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="offerings.html#offering-life">Life Insurance</a></li>
+                        <li><a href="offerings.html#offering-health">Health Insurance (Private &amp; ACA/Marketplace)</a></li>
+                        <li><a href="offerings.html#offering-medicare">Medicare</a></li>
+                        <li><a href="offerings.html#offering-disability">Short &amp; Long Term Disability</a></li>
+                        <li><a href="offerings.html#offering-retirement">Retirement Planning</a></li>
+                        <li><a href="offerings.html#offering-infinite-banking">Infinite Banking (become your own bank)</a></li>
+                        <li><a href="offerings.html#offering-end-of-life">End of Life Planning</a></li>
+                        <li><a href="offerings.html#offering-macro">Macro Trends Education</a></li>
+                        <li><a href="offerings.html#offering-bitcoin">Bitcoin &amp; Digital Currencies Education</a></li>
+                    </ul>
+                </li>
                 <li class="dropdown">
                     <a href="blog.html" class="dropdown-toggle">Learn with IWM</a>
                     <ul class="dropdown-menu">

@@ -12,11 +12,12 @@
     .navbar { display: flex; justify-content: space-between; align-items: center; padding: 5px 50px; }
     .logo-img { width: 200px; height: auto; }
     .nav-menu { display: flex; gap: 20px; list-style: none; align-items: center; margin: 0; padding: 0; }
-    .nav-menu a { color: #fff; text-decoration: none; font-size: 1.2rem; font-weight: 500; transition: color 0.3s ease; }
+    .nav-menu a { color: #fff; text-decoration: none; font-size: 1rem; font-weight: 500; transition: color 0.3s ease; }
     .nav-menu a:hover { color: #AB9C59; }
     .dropdown { position: relative; }
-    .dropdown-menu { position: absolute; top: 100%; left: 0; background: #091954; list-style: none; padding: 10px 0; border-radius: 10px; opacity: 0; transform: translateY(10px); transition: all 0.4s ease; box-shadow: 0 10px 20px rgba(171, 156, 89, 0.2); min-width: 200px; }
-    .dropdown:hover .dropdown-menu { opacity: 1; transform: translateY(0); }
+    .dropdown-toggle:hover + .dropdown-menu,
+    .dropdown-menu:hover { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    .dropdown-menu { position: absolute; top: 100%; left: 0; background: #091954; list-style: none; padding: 10px 0; border-radius: 10px; opacity: 0; transform: translateY(10px); transition: all 0.4s ease; box-shadow: 0 10px 20px rgba(171, 156, 89, 0.2); min-width: 200px; pointer-events: none; }
     .dropdown-menu li { padding: 8px 20px; }
     .dropdown-menu a { color: #fff; font-size: 0.9rem; }
 
@@ -65,7 +66,20 @@
         <ul class="nav-menu">
           <li><a href="index.html#home">Home</a></li>
           <li><a href="about.html">About</a></li>
-          <li><a href="offerings.html">Offerings</a></li>
+          <li class="dropdown dropdown-offerings">
+            <a href="offerings.html" class="dropdown-toggle">Offerings</a>
+            <ul class="dropdown-menu">
+              <li><a href="offerings.html#offering-life">Life Insurance</a></li>
+              <li><a href="offerings.html#offering-health">Health Insurance (Private &amp; ACA/Marketplace)</a></li>
+              <li><a href="offerings.html#offering-medicare">Medicare</a></li>
+              <li><a href="offerings.html#offering-disability">Short &amp; Long Term Disability</a></li>
+              <li><a href="offerings.html#offering-retirement">Retirement Planning</a></li>
+              <li><a href="offerings.html#offering-infinite-banking">Infinite Banking (become your own bank)</a></li>
+              <li><a href="offerings.html#offering-end-of-life">End of Life Planning</a></li>
+              <li><a href="offerings.html#offering-macro">Macro Trends Education</a></li>
+              <li><a href="offerings.html#offering-bitcoin">Bitcoin &amp; Digital Currencies Education</a></li>
+            </ul>
+          </li>
           <li class="dropdown">
             <a href="blog.html" class="dropdown-toggle">IWM Blog</a>
             <ul class="dropdown-menu">

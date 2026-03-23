@@ -78,11 +78,18 @@
         .dropdown-menu {
             display: none;
             position: absolute;
+            top: 100%;
+            left: 0;
             background: #091954;
             min-width: 200px;
             padding: 10px;
+            list-style: none;
+            border-radius: 10px;
+            z-index: 1001;
+            box-shadow: 0 10px 20px rgba(171, 156, 89, 0.2);
         }
-        .dropdown:hover .dropdown-menu {
+        .dropdown-toggle:hover + .dropdown-menu,
+        .dropdown-menu:hover {
             display: block;
         }
         .mobile-footer-nav-toggle {
