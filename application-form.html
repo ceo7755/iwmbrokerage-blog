@@ -155,7 +155,7 @@
     </header>
 
     <section class="application-embed-page">
-        <a href="contact.html" class="back-to-contact">← Back to Contact</a>
+        <a href="contact.html" class="back-to-contact" onclick="if (window.history.length > 1) { window.history.back(); return false; }">← Back</a>
         <h1>Turn in application information</h1>
         <div class="application-info-intro">
             <p>Please submit the requested info. We are licensed by the state, so your inputted info is secure. <a href="about.html#state-licenses" class="application-info-link">Click here for state licenses.</a></p>
