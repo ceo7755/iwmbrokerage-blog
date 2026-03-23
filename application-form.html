@@ -39,6 +39,45 @@
             opacity: 0.9;
             line-height: 1.5;
         }
+        .application-info-intro {
+            margin-bottom: 28px;
+            max-width: 100%;
+        }
+        .application-info-intro p {
+            margin: 0 0 16px;
+            opacity: 0.95;
+            line-height: 1.65;
+            font-size: 1rem;
+        }
+        .application-info-intro p:last-of-type {
+            margin-bottom: 0;
+        }
+        .application-info-link {
+            color: #AB9C59;
+            font-weight: 600;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+        .application-info-link:hover {
+            color: #c4b56e;
+        }
+        .application-info-subheading {
+            font-family: 'Libre Baskerville', serif;
+            color: #AB9C59;
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin: 20px 0 12px;
+        }
+        .application-info-intro .application-order-events {
+            margin: 0 0 20px;
+            padding-left: 0;
+            line-height: 1.65;
+            opacity: 0.95;
+        }
+        .application-info-closing {
+            font-weight: 600;
+            margin-top: 8px !important;
+        }
         .back-to-contact {
             display: inline-block;
             margin-bottom: 20px;
@@ -118,7 +157,12 @@
     <section class="application-embed-page">
         <a href="contact.html" class="back-to-contact">← Back to Contact</a>
         <h1>Turn in application information</h1>
-        <p>Complete and submit the secure form below.</p>
+        <div class="application-info-intro">
+            <p>Please submit the requested info. We are licensed by the state, so your inputted info is secure. <a href="about.html#state-licenses" class="application-info-link">Click here for state licenses.</a></p>
+            <h2 class="application-info-subheading">The order of events:</h2>
+            <p class="application-order-events">Input the below requested info we do not have → gets inputted into the application → we send you a copy of the app in a plan recap email outlining the details → app goes to underwriting → carrier asks us questions and we relay those questions to you → approval or we pivot to a plan B or C</p>
+            <p class="application-info-closing">We keep you updated every step of the way!</p>
+        </div>
         <div class="application-iframe-wrap">
             <iframe
                 src="https://link.agent-crm.com/widget/form/JNKRZbE76b6RJVgH5XAn"

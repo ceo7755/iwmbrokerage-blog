@@ -35,7 +35,20 @@
                 <ul class="nav-menu">
                     <li><a href="index.html#home">Home</a></li>
                     <li><a href="about.html">About</a></li>
-                    <li><a href="offerings.html">Offerings</a></li>
+                    <li class="dropdown dropdown-offerings">
+                        <a href="offerings.html" class="dropdown-toggle">Offerings</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="offerings.html#offering-life">Life Insurance</a></li>
+                            <li><a href="offerings.html#offering-health">Health Insurance (Private &amp; ACA/Marketplace)</a></li>
+                            <li><a href="offerings.html#offering-medicare">Medicare</a></li>
+                            <li><a href="offerings.html#offering-disability">Short &amp; Long Term Disability</a></li>
+                            <li><a href="offerings.html#offering-retirement">Retirement Planning</a></li>
+                            <li><a href="offerings.html#offering-infinite-banking">Infinite Banking (become your own bank)</a></li>
+                            <li><a href="offerings.html#offering-end-of-life">End of Life Planning</a></li>
+                            <li><a href="offerings.html#offering-macro">Macro Trends Education</a></li>
+                            <li><a href="offerings.html#offering-bitcoin">Bitcoin &amp; Digital Currencies Education</a></li>
+                        </ul>
+                    </li>
                 
 
                     <li class="dropdown">
@@ -98,7 +111,7 @@
     .nav-menu a {
         color: #ffffff;
         text-decoration: none;
-        font-size: 1.2rem;
+        font-size: 1rem;
         font-weight: 500;
         transition: color 0.3s ease;
         line-height: 1;
@@ -296,7 +309,7 @@
             text-align: center;
             padding: 5px 0;
             margin: 0;
-            font-size: 1.2rem;
+            font-size: 1rem;
             color: #ffffff;
         }
         .nav-menu a:hover {
@@ -947,10 +960,11 @@ h2.client-scenarios-bar-title {
         background: #bbbbbb;
     }
 
-    /* Quote, Boat, Referrals, and Stocks Gold Blocks */
+    /* Quote, Boat, Referrals, Turn in App, and Stocks Gold Blocks */
     .quote-bar,
     .boat-bar,
     .referrals-bar,
+    .turn-in-app-bar,
     .stocks-bar {
 
 
@@ -968,6 +982,7 @@ h2.client-scenarios-bar-title {
     .quote-section,
     .boat-section,
     .referrals-section,
+    .turn-in-app-section,
     .stocks-section {
         margin-bottom: 50px;
     }
@@ -976,6 +991,7 @@ h2.client-scenarios-bar-title {
         .quote-bar,
         .boat-bar,
         .referrals-bar,
+        .turn-in-app-bar,
         .stocks-bar {
             max-width: 550px; /* Match other blocks on desktop */
         }
@@ -985,6 +1001,7 @@ h2.client-scenarios-bar-title {
     a.quote-bar-title,
     a.boat-bar-title,
     a.referrals-bar-title,
+    a.turn-in-app-bar-title,
     a.stocks-bar-title {
         background: linear-gradient(135deg, #AB9C59 0%, #8B7D47 50%, #AB9C59 100%);
         color: #091954;
@@ -1015,6 +1032,7 @@ h2.client-scenarios-bar-title {
     a.quote-bar-title .bar-title-text,
     a.boat-bar-title .bar-title-text,
     a.referrals-bar-title .bar-title-text,
+    a.turn-in-app-bar-title .bar-title-text,
     a.stocks-bar-title .bar-title-text {
         flex: 1;
         text-align: center;
@@ -1024,6 +1042,7 @@ h2.client-scenarios-bar-title {
     a.quote-bar-title::before,
     a.boat-bar-title::before,
     a.referrals-bar-title::before,
+    a.turn-in-app-bar-title::before,
     a.stocks-bar-title::before {
         content: '';
         position: absolute;
@@ -1042,6 +1061,7 @@ h2.client-scenarios-bar-title {
         a.quote-bar-title,
         a.boat-bar-title,
         a.referrals-bar-title,
+        a.turn-in-app-bar-title,
         a.stocks-bar-title {
             width: 550px;
             font-size: 2.7rem;
@@ -1062,6 +1082,7 @@ h2.client-scenarios-bar-title {
     a.quote-bar-title:hover,
     a.boat-bar-title:hover,
     a.referrals-bar-title:hover,
+    a.turn-in-app-bar-title:hover,
     a.stocks-bar-title:hover {
         background: linear-gradient(135deg, #8B7D47 0%, #AB9C59 50%, #8B7D47 100%);
         transform: translateY(-3px) scale(1.02);
@@ -1071,6 +1092,7 @@ h2.client-scenarios-bar-title {
     a.quote-bar-title:hover::before,
     a.boat-bar-title:hover::before,
     a.referrals-bar-title:hover::before,
+    a.turn-in-app-bar-title:hover::before,
     a.stocks-bar-title:hover::before {
         transform: rotate(30deg) translate(20%, 20%);
     }
@@ -1080,6 +1102,7 @@ h2.client-scenarios-bar-title {
         .quote-bar,
         .boat-bar,
         .referrals-bar,
+        .turn-in-app-bar,
         .stocks-bar {
             max-width: 95%;
             width: 95%;
@@ -1091,6 +1114,7 @@ h2.client-scenarios-bar-title {
         .quote-section,
         .boat-section,
         .referrals-section,
+        .turn-in-app-section,
         .stocks-section {
             margin-bottom: 30px;
         }
@@ -1098,6 +1122,7 @@ h2.client-scenarios-bar-title {
         a.quote-bar-title,
         a.boat-bar-title,
         a.referrals-bar-title,
+        a.turn-in-app-bar-title,
         a.stocks-bar-title {
             font-size: 1.8rem;
             padding: 12px 15px;
@@ -1842,6 +1867,15 @@ h2.client-scenarios-bar-title {
                 <div class="referrals-bar">
                     <a href="contact.html" class="referrals-bar-title">
                         <span class="bar-title-text">Referrals</span><span class="arrow">→</span>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Turn in App Info Block -->
+            <section class="turn-in-app-section">
+                <div class="turn-in-app-bar">
+                    <a href="application-form.html" class="turn-in-app-bar-title">
+                        <span class="bar-title-text">Turn in App Info</span><span class="arrow">→</span>
                     </a>
                 </div>
             </section>
