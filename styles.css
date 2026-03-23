@@ -1984,30 +1984,4 @@ footer .footer-link:hover {
     font-weight: 400;
 }
 
-/* Mobile: show Offerings submenu inside hamburger (overrides pages that hide .dropdown-menu) */
-@media (max-width: 768px) {
-    .dropdown.dropdown-offerings .dropdown-menu {
-        display: flex !important;
-        flex-direction: column;
-        position: static;
-        opacity: 1 !important;
-        transform: none !important;
-        box-shadow: none;
-        background: rgba(9, 25, 84, 0.95);
-        border-radius: 8px;
-        margin: 4px 8px 8px;
-        padding: 6px 0;
-        max-height: none;
-        overflow: visible;
-        pointer-events: auto !important;
-    }
-
-    .dropdown.dropdown-offerings .dropdown-menu li {
-        padding: 4px 12px;
-        text-align: center;
-    }
-
-    .dropdown.dropdown-offerings .dropdown-menu a {
-        font-size: 0.95rem;
-    }
-}
+/* Mobile: Offerings uses same behavior as other nav dropdowns — submenu hidden; tap “Offerings” → offerings.html */
