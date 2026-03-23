@@ -140,6 +140,31 @@
 
         }
 
+        /* Infinite Banking: expanded area is text only (no gold grid) */
+        .health-insurance-subitems.infinite-banking-subitems-wrap.active {
+
+            display: block;
+
+            padding: 16px 10px 12px;
+
+            text-align: left;
+
+        }
+
+        .infinite-banking-expanded-copy p {
+
+            margin: 0;
+
+            font-family: 'Montserrat', sans-serif;
+
+            font-size: 0.95rem;
+
+            line-height: 1.6;
+
+            color: rgba(9, 25, 84, 0.85);
+
+        }
+
                .health-subitem {
             background: linear-gradient(135deg, #AB9C59 0%, #8B7D47 50%, #AB9C59 100%);
             color: #091954;
@@ -560,6 +585,28 @@
 
             </div>
 
+            <div class="offering-card" id="infinite-banking-card">
+
+                <h3>Infinite Banking</h3>
+
+                <p>A specially designed policy to build cash value, allowing you to &quot;become your own banker&quot; by borrowing against that cash value for purchases, investments, or needs instead of relying on traditional banks or lenders.</p>
+
+                <span id="infinite-banking-options-toggle" class="options-toggle-img" role="button" tabindex="0" style="display:block; width:100%; min-height:20px; cursor:pointer;"></span>
+
+                <a href="blog.html#insurance" class="learn-more">Learn More</a>
+
+                <div class="health-insurance-subitems infinite-banking-subitems-wrap" id="infinite-banking-subitems">
+
+                    <div class="infinite-banking-expanded-copy">
+
+                        <p>You repay those policy loans to yourself (with interest going back into your policy), so your money continues to grow tax-advantaged through guaranteed interest and potential dividends, creating a personal banking system that recaptures interest typically paid to financial institutions.</p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
 
            
 
@@ -751,6 +798,8 @@
 
                     cardId === 'retirement-card' || 
 
+                    cardId === 'infinite-banking-card' ||
+
                     cardId === 'end-of-life-card' || 
 
                     cardId === 'client-scenarios-card') {
@@ -833,12 +882,47 @@
 
             }
 
+                  // Handle Infinite Banking card click
 
+            const infiniteBankingCard = document.getElementById('infinite-banking-card');
 
+            const infiniteBankingSubitems = document.getElementById('infinite-banking-subitems');
 
+            const infiniteBankingToggle = document.getElementById('infinite-banking-options-toggle');
 
+            if (infiniteBankingCard && infiniteBankingSubitems && infiniteBankingToggle) {
 
+                infiniteBankingToggle.addEventListener('click', (e) => {
 
+                    e.preventDefault();
+
+                    e.stopPropagation();
+
+                    infiniteBankingSubitems.classList.toggle('active');
+
+                });
+
+                infiniteBankingCard.addEventListener('click', (e) => {
+
+                    if (e.target.classList.contains('health-subitem') ||
+
+                        e.target.classList.contains('health-explanation') ||
+
+                        e.target.tagName === 'A' ||
+
+                        e.target.id === 'infinite-banking-options-toggle') {
+
+                        return;
+
+                    }
+
+                    e.preventDefault();
+
+                    infiniteBankingSubitems.classList.toggle('active');
+
+                });
+
+            }
 
                   // Handle Retirement Planning card click
 
@@ -1131,7 +1215,7 @@
                     'offering-medicare': { subId: 'health-subitems', scrollId: 'health-insurance-card', subitemSel: '#health-subitems .health-subitem[data-item="medicare"]' },
                     'offering-disability': { subId: 'insurance-subitems', scrollId: 'insurance-card', subitemSel: '#insurance-subitems .health-subitem[data-item="disability"]' },
                     'offering-retirement': { subId: 'retirement-subitems', scrollId: 'retirement-card' },
-                    'offering-infinite-banking': { subId: 'insurance-subitems', scrollId: 'insurance-card', subitemSel: '#insurance-subitems .health-subitem[data-item="cash-building"]' },
+                    'offering-infinite-banking': { subId: 'infinite-banking-subitems', scrollId: 'infinite-banking-card' },
                     'offering-end-of-life': { subId: 'end-of-life-subitems', scrollId: 'end-of-life-card' },
                     'offering-macro': { scrollId: 'macro-trends-card' },
                     'offering-bitcoin': { scrollId: 'bitcoin-education-card' }
