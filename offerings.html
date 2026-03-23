@@ -1037,7 +1037,25 @@
 
                     const itemType = subitem.getAttribute('data-item');
 
-                    
+                    const parentContainer = subitem.closest('.health-insurance-subitems');
+
+                    // Second click on the same gold bar: close it (toggle off)
+
+                    if (subitem.classList.contains('active')) {
+
+                        subitem.classList.remove('active');
+
+                        const ex = subitem.querySelector('.health-explanation');
+
+                        if (ex) {
+
+                            ex.classList.remove('active');
+
+                        }
+
+                        return;
+
+                    }
 
                     // Hide all explanations first
 
@@ -1047,11 +1065,7 @@
 
                     });
 
-                    
-
                     // Remove active state from all subitems in the same container
-
-                    const parentContainer = subitem.closest('.health-insurance-subitems');
 
                     if (parentContainer) {
 
@@ -1062,8 +1076,6 @@
                         });
 
                     }
-
-                    
 
                     // Show explanation for clicked item
 
