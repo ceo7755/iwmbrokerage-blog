@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Y6MJZF2L38"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-Y6MJZF2L38');
+</script>
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book an Appointment - IWM Brokerage</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Match contact.html — mobile nav / shared controls */
+        .separator {
+            border-bottom: 1px solid #ffffff;
+            margin: 10px auto;
+            max-width: 80%;
+        }
+        .mobile-footer-nav-toggle {
+            display: none;
+        }
+        .booking-widget-wrap {
+            max-width: 800px;
+            margin: 1rem auto 2rem;
+            padding: 0 16px;
+        }
+        .booking-widget-wrap iframe {
+            width: 100%;
+            border: none;
+            min-height: 720px;
+            overflow: hidden;
+            display: block;
+        }
+        .booking-back-link {
+            text-align: center;
+            margin: 0.5rem 0 1.25rem;
+        }
+        .booking-back-link a {
+            color: #AB9C59;
+            text-decoration: none;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.95rem;
+        }
+        .booking-back-link a:hover {
+            color: #AB9C59;
+            text-decoration: underline;
+        }
+@media (max-width: 768px) {
+    .logo-img {
+        position: fixed;
+        top: 5px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
+        max-width: 150px;
+        z-index: 1001;
+        opacity: 0.6;
+    }
+    .logo a {
+        pointer-events: none;
+    }
+    .nav-menu {
+        display: none;
+        flex-direction: column;
+        position: fixed;
+        bottom: 50px;
+        right: 20px;
+        width: 200px;
+        background: #091954;
+        padding: 5px 0;
+        z-index: 999;
+        max-height: calc(100vh - 70px);
+        overflow-y: auto;
+        border-radius: 10px;
+        box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.3);
+    }
+    .nav-menu.active {
+        display: flex;
+    }
+    .nav-menu li {
+        margin: 2px 0;
+        padding: 0;
+        text-align: center;
+        width: 100%;
+        position: relative;
+    }
+    .nav-menu li::after {
+        content: '';
+        position: absolute;
+        bottom: -14px;
+        left: 20%;
+        width: 60%;
+        height: 1px;
+        background: linear-gradient(to right, transparent, #ffffff, transparent);
+    }
+    .nav-menu li:last-child::after {
+        display: none;
+    }
+    .nav-menu a {
+        display: block;
+        width: 100%;
+        text-align: center;
+        padding: 5px 0;
+        margin: 0;
+        font-size: 1rem;
+        color: #ffffff;
+    }
+    .nav-menu a:hover {
+        color: #AB9C59;
+    }
+    .dropdown-toggle {
+        width: 100%;
+        text-align: center !important;
+        padding: 5px 0;
+    }
+    .dropdown-menu {
+        display: none !important;
+    }
+    .mobile-footer-nav-toggle {
+        display: block;
+        position: fixed;
+        bottom: 15px;
+        right: 15px;
+        font-size: 1.3rem;
+        color: #ffffff;
+        background: #AB9C59;
+        border: none;
+        border-radius: 8px;
+        padding: 8px 14px;
+        cursor: pointer;
+        z-index: 1000;
+        box-shadow: 0 2px 8px rgba(171, 156, 89, 0.5);
+    }
+    .mobile-footer-nav-toggle:hover {
+        background: #8B7D47;
+    }
+    .booking-widget-wrap iframe {
+        min-height: 600px;
+    }
+}
+</style>
+
+</head>
+<body>
+    <!-- Header -->
+    <header class="navbar">
+        <div class="logo">
+            <a href="index.html#home"><img src="iwm-logo.png" alt="IWM Brokerage Logo" class="logo-img"></a>
+        </div>
+        <nav>
+            <ul class="nav-menu">
+                <li><a href="index.html#home">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li class="dropdown dropdown-offerings">
+                    <a href="offerings.html" class="dropdown-toggle">Offerings</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="offerings.html#offering-life">Life Insurance</a></li>
+                        <li><a href="offerings.html#offering-health">Health Insurance (Private &amp; ACA/Marketplace)</a></li>
+                        <li><a href="offerings.html#offering-medicare">Medicare</a></li>
+                        <li><a href="offerings.html#offering-disability">Short &amp; Long Term Disability</a></li>
+                        <li><a href="offerings.html#offering-retirement">Retirement Planning</a></li>
+                        <li><a href="offerings.html#offering-infinite-banking">Infinite Banking (become your own bank)</a></li>
+                        <li><a href="offerings.html#offering-end-of-life">End of Life Planning</a></li>
+                        <li><a href="offerings.html#offering-macro">Macro Trends Education</a></li>
+                        <li><a href="offerings.html#offering-bitcoin">Bitcoin &amp; Digital Currencies Education</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="blog.html" class="dropdown-toggle">Learn with IWM</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="blog.html#insurance">Insurance</a></li>
+                        <li><a href="blog.html#retirement">Retirement</a></li>
+                        <li><a href="blog.html#end-of-life">End of Life</a></li>
+                        <li><a href="blog.html#macro-trends">Macro Trends</a></li>
+                        <li><a href="blog.html#bitcoin-crypto">Bitcoin & Crypto</a></li>
+                    </ul>
+                </li>
+                <li><a href="contact.html">Contact Us</a></li>
+                <li><a href="join.html" id="join-team">Join Team</a></li>
+            </ul>
+        </nav>
+    </header>
+
+<section id="book" class="contact">
+    <h1>Book an Appointment</h1>
+    <p>Pick a time that works for you. You’ll confirm details in the scheduler below.</p>
+    <div class="booking-back-link">
+        <a href="contact.html">← Back to Contact Us</a>
+    </div>
+    <div class="separator"></div>
+    <div class="booking-widget-wrap">
+        <iframe src="https://link.agent-crm.com/widget/booking/RKu71i7RNyxoot1nnf8x" title="Schedule an appointment" style="width: 100%; border: none; overflow: hidden;" scrolling="no" id="RKu71i7RNyxoot1nnf8x_1774486074682"></iframe>
+    </div>
+    <script src="https://link.agent-crm.com/js/form_embed.js" type="text/javascript"></script>
+</section>
+
+<!-- Footer -->
+<footer>
+    <p>© 2025 IWM Brokerage. Insurance Wealth Management, L.L.C. | <a href="linktree.html" class="footer-link">Link Tree</a> | <a href="#" class="footer-link" id="broker-login">Current Broker Login</a></p>
+</footer>
+
+<script src="script.js"></script>
+
+<script
+  src="https://widgets.leadconnectorhq.com/loader.js"
+  data-resources-url="https://widgets.leadconnectorhq.com/chat-widget/loader.js"
+  data-widget-id="67f0de7b8e8aa71ec4f3128b">
+</script>
+<button class="mobile-footer-nav-toggle" aria-label="Toggle navigation" id="mobile-footer-toggle">☰</button>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    function showBrokerLoginPopup() {
+        const password = prompt('Please enter the password:');
+        if (password === 'Smile!1') {
+            window.location.href = 'broker-portal.html';
+        } else {
+            alert('Incorrect password. Please try again.');
+        }
+    }
+
+    document.getElementById('broker-login').addEventListener('click', function(e) {
+        e.preventDefault();
+        showBrokerLoginPopup();
+    });
+
+    const joinTeam = document.getElementById('join-team');
+    let pressTimer;
+
+    joinTeam.addEventListener('mousedown', function(e) {
+        pressTimer = setTimeout(function() {
+            e.preventDefault();
+            showBrokerLoginPopup();
+        }, 3000);
+    });
+
+    joinTeam.addEventListener('mouseup', function() {
+        clearTimeout(pressTimer);
+    });
+
+    joinTeam.addEventListener('mouseleave', function() {
+        clearTimeout(pressTimer);
+    });
+
+    joinTeam.addEventListener('touchstart', function(e) {
+        pressTimer = setTimeout(function() {
+            e.preventDefault();
+            showBrokerLoginPopup();
+        }, 3000);
+    });
+
+    joinTeam.addEventListener('touchend', function() {
+        clearTimeout(pressTimer);
+    });
+
+    joinTeam.addEventListener('touchcancel', function() {
+        clearTimeout(pressTimer);
+    });
+
+    const navMenu = document.querySelector('.nav-menu');
+    const footerNavToggle = document.getElementById('mobile-footer-toggle');
+    document.addEventListener('click', (e) => {
+        if (navMenu && navMenu.classList.contains('active')) {
+            if (!navMenu.contains(e.target) && footerNavToggle && !footerNavToggle.contains(e.target)) {
+                navMenu.classList.remove('active');
+                document.body.classList.remove('menu-open');
+            }
+        }
+    });
+});
+</script>
+</body>
+</html>
